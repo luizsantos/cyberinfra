@@ -32,17 +32,7 @@ sthttpd-2.26.4p4
 Instalar:
 
 ```console
-dacom# pkg_info -Q httpd
-apache-httpd-2.4.41
-bozohttpd-20190228
-darkhttpd-1.12
-libmicrohttpd-0.9.66
-lighttpd-1.4.54
-lighttpd-1.4.54-ldap
-lighttpd-1.4.54-ldap-mysql
-lighttpd-1.4.54-mysql
-p5-HTTPD-Log-Filter-1.08p2
-sthttpd-2.26.4p4
+dacom# pkg_add apache-httpd-2.4.41
 ``` 
 
 ## Verificando o status do serviço:
