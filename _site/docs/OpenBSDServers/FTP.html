@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="OpenBSD - Servidores FTP, TELNET, SSH e inetd" />
+<meta property="og:description" content="OpenBSD - Servidores FTP, TELNET, SSH e inetd" />
+<link rel="canonical" href="http://localhost:8000/docs/OpenBSDServers/FTP" />
+<meta property="og:url" content="http://localhost:8000/docs/OpenBSDServers/FTP" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","description":"OpenBSD - Servidores FTP, TELNET, SSH e inetd","url":"http://localhost:8000/docs/OpenBSDServers/FTP","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>1uiz4rthur@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="openbsd---servidores-ftp-telnet-ssh-e-inetd">OpenBSD - Servidores FTP, TELNET, SSH e inetd</h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<p>A seguir serão apresentados os comandos necessários para a instalação e configuração do servidor FTP vsftpd no OpenBSD. Também será apresentado o conceito do servidor de servidores inetd, bem como configurar o vsftpd via inetd. Por fim, é apresentado o SSH, que substitui TELNET e FTP, pois é mais seguro.</p>
+
+<h1 id="ftp">FTP</h1>
+
+<h2 id="introdução">Introdução</h2>
+
+<p>O FTP é um servidor de arquivos, atualmente é mais comum em ambientes WAN, tal como a Internet. Neste caso será instalado, configurado e utilizado o servidor vsftpd.</p>
+
+<h2 id="instalação">Instalação:</h2>
+
+<p>O vsftpd já vem instalado por padrão no OpenBSD, então não é necessário instalar.</p>
+
+<h2 id="iniciando">Iniciando:</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>/etc/rc.d/vsftpd start
+</code></pre></div></div>
+
+<p>Depois de iniciar é bom verificar se o servidor está em execução:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>netstat <span class="nt">-a</span> <span class="nt">-p</span> tcp
+<span class="go">Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp          0      0  localhost.9968         localhost.ftp          TIME_WAIT
+tcp          0      0  192.168.56.112.ssh     192.168.56.1.41218     ESTABLISHED
+tcp          0      0  localhost.smtp         *.*                    LISTEN
+tcp          0      0  *.ssh                  *.*                    LISTEN
+tcp          0      0  *.ftp                  *.*                    LISTEN
+Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp6         0      0  *.ssh                  *.*                    LISTEN
+tcp6         0      0  localhost.smtp         *.*                    LISTEN
+tcp6         0      0  fe80::1%lo0.smtp       *.*                    LISTEN
+</span></code></pre></div></div>
+
+<p>No caso seguinte  linha, da saída anterior, indica que o servidor está em execução, pois apresenta a porta do FTP no estado de <code class="language-plaintext highlighter-rouge">LISTEN</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">tcp          0      0  *.ftp                  *.*                    LISTEN
+</span></code></pre></div></div>
+
+<h2 id="habilitando-no-boot">Habilitando no <em>boot</em>:</h2>
+
+<p>Para que o vsftpd inicie junto com o <em>boot</em> da máquina basta executar:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>rcctl <span class="nb">enable </span>vsftpd
+</code></pre></div></div>
+
+<h2 id="arquivo-de-configuração">Arquivo de configuração:</h2>
+
+<p>O arquivo de configuração do vsftpd no OpenBSD é o <code class="language-plaintext highlighter-rouge">/etc/vsftpd.conf</code>. Há várias opções para se configurar um servidor vsftpd, as principais são:</p>
+
+<ul>
+  <li><strong>anonymous_enable=YES</strong>: habilita um usuário anonimo para acessar o servidor FTP, sem senha.</li>
+  <li><strong>local_enable=YES</strong>: permite que usuários locais do sistema acessem o servidor FTP, utilizando seus logins/senhas.</li>
+  <li><strong>write_enable=NO</strong>: dá acesso de gravação aos servidor FTP - isso pode ser perigoso.</li>
+  <li><strong>chroot_local_user=YES</strong> e <strong>chroot_list_enable=YES</strong>: deixa o acesso apenas para os usuários que estejam na lista de chroot.</li>
+  <li><strong>listen=YES</strong>: configura se o servidor vai ser executado de forma independente (<em>standalone</em>) ou via inetd.</li>
+</ul>
+
+<h2 id="teste">Teste:</h2>
+
+<p>Para testar o servidor FTP, é possível utilizar um navegador Web. Contudo, também é dá para utilizar no próprio OpenBSD ou sistemas UNIX-Like o comando ftp. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>ftp 127.0.0.1        
+<span class="go">Connected to 127.0.0.1.
+220 (vsFTPd 3.0.3)
+Name (127.0.0.1:aluno): aluno
+331 Please specify the password.
+Password:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+ftp: Login aluno failed.
+421 Service not available, remote server has closed connection.
+</span><span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">exit</span>
+</code></pre></div></div>
+
+<p>Isso demonstra que o servidor está funcionando, mas não foi possível acessá-lo, pois o usuário <code class="language-plaintext highlighter-rouge">aluno</code> não está configurado para acessar um ambiente chroot. Bem, há várias formas de se “corrigir” isso, por hora vamos apenas tornar o servidor funcional - <strong>não</strong> vamos fazer isso da forma mais segura (que era configurar o chroot).</p>
+
+<p>Para que funcione o acesso ao servidor FTP para os usuários do sistema, basta ir no arquivo de configuração do vsftpd e comentar a seguinte linha:</p>
+
+<p><code class="language-plaintext highlighter-rouge"># vi /etc/vsftpd.conf</code></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="nv">chroot_list_enable</span><span class="o">=</span>YES
+</code></pre></div></div>
+
+<p>Após a alteração é possível acessar o servidor FTP:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>ftp 127.0.0.1        
+<span class="go">Connected to 127.0.0.1.
+220 (vsFTPd 3.0.3)
+Name (127.0.0.1:aluno): aluno
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+</span><span class="gp">ftp&gt;</span><span class="w">
+</span><span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">ls</span> /
+<span class="go">150 Here comes the directory listing.
+drwxr-xr-x    2 root     wheel         512 Oct 12 16:34 altroot
+drwxr-xr-x    2 root     wheel        1024 Oct 12 16:34 bin
+-rw-r--r--    1 root     wheel       85968 Mar 02 16:52 boot
+-rwx------    1 root     wheel    18677541 Mar 02 16:56 bsd
+-rwx------    1 root     wheel    18688757 Mar 02 16:52 bsd.booted
+-rw-------    1 root     wheel    10299545 Mar 02 13:50 bsd.rd
+drwxr-xr-x    3 root     wheel       19456 Mar 02 16:55 dev
+drwxr-xr-x   23 root     wheel        1536 Mar 02 18:41 etc
+drwxr-xr-x    4 root     wheel         512 Mar 02 17:00 home
+drwxr-xr-x    2 root     wheel         512 Oct 12 16:34 mnt
+drwx------    3 root     wheel         512 Mar 02 16:52 root
+drwxr-xr-x    2 root     wheel        1536 Oct 12 16:34 sbin
+</span><span class="gp">lrwxrwx---    1 root     wheel          11 Oct 12 16:34 sys -&gt;</span><span class="w"> </span>usr/src/sys
+<span class="go">drwxrwxrwt    6 root     wheel         512 Mar 02 18:43 tmp
+drwxr-xr-x   17 root     wheel         512 Mar 02 18:09 usr
+drwxr-xr-x   23 root     wheel         512 Oct 12 17:28 var
+226 Directory send OK.
+</span></code></pre></div></div>
+
+<p>O servidor FTP é consideramo muito inseguro, assim quando se dá acessar a usuários via servidor FTP é altamente recomendável deixar esses usuários enjaulados (<em>jail</em>) dentro de seu diretório <em>home</em>, assim fica mais difícil de hackers conseguirem informações sensíveis, caso haja quebra de segurança do servidor FTP. Pois o hacker só terá acesso ao diretório <em>home</em> do usuário que ele invadiu. Isso é o conceito de chroot, que foi ignorado na configuração anterior.</p>
+
+<h2 id="configurando-o-acesso-anônimo">Configurando o acesso anônimo:</h2>
+
+<p>Atualmente o acesso via FTP se dá por um usuário anonimo e não com usuários do sistema, por mais estranho que pareça isso é mais seguro do que deixar os usuários acessarem o servidor FTP utilizando usuário/senha, já que o FTP passa essas via texto puro, então podem ser interceptadas e utilizadas por <em>hackers</em> para invadir o sistema.</p>
+
+<p>Assim, vamos configurar o acesso do FTP por usuário anonimo. Para isso basta:</p>
+
+<ul>
+  <li>Editar o arquivo de configuração e descomentar a linha que habilita o usuário anonimo:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/vsftpd.conf
+<span class="go">anonymous_enable=YES
+</span></code></pre></div></div>
+
+<ul>
+  <li>Reinicializar o servidor:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>/etc/rc.d/vsftpd restart 
+</code></pre></div></div>
+
+<ul>
+  <li>Criar o usuário ftp no servidor OpenBSD:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>adduser 
+<span class="go">Use option ``-silent'' if you don't want to see all warnings and questions.
+
+Reading /etc/shells
+Check /etc/master.passwd
+Check /etc/group
+
+Ok, let's go.
+Don't worry about mistakes. There will be a chance later to correct any input.
+Enter username []: ftp
+Enter full name []: 
+Enter shell csh ksh nologin sh [nologin]: 
+Uid [1001]: 
+Login group ftp [ftp]: 
+Login group is ``ftp''. Invite ftp into other groups: guest no 
+[no]: 
+Login class authpf bgpd daemon default pbuild staff unbound 
+[default]: 
+
+Name:        ftp
+Password:    ****
+Fullname:    ftp
+Uid:         1001
+Gid:         1001 (ftp)
+Groups:      ftp 
+Login Class: default
+HOME:        /home/ftp
+Shell:       /sbin/nologin
+OK? (y/n) [y]: y
+</span></code></pre></div></div>
+
+<p>Neste ponto já seria possível acessar o ftp anonimamente, se não fosse o sistema de segurança do OpenBSD/vsftpd que por padrão só permite que o usuário ftp/anonimo acesse o servidor utilizando o ambiente chroot. Neste caso, ao contrário do que fizemos com os outros usuários não é recomendável permitir que usuários anônimos fiquem navegando pelo sistema de arquivos do servidor, então vamos deixar o usuário ftp configurado para acessar o servidor enjaulado (via chroot).</p>
+
+<p>Então sem nenhuma outra configuração o acesso via anonimo não é permitido e fica assim:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>ftp 127.0.0.1        
+<span class="go">Connected to 127.0.0.1.
+220 (vsFTPd 3.0.3)
+Name (127.0.0.1:aluno): ftp
+331 Please specify the password.
+Password:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+ftp: Login ftp failed.
+421 Service not available, remote server has closed connection.
+</span></code></pre></div></div>
+
+<p>Para que o usuário ftp possa usar o vsftpd dentro do chroot é necessário o próximo passo:</p>
+
+<ul>
+  <li>Mudar a permissão de gravação do diretório home do usuário ftp:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span><span class="nb">chmod </span>a-w /home/ftp/
+</code></pre></div></div>
+
+<p>Após essa configuração, que remove o direito gravação/escrita é possível acessar o servidor vsftpd com o usuário anonimo/ftp.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>ftp 127.0.0.1
+<span class="go">Connected to 127.0.0.1.
+220 (vsFTPd 3.0.3)
+Name (127.0.0.1:aluno): ftp
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+</span><span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">ls</span>
+<span class="go">150 Here comes the directory listing.
+226 Directory send OK.
+</span><span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">ls</span> ../
+<span class="go">150 Here comes the directory listing.
+226 Directory send OK.
+</span><span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">ls</span> /
+<span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">cd</span> /
+<span class="go">250 Directory successfully changed.
+</span><span class="gp">ftp&gt;</span><span class="w"> </span><span class="nb">ls</span>
+<span class="go">150 Here comes the directory listing.
+226 Directory send OK.
+</span></code></pre></div></div>
+
+<p>Na saída anterior, foram dadas alguns comandos tentando acessar outras partes do sistema de arquivos do servidor FTP, mas essas não tiveram sucesso devido ao chroot.</p>
+
+<h1 id="inetd">Inetd</h1>
+
+<h2 id="instalação-1">Instalação:</h2>
+
+<p>O inetd já vem instalado por padrão no OpenBSD.</p>
+
+<h2 id="arquivo-de-configuração-1">Arquivo de configuração:</h2>
+
+<p>O OpenBSD não traz um arquivo de configuração de exemplo, assim é preciso criar um do zero.
+Para este caso vamos colocar o vsfstpd (instalado anteriormente) para ser executado via inetd.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span><span class="nb">cat</span> /etc/inetd.conf                                                                                                      
+<span class="go">ftp stream tcp nowait root /usr/local/sbin/vsftpd -olisten=NO
+</span></code></pre></div></div>
+<p>No arquivo de configuração no vsftpd:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/vsftpd.conf
+<span class="go">listen=NO
+</span></code></pre></div></div>
+
+<h2 id="iniciando-1">Iniciando:</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>/etc/rc.d/inetd <span class="nt">-f</span> start
+</code></pre></div></div>
+
+<h1 id="telnet">TELNET</h1>
+
+<p>O TELNET é um servidor de terminal, ou seja, muito utilizado para utilizar e/ou controlar máquinas remotamente. O TELNET ainda é muito utilizado em ambientes de rede, todavia é altamente recomendado substituí-lo pelo SSH (visto mais adiante) por questões de segurança, pois o TELNET passa os dados texto puro na rede e fica muito vulnerável para ataques de captura de pacotes.</p>
+
+<blockquote>
+  <p><strong>Atenção</strong>, a principio o servidor TELNET não está sendo disponibilizado para o OpenBSD, provavelmente por motivos de segurança - pelo menos o professor não achou o telnetd nem com o <code class="language-plaintext highlighter-rouge">pkg_info</code> nem no <code class="language-plaintext highlighter-rouge">ports</code>.</p>
+</blockquote>
+
+<h1 id="ssh">SSH</h1>
+
+<h1 id="referências">Referências</h1>
+
+<ul>
+  <li><a href="https://www.liquidweb.com/kb/error-500-oops-vsftpd-refusing-to-run-with-writable-root-inside-chroot-solved/">https://www.liquidweb.com/kb/error-500-oops-vsftpd-refusing-to-run-with-writable-root-inside-chroot-solved/</a></li>
+  <li><a href="https://www.linuxquestions.org/questions/linux-newbie-8/500-oops-could-not-read-chroot-list-file-etc-vsftpd-chroot_list-4175426540/">https://www.linuxquestions.org/questions/linux-newbie-8/500-oops-could-not-read-chroot-list-file-etc-vsftpd-chroot_list-4175426540/</a></li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>1uiz4rthur</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

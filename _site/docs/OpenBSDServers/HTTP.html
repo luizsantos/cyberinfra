@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="OpenBSD - Servidor Apache HTTP" />
+<meta property="og:description" content="OpenBSD - Servidor Apache HTTP" />
+<link rel="canonical" href="http://localhost:8000/docs/OpenBSDServers/HTTP" />
+<meta property="og:url" content="http://localhost:8000/docs/OpenBSDServers/HTTP" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","description":"OpenBSD - Servidor Apache HTTP","url":"http://localhost:8000/docs/OpenBSDServers/HTTP","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>1uiz4rthur@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="openbsd---servidor-apache-http">OpenBSD - Servidor Apache HTTP</h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<h2 id="introdução">Introdução</h2>
+
+<h2 id="instalação">Instalação</h2>
+
+<p>Procurar o pacote:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> httpd
+<span class="go">apache-httpd-2.4.41
+bozohttpd-20190228
+darkhttpd-1.12
+libmicrohttpd-0.9.66
+lighttpd-1.4.54
+lighttpd-1.4.54-ldap
+lighttpd-1.4.54-ldap-mysql
+lighttpd-1.4.54-mysql
+p5-HTTPD-Log-Filter-1.08p2
+sthttpd-2.26.4p4
+</span></code></pre></div></div>
+
+<p>Instalar:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">dacom#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> httpd
+<span class="go">apache-httpd-2.4.41
+bozohttpd-20190228
+darkhttpd-1.12
+libmicrohttpd-0.9.66
+lighttpd-1.4.54
+lighttpd-1.4.54-ldap
+lighttpd-1.4.54-ldap-mysql
+lighttpd-1.4.54-mysql
+p5-HTTPD-Log-Filter-1.08p2
+sthttpd-2.26.4p4
+</span></code></pre></div></div>
+
+<h2 id="verificando-o-status-do-serviço">Verificando o status do serviço:</h2>
+
+<p>Basicamente há duas opções:</p>
+<ol>
+  <li>Com o comando <code class="language-plaintext highlighter-rouge">netstat</code>:
+    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>netstat <span class="nt">-a</span> <span class="nt">-p</span> tcp
+<span class="go">Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp          0      0  192.168.56.101.ssh     192.168.56.1.33122     ESTABLISHED
+tcp          0      0  *.ssh                  *.*                    LISTEN
+tcp          0      0  localhost.smtp         *.*                    LISTEN
+Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp6         0      0  *.ssh                  *.*                    LISTEN
+tcp6         0      0  fe80::1%lo0.smtp       *.*                    LISTEN
+tcp6         0      0  localhost.smtp         *.*                    LISTEN
+</span></code></pre></div>    </div>
+  </li>
+  <li>Com o comando <code class="language-plaintext highlighter-rouge">fstat</code>:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>fstat | <span class="nb">grep</span> <span class="s1">':80'</span>
+</code></pre></div></div>
+
+<p>Bem, nestes dois casos o servidor Apache não está em execução, pois não há nenhuma porta relacionada com HTTP na saída do <code class="language-plaintext highlighter-rouge">netstat</code> e principalmente não há processos relacionados com a porta TCP/80 no <code class="language-plaintext highlighter-rouge">fstat</code>.</p>
+
+<h2 id="iniciandoparando-o-servidor">Iniciando/Parando o servidor:</h2>
+
+<p>Para iniciar há várias opções, sendo algumas:</p>
+<ol>
+  <li>Comando <code class="language-plaintext highlighter-rouge">apachectl</code>:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>apachectl start                                                                                                                  
+<span class="go">AH00557: httpd2: apr_sockaddr_info_get() failed for dacom.utfpr.cm
+AH00558: httpd2: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive globally to suppress this message
+</span></code></pre></div></div>
+
+<ol>
+  <li>Utilizando diretamente o <em>script</em>:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>/etc/rc.d/apache2 <span class="nt">-f</span> start
+</code></pre></div></div>
+
+<ol>
+  <li>Utilizando o comando <code class="language-plaintext highlighter-rouge">rcctl</code>:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>rcctl start apache2                                                                                                                
+<span class="go">/etc/rc.d/httpd: need -f to force start since httpd_flags=NO
+</span></code></pre></div></div>
+<blockquote>
+  <p><strong>Atenção</strong>, também é possível parar o servidor utilizando a opção <code class="language-plaintext highlighter-rouge">stop</code> no lugar de <code class="language-plaintext highlighter-rouge">start</code>, o mesmo vale para reiniciar o servidor com a opção <code class="language-plaintext highlighter-rouge">restart</code>.</p>
+</blockquote>
+
+<p>Depois disso (de inciar o serviço) deve-se verificar se o servidor está em execução com os comando <code class="language-plaintext highlighter-rouge">netstat</code> ou <code class="language-plaintext highlighter-rouge">fstat</code>. Exemplos:</p>
+
+<p>No caso do <code class="language-plaintext highlighter-rouge">netstat</code> deve ser possível observar a porta 80 no estado de <code class="language-plaintext highlighter-rouge">LISTEN</code>.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>netstat <span class="nt">-nap</span> tcp     
+<span class="go">Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp          0      0  192.168.56.101.22      192.168.56.1.44582     ESTABLISHED
+tcp          0      0  127.0.0.1.25           *.*                    LISTEN
+tcp          0      0  *.22                   *.*                    LISTEN
+tcp          0      0  *.80                   *.*                    LISTEN
+Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp6         0      0  *.22                   *.*                    LISTEN
+tcp6         0      0  ::1.25                 *.*                    LISTEN
+tcp6         0      0  fe80::1%lo0.25         *.*                    LISTEN
+tcp6         0      0  *.80                   *.*                    LISTEN
+</span></code></pre></div></div>
+<p>Já no caso do <code class="language-plaintext highlighter-rouge">fstat</code> deve-se observar o processo <code class="language-plaintext highlighter-rouge">httpd2</code> em execução.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>fstat | <span class="nb">grep</span> <span class="k">*</span>:80
+<span class="go">www      httpd2     22930    3* internet stream tcp 0xffff8000008e9660 *:80
+www      httpd2     22930    4* internet6 stream tcp 0xffff8000008e9440 *:80
+www      httpd2     12747    3* internet stream tcp 0xffff8000008e9660 *:80
+www      httpd2     12747    4* internet6 stream tcp 0xffff8000008e9440 *:80
+www      httpd2     66143    3* internet stream tcp 0xffff8000008e9660 *:80
+www      httpd2     66143    4* internet6 stream tcp 0xffff8000008e9440 *:80
+www      httpd2     78720    3* internet stream tcp 0xffff8000008e9660 *:80
+www      httpd2     78720    4* internet6 stream tcp 0xffff8000008e9440 *:80
+www      httpd2     77039    3* internet stream tcp 0xffff8000008e9660 *:80
+www      httpd2     77039    4* internet6 stream tcp 0xffff8000008e9440 *:80
+root     httpd2     74721    3* internet stream tcp 0xffff8000008e9660 *:80
+root     httpd2     74721    4* internet6 stream tcp 0xffff8000008e9440 *:80
+</span></code></pre></div></div>
+
+<h2 id="habilitando-o-servidor-no-boot">Habilitando o servidor no <em>boot</em>:</h2>
+
+<p>Para habilitar o servidor para iniciar junto com o <em>boot</em> da máquina há duas alternativas:</p>
+
+<ol>
+  <li>Com o comando rcctl:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>rcctl <span class="nb">enable </span>apache2 
+</code></pre></div></div>
+
+<p>Para desabilitar basta substituir <code class="language-plaintext highlighter-rouge">enable</code> por <code class="language-plaintext highlighter-rouge">disable</code>.</p>
+
+<ol>
+  <li>Editando o arquivo de configuração <code class="language-plaintext highlighter-rouge">/etc/rc.conf.local</code> e adicionando a linha <code class="language-plaintext highlighter-rouge">pkg_scripts=apache2</code>.</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/rc.conf.local                                                                                                           
+<span class="go">pkg_scripts=apache2
+</span></code></pre></div></div>
+
+<p>Para desabilitar basta excluir a linha <code class="language-plaintext highlighter-rouge">pkg_scripts=apache2</code>.</p>
+
+<h2 id="arquivosdiretórios-de-configuração">Arquivos/diretórios de configuração:</h2>
+
+<p>No OpenBSD, o arquivo de configuração do Apache fica em:</p>
+
+<p><code class="language-plaintext highlighter-rouge">/etc/apache2/httpd2.conf</code></p>
+
+<p>As principais diretivas para serem alteradas neste arquivos são:</p>
+<ul>
+  <li><strong>ServerName</strong> -  Nome utilizado para identificar o servidor, pode ser atribuído automaticamente, mas é recomendável para evitar problemas na inicialização do Apache. Também pode ser utilizado o IP do servidor. ex. ServerName nome.dominio:80.</li>
+  <li><strong>ServerRoot</strong> - Diretório no qual o servidor armazena arquivos de configurações, <em>log</em> e erro.</li>
+  <li><strong>User e Group</strong>	– Nome do usuário e grupo de usuário que serão dadas permissões para a execução do Apache. Ou seja, se o usuário for o administrador o Apache terá permissão de root, o que é muito perigoso. Então, é recomendável que o Apache seja executado com um usuário comum e específico para sua execução.</li>
+  <li><strong>DocumentRoot</strong> - Configura o diretório no qual ficarão os arquivos a serem servidor pelo Apache. No caso do OpenBSD o padrão é: <code class="language-plaintext highlighter-rouge">/var/www/htdocs</code>.</li>
+  <li><strong>ErrorLog</strong> – Onde serão armazenados os arquivos de <code class="language-plaintext highlighter-rouge">log</code> de erros.</li>
+  <li><strong>LogLevel</strong> – Nível de <code class="language-plaintext highlighter-rouge">log</code> que será gravado, mais detalhado ou mais resumido. É possível configurar ou personalizar os <code class="language-plaintext highlighter-rouge">logs</code> do Apache.</li>
+  <li><strong>Listen</strong> - Permite especificar IPs e portas que o Apache irá responder. ex: <code class="language-plaintext highlighter-rouge">Listen 127.0.0.1:8080</code>.</li>
+</ul>
+
+<h2 id="configurando-as-portas-de-rede-do-apache">Configurando as portas de rede do Apache:</h2>
+
+<p>No arquivo de configuração:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/apache2/httpd2.conf
+</code></pre></div></div>
+
+<ul>
+  <li>Executando o Apache nas portas TCP 80 e 8080:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">Listen 80
+Listen 8080	
+</span></code></pre></div></div>
+<ul>
+  <li>Executando o Apache nas portas TCP 80 e 8080, mas especificando IPs que atenderão tais pedidos. Nesse exemplo, só será possível acessar a porta 80 a partir do localhost – não é possível acessar a porta TCP/80 via rede local ou Internet.</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">Listen 127.0.0.1:80
+Listen 192.168.56.101:8080
+</span></code></pre></div></div>
+<p>Não esqueça de reiniciar o serviço para as novas configurações começarem a valerem:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>apachectl2 restart 
+</code></pre></div></div>
+
+<h2 id="configuração-de-servidores-virtuais">Configuração de servidores virtuais:</h2>
+
+<p>Servidores virtuais, também chamados de <em>hosts</em> virtuais, permitem que múltiplos sítios Web sejam armazenados em um único servidor Apache. Esses servidores virtuais são diferenciados por nomes ou IPs distintos e o Apache utiliza o cabeçalho HTTP/1.1 para encontrar para qual host virtual entregar o pedido HTTP enviado.</p>
+
+<p>No Apache há dois tipos de servidores virtuais, também chamados de <em>hosts</em> virtuais:</p>
+
+<ol>
+  <li>
+    <p>Servidores/<em>hosts</em> virtuais que se baseiam no endereço IP ou na porta de rede, sendo que nesse tipo deve ser alocado um endereço IP ou porta diferente para cada sítio.</p>
+  </li>
+  <li>
+    <p>Servidores/hosts virtuais que se baseiam no nome do domínio do servidor Web, já neste tipo, os sítios são diferenciados pelo nome do host enviado pelo cliente HTTP (só funciona na versão 1.1 do HTTP, mas que é bem antiga). Este tipo de servidor/<em>host</em> virtual é mais indicada atualmente, devido a falta de endereços IPv4 disponíveis na Internet, contudo é mais complexo, principalmente se os hosts virtuais precisarem ser acessados via HTTPS (que será visto mais a frente).</p>
+  </li>
+</ol>
+
+<h3 id="criando-hosts-virtuais">Criando Hosts Virtuais:</h3>
+<p>Descomente a linha a seguir no arquivo de configuração do Apache:</p>
+
+<p>Edite o arquivo de configuração padrão do Apache:</p>
+
+<p><code class="language-plaintext highlighter-rouge"># vim /etc/apache2/extra/httpd-vhosts.conf</code></p>
+
+<p>Procure a linha seguir e descomente:</p>
+
+<p><code class="language-plaintext highlighter-rouge">#Include /etc/apache2/extra/httpd-vhosts.conf</code></p>
+
+<p>ou seja essa deve ficar assim:</p>
+
+<p><code class="language-plaintext highlighter-rouge">Include /etc/apache2/extra/httpd-vhosts.conf</code></p>
+
+<p>Agora edite o arquivo de configuração dos <em>hosts</em> virtuais:</p>
+
+<p><code class="language-plaintext highlighter-rouge"># vim /etc/apache2/extra/httpd-vhosts.conf</code></p>
+
+<p>Inclua as seguintes configurações/linhas:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&lt;VirtualHost *:80&gt;</span><span class="w">
+</span><span class="go">DocumentRoot "/var/www/htdocs/default"
+ServerName dacom.utfpr.cm 
+</span><span class="gp">&lt;/VirtualHost&gt;</span><span class="w">
+</span><span class="go">
+</span><span class="gp">&lt;VirtualHost *:80&gt;</span><span class="w">
+</span><span class="go">DocumentRoot "/var/www/htdocs/redes2"
+ServerName www.redes2.info 
+</span><span class="gp">&lt;/VirtualHost&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<p>No primeiro <em>host</em> virtual criamos um <em>host</em> padrão, caso o usuário não digite nenhum domínio específico. Desta forma, ao digitar apenas o IP, por exemplo, ele entrará no sítio padrão/raiz do servidor. Já caso o cliente digite www.redes2.info, ele irá acessar o sítio disponível em <code class="language-plaintext highlighter-rouge">/var/www/htdocs/redes2</code>.</p>
+
+<p>Criar os diretórios e arquivos dos servidores principais:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /var/www/htdocs/default                                                                                                   
+<span class="gp">#</span><span class="w"> </span><span class="nb">mkdir</span> <span class="nt">-p</span> /var/www/htdocs/redes2  
+<span class="gp">#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bem vindo ao servidor padrao"</span> <span class="o">&gt;</span> /var/www/htdocs/default/index.html                                                           
+<span class="gp">#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"bem vindo ao servidor redes2"</span> <span class="o">&gt;</span> /var/www/htdocs/redes2/index.html
+</code></pre></div></div>
+
+<p>Após realizar alterações no arquivo de configuração é necessário reinicializar o servidor para que essas tenham efeito:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>apachectl2 restart 
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Atenção</strong>, para testar o <em>host</em> virtual é preciso utilizar nomes, para isso o tal nome deve estar disponível no servidor DNS do cliente, ou (para testes) deve estar no arquivo <code class="language-plaintext highlighter-rouge">/etc/hosts</code> do cliente.</p>
+</blockquote>
+
+<h2 id="instalar-php-com-apache">Instalar PHP com Apache:</h2>
+
+<p>Procurar o pacote:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> php                                                                                                          
+<span class="go">php-7.1.33
+php-7.2.28
+php-7.3.15
+php-apache-7.1.33
+php-apache-7.2.28
+php-apache-7.3.15
+php-bz2-7.1.33
+php-bz2-7.2.28
+</span></code></pre></div></div>
+
+<p>Instalar o PHP:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_add php-apache-7.1.33                                                                                                
+<span class="go">quirks-3.183 signed on 2020-02-27T12:13:05Z
+php-apache-7.1.33:oniguruma-6.9.4: ok
+php-apache-7.1.33:femail-1.0p1: ok
+php-apache-7.1.33:femail-chroot-1.0p3: ok
+php-apache-7.1.33:php-7.1.33: ok
+php-apache-7.1.33: ok
+The following new rcscripts were installed: /etc/rc.d/php71_fpm
+See rcctl(8) for details.
+New and changed readme(s):
+/usr/local/share/doc/pkg-readmes/femail-chroot
+/usr/local/share/doc/pkg-readmes/php-7.1
+</span></code></pre></div></div>
+
+<p>Criar link para o Apache:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span><span class="nb">ln</span> <span class="nt">-sf</span> /var/www/conf/modules.sample/php-7.1.conf /var/www/conf/modules
+</code></pre></div></div>
+
+<p>Reiniciar Apache:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>apachectl restart
+</code></pre></div></div>
+
+<p>Criar arquivo PHP de teste:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"&lt;?php phpinfo(); ?&gt;"</span> <span class="o">&gt;</span> /var/www/htdocs/teste.php
+</code></pre></div></div>
+
+<p>Testar:</p>
+
+<p>http://servidor/teste.php</p>
+
+<h2 id="https">HTTPS</h2>
+
+<p>O HTTPS é o protocolo HTTP só que seguro, ou seja, ele envia as informações entre cliente e servidor de forma criptografada e também ajuda a verificar a identidade do servidor.</p>
+
+<h3 id="configuração">Configuração:</h3>
+
+<h4 id="criar-o-diretório">Criar o diretório:</h4>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span><span class="nb">mkdir</span> /etc/ssl/certs
+</code></pre></div></div>
+
+<h4 id="gerar-o-certificado">Gerar o certificado:</h4>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key
+-out /etc/ssl/certs/selfsigned.crt
+</span></code></pre></div></div>
+
+<h4 id="configurar-o-arquivo-principal-do-apache">Configurar o arquivo principal do Apache:</h4>
+
+<p>Edite o arquivo:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/apache2/httpd2.conf
+</code></pre></div></div>
+
+<p>Edite/descomente as seguintes linhas:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">Listen 80
+Listen 443
+LoadModule ssl_module /usr/local/lib/apache2/mod_ssl.so
+LoadModule socache_shmcb_module /usr/local/lib/apache2/mod_socache_shmcb.so
+Include /etc/apache2/extra/httpd-vhosts.conf
+</span></code></pre></div></div>
+
+<h4 id="configurar-o-arquivo-de-hosts-virtuais-do-apache">Configurar o arquivo de <em>hosts</em> virtuais do Apache:</h4>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/apache2/extra/httpd-vhosts.conf                                          
+<span class="go">
+</span><span class="gp">&lt;VirtualHost *:80&gt;</span><span class="w">
+</span><span class="go">DocumentRoot "/var/www/htdocs"
+ServerName dacom.utfpr.cm 
+</span><span class="gp">&lt;/VirtualHost&gt;</span><span class="w">
+</span><span class="go">
+
+</span><span class="gp">&lt;VirtualHost *:443&gt;</span><span class="w">
+</span><span class="go">DocumentRoot "/var/www/htdocs/"
+ServerName  dacom.utfpr.cm
+SSLEngine on
+SSLCertificateFile /etc/ssl/certs/selfsigned.crt
+SSLCertificateKeyFile /etc/ssl/private/selfsigned.key
+</span><span class="gp">&lt;/VirtualHost&gt;</span><span class="w">
+</span><span class="go">
+</span></code></pre></div></div>
+<h4 id="reinicie-o-apache">Reinicie o Apache:</h4>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>apachectl restart
+</code></pre></div></div>
+
+<h4 id="redirecionando-http-para-https">Redirecionando HTTP para HTTPS</h4>
+
+<p>No caso de ter o mesmo conteúdo HTTP e HTTPS é interessante disponibilizá-lo utilizando apenas HTTPS. Para isso é possível criar um redirecionamento. Assim, qualquer acesso HTTP irá virar HTTPS, isso é muito utilizado atualmente por grandes sítios.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>vi /etc/apache2/extra/httpd-vhosts.conf
+<span class="go">
+</span><span class="gp">&lt;VirtualHost *:80&gt;</span><span class="w">
+</span><span class="go">ServerName dacom.utfpr.cm 
+Redirect permanent / https://dacom.utfpr.cm/
+</span><span class="gp">&lt;/VirtualHost&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>Atenção</strong>, pode ser necessário incluir uma entrada para <code class="language-plaintext highlighter-rouge">127.0.0.1 dacom.utfpr.cm</code> no arquivo <code class="language-plaintext highlighter-rouge">/etc/hosts</code>, no servidor HTTPS, já que o redirecionamento está utilizando este nome.</p>
+</blockquote>
+
+<p>Depois é só verificar se o HTTPS está funcionando corretamente verificando o status da rede no servidor e principalmente com um cliente acessando o HTTPS do servidor em questão.</p>
+
+<h2 id="referências">Referências</h2>
+
+<ul>
+  <li><a href="https://dev.to/nabbisen/setting-up-openbsds-httpd-web-server-4p9f">https://dev.to/nabbisen/setting-up-openbsds-httpd-web-server-4p9f</a></li>
+  <li><a href="http://www.h-i-r.net/p/hirs-secure-openbsd-apache-mysql-and.html">http://www.h-i-r.net/p/hirs-secure-openbsd-apache-mysql-and.html</a></li>
+</ul>
+
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>1uiz4rthur</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

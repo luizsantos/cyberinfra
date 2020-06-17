@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="QoS - Quality of Service" />
+<meta property="og:description" content="QoS - Quality of Service" />
+<link rel="canonical" href="http://localhost:8000/docs/QoS/QoS" />
+<meta property="og:url" content="http://localhost:8000/docs/QoS/QoS" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","description":"QoS - Quality of Service","url":"http://localhost:8000/docs/QoS/QoS","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>1uiz4rthur@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="qos---quality-of-service">QoS - Quality of Service</h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<h2 id="introdução">Introdução</h2>
+
+<p>Qualidade de serviços ou QoS (<em>Quality of Service</em>) normalmente significa melhorar os serviços de rede…. (<strong>terminar</strong>)</p>
+
+<p>QoS é um assunto controverso em redes de computadores. Redes como TCP/IP são comutadas por pacotes, o que torna muito complicado implementar QoS de forma eficiente. Já que um equipamento de rede só sabe “o que é” e “de quem é” um pacote, quando esse já for processado pelo mesmo, ou seja, quando já consumiu recursos (largura de banda, memória e processamento) para tratá-lo.</p>
+
+<p>A ideia principal, normalmente, é dar mais prioridade para pacotes de rede relacionados com serviços essenciais para empresas (VoIP, HTTP, SSH, etc) e reduzir o uso da rede por parte de <em>hosts</em> ou serviços que atrapalhem o bom andamento da rede (Torrent, Serviços de <em>streaming</em>, etc). É claro que determinar o que é bom ou ruim depende de cada caso/empresa/rede e isso também dificulta a implementação de QoS.</p>
+
+<h2 id="modelagem-de-tráfego-no-openbsd">Modelagem de tráfego no OpenBSD</h2>
+
+<p>O <a href="https://www.openbsd.org/">OpenBSD</a> possui um <em>firewall</em> chamado <a href="https://www.openbsd.org/faq/pf/">PF</a>, que implementa facilmente modelagem de tráfego de rede (<strong><em>traffic shaping</em></strong>), aqui chamaremos isso também de: <strong>controle de tráfego de rede</strong> ou <strong>controle de banda</strong>. O controle de banda é feito através de <strong>filas (<em>queue</em>)</strong>. Assim, administradores de redes podem criar esquemas para <strong>reorganizar pacotes de rede por prioridade e/ou controle de largura de banda</strong>, tentando atender de forma mais eficiente os requisitos da rede.</p>
+
+<p>Para que a modelagem de tráfego seja feita no PF, é necessário criar pelo menos uma fila, mas é possível ter várias filas. Na verdade é possível criar um esquema de árvore, com filas <strong>pais (<em>parent</em>)</strong> e filhas (<em>child</em> ou <em>leaf</em>), formando um esquema hierárquico. Cada fila terá configurações próprias (ex. largura de banda) que serão compartilhadas com suas filhas (caso existam).</p>
+
+<blockquote>
+  <p><strong>Atenção</strong> - Lembrando que redes de computadores já funcionam normalmente utilizando fila (FIFO - <em>Fisrt In First Out</em>), só que é “uma grande fila”, por onde os pacote são enfileirados e enviados. O que está sendo feito aqui é dar a possibilidade de criar/configurar filas que atendem melhor os requisitos de pessoas, serviços, hosts e/ou redes de computadores.</p>
+</blockquote>
+
+<p>Para que os pacotes de rede sejam atribuídos as filas criadas, é necessário <strong>criar regras</strong> de firewall (PF), que utilizando atributos dos pacotes (IP, protocolo, porta de rede, etc) os relacionem com as filas criadas. Também é <strong>obrigatório</strong> ter uma fila padrão (<em>default</em>), que será destinada para pacote que não casem com as regras criadas no <em>firewall</em>. Ou seja, destinados à pacotes que não tiverem uma fila especificamente designada. Outra exigência, é que <strong>a fila raiz/principal/pai de todas precisa especificar pelo menos uma interface de rede</strong> e as filas filhas devem especificar seu pai (<em>parent</em>).</p>
+
+<h3 id="criando-filas">Criando filas</h3>
+
+<p>Para criar as filas no PF, basta criar/editar o arquivo <code class="language-plaintext highlighter-rouge">/etc/pf.conf</code>, que é o padrão. Neste exemplo iremos utilizar outro nome de arquivo, que será: (<code class="language-plaintext highlighter-rouge">/etc/pf-qos.conf</code>).</p>
+
+<p>Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>vi /etc/pf-qos.conf 
+</code></pre></div></div>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">queue fila0 on em1  bandwidth 100M  
+queue fila5M parent fila0 bandwidth 5M 
+queue fila10M parent fila0 bandwidth 10M default
+queue fila30M parent fila0 bandwidth 30M 
+queue controle parent fila0 bandwidth 55M
+</span></code></pre></div></div>
+
+<p>No arquivo de exemplo anterior:</p>
+<ul>
+  <li>A primeira linha do arquivo (<code class="language-plaintext highlighter-rouge">queue fila0 on em1 bandwidth 100M</code>), cria a fila raiz, que chamamos aqui de <code class="language-plaintext highlighter-rouge">fila0</code>, tal fila está relacionada com a interface de rede <code class="language-plaintext highlighter-rouge">em1</code> e define 100Mbps como largura de banda (<code class="language-plaintext highlighter-rouge">bandwidth 100M</code>) - <strong>é obrigatório criar uma fila nesses moldes</strong>;</li>
+  <li>A segunda linha cria a fila chamada <code class="language-plaintext highlighter-rouge">fila5M</code>, que é filha da fila <code class="language-plaintext highlighter-rouge">fila0</code>. A <code class="language-plaintext highlighter-rouge">fila5M</code> como o nome sugere terá 5Mb dos 100Mb da fila pai;</li>
+  <li>A próxima fila criada é a <code class="language-plaintext highlighter-rouge">fila10M</code>. Ela também é filha de <code class="language-plaintext highlighter-rouge">fila0</code>, mas tem 10Mb de largura de banda.  Principalmente, essa fila  foi atribuída como <code class="language-plaintext highlighter-rouge">default</code>, ou seja, se não houver nenhuma regra para atribuir pacotes para uma fila específica, tais pacotes serão submetidos a essa fila - <strong>lembrando que é obrigatório criar pelo menos uma fila filha e <code class="language-plaintext highlighter-rouge">default</code></strong>;</li>
+  <li>A <code class="language-plaintext highlighter-rouge">fila30M</code>, também é criada como fila filha de <code class="language-plaintext highlighter-rouge">fila0</code> e para essa foi dado 30Mb de largura de banda;</li>
+  <li>Por fim, a fila <code class="language-plaintext highlighter-rouge">controle</code> que possui a maior largura de banda entre as filas, que é 55Mb.</li>
+</ul>
+
+<h3 id="aplicando-o-controle-de-banda-no-pf">Aplicando o controle de banda no PF</h3>
+
+<p>Com o arquivo de exemplo anterior pronto,  o próximo passo é aplicar as filas no PF. Isso é feito executando seguinte comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pfctl <span class="nt">-f</span> /etc/pf-qos.conf
+</code></pre></div></div>
+
+<p>Se o arquivo estiver correto nenhuma mensagem será retornada. Caso contrário encontre os erros e corrija o arquivo. Um exemplo de erro seria não ter a interface de rede <code class="language-plaintext highlighter-rouge">em1</code> - sua interface pode ter outro nome. Lembrando que é possível ver as interfaces de rede com o comando <code class="language-plaintext highlighter-rouge">ifconfig</code>.</p>
+
+<h3 id="testando-o-controle-de-banda">Testando o controle de banda</h3>
+
+<p>Há várias formas de realizar testes com o controle de largura de banda. Aqui iremos utilizar um servidor  <a href="https://httpd.apache.org/">HTTP Apache</a>. Assim, basicamente é necessário instalar um servidor HTTP no OpenBSD (onde acabamos de configurar as filas) e depois usar no cliente (outro <em>host</em>) um comando tal como o <a href="https://www.gnu.org/software/wget/">Wget</a>. A seguir são dados mais detalhes das configurações para o teste:</p>
+
+<ul>
+  <li><a href="QoSTesteApache.html">Configuração do ambiente de teste</a></li>
+</ul>
+
+<h4 id="teste-1---teste-sem-controle-de-banda">Teste 1 - Teste sem controle de banda</h4>
+
+<p>O primeiro teste foi realizado sem aplicar o controle de banda. Para isso, é possível desativar o PF com o comando:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pfctl <span class="nt">-d</span>
+</code></pre></div></div>
+
+<p>Neste cenário ao se executar o comando <code class="language-plaintext highlighter-rouge">wget</code>, no cliente o resultado deste é:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>wget http://192.168.56.111:8080/100.txt
+<span class="go">--2020-01-03 22:53:41--  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080... conectado.
+A requisiÃ§Ã£o HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: â100.txtâ
+
+</span><span class="gp">100.txt               100%[========================&gt;</span><span class="o">]</span> 100,00M  50,3MB/s    em 2,0s    
+<span class="go">
+2020-01-03 22:53:43 (50,3 MB/s) - â100.txtâ salvo [104857600/104857600]
+</span></code></pre></div></div>
+<p>Neste teste a taxa transferência de dados foi de aproximadamente 50 Mbps, segundo o <code class="language-plaintext highlighter-rouge">wget</code>. No teste não vamos utilizar arquivos muito grandes para não sobrecarregar a máquina durante os testes.</p>
+
+<p>Tal teste produziu o seguinte fluxo de rede capturado pelo Wireshark:</p>
+
+<p><img src="imagens/semControle.png" alt="Sem controle de banda" /></p>
+
+<p><strong>Observação</strong> - Para obter o gráfico foi usado o <code class="language-plaintext highlighter-rouge">tcpdump</code> para capturar o tráfego de rede e o <code class="language-plaintext highlighter-rouge">tcpstat</code> para extrair as informações. Exemplo:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tcpdump</code>:
+    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>tcpdump <span class="nt">-i</span> vboxnet0 <span class="nt">-w</span> /tmp/testeQos.pcap
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">tcpstat</code>:
+    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>tcpstat <span class="nt">-f</span> <span class="s1">'port 8080'</span> <span class="nt">-r</span> /tmp/testeQos.pcap <span class="nt">-o</span> <span class="s2">"%R;%N</span><span class="se">\n</span><span class="s2">"</span> 1
+<span class="gp">1;</span>58772185
+<span class="gp">2;</span>51336842
+<span class="gp">3;</span>156
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Posteriormente os dados obtidos com o <code class="language-plaintext highlighter-rouge">tcpstat</code> foram enviados para o LibreOffice e os gráficos foram gerados.</p>
+
+<h4 id="teste-2---com-o-controle-e-banda-ativado">Teste 2 - Com o controle e banda ativado</h4>
+
+<p>Para este teste, vamos usar o mesmo cenário, mas com as regras do PF de controle de banda ativados. Para isso, vamos ligar o PF novamente e depois recarregar as regras criadas:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pfctl <span class="nt">-e</span> 
+<span class="go">pf enabled
+</span><span class="gp">openbsd#</span><span class="w"> </span>pfctl <span class="nt">-f</span> /etc/pf-qos.conf                                                        
+</code></pre></div></div>
+
+<p>Após isso repetimos o <code class="language-plaintext highlighter-rouge">wget</code> do lado cliente, não esquecendo de monitorar com o <code class="language-plaintext highlighter-rouge">tcpdump</code>.</p>
+
+<p>Saída do <code class="language-plaintext highlighter-rouge">wget</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>wget http://192.168.56.111:8080/100.txt
+<span class="go">--2020-01-03 23:08:34--  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080... conectado.
+A requisiÃ§Ã£o HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: â100.txt.1â
+
+</span><span class="gp">100.txt.1             100%[========================&gt;</span><span class="o">]</span> 100,00M  60,6MB/s    em 1,6s    
+<span class="go">
+2020-01-03 23:08:36 (60,6 MB/s) - â100.txt.1â salvo [104857600/104857600]
+</span></code></pre></div></div>
+
+<p>Gráfico do fluxo de rede capturado:</p>
+
+<p><img src="imagens/comControleSemMax.png" alt="Com controle de largura de banda" /></p>
+
+<p>Bem, neste teste nota-se que não houve alterações nos fluxos de rede com ou sem controle de banda. Isso provavelmente deve-se ao fato de que só há uma única conexão de rede ativa e o PF está emprestando banda de outros fluxos. Então, por motivos de teste, vamos ditar limites para o PF dizer que ele não deve passar desses limites estabelecidos.</p>
+
+<h4 id="teste-3---com-o-controle-e-banda-ativado-e-usando-limites">Teste 3 - Com o controle e banda ativado e usando limites</h4>
+
+<p>Bem, para conseguir ver melhor os resultados, vamos especificar melhor os limites de largura de banda para cada fila que criamos no PF. Vamos deixar o arquivo da seguintes forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>vi /etc/pf-qos.conf 
+<span class="go">queue fila0 on em1  bandwidth 100M max 100M 
+queue fila5M parent fila0 bandwidth 5M min 5M max 5M
+queue fila10M parent fila0 bandwidth 10M min 10M max 10M default 
+queue fila30M parent fila0 bandwidth 30M min 30M max 30M  
+queue controle parent fila0 bandwidth 55M min 55M max 55M
+</span></code></pre></div></div>
+
+<p>Nessa nova configuração:</p>
+<ul>
+  <li>Na <code class="language-plaintext highlighter-rouge">fila0</code>, informamos que o máximo de largura de banda é 100Mbps (<code class="language-plaintext highlighter-rouge">max 100M</code>), não importa se houver mais, a banda disponível não deve exceder esse limite.</li>
+  <li>Nas filas filhas: <code class="language-plaintext highlighter-rouge">fila5M</code>, <code class="language-plaintext highlighter-rouge">fila10M</code>, <code class="language-plaintext highlighter-rouge">fila30M</code> e <code class="language-plaintext highlighter-rouge">controle</code> foram configuradas para ter respectivamente no mínimo (<code class="language-plaintext highlighter-rouge">min</code>) e no máximo (<code class="language-plaintext highlighter-rouge">max</code>) 5Mb, 10Mb, 30Mb e 55Mb. <strong>Os valores máximo e mínimos podem ser diferentes, mas para testes mais concisos foram utilizados valores iguais</strong>.</li>
+</ul>
+
+<p>Lembre de recarregar as regras, após as alterações nas filas:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pfctl <span class="nt">-f</span> /etc/pf-qos.conf                                                        
+</code></pre></div></div>
+
+<p>E execute os testes novamente:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>wget http://192.168.56.111:8080/100.txt
+<span class="go">--2020-01-03 23:21:45--  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080... conectado.
+A requisiÃ§Ã£o HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: â100.txt.2â
+
+</span><span class="gp">100.txt.2             100%[========================&gt;</span><span class="o">]</span> 100,00M  1,14MB/s    em 89s     
+<span class="go">
+2020-01-03 23:23:14 (1,12 MB/s) - â100.txt.2â salvo [104857600/104857600]
+</span></code></pre></div></div>
+
+<p><img src="imagens/comControleComMax.png" alt="Com controle de largura de banda e limites" /></p>
+
+<p>Bem com a saída do comando e com a figura anterior, é possível notar que a taxa de transferência de banda foi reduzida drasticamente, caindo de ~50Mbps para ~1Mbps. Outra grande mudança foi quanto ao tempo, sem o controle o tempo para o download de um arquivo de 100MB foi de 3 segundos, já com o controle/limites aplicados o tempo para fazer o download do mesmo arquivo foi de 90 segundos. Lembrando que neste teste o fluxo de rede do download foi submetido a <code class="language-plaintext highlighter-rouge">fila10M</code>, que é a fila padrão (<code class="language-plaintext highlighter-rouge">default</code>) que tem 10Mb de largura de banda.</p>
+
+<h4 id="teste-4---atribuindo-fluxos-de-rede-as-filas-criadas">Teste 4 - Atribuindo fluxos de rede as filas criadas</h4>
+
+<p>No exemplo anterior, não há nenhuma regra de <em>firewall</em> atribuindo os fluxos de rede às filas criadas. Assim, todos os pacotes de rede estão indo para a fila padrão, que é a <code class="language-plaintext highlighter-rouge">fila10M</code>. Desta forma, todos os pacotes na rede tem apenas 10Mb de largura de banda. Agora vamos criar regras do PF para atribuir fluxos diferentes para filas com largura de banda diferentes.</p>
+
+<p>Vamos criar as seguintes regras:</p>
+<ol>
+  <li>Uma para pacotes TCP na porta 8080, que devem ser encaminhados para <code class="language-plaintext highlighter-rouge">fila30M</code>, recebendo assim 30Mb de largura de banda.</li>
+  <li>Outra para pacotes TCP na porta 8081, que serão destinados a <code class="language-plaintext highlighter-rouge">fila5M</code>, recebendo apenas 5Mb de largura de banda.</li>
+  <li>Uma terceira regra, que atribui pacotes SSH fila <code class="language-plaintext highlighter-rouge">controle</code>, que tem 55Mb disponível.</li>
+  <li>Qualquer outro pacote será atribuído à <code class="language-plaintext highlighter-rouge">fila10M</code>, já que não possuem regras e serão destinados a fila padrão. Vai ser o caso dos testes com pacotes TCP na porta 80 (porta HTTP padrão).</li>
+</ol>
+
+<p>As regras são apresentadas na prática a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cat</span> /etc/pf-qos.conf      
+<span class="go">queue fila0 on em1  bandwidth 100M max 100M 
+queue fila5M parent fila0 bandwidth 5M min 5M max 5M
+queue fila10M parent fila0 bandwidth 10M min 10M max 10M default 
+queue fila30M parent fila0 bandwidth 30M min 30M max 30M  
+queue controle parent fila0 bandwidth 55M min 55M max 55M
+
+pass in on em1 proto tcp from any to any port 8080 set queue fila30M 
+pass in on em1 proto tcp from any to any port 8081 set queue fila5M 
+pass in on em1 proto tcp from any to any port 22 set queue control
+</span></code></pre></div></div>
+<ul>
+  <li>Regra <code class="language-plaintext highlighter-rouge">pass in on em1 proto tcp from any to any port 8080 set queue fila30M</code>, informa que serão aceitos pacotes tcp entrando pela placa de rede <code class="language-plaintext highlighter-rouge">em1</code>, vindos de qualquer host destinados para qualquer host na porta TCP/8080, tais pacotes serão atribuídos a <code class="language-plaintext highlighter-rouge">fila30M</code>.</li>
+  <li>As demais regras são parecidas só alterando a porta e o nome da fila.</li>
+</ul>
+
+<blockquote>
+  <p><strong>Atenção</strong> - normalmente regras de controle de banda só podem ser controladas nas saída (<code class="language-plaintext highlighter-rouge">out</code>) e não na entrada (<code class="language-plaintext highlighter-rouge">in</code>). Contudo, nesta versão do PF, os teste não funcionaram com a saída, mas sim com a entrada (<code class="language-plaintext highlighter-rouge">in</code>).</p>
+</blockquote>
+
+<p>Recarregue as regras, após a criação das regras no PF:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pfctl <span class="nt">-f</span> /etc/pf-qos.conf                                                        
+</code></pre></div></div>
+
+<p>Para testar vamos executar um script para que sejam criados fluxos de rede simultaneamente para TCP/8080, TCP/8081 e TCP/80. O script terá o seguinte conteúdo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">cat </span>testeQoS.sh 
+<span class="go">xterm -e "wget http://192.168.56.111:80/100.txt &amp;&amp; read" &amp;
+xterm -e "wget http://192.168.56.111:8081/100.txt &amp;&amp; read" &amp;
+xterm -e "wget http://192.168.56.111:8080/100.txt &amp;&amp; read" &amp;
+</span></code></pre></div></div>
+
+<p>Após isso é só executar o script e ver o resultado de cada <code class="language-plaintext highlighter-rouge">wget</code>:</p>
+
+<ul>
+  <li>Script:
+    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>sh testeQoS.sh
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8080/100.txt</code>:
+```console
+–2020-01-03 23:51:11–  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080… conectado.
+A requisição HTTP foi enviada, aguardando resposta… 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.17.1”</li>
+</ul>
+
+<p>100.txt.17.1        100%[===================&gt;] 100,00M  2,80MB/s    em 39s</p>
+
+<p>2020-01-03 23:51:50 (2,58 MB/s) - “100.txt.17.1” salvo [104857600/104857600</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+* ``wget http://192.168.56.111:80/100.txt``:
+```console
+20-01-03 23:51:11--  http://192.168.56.111/100.txt
+Conectando-se a 192.168.56.111:80... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.16”
+
+100.txt.16          100%[===================&gt;] 100,00M  1,14MB/s    em 89s     
+
+2020-01-03 23:52:40 (1,12 MB/s) - “100.txt.16” salvo [104857600/104857600
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8081/100.txt</code>
+```console
+–2020-01-03 23:51:11–  http://192.168.56.111:8081/100.txt
+Conectando-se a 192.168.56.111:8081… conectado.
+A requisição HTTP foi enviada, aguardando resposta… 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.17”</li>
+</ul>
+
+<p>100.txt.17          100%[===================&gt;] 100,00M   583KB/s    em 2m 56s</p>
+
+<p>2020-01-03 23:54:07 (581 KB/s) - “100.txt.17” salvo [104857600/104857600</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Analisando as saídas, observa-se que o fluxo TCP/8080 terminou primeiro, com 39 segundos e 2,58MB/s. Em segundo lugar o fluxo TCP/80, com 89 segundos e 1,12 MB/s. Por último, o fluxo TCP/8081, com 2 minutos e 56 segundos, e uma taxa de transferência de dados de apenas 581KB/s. O que é coerente já que respectivamente foram atribuídos as filas com 30Mb, 10Mb e 5Mb. O gráfico a seguir ajuda a mostrar como foi ditado o controle de banda para cada um dos fluxos:
+
+![comControleLimitesRegras](imagens/comControleLimitesRegras.png)
+
+Utilizando o esquema anterior, é possível, por exemplo, atribuir uma largura de banda mínima para serviços indesejados na rede, tal como torrent (que neste caso foi representado pelo fluxo TCP/8081). Já fluxos que necessitam de velocidade também seriam identificados, como por exemplo o TCP/8080 e TCP/22 (SSH), do nosso exemplo. Já o restante seguiria utilizando uma largura de banda moderada (no exemplo foi o fluxo HTTP, na porta TCP/80).
+
+#### Teste 5 - Compartilhando a largura de banda - sem usar limite
+
+Nos teste anteriores foi utilizado limite mínimo (``min``) e máximo (``max``). Bem, isso não é obrigatório, caso não se use o limite as filas emprestam largura de banda das filas ociosas e na prática isso normalmente é mais interessante.
+
+Vamos apresentar aqui um exemplo mais simples de filas, veja o arquivo a seguir:
+
+```console
+openbsd# cat /etc/pf-qos2.conf
+queue fila0 on em1  bandwidth 50M max 50M
+queue fila1M parent fila0 bandwidth 1M
+queue fila49M parent fila0 bandwidth 49M default
+
+pass in on em1 proto tcp from any to any port 8081 set queue fila1M
+</code></pre></div></div>
+
+<p>Neste arquivo novo a <code class="language-plaintext highlighter-rouge">fila0</code> tem uma largura de banda de 50M e há apenas duas filas filhas com 1Mb e 49Mb. Também só há uma regra que atribui fluxo TCP/8081 a fila de 1Mb, os demais fluxos vão para a fila de 49M.</p>
+
+<p>Neste caso em um teste as filas compartilham a largura de banda, caso uma das filas estejam ociosas. Exemplo, ao se executar dois <code class="language-plaintext highlighter-rouge">wget</code> simultâneos, um na porta TCP/8080 e outro na porta TCP/8081, quando o <code class="language-plaintext highlighter-rouge">wget</code> da porta TCP/8080 terminar o da porta TCP/8081 pegará toda a largura de banda para sí. Veja os comandos e gráfico a seguir:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8080:
+```console
+–2020-01-04 01:02:09–  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080… conectado.
+A requisição HTTP foi enviada, aguardando resposta… 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt”</li>
+</ul>
+
+<p>100.txt             100%[===================&gt;] 100,00M  3,87MB/s    em 27s</p>
+
+<p>2020-01-04 01:02:37 (3,68 MB/s) - “100.txt” salvo [104857600/104857600]</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+* ``wget`` da porta 8081:
+```console
+--2020-01-04 01:02:09--  http://192.168.56.111:8081/100.txt
+Conectando-se a 192.168.56.111:8081... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.1”
+
+100.txt.1           100%[===================&gt;] 100,00M  3,08MB/s    em 54s     
+
+2020-01-04 01:03:03 (1,86 MB/s) - “100.txt.1” salvo [104857600/104857600]
+</code></pre></div></div>
+
+<p>Ao final esses comandos produzem os seguintes fluxos de rede:</p>
+
+<p><img src="imagens/comControleSemLimites.png" alt="comControleSemLimites" /></p>
+
+<p>Ou seja, de inicio o fluxo TCP/8080 consome a banda destinada/reservada para ele (45Mb), mas tão logo o download termine o fluxo TCP/8081 pode usar toda a largura de banda disponível para ele e terminar o seu download mais rápido se comparado com os testes anteriores, nos quais foram utilizados limites.</p>
+
+<h4 id="teste-6---compartilhando-a-largura-de-banda-de-outras-filas-no-inicio">Teste 6 - Compartilhando a largura de banda de outras filas no inicio</h4>
+
+<p>No PF, há como dar mais largura de banda no inicio de uma conexão, mas caso essa não termine logo, o que pode significar um fluxo indesejado (torrent, YouTube, Netflix, etc) o PF atribui uma largura de banda menor. Para isso basta utilizar a opção <code class="language-plaintext highlighter-rouge">burst</code> em um tempo em milissegundos (<code class="language-plaintext highlighter-rouge">200ms</code>), na frente da regra que cria as filas. Por exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cat</span> /etc/pf-qos2.conf
+<span class="go">queue fila0 on em1  bandwidth 50M max 50M
+queue fila1M parent fila0 bandwidth 1M burst 49M for 5000ms
+queue fila49M parent fila0 bandwidth 49M default
+
+pass in on em1 proto tcp from any to any port 8081 set queue fila5M
+</span></code></pre></div></div>
+<p>O arquivo é o mesmo do exemplo anterior, só foi acrescido o <code class="language-plaintext highlighter-rouge">busrt</code>. Neste caso a <code class="language-plaintext highlighter-rouge">fila1M</code> terá de inicio 49Mb por 5 segundos, depois a largura de banda irá para apenas 1Mb (<code class="language-plaintext highlighter-rouge">queue fila1M parent fila0 bandwidth 1M burst 49M for 5000ms</code>).</p>
+
+<p>Vamos testar com apenas dois fluxos TCP/8080 e TCP/8081:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8080:
+```console
+–2020-01-04 01:09:53–  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080… conectado.
+A requisição HTTP foi enviada, aguardando resposta… 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.3”</li>
+</ul>
+
+<p>100.txt.3           100%[===================&gt;] 100,00M  3,92MB/s    em 29s</p>
+
+<p>2020-01-04 01:10:22 (3,43 MB/s) - “100.txt.3” salvo [104857600/104857600]</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+* ``wget`` da port 8081:
+```console
+--2020-01-04 01:09:53--  http://192.168.56.111:8081/100.txt
+Conectando-se a 192.168.56.111:8081... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.2”
+
+100.txt.2           100%[===================&gt;] 100,00M  3,32MB/s    em 43s     
+
+2020-01-04 01:10:35 (2,33 MB/s) - “100.txt.2” salvo [104857600/104857600]
+</code></pre></div></div>
+<p>Tais comandos produzem os seguintes fluxos de rede:</p>
+
+<p><img src="imagens/comControleSemLimitesBurst.png" alt="comControleSemLimitesBurst" /></p>
+
+<p>Na figura nota-se que inicialmente os fluxos 8080 e 8081 brigam pela largura de banda disponível. Todavia, depois de uns 10 segundos, o fluxo 8080 ganha a maior fatia para ele (note que não é exatamente o que determinamos no arquivo, mas funciona). Quando o fluxo 8080 termina de fazer o download do arquivo o fluxo 8081 ganha novamente o direito de usar toda a largura de banda.</p>
+
+<h2 id="referências">Referências</h2>
+
+<ul>
+  <li><a href="https://www.openbsd.org/faq/pf/">https://www.openbsd.org/faq/pf/</a></li>
+  <li><a href="https://man.openbsd.org/pf.conf.5#QUEUEING">https://man.openbsd.org/pf.conf.5#QUEUEING</a></li>
+</ul>
+
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>1uiz4rthur</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

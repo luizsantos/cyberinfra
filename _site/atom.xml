@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CyberInfra</title>
+    <description>Operating Systems, Computer Network, CyberSecurity...</description>
+    <link>http://localhost:8000</link>
+    <atom:link href="http://localhost:8000/feed.xml" rel="self" type="application/rss+xml" />
+    <author>
+      <name>Luiz Arthur Feitosa dos Santos</name>
+      <email>luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com</email>
+      <uri></uri>
+    </author>
+    
+      <item>
+        <title>Olamundo</title>
+        <description>&lt;p&gt;Olá, fiz este lugar para guardar coisas/comandos que eu faço durante o meu trabalho com Sistemas Operacionais (Linux, FreeBSD, OpenBSD…), Redes de Computadores (Servidores, Simuladores…) e CyberSegurança (Proxys, Firewalls, IDS), bem como outras coisas (programação, IoT, etc).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão&lt;/strong&gt;&lt;br /&gt;
+Autor: &lt;strong&gt;Prof. Dr. Luiz Arthur Feitosa dos Santos&lt;/strong&gt;&lt;br /&gt;
+E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;luizsantos@utfpr.edu.br&lt;/a&gt;&lt;/strong&gt; / &lt;strong&gt;&lt;a href=&quot;mailto:luiz.arthur.feitosa.santos@gmail.com&quot;&gt;luiz.arthur.feitosa.santos@gmail.com&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        <pubDate>Tue, 16 Jun 2020 00:00:00 -0300</pubDate>
+        <link>http://localhost:8000//olaMundo</link>
+        <link href="http://localhost:8000/olaMundo"/>
+        <guid isPermaLink="true">http://localhost:8000/olaMundo</guid>
+      </item>
+    
+  </channel>
+</rss>

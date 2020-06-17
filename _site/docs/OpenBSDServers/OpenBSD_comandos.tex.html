@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="OpenBSD - Comandos básicos" />
+<meta property="og:description" content="OpenBSD - Comandos básicos" />
+<link rel="canonical" href="http://localhost:8000/docs/OpenBSDServers/OpenBSD_comandos.tex" />
+<meta property="og:url" content="http://localhost:8000/docs/OpenBSDServers/OpenBSD_comandos.tex" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","description":"OpenBSD - Comandos básicos","url":"http://localhost:8000/docs/OpenBSDServers/OpenBSD_comandos.tex","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>1uiz4rthur@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="openbsd---comandos-básicos">OpenBSD - Comandos básicos</h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<h2 id="introdução">Introdução</h2>
+
+<h2 id="instalação-de-pacotes-no-openbsd">Instalação de pacotes no OpenBSD</h2>
+
+<p>###Procurar por pacotes</p>
+
+<p>No OpenBSD, para procurar pacotes para serem instalados, é possível utilizar o comando <code class="language-plaintext highlighter-rouge">pkg_add -Q</code>, seguido do termo a ser pesquisado. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> httpd
+<span class="go">apache-httpd-2.4.41
+bozohttpd-20190228
+darkhttpd-1.12
+libmicrohttpd-0.9.66
+lighttpd-1.4.54
+lighttpd-1.4.54-ldap
+lighttpd-1.4.54-ldap-mysql
+lighttpd-1.4.54-mysql
+p5-HTTPD-Log-Filter-1.08p2
+sthttpd-2.26.4p4
+</span></code></pre></div></div>
+<p>Neste exemplo foram listados todos os pacotes que possuem o termo <code class="language-plaintext highlighter-rouge">http</code>.</p>
+
+<p>###Instalando pacotes</p>
+
+<p>Para instalar pacotes basta utilizar o comando <code class="language-plaintext highlighter-rouge">pkg_add</code>, seguido do nome do pacote. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_add apache-httpd-2.4.41
+<span class="go">quirks-3.183 signed on 2020-02-27T12:13:05Z
+apache-httpd-2.4.41:brotli-1.0.7: ok
+apache-httpd-2.4.41:pcre-8.41p2: ok
+apache-httpd-2.4.41:nghttp2-1.39.2: ok
+apache-httpd-2.4.41:curl-7.66.0: ok
+apache-httpd-2.4.41:xz-5.2.4: ok
+apache-httpd-2.4.41:libxml-2.9.9: ok
+apache-httpd-2.4.41:db-4.6.21p7v0: ok
+apache-httpd-2.4.41:apr-1.6.5p0: ok
+apache-httpd-2.4.41:apr-util-1.6.1p2: ok
+apache-httpd-2.4.41:jansson-2.12: ok
+apache-httpd-2.4.41: ok
+Running tags: ok
+The following new rcscripts were installed: /etc/rc.d/apache2
+See rcctl(8) for details.
+</span></code></pre></div></div>
+
+<p>Neste caso foi instalado o servidor HTTP Apache na versão 2.4.41.</p>
+
+<h2 id="problemas-na-instalação-de-pacotes">Problemas na instalação de pacotes:</h2>
+
+<h3 id="erro-ssl-write">Erro SSL write</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> php                                                                                                          
+<span class="go">https://cdn.openbsd.org/pub/OpenBSD/6.6/packages-stable/amd64/: ftp: SSL write error: ocsp verify failed: ocsp response not current
+https://cdn.openbsd.org/pub/OpenBSD/6.6/packages/amd64/: ftp: SSL write error: ocsp verify failed: ocsp response not current
+https://cdn.openbsd.org/pub/OpenBSD/6.6/packages/amd64/: empty
+</span></code></pre></div></div>
+
+<p>Neste caso tem que reiniciar a máquina ou atualizar o data/hora.</p>
+
+<h2 id="referências">Referências</h2>
+
+<ul>
+  <li></li>
+  <li></li>
+</ul>
+
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>1uiz4rthur</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

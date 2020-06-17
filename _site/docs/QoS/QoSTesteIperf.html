@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Teste com iperf" />
+<meta property="og:description" content="Teste com iperf" />
+<link rel="canonical" href="http://localhost:8000/docs/QoS/QoSTesteIperf" />
+<meta property="og:url" content="http://localhost:8000/docs/QoS/QoSTesteIperf" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","description":"Teste com iperf","url":"http://localhost:8000/docs/QoS/QoSTesteIperf","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>1uiz4rthur@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="teste-com-iperf">Teste com iperf</h1>
+
+<p>Vamos testar o controle de banda usando o <a href="https://iperf.fr/">Iperf</a>. O Iperf é um software que testa a largura de banda/taxa de transferência de dados entre <em>hosts</em>.</p>
+
+<p>Com o Iperf já instalado no OpenBSD com o controle de banda e em outro <em>host</em> qualquer:</p>
+<ol>
+  <li><strong>No OpenBSD</strong>, execute um servidor <code class="language-plaintext highlighter-rouge">iperf3</code> com o seguinte comando:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>iperf3 <span class="nt">-s</span> <span class="nt">-p</span> 8080
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Em outra máquina da rede</strong> (não no OpenBSD com controle de banda), execute o cliente <code class="language-plaintext highlighter-rouge">iperf3</code> com o seguinte comando:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">cliente:~$</span><span class="w"> </span>iperf3 <span class="nt">-p</span> 8080 <span class="nt">-c</span> 192.168.56.111 <span class="nt">-t</span> 30
+</code></pre></div></div>
+
+<blockquote>
+  <p>Neste exemplo o servidor (OpenBSD) tem o IP 192.168.56.111.</p>
+</blockquote>
+
+<p>Para visualizar o resultado, durante o teste com o Iperf, a rede foi monitorada com o <a href="https://www.wireshark.org/">Wireshark</a>, que é um analisador de tráfego de rede. Neste caso foi criado um filtro para que o Wireshark só mostre tráfego TCP/8080 (<code class="language-plaintext highlighter-rouge">tcp.port==8080</code>).</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>1uiz4rthur</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>

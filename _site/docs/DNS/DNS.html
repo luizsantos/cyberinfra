@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="DNS - Domain Name System" />
+<meta property="og:description" content="DNS - Domain Name System" />
+<link rel="canonical" href="http://localhost:8000/docs/DNS/DNS" />
+<meta property="og:url" content="http://localhost:8000/docs/DNS/DNS" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","description":"DNS - Domain Name System","url":"http://localhost:8000/docs/DNS/DNS","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>1uiz4rthur@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="dns---domain-name-system">DNS - Domain Name System</h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<hr />
+
+<h2 id="introdução">Introdução</h2>
+
+<h2 id="bind-no-openbsd">BIND no OpenBSD</h2>
+
+<h3 id="instalação-do-bind">Instalação do BIND</h3>
+
+<p>O primeiro passo normalmente é procurar o pacote BIND que vai ser instalado. No OpenBSD isso pode ser feito com o comando <code class="language-plaintext highlighter-rouge">pkg_info -Q &lt;nome_programa&gt;</code>, tal como no exemplo a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> <span class="nb">bind</span>
+<span class="go">isc-bind-9.11.13v0
+isc-bind-9.11.13v0-geoip
+isc-bind-9.11.13v0-no_ssl
+isc-bind-9.11.14p0v0
+isc-bind-9.11.14p0v0-geoip
+isc-bind-9.11.14p0v0-no_ssl
+isc-bind-9.11.14v0
+isc-bind-9.11.14v0-geoip
+isc-bind-9.11.14v0-no_ssl
+</span></code></pre></div></div>
+
+<p>Seguindo a saída do comando anterior, vamos instalar,  por exemplo o <code class="language-plaintext highlighter-rouge">isc-bind-9.11.14v0</code>. Para isso é necessário executar o comando <code class="language-plaintext highlighter-rouge">pkg_add</code>, tal como o exemplo a seguir:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>pkg_add isc-bind-9.11.14v0     
+<span class="go">quirks-3.182 signed on 2019-12-25T20:47:50Z
+isc-bind-9.11.14v0:json-c-0.13.1: ok
+isc-bind-9.11.14v0:libiconv-1.16p0: ok
+isc-bind-9.11.14v0:libunistring-0.9.7: ok
+isc-bind-9.11.14v0:libidn2-2.3.0: ok
+isc-bind-9.11.14v0:xz-5.2.4: ok
+isc-bind-9.11.14v0:libxml-2.9.9: ok
+isc-bind-9.11.14v0: ok
+Running tags: ok
+The following new rcscripts were installed: /etc/rc.d/isc_named
+See rcctl(8) for details.
+</span></code></pre></div></div>
+<p>Após a instalação, é possível verificar se o servidor DNS BIND está em execução.</p>
+
+<h3 id="verificando-o-estado-do-serviço">Verificando o estado do serviço</h3>
+
+<p>Após instalar ou realizar alguma alteração no servidor é sempre bom conferir se esse está funcionando corretamento (ativo na rede). No OpenBSD há várias formas de se fazer isso, sendo duas:</p>
+
+<ul>
+  <li>A primeira forma e a mais clássica, é com o comando <code class="language-plaintext highlighter-rouge">netstat -a -n -p udp</code>. Neste caso as opções <code class="language-plaintext highlighter-rouge">-a</code> é para mostrar todas as conexões, <code class="language-plaintext highlighter-rouge">-n</code> para mostrar números de não nomes e <code class="language-plaintext highlighter-rouge">-p udp</code> já que o DNS/BIND é executado utilizando o protocolo UDP.
+    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>netstat <span class="nt">-a</span> <span class="nt">-n</span> <span class="nt">-p</span> udp
+<span class="go">Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+udp          0      0  10.0.2.15.29903        201.49.148.135.123    
+udp          0      0  10.0.2.15.39674        162.159.200.1.123     
+udp          0      0  10.0.2.15.19339        200.160.0.8.123       
+udp          0      0  10.0.2.15.32843        52.67.171.238.123     
+udp          0      0  10.0.2.15.3947         200.192.232.8.123     
+udp          0      0  *.*                    *.*                   
+udp          0      0  *.*                    *.*                   
+udp          0      0  *.*                    *.*                   
+udp          0      0  192.168.56.111.53      *.*                   
+udp          0      0  10.0.2.15.53           *.*                   
+udp          0      0  127.0.0.1.53           *.*                   
+udp          0      0  *.*                    *.*                   
+Active Internet connections (including servers)
+Proto   Recv-Q Send-Q  Local Address          Foreign Address        (state)
+udp6         0      0  *.*                    *.*                   
+udp6         0      0  *.*                    *.*                   
+udp6         0      0  fe80::1%lo0.53         *.*                   
+udp6         0      0  ::1.53                 *.* 
+</span></code></pre></div>    </div>
+  </li>
+  <li>A segunda forma é com o comando <code class="language-plaintext highlighter-rouge">fstat</code>, fazendo uso da opção <code class="language-plaintext highlighter-rouge">-n</code> para mostrar número ao invés de nomes. Para melhorar a saída também foi utilizado o comando <code class="language-plaintext highlighter-rouge">grep udp</code>, que apresenta apenas as linhas que contém a palavra <code class="language-plaintext highlighter-rouge">udp</code>. A diferença do <code class="language-plaintext highlighter-rouge">fstat</code> em relação ao <code class="language-plaintext highlighter-rouge">netstat</code> no OpenBSD, é que o <code class="language-plaintext highlighter-rouge">fstat</code> mostra o processo associado ao protocolo/porta de rede. Exemplo:
+    <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>fstat <span class="nt">-n</span> | <span class="nb">grep </span>udp 
+<span class="go">_bind    named      55537  512* internet6 dgram udp [::1]:53
+_bind    named      55537  513* internet6 dgram udp [fe80::1%lo0]:53
+_bind    named      55537  514* internet dgram udp 127.0.0.1:53
+_bind    named      55537  515* internet dgram udp 10.0.2.15:53
+_bind    named      55537  516* internet dgram udp 192.168.56.111:53
+</span><span class="gp">_ntp     ntpd       20075    6* internet dgram udp 10.0.2.15:39674 &lt;-&gt;</span><span class="w"> </span>162.159.200.1:123
+<span class="gp">_ntp     ntpd       20075    7* internet dgram udp 10.0.2.15:19339 &lt;-&gt;</span><span class="w"> </span>200.160.0.8:123
+<span class="gp">_ntp     ntpd       20075    8* internet dgram udp 10.0.2.15:3947 &lt;-&gt;</span><span class="w"> </span>200.192.232.8:123
+<span class="gp">_ntp     ntpd       20075    9* internet dgram udp 10.0.2.15:29903 &lt;-&gt;</span><span class="w"> </span>201.49.148.135:123
+<span class="gp">_ntp     ntpd       20075   10* internet dgram udp 10.0.2.15:32843 &lt;-&gt;</span><span class="w"> </span>52.67.171.238:123
+<span class="go">root     dhclient   17467    3* internet dgram udp *:0
+root     dhclient   17467    5* internet dgram udp *:0
+root     dhclient   17738    3* internet dgram udp *:0
+root     dhclient   17738    5* internet dgram udp *:0
+_slaacd  slaacd     78386    4* internet6 dgram udp *:0
+root     slaacd     86655    7* internet6 dgram udp *:0
+</span></code></pre></div>    </div>
+    <p>Tanto na saída do <code class="language-plaintext highlighter-rouge">netstat</code>, quanto na do <code class="language-plaintext highlighter-rouge">fstat</code> é possível notar que há  porta UDP/53 aberta, e principalmente com o <code class="language-plaintext highlighter-rouge">fstat</code> dá para notar que o processo associado a esta porta é o <code class="language-plaintext highlighter-rouge">named</code>, que é justamente o processo do BIND.</p>
+  </li>
+</ul>
+
+<h3 id="iniciandoparando-e-reiniciando-o-serviço">Iniciando/parando e reiniciando o serviço</h3>
+
+<p>No OpenBSD é possível executar o <em>script</em> <code class="language-plaintext highlighter-rouge">/etc/rc.d/isc_named</code>, com as opções <code class="language-plaintext highlighter-rouge">start|stop|restart</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>/etc/rc.d/isc_named  start|stop|restart
+</code></pre></div></div>
+
+<p>Por exemplo, para iniciar o BIND, execute:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>/etc/rc.d/isc_named  start
+</code></pre></div></div>
+
+<h3 id="configurando-o-bind">Configurando o BIND</h3>
+
+<p>O arquivo de configuração principal do BIND no OpenBSD é o <code class="language-plaintext highlighter-rouge">/var/named/etc/named.conf</code>. Antes de alterá-lo é uma boa prática fazer uma cópia de segurança, caso algo dê errado será possível volta o original. Isso pode ser feito com o comando:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cp</span> /var/named/etc/named.conf   /var/named/etc/named.conf.def
+</code></pre></div></div>
+
+<h4 id="criando-as-zonas-no-servidor">Criando as zonas no servidor</h4>
+
+<p>Para criar as zonas à serem mantidas no servidor DNS, é necessário editar o arquivo <code class="language-plaintext highlighter-rouge">/var/named/etc/named.conf</code> e incluir no final do arquivo as seguintes linhas (exemplo):</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>vi /var/named/etc/named.conf
+<span class="c">...
+</span><span class="go">zone "redes2.comp" {
+</span><span class="gp">type master;</span><span class="w">
+</span><span class="gp">file "master/db.redes2.comp";</span><span class="w">
+</span><span class="gp">};</span><span class="w">
+</span><span class="go">
+zone "56.168.192.in-addr.arpa" {
+</span><span class="gp">type master;</span><span class="w">
+</span><span class="gp">file "master/db.56.168.192";</span><span class="w">
+</span><span class="gp">};</span><span class="w">
+</span><span class="go">
+</span></code></pre></div></div>
+
+<p>Após configurar o arquivo <code class="language-plaintext highlighter-rouge">named.conf</code> é recomendável verificar se ele está correto utilizando o comando <code class="language-plaintext highlighter-rouge">named-checkconf</code>.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>named-checkconf /var/named/etc/named.conf 
+</code></pre></div></div>
+
+<p>Se nada for retornado pelo comando o arquivo de configuração está com a sintaxe correta. Caso contrário há algo de errado (sintaxe/opções), neste caso volte no arquivo e verifique o que há de errado.</p>
+
+<p>Exemplo, na saída a seguir o <code class="language-plaintext highlighter-rouge">named-checkconf</code> reporta que falta um <code class="language-plaintext highlighter-rouge">;</code> no final da linha 80 do  arquivo <code class="language-plaintext highlighter-rouge">/var/named/etc/named.conf</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>named-checkconf /var/named/etc/named.conf 
+<span class="gp">/var/named/etc/named.conf:80: missing ';</span><span class="s1">' before '</span>file<span class="s1">'
+</span></code></pre></div></div>
+
+<h5 id="criando-o-arquivo-de-zona">Criando o arquivo de zona</h5>
+
+<p>Para iniciar a criação/configuração do arquivo de zona, vamos pegar um modelo de exemplo - para não iniciar o arquivo do zero (em branco). Para isso vamos copiar o arquivo de zona do <em>localhost</em>. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cp</span> /var/named/standard/localhost /var/named/master/db.redes2.comp 
+</code></pre></div></div>
+
+<p>Agora vamos editar o arquivo para deixá-lo da seguinte forma:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>vi /var/named/master/db.redes2.comp
+<span class="go">
+</span><span class="gp">$</span>TTL 6h
+<span class="go">
+@       IN      SOA     vm.redes2.comp. nobody.vm.redes2.comp. (
+</span><span class="gp">1       ;</span><span class="w"> </span>serial
+<span class="gp">1h      ;</span><span class="w"> </span>refresh
+<span class="gp">30m     ;</span><span class="w"> </span>retry 
+<span class="gp">7d      ;</span><span class="w"> </span>expiration
+<span class="gp">1h )    ;</span><span class="w"> </span>minimum
+<span class="go">
+NS      vm.redes2.comp.
+
+vm.redes2.comp.         IN      A       192.168.56.111
+real.redes2.comp.       IN      A       192.168.56.1
+</span></code></pre></div></div>
+
+<p>Após a edição do arquivo de zone vamos usar o comando <code class="language-plaintext highlighter-rouge">named-checkzone</code> para verificar se não há nada errado com a configuração:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>named-checkzone redes2.comp /var/named/master/db.redes2.comp  
+<span class="go">zone redes2.comp/IN: loaded serial 1
+OK
+</span></code></pre></div></div>
+
+<h5 id="criando-o-arquivo-de-zona-reversa">Criando o arquivo de zona reversa</h5>
+
+<p>Da mesma fora que criamos o arquivo de zona do domínio, vamos criar o arquivo de zona reversa. Lembrando que o arquivo de zona rever faz o contrário do arquivo de zona, ou seja, dado o IP devolve o nome do <em>host</em>.</p>
+
+<p>Vamos iniciar copiando um arquivo de exemplo, para depois alterá-lo, exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cp</span> /var/named/master/db.redes2.comp  /var/named/master/db.56.168.192
+</code></pre></div></div>
+
+<p>Depois disso é só editá-lo para ficar com o seguinte conteúdo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cat</span> /var/named/master/db.56.168.192                                               
+<span class="gp">$</span>TTL 6h
+<span class="go">
+@       IN      SOA     vm.redes2.comp. nobody.vm.redes2.comp. (
+</span><span class="gp">1       ;</span><span class="w"> </span>serial
+<span class="gp">1h      ;</span><span class="w"> </span>refresh
+<span class="gp">30m     ;</span><span class="w"> </span>retry
+<span class="gp">7d      ;</span><span class="w"> </span>expiration
+<span class="gp">1h )    ;</span><span class="w"> </span>minimum
+<span class="go">
+NS      vm.redes2.comp.
+
+111     IN      PTR     vm.redes2.comp.
+1       IN      PTR     real.redes.comp.
+</span></code></pre></div></div>
+
+<p>Também é possível verificar se a configuração do arquivo de zona está correta com o comando <code class="language-plaintext highlighter-rouge">named-checkzone</code>. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>named-checkzone 56.168.192.in-addr.arpa /var/named/master/db.56.168.192  
+<span class="go">zone 56.168.192.in-addr.arpa/IN: loaded serial 1
+OK
+</span></code></pre></div></div>
+
+<p>Após isso basta reiniciar o servidor DNS. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>/etc/rc.d/isc_named restart                                                       
+<span class="go">isc_named(ok)
+isc_named(ok)
+</span></code></pre></div></div>
+
+<h3 id="testando-o-servidor-dns">Testando o servidor DNS</h3>
+
+<p>Para testar o próprio servidor, altere o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> para este apontar para o próprio servidor. Isso pode ser feito com o comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 127.0.0.1"</span> <span class="o">&gt;</span> /etc/resolv.conf 
+</code></pre></div></div>
+
+<p>Após isso há várias formas de testar a configuração, exemplos:</p>
+
+<ul>
+  <li>Comando <code class="language-plaintext highlighter-rouge">ping</code></li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>ping vm.redes2.comp
+<span class="go">PING vm.redes2.comp (192.168.56.111): 56 data bytes
+64 bytes from 192.168.56.111: icmp_seq=0 ttl=255 time=0.070 ms
+64 bytes from 192.168.56.111: icmp_seq=1 ttl=255 time=0.066 ms
+^C
+--- vm.redes2.comp ping statistics ---
+2 packets transmitted, 2 packets received, 0.0% packet loss
+round-trip min/avg/max/std-dev = 0.066/0.068/0.070/0.002 ms
+</span></code></pre></div></div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>ping real.redes2.comp
+<span class="go">PING real.redes2.comp (192.168.56.1): 56 data bytes
+64 bytes from 192.168.56.1: icmp_seq=0 ttl=64 time=0.220 ms
+64 bytes from 192.168.56.1: icmp_seq=1 ttl=64 time=0.310 ms
+^C
+--- real.redes2.comp ping statistics ---
+2 packets transmitted, 2 packets received, 0.0% packet loss
+round-trip min/avg/max/std-dev = 0.220/0.265/0.310/0.045 ms
+</span></code></pre></div></div>
+
+<ul>
+  <li>Comando <code class="language-plaintext highlighter-rouge">nslookup</code>
+```console
+openbsd# nslookup vm.redes2.comp                      <br />
+Server:         127.0.0.1
+Address:        127.0.0.1#53</li>
+</ul>
+
+<p>Name:   vm.redes2.comp
+Address: 192.168.56.111</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+```console
+openbsd# nslookup 192.168.56.1                                                             
+Server:         127.0.0.1
+Address:        127.0.0.1#53
+
+1.56.168.192.in-addr.arpa       name = real.redes.comp.
+</code></pre></div></div>
+<ul>
+  <li>Comando <code class="language-plaintext highlighter-rouge">dig</code></li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>dig redes2.comp
+<span class="go">
+</span><span class="gp">;</span><span class="w"> </span>&lt;&lt;<span class="o">&gt;&gt;</span> DiG 9.4.2-P2 &lt;&lt;<span class="o">&gt;&gt;</span> redes2.comp
+<span class="gp">;</span><span class="p">;</span> global options:  printcmd
+<span class="gp">;</span><span class="p">;</span> Got answer:
+<span class="gp">;</span><span class="p">;</span> -&gt;&gt;HEADER<span class="o">&lt;&lt;-</span> <span class="no">opcode</span><span class="sh">: QUERY, status: NOERROR, id: 40077
+</span><span class="gp">;</span><span class="sh">; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+</span><span class="go">
+</span><span class="gp">;</span><span class="p">;</span> QUESTION SECTION:
+<span class="gp">;</span>redes2.comp.                   IN      A
+<span class="go">
+</span><span class="gp">;</span><span class="p">;</span> AUTHORITY SECTION:
+<span class="go">redes2.comp.            3600    IN      SOA     vm.redes2.comp. nobody.vm.redes2.comp. 1 3600 1800 604800 3600
+
+</span><span class="gp">;</span><span class="p">;</span> Query <span class="nb">time</span>: 1 msec
+<span class="gp">;</span><span class="p">;</span> SERVER: 127.0.0.1#53<span class="o">(</span>127.0.0.1<span class="o">)</span>
+<span class="gp">;</span><span class="p">;</span> WHEN: Thu Dec 26 14:43:55 2019
+<span class="gp">;</span><span class="p">;</span> MSG SIZE  rcvd: 75
+</code></pre></div></div>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span>dig vm.redes2.comp
+<span class="go">
+</span><span class="gp">;</span><span class="w"> </span>&lt;&lt;<span class="o">&gt;&gt;</span> DiG 9.4.2-P2 &lt;&lt;<span class="o">&gt;&gt;</span> vm.redes2.comp
+<span class="gp">;</span><span class="p">;</span> global options:  printcmd
+<span class="gp">;</span><span class="p">;</span> Got answer:
+<span class="gp">;</span><span class="p">;</span> -&gt;&gt;HEADER<span class="o">&lt;&lt;-</span> <span class="no">opcode</span><span class="sh">: QUERY, status: NOERROR, id: 4562
+</span><span class="gp">;</span><span class="sh">; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 0
+</span><span class="go">
+</span><span class="gp">;</span><span class="p">;</span> QUESTION SECTION:
+<span class="gp">;</span>vm.redes2.comp.                        IN      A
+<span class="go">
+</span><span class="gp">;</span><span class="p">;</span> ANSWER SECTION:
+<span class="go">vm.redes2.comp.         21600   IN      A       192.168.56.111
+
+</span><span class="gp">;</span><span class="p">;</span> AUTHORITY SECTION:
+<span class="go">redes2.comp.            21600   IN      NS      vm.redes2.comp.
+
+</span><span class="gp">;</span><span class="p">;</span> Query <span class="nb">time</span>: 1 msec
+<span class="gp">;</span><span class="p">;</span> SERVER: 127.0.0.1#53<span class="o">(</span>127.0.0.1<span class="o">)</span>
+<span class="gp">;</span><span class="p">;</span> WHEN: Thu Dec 26 14:44:08 2019
+<span class="gp">;</span><span class="p">;</span> MSG SIZE  rcvd: 62
+<span class="go">
+</span></code></pre></div></div>
+
+<h2 id="referências">Referências</h2>
+<ul>
+  <li><a href="http://www.kernel-panic.it/openbsd/dns/dns4.html">http://www.kernel-panic.it/openbsd/dns/dns4.html</a></li>
+  <li><a href="https://www.openbsd.org/faq/index.html">https://www.openbsd.org/faq/index.html</a></li>
+</ul>
+
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>1uiz4rthur</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+  
+</body>
+
+</html>
