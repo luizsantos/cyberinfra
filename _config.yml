@@ -1,7 +1,7 @@
 title: CyberInfra
 description: "Operating Systems, Computer Networks, CyberSecurity..."
 author:
-  name: "Luiz Arthur Feitosa dos Santos"
+  name: "Luiz Arthur F. dos Santos"
   email: "luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com"
 #  url: "https://ashishchaudhary.in/hacker-blog"
 
@@ -30,6 +30,6 @@ plugins:
 
 
 # Custom variables
-owner : "1uiz4rthur"
+owner : "luiz"
 company : "CyberInfra"
 year : "2020"
