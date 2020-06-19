@@ -15,20 +15,20 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 # Sistemas Operacionais
 * OpenBSD
-	* [Alguns comandos OpenBSD](OpenBSDServers/OpenBSD_comandos)
+	* [Alguns comandos OpenBSD](OpenBSDServers/OpenBSD_comandos.md)
 
 # Redes de Computadores
 * HTTP(_ HyperText Transfer Protocol_)
-	* [Apache HTTP no OpenBSD](OpenBSDServers/HTTP)
+	* [Apache HTTP no OpenBSD](OpenBSDServers/HTTP.md)
 * FTP(_File Transference Protocol_)
-	* [FTP no OpenBSD](OpenBSDServers/FTP)
+	* [FTP no OpenBSD](OpenBSDServers/FTP.md)
 * DNS (_Domain Name System_)
-	* [BIND no OpenBSD](DNS/DNS)
+	* [BIND no OpenBSD](DNS/DNS.md)
 * QoS (_Quality of Service_)
-	* [QoS no OpenBSD](QoS/QoS)
+	* [QoS no OpenBSD](QoS/QoS.md)
 		
 # Cibersegurança
-* [PenTesting](penTest/pentest)
+* [PenTesting](penTest/pentest.md)
 
 -----------------------
 
