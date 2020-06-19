@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/css/main.css">
   
   <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>CyberInfra | Operating Systems, Computer Network, CyberSecurity…</title>
+<title>CyberInfra | Operating Systems, Computer Networks, CyberSecurity…</title>
 <meta name="generator" content="Jekyll v4.1.0" />
 <meta property="og:title" content="CyberInfra" />
 <meta name="author" content="Luiz Arthur Feitosa dos Santos" />
@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://localhost:8000/docs/OpenBSDServers/HTTP" />
 <meta property="og:site_name" content="CyberInfra" />
 <script type="application/ld+json">
-{"headline":"CyberInfra","description":"OpenBSD - Servidor Apache HTTP","url":"http://localhost:8000/docs/OpenBSDServers/HTTP","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
+{"description":"OpenBSD - Servidor Apache HTTP","url":"http://localhost:8000/docs/OpenBSDServers/HTTP","@type":"WebPage","headline":"CyberInfra","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -34,7 +34,7 @@
     
     <h1>1uiz4rthur@CyberInfra:~#</h1>
     </a>
-    <h3>Operating Systems, Computer Network, CyberSecurity...</h3>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
     <div class="header-links">
       <a href="/docs"><h2 class="header-link">Documents</h2></a>
 <a href="/archive"><h2 class="header-link">Archive</h2></a>
@@ -77,18 +77,8 @@ sthttpd-2.26.4p4
 
 <p>Instalar:</p>
 
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">dacom#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> httpd
-<span class="go">apache-httpd-2.4.41
-bozohttpd-20190228
-darkhttpd-1.12
-libmicrohttpd-0.9.66
-lighttpd-1.4.54
-lighttpd-1.4.54-ldap
-lighttpd-1.4.54-ldap-mysql
-lighttpd-1.4.54-mysql
-p5-HTTPD-Log-Filter-1.08p2
-sthttpd-2.26.4p4
-</span></code></pre></div></div>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">dacom#</span><span class="w"> </span>pkg_add apache-httpd-2.4.41
+</code></pre></div></div>
 
 <h2 id="verificando-o-status-do-serviço">Verificando o status do serviço:</h2>
 
@@ -451,12 +441,13 @@ Redirect permanent / https://dacom.utfpr.cm/
    <footer>
   <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
     <span>
-        <b>1uiz4rthur</b>
+        <b>Luiz Arthur Feitosa dos Santos</b>
     </span>
     
     <span>© 2020</span>
   </a>
 </footer>
+
 
   
 </body>

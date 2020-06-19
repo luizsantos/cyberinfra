@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CyberInfra</title>
-    <description>Operating Systems, Computer Network, CyberSecurity...</description>
+    <description>Operating Systems, Computer Networks, CyberSecurity...</description>
     <link>http://localhost:8000</link>
     <atom:link href="http://localhost:8000/feed.xml" rel="self" type="application/rss+xml" />
     <author>

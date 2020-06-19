@@ -30,8 +30,3 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 # Cibersegurança
 * [PenTesting](penTest/pentest.md)
 
------------------------
-
->Autor: **Prof. Dr. Luiz Arthur Feitosa dos Santos**  
->**UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão**  
->E-mail: **<luizsantos@utfpr.edu.br>**  / **<luiz.arthur.feitosa.santos@gmail.com>**  
