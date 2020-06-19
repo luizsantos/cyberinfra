@@ -13,11 +13,11 @@ DNS - Domain Name System
 * DNS (_Domain Name System_)
 	* Teoria
 	* Prática
-		* [BIND no OpenBSD](DNS/DNS.md)
+		* BIND no OpenBSD - [HTML](docs/DNS/DNS.html)/[MD](docs/DNS/DNS.md)
 * QoS (_Quality of Service_)
 	* Teoria
 	* Prática
-		* [QoS no OpenBSD](QoS/QoS.md)
+		* QoS no OpenBSD - [HTML](docs/QoS/QoS.html)/[MD](docs/QoS/QoS.md)
 
 # Cibersegurança
 

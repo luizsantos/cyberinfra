@@ -19,13 +19,13 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 # Redes de Computadores
 * HTTP(_ HyperText Transfer Protocol_)
-	* [Apache HTTP no OpenBSD](OpenBSDServers/HTTP.html)
+	* Apache HTTP no OpenBSD - [HTML](OpenBSDServers/HTTP.html)/[MD](OpenBSDServers/HTTP.md)
 * FTP(_File Transference Protocol_)
-	* [FTP no OpenBSD](OpenBSDServers/FTP.html)
+	* FTP no OpenBSD - [HTML](OpenBSDServers/FTP.html)/[MD](OpenBSDServers/FTP.md)
 * DNS (_Domain Name System_)
-	* [BIND no OpenBSD](DNS/DNS.html)
+	* BIND no OpenBSD - [HTML](DNS/DNS.html)/[MD](DNS/DNS.md)
 * QoS (_Quality of Service_)
-	* [QoS no OpenBSD](QoS/QoS.html)
+	* QoS no OpenBSD - [HTML](QoS/QoS.html)/[MD](QoS/QoS.md)
 		
 # Cibersegurança
 * [PenTesting](penTest/pentest.html)
