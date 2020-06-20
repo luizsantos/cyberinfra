@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://localhost:8000/docs/QoS/QoS" />
 <meta property="og:site_name" content="CyberInfra" />
 <script type="application/ld+json">
-{"description":"QoS - Quality of Service","url":"http://localhost:8000/docs/QoS/QoS","@type":"WebPage","headline":"CyberInfra","author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"@context":"https://schema.org"}</script>
+{"headline":"CyberInfra","description":"QoS - Quality of Service","url":"http://localhost:8000/docs/QoS/QoS","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -286,31 +286,34 @@ xterm -e "wget http://192.168.56.111:8080/100.txt &amp;&amp; read" &amp;
     <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>sh testeQoS.sh
 </code></pre></div>    </div>
   </li>
-  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8080/100.txt</code>:
-```console
-–2020-01-03 23:51:11–  http://192.168.56.111:8080/100.txt
-Conectando-se a 192.168.56.111:8080… conectado.
-A requisição HTTP foi enviada, aguardando resposta… 200 OK
-Tamanho: 104857600 (100M) [text/plain]
-Salvando em: “100.txt.17.1”</li>
+  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8080/100.txt</code>:</li>
 </ul>
 
-<p>100.txt.17.1        100%[===================&gt;] 100,00M  2,80MB/s    em 39s</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">--2020-01-03 23:51:11--  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.17.1”
 
-<p>2020-01-03 23:51:50 (2,58 MB/s) - “100.txt.17.1” salvo [104857600/104857600</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-* ``wget http://192.168.56.111:80/100.txt``:
-```console
-20-01-03 23:51:11--  http://192.168.56.111/100.txt
+</span><span class="gp">100.txt.17.1        100%[===================&gt;</span><span class="o">]</span> 100,00M  2,80MB/s    em 39s     
+<span class="go">
+2020-01-03 23:51:50 (2,58 MB/s) - “100.txt.17.1” salvo [104857600/104857600
+</span></code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:80/100.txt</code>:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">20-01-03 23:51:11--  http://192.168.56.111/100.txt
 Conectando-se a 192.168.56.111:80... conectado.
 A requisição HTTP foi enviada, aguardando resposta... 200 OK
 Tamanho: 104857600 (100M) [text/plain]
 Salvando em: “100.txt.16”
 
-100.txt.16          100%[===================&gt;] 100,00M  1,14MB/s    em 89s     
-
+</span><span class="gp">100.txt.16          100%[===================&gt;</span><span class="o">]</span> 100,00M  1,14MB/s    em 89s     
+<span class="go">
 2020-01-03 23:52:40 (1,12 MB/s) - “100.txt.16” salvo [104857600/104857600
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8081/100.txt</code></li>
@@ -352,31 +355,34 @@ pass in on em1 proto tcp from any to any port 8081 set queue fila1M
 <p>Neste caso em um teste as filas compartilham a largura de banda, caso uma das filas estejam ociosas. Exemplo, ao se executar dois <code class="language-plaintext highlighter-rouge">wget</code> simultâneos, um na porta TCP/8080 e outro na porta TCP/8081, quando o <code class="language-plaintext highlighter-rouge">wget</code> da porta TCP/8080 terminar o da porta TCP/8081 pegará toda a largura de banda para sí. Veja os comandos e gráfico a seguir:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8080:
-```console
-–2020-01-04 01:02:09–  http://192.168.56.111:8080/100.txt
-Conectando-se a 192.168.56.111:8080… conectado.
-A requisição HTTP foi enviada, aguardando resposta… 200 OK
-Tamanho: 104857600 (100M) [text/plain]
-Salvando em: “100.txt”</li>
+  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8080:</li>
 </ul>
 
-<p>100.txt             100%[===================&gt;] 100,00M  3,87MB/s    em 27s</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">--2020-01-04 01:02:09--  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt”
 
-<p>2020-01-04 01:02:37 (3,68 MB/s) - “100.txt” salvo [104857600/104857600]</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-* ``wget`` da porta 8081:
-```console
---2020-01-04 01:02:09--  http://192.168.56.111:8081/100.txt
+</span><span class="gp">100.txt             100%[===================&gt;</span><span class="o">]</span> 100,00M  3,87MB/s    em 27s     
+<span class="go">
+2020-01-04 01:02:37 (3,68 MB/s) - “100.txt” salvo [104857600/104857600]
+</span></code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wget</code> da porta 8081:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">--2020-01-04 01:02:09--  http://192.168.56.111:8081/100.txt
 Conectando-se a 192.168.56.111:8081... conectado.
 A requisição HTTP foi enviada, aguardando resposta... 200 OK
 Tamanho: 104857600 (100M) [text/plain]
 Salvando em: “100.txt.1”
 
-100.txt.1           100%[===================&gt;] 100,00M  3,08MB/s    em 54s     
-
+</span><span class="gp">100.txt.1           100%[===================&gt;</span><span class="o">]</span> 100,00M  3,08MB/s    em 54s     
+<span class="go">
 2020-01-04 01:03:03 (1,86 MB/s) - “100.txt.1” salvo [104857600/104857600]
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <p>Ao final esses comandos produzem os seguintes fluxos de rede:</p>
 
@@ -400,31 +406,34 @@ pass in on em1 proto tcp from any to any port 8081 set queue fila5M
 <p>Vamos testar com apenas dois fluxos TCP/8080 e TCP/8081:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8080:
-```console
-–2020-01-04 01:09:53–  http://192.168.56.111:8080/100.txt
-Conectando-se a 192.168.56.111:8080… conectado.
-A requisição HTTP foi enviada, aguardando resposta… 200 OK
-Tamanho: 104857600 (100M) [text/plain]
-Salvando em: “100.txt.3”</li>
+  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8080:</li>
 </ul>
 
-<p>100.txt.3           100%[===================&gt;] 100,00M  3,92MB/s    em 29s</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">--2020-01-04 01:09:53--  http://192.168.56.111:8080/100.txt
+Conectando-se a 192.168.56.111:8080... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.3”
 
-<p>2020-01-04 01:10:22 (3,43 MB/s) - “100.txt.3” salvo [104857600/104857600]</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-* ``wget`` da port 8081:
-```console
---2020-01-04 01:09:53--  http://192.168.56.111:8081/100.txt
+</span><span class="gp">100.txt.3           100%[===================&gt;</span><span class="o">]</span> 100,00M  3,92MB/s    em 29s     
+<span class="go">
+2020-01-04 01:10:22 (3,43 MB/s) - “100.txt.3” salvo [104857600/104857600]
+</span></code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">wget</code> da port 8081:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">--2020-01-04 01:09:53--  http://192.168.56.111:8081/100.txt
 Conectando-se a 192.168.56.111:8081... conectado.
 A requisição HTTP foi enviada, aguardando resposta... 200 OK
 Tamanho: 104857600 (100M) [text/plain]
 Salvando em: “100.txt.2”
 
-100.txt.2           100%[===================&gt;] 100,00M  3,32MB/s    em 43s     
-
+</span><span class="gp">100.txt.2           100%[===================&gt;</span><span class="o">]</span> 100,00M  3,32MB/s    em 43s     
+<span class="go">
 2020-01-04 01:10:35 (2,33 MB/s) - “100.txt.2” salvo [104857600/104857600]
-</code></pre></div></div>
+</span></code></pre></div></div>
 <p>Tais comandos produzem os seguintes fluxos de rede:</p>
 
 <p><img src="imagens/comControleSemLimitesBurst.png" alt="comControleSemLimitesBurst" /></p>

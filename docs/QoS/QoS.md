@@ -242,6 +242,7 @@ $ sh testeQoS.sh
 ```
 
 * ``wget http://192.168.56.111:8080/100.txt``:
+
 ```console
 --2020-01-03 23:51:11--  http://192.168.56.111:8080/100.txt
 Conectando-se a 192.168.56.111:8080... conectado.
@@ -255,6 +256,7 @@ Salvando em: “100.txt.17.1”
 ```
 
 * ``wget http://192.168.56.111:80/100.txt``:
+
 ```console
 20-01-03 23:51:11--  http://192.168.56.111/100.txt
 Conectando-se a 192.168.56.111:80... conectado.
@@ -307,6 +309,7 @@ Neste arquivo novo a ``fila0`` tem uma largura de banda de 50M e há apenas duas
 Neste caso em um teste as filas compartilham a largura de banda, caso uma das filas estejam ociosas. Exemplo, ao se executar dois ``wget`` simultâneos, um na porta TCP/8080 e outro na porta TCP/8081, quando o ``wget`` da porta TCP/8080 terminar o da porta TCP/8081 pegará toda a largura de banda para sí. Veja os comandos e gráfico a seguir:
 
 * ``wget`` da port 8080:
+
 ```console
 --2020-01-04 01:02:09--  http://192.168.56.111:8080/100.txt
 Conectando-se a 192.168.56.111:8080... conectado.
@@ -320,6 +323,7 @@ Salvando em: “100.txt”
 ```
 
 * ``wget`` da porta 8081:
+
 ```console
 --2020-01-04 01:02:09--  http://192.168.56.111:8081/100.txt
 Conectando-se a 192.168.56.111:8081... conectado.
@@ -356,6 +360,7 @@ O arquivo é o mesmo do exemplo anterior, só foi acrescido o ``busrt``. Neste c
 Vamos testar com apenas dois fluxos TCP/8080 e TCP/8081:
 
 * ``wget`` da port 8080:
+
 ```console
 --2020-01-04 01:09:53--  http://192.168.56.111:8080/100.txt
 Conectando-se a 192.168.56.111:8080... conectado.
@@ -369,6 +374,7 @@ Salvando em: “100.txt.3”
 ```
 
 * ``wget`` da port 8081:
+
 ```console
 --2020-01-04 01:09:53--  http://192.168.56.111:8081/100.txt
 Conectando-se a 192.168.56.111:8081... conectado.
