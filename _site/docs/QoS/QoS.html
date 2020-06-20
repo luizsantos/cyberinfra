@@ -313,39 +313,39 @@ Salvando em: “100.txt.16”
 </code></pre></div></div>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8081/100.txt</code>
-```console
-–2020-01-03 23:51:11–  http://192.168.56.111:8081/100.txt
-Conectando-se a 192.168.56.111:8081… conectado.
-A requisição HTTP foi enviada, aguardando resposta… 200 OK
-Tamanho: 104857600 (100M) [text/plain]
-Salvando em: “100.txt.17”</li>
+  <li><code class="language-plaintext highlighter-rouge">wget http://192.168.56.111:8081/100.txt</code></li>
 </ul>
 
-<p>100.txt.17          100%[===================&gt;] 100,00M   583KB/s    em 2m 56s</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">--2020-01-03 23:51:11--  http://192.168.56.111:8081/100.txt
+Conectando-se a 192.168.56.111:8081... conectado.
+A requisição HTTP foi enviada, aguardando resposta... 200 OK
+Tamanho: 104857600 (100M) [text/plain]
+Salvando em: “100.txt.17”
 
-<p>2020-01-03 23:54:07 (581 KB/s) - “100.txt.17” salvo [104857600/104857600</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-Analisando as saídas, observa-se que o fluxo TCP/8080 terminou primeiro, com 39 segundos e 2,58MB/s. Em segundo lugar o fluxo TCP/80, com 89 segundos e 1,12 MB/s. Por último, o fluxo TCP/8081, com 2 minutos e 56 segundos, e uma taxa de transferência de dados de apenas 581KB/s. O que é coerente já que respectivamente foram atribuídos as filas com 30Mb, 10Mb e 5Mb. O gráfico a seguir ajuda a mostrar como foi ditado o controle de banda para cada um dos fluxos:
+</span><span class="gp">100.txt.17          100%[===================&gt;</span><span class="o">]</span> 100,00M   583KB/s    em 2m 56s  
+<span class="go">
+2020-01-03 23:54:07 (581 KB/s) - “100.txt.17” salvo [104857600/104857600
+</span></code></pre></div></div>
 
-![comControleLimitesRegras](imagens/comControleLimitesRegras.png)
+<p>Analisando as saídas, observa-se que o fluxo TCP/8080 terminou primeiro, com 39 segundos e 2,58MB/s. Em segundo lugar o fluxo TCP/80, com 89 segundos e 1,12 MB/s. Por último, o fluxo TCP/8081, com 2 minutos e 56 segundos, e uma taxa de transferência de dados de apenas 581KB/s. O que é coerente já que respectivamente foram atribuídos as filas com 30Mb, 10Mb e 5Mb. O gráfico a seguir ajuda a mostrar como foi ditado o controle de banda para cada um dos fluxos:</p>
 
-Utilizando o esquema anterior, é possível, por exemplo, atribuir uma largura de banda mínima para serviços indesejados na rede, tal como torrent (que neste caso foi representado pelo fluxo TCP/8081). Já fluxos que necessitam de velocidade também seriam identificados, como por exemplo o TCP/8080 e TCP/22 (SSH), do nosso exemplo. Já o restante seguiria utilizando uma largura de banda moderada (no exemplo foi o fluxo HTTP, na porta TCP/80).
+<p><img src="imagens/comControleLimitesRegras.png" alt="comControleLimitesRegras" /></p>
 
-#### Teste 5 - Compartilhando a largura de banda - sem usar limite
+<p>Utilizando o esquema anterior, é possível, por exemplo, atribuir uma largura de banda mínima para serviços indesejados na rede, tal como torrent (que neste caso foi representado pelo fluxo TCP/8081). Já fluxos que necessitam de velocidade também seriam identificados, como por exemplo o TCP/8080 e TCP/22 (SSH), do nosso exemplo. Já o restante seguiria utilizando uma largura de banda moderada (no exemplo foi o fluxo HTTP, na porta TCP/80).</p>
 
-Nos teste anteriores foi utilizado limite mínimo (``min``) e máximo (``max``). Bem, isso não é obrigatório, caso não se use o limite as filas emprestam largura de banda das filas ociosas e na prática isso normalmente é mais interessante.
+<h4 id="teste-5---compartilhando-a-largura-de-banda---sem-usar-limite">Teste 5 - Compartilhando a largura de banda - sem usar limite</h4>
 
-Vamos apresentar aqui um exemplo mais simples de filas, veja o arquivo a seguir:
+<p>Nos teste anteriores foi utilizado limite mínimo (<code class="language-plaintext highlighter-rouge">min</code>) e máximo (<code class="language-plaintext highlighter-rouge">max</code>). Bem, isso não é obrigatório, caso não se use o limite as filas emprestam largura de banda das filas ociosas e na prática isso normalmente é mais interessante.</p>
 
-```console
-openbsd# cat /etc/pf-qos2.conf
-queue fila0 on em1  bandwidth 50M max 50M
+<p>Vamos apresentar aqui um exemplo mais simples de filas, veja o arquivo a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">openbsd#</span><span class="w"> </span><span class="nb">cat</span> /etc/pf-qos2.conf
+<span class="go">queue fila0 on em1  bandwidth 50M max 50M
 queue fila1M parent fila0 bandwidth 1M
 queue fila49M parent fila0 bandwidth 49M default
 
 pass in on em1 proto tcp from any to any port 8081 set queue fila1M
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <p>Neste arquivo novo a <code class="language-plaintext highlighter-rouge">fila0</code> tem uma largura de banda de 50M e há apenas duas filas filhas com 1Mb e 49Mb. Também só há uma regra que atribui fluxo TCP/8081 a fila de 1Mb, os demais fluxos vão para a fila de 49M.</p>
 

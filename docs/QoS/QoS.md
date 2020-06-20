@@ -268,6 +268,7 @@ Salvando em: “100.txt.16”
 ```
 
 * ``wget http://192.168.56.111:8081/100.txt``
+
 ```console
 --2020-01-03 23:51:11--  http://192.168.56.111:8081/100.txt
 Conectando-se a 192.168.56.111:8081... conectado.
