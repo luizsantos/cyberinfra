@@ -6,7 +6,7 @@
     <link>http://localhost:8000</link>
     <atom:link href="http://localhost:8000/feed.xml" rel="self" type="application/rss+xml" />
     <author>
-      <name>Luiz Arthur Feitosa dos Santos</name>
+      <name>Luiz Arthur F. Santos</name>
       <email>luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com</email>
       <uri></uri>
     </author>
