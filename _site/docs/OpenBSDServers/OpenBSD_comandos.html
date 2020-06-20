@@ -58,11 +58,17 @@ E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br
 
 <h2 id="introdução">Introdução</h2>
 
+<p>O Sistema Operacional <a href="https://www.openbsd.org/">OpenBSD</a> é considerado um dos sistemas operacionais mais seguros do mundo, por isso sempre é uma ótima escolha para servidores e principalmente <em>firewalls</em>.</p>
+
+<p>Aqui são apresentados comandos úteis para a utilização do OpenBSD, para a instalação/configuração de alguns servidores de rede.</p>
+
 <h2 id="instalação-de-pacotes-no-openbsd">Instalação de pacotes no OpenBSD</h2>
 
-<p>###Procurar por pacotes</p>
+<p>Normalmente a instalação de pacotes consiste basicamente em procurar o pacote para ser instalado e depois instalá-lo. Bem, no OpenBSD é possível instalar através do seu gerenciador de pacotes <code class="language-plaintext highlighter-rouge">pkg_add</code>, compilando pacotes, dentre outros métodos. Aqui vamos nos concentrar no gerenciador de pacotes.</p>
 
-<p>No OpenBSD, para procurar pacotes para serem instalados, é possível utilizar o comando <code class="language-plaintext highlighter-rouge">pkg_add -Q</code>, seguido do termo a ser pesquisado. Exemplo:</p>
+<h3 id="procurar-por-pacotes">Procurar por pacotes</h3>
+
+<p>Para procurar pacotes para serem instalados no OpenBSD, é possível utilizar o comando <code class="language-plaintext highlighter-rouge">pkg_add -Q</code>, seguido do termo/pacote que estamos procurando. Exemplo:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> httpd
 <span class="go">apache-httpd-2.4.41
@@ -78,9 +84,9 @@ sthttpd-2.26.4p4
 </span></code></pre></div></div>
 <p>Neste exemplo foram listados todos os pacotes que possuem o termo <code class="language-plaintext highlighter-rouge">http</code>.</p>
 
-<p>###Instalando pacotes</p>
+<h3 id="instalando-pacotes">Instalando pacotes</h3>
 
-<p>Para instalar pacotes basta utilizar o comando <code class="language-plaintext highlighter-rouge">pkg_add</code>, seguido do nome do pacote. Exemplo:</p>
+<p>Para instalar pacotes basta utilizar o comando <code class="language-plaintext highlighter-rouge">pkg_add</code>, seguido do nome do pacote - neste caso podemos usar o pacote encontrado <code class="language-plaintext highlighter-rouge">pkg_info -Q</code>. Exemplo:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_add apache-httpd-2.4.41
 <span class="go">quirks-3.183 signed on 2020-02-27T12:13:05Z
@@ -106,21 +112,21 @@ See rcctl(8) for details.
 
 <h3 id="erro-ssl-write">Erro SSL write</h3>
 
+<p>Esse erro apresenta a seguinte saída:</p>
+
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pkg_info <span class="nt">-Q</span> php                                                                                                          
 <span class="go">https://cdn.openbsd.org/pub/OpenBSD/6.6/packages-stable/amd64/: ftp: SSL write error: ocsp verify failed: ocsp response not current
 https://cdn.openbsd.org/pub/OpenBSD/6.6/packages/amd64/: ftp: SSL write error: ocsp verify failed: ocsp response not current
 https://cdn.openbsd.org/pub/OpenBSD/6.6/packages/amd64/: empty
 </span></code></pre></div></div>
 
-<p>Neste caso tem que reiniciar a máquina ou atualizar o data/hora.</p>
+<p>Neste caso a solução é:  (i) atualizar o data/hora do sistema ou (ii) reiniciar a máquina.</p>
 
 <h2 id="referências">Referências</h2>
 
 <ul>
-  <li></li>
-  <li></li>
+  <li><a href="https://www.openbsd.org/faq/faq15.html">https://www.openbsd.org/faq/faq15.html</a></li>
 </ul>
-
 
 </article>
       </section>

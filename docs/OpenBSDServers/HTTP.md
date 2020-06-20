@@ -11,6 +11,8 @@ OpenBSD - Servidor Apache HTTP
 
 ## Introdução
 
+O servidor [HTTP Apache](https://httpd.apache.org/) permite compartilhar páginas Web via HTTP, HTTPS, bem como trabalhar com módulos, tais como o PHP, dentre outros.
+
 ## Instalação
 
 Procurar o pacote:
@@ -29,7 +31,9 @@ p5-HTTPD-Log-Filter-1.08p2
 sthttpd-2.26.4p4
 ```
 
-Instalar:
+## Instalar:
+
+Para instalar o servidor HTTP Apache:
 
 ```console
 dacom# pkg_add apache-httpd-2.4.41
@@ -58,7 +62,7 @@ tcp6         0      0  localhost.smtp         *.*                    LISTEN
 # fstat | grep ':80'
 ```
 
-Bem, nestes dois casos o servidor Apache não está em execução, pois não há nenhuma porta relacionada com HTTP na saída do ``netstat`` e principalmente não há processos relacionados com a porta TCP/80 no ``fstat``.
+Bem, nestes dois casos o servidor Apache não está em execução, pois não há nenhuma porta relacionada com HTTP, na saída do ``netstat`` e principalmente não há processos relacionados com a porta TCP/80 no ``fstat``.
 
 ## Iniciando/Parando o servidor:
 

@@ -58,6 +58,8 @@ E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br
 
 <h2 id="introdução">Introdução</h2>
 
+<p>O servidor <a href="https://httpd.apache.org/">HTTP Apache</a> permite compartilhar páginas Web via HTTP, HTTPS, bem como trabalhar com módulos, tais como o PHP, dentre outros.</p>
+
 <h2 id="instalação">Instalação</h2>
 
 <p>Procurar o pacote:</p>
@@ -75,7 +77,9 @@ p5-HTTPD-Log-Filter-1.08p2
 sthttpd-2.26.4p4
 </span></code></pre></div></div>
 
-<p>Instalar:</p>
+<h2 id="instalar">Instalar:</h2>
+
+<p>Para instalar o servidor HTTP Apache:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">dacom#</span><span class="w"> </span>pkg_add apache-httpd-2.4.41
 </code></pre></div></div>
@@ -104,7 +108,7 @@ tcp6         0      0  localhost.smtp         *.*                    LISTEN
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>fstat | <span class="nb">grep</span> <span class="s1">':80'</span>
 </code></pre></div></div>
 
-<p>Bem, nestes dois casos o servidor Apache não está em execução, pois não há nenhuma porta relacionada com HTTP na saída do <code class="language-plaintext highlighter-rouge">netstat</code> e principalmente não há processos relacionados com a porta TCP/80 no <code class="language-plaintext highlighter-rouge">fstat</code>.</p>
+<p>Bem, nestes dois casos o servidor Apache não está em execução, pois não há nenhuma porta relacionada com HTTP, na saída do <code class="language-plaintext highlighter-rouge">netstat</code> e principalmente não há processos relacionados com a porta TCP/80 no <code class="language-plaintext highlighter-rouge">fstat</code>.</p>
 
 <h2 id="iniciandoparando-o-servidor">Iniciando/Parando o servidor:</h2>
 
