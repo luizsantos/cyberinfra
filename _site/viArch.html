@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Viarch</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Viarch | CyberInfra</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Viarch" />
+<meta name="author" content="Luiz Arthur F. Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Configurando as setas do teclado do vi no Arch Linux" />
+<meta property="og:description" content="Configurando as setas do teclado do vi no Arch Linux" />
+<link rel="canonical" href="http://localhost:8000/viArch" />
+<meta property="og:url" content="http://localhost:8000/viArch" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-21T00:00:00-03:00" />
+<script type="application/ld+json">
+{"description":"Configurando as setas do teclado do vi no Arch Linux","url":"http://localhost:8000/viArch","@type":"BlogPosting","headline":"Viarch","dateModified":"2020-07-21T00:00:00-03:00","datePublished":"2020-07-21T00:00:00-03:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8000/viArch"},"author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2>Viarch</h2>
+  <time datetime="2020-07-21T00:00:00-03:00" class="by-line">21 Jul 2020</time>
+  <h1 id="configurando-as-setas-do-teclado-do-vi-no-arch-linux">Configurando as setas do teclado do vi no Arch Linux</h1>
+
+<p>Depois de instalar o Arch Linux, percebi que no editor de textos <code class="language-plaintext highlighter-rouge">vi</code>, no modo <strong>INSERT</strong>, quando eu apertava as setas de navegação apareciam letras (ABC) ao invés de propriamente navegar no texto.</p>
+
+<p>Bem, eu já havia visto o mesmo no Ubuntu Linux, sendo que lá eu resolvi da seguinte forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">cp /usr/share/vim/vim82/vimrc_example.vim ~/.vimrc
+</span></code></pre></div></div>
+
+<p>Mas isso não resolveu no caso do meu Arch Linux, outra sugestão foi adicionar a seguinte linha no arquivo <code class="language-plaintext highlighter-rouge">~.exrc</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">set nocompatible
+</span></code></pre></div></div>
+
+<p>Todavia, isso também não resolveu no meu caso!</p>
+
+<h2 id="solução">Solução</h2>
+
+<p>Então, a solução foi instalar os seguintes pacotes:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>pacman <span class="nt">-S</span> rxvt-unicode
+<span class="gp">#</span><span class="w"> </span>pacman <span class="nt">-S</span> rxvt-unicode-terminfo
+</code></pre></div></div>
+
+<p>Depois adicionar a seguinte linha no arquivo <code class="language-plaintext highlighter-rouge">/etc/bash.bashrc</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">alias vi='TERM=rxvt-unicode-256color vi'
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>O passo anterior é para a alteração valer para todo o sistema, mas dá para fazer usuário por usuário, adicionando a linha anterior no arquivo <code class="language-plaintext highlighter-rouge">~/.bashrc</code>.</p>
+</blockquote>
+
+<p>Após isso reinicie o terminal texto (<code class="language-plaintext highlighter-rouge">bash</code>) e as setas do <code class="language-plaintext highlighter-rouge">vi</code> devem começar a funcionar corretamente, sem aparecer as benditas letras ao invés da navegação.</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur F. Santos</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+
+  
+</body>
+
+</html>

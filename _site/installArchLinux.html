@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Installarchlinux</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Installarchlinux | CyberInfra</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Installarchlinux" />
+<meta name="author" content="Luiz Arthur F. Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Trocando de Distro Linux" />
+<meta property="og:description" content="Trocando de Distro Linux" />
+<link rel="canonical" href="http://localhost:8000/installArchLinux" />
+<meta property="og:url" content="http://localhost:8000/installArchLinux" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-16T00:00:00-03:00" />
+<script type="application/ld+json">
+{"description":"Trocando de Distro Linux","url":"http://localhost:8000/installArchLinux","@type":"BlogPosting","headline":"Installarchlinux","dateModified":"2020-07-16T00:00:00-03:00","datePublished":"2020-07-16T00:00:00-03:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8000/installArchLinux"},"author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2>Installarchlinux</h2>
+  <time datetime="2020-07-16T00:00:00-03:00" class="by-line">16 Jul 2020</time>
+  <h1 id="trocando-de-distro-linux">Trocando de Distro Linux</h1>
+
+<p>Bem, a mais de uma década eu utilizo o <a href="http://www.slackware.com/">Slackware Linux</a>, pois é um Linux muito estável. Todavia, já tem algum tempo que o Slackware vem deixando a desejar nas atualizações. Assim, decidi mudar um pouco de distribuição em minhas máquinas pessoais.</p>
+
+<p>Depois de algumas pesquisas, comecei a utilizar o <a href="ttps://manjaro.org/">Manjaro Linux</a> no meu <em>notebook</em>. Contudo, o Manjaro ficou muito pesado no meu <em>netbook</em>. Assim, decidi utilizar o <a href="https://www.archlinux.org/">Arch Linux</a> no <em>netbook</em>, que é a base do Manjado.</p>
+
+<p>O Arch Linux, tal como o Slackware, é um Linux muito estável, mas não é muito “amigável” com iniciantes. Ao meu ver, a grande vantagem do Arch sobre o Slackware, é o seu gerenciador de pacotes (<code class="language-plaintext highlighter-rouge">pacman</code>) e sua grande comunidade, que gera uma ótima documentação.</p>
+
+<p>Então, vou deixar aqui os passos para a instalação do Arch Linux em um <em>netbook</em> Asus EeePC 1201PN (processador Aton+NVidia ION).</p>
+
+<h1 id="preparação">Preparação</h1>
+
+<p>Inicie baixando o Arch Linux x86_64. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">wget http://archlinux.pop-es.rnp.br/iso/2020.07.01/archlinux-2020.07.01-x86_64.iso
+</span></code></pre></div></div>
+
+<p>Copie o arquivo para um <em>pendrive</em>. Bem, eu não usei o <code class="language-plaintext highlighter-rouge">dd</code>, fiz um <code class="language-plaintext highlighter-rouge">cp</code> direto, isso tem funcionado bem.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">cp archlinux-2020.07.01-x86_64.iso /dev/sdX
+</span></code></pre></div></div>
+
+<p>No comando anterior, você deve trocar <code class="language-plaintext highlighter-rouge">sdX</code>, pelo nome do dispositivo relacionado com o seu <em>pendrive</em>. Uma forma de verificar isso é usando o comando <code class="language-plaintext highlighter-rouge">lsblk</code>.</p>
+
+<p>Terminando a cópia é só dar <em>boot</em> pelo <em>pendrive</em>/USB.</p>
+
+<h1 id="instalação">Instalação</h1>
+
+<p>Agora são apresentados os passos de instalação e algumas configurações:</p>
+
+<h2 id="configuração-do-teclado">Configuração do teclado:</h2>
+
+<p>Dá para iniciar configurando o teclado, mas como o EeePC tem o teclado inglês, isso não é tão necessário.</p>
+
+<h2 id="configuração-da-rede">Configuração da rede</h2>
+
+<p>No meu caso eu usei cabo de rede e quando dei <em>boot</em> o DHCP já atribuiu um IP. Caso isso não aconteça, é possível utilizar o <code class="language-plaintext highlighter-rouge">wifi-menu</code>, no caso de utilizar a rede sem fio, ou colocar o cabo e digitar <code class="language-plaintext highlighter-rouge">dhcpcd</code>.</p>
+
+<h2 id="particionando-discos">Particionando disco(s)</h2>
+
+<p>O próximo passo é particionar o HD/SSD, no meu caso utilizei o <code class="language-plaintext highlighter-rouge">cfdisk</code>, e criei pelo menos três partições:</p>
+
+<ol>
+  <li>3GiB, para o <code class="language-plaintext highlighter-rouge">/</code>;</li>
+  <li>20GiB, para o <code class="language-plaintext highlighter-rouge">/usr</code>;</li>
+  <li>7GiB, para o <code class="language-plaintext highlighter-rouge">/home</code>;</li>
+  <li>5GiB, para o <code class="language-plaintext highlighter-rouge">/var</code>;</li>
+  <li>
+    <p>8GiB, para o <code class="language-plaintext highlighter-rouge">/opt</code>.</p>
+
+    <blockquote>
+      <p>Tenho o costume de deixar o HD, com uma partição para cada diretório importante - coisas de segurança. Mas, para uso pessoal, isso não é necessário.</p>
+    </blockquote>
+
+    <blockquote>
+      <p><strong>Atenção</strong>, particonar o seu HD irá fazer com que você perca todos os dados das partições em questão, então muito cuidado.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="formatando-as-partições">Formatando as partições</h2>
+
+<p>Depois de particionar é necessário formatar, exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">mkfs.ext4 -L boot /dev/sda3
+mkfs.ext4 /dev/sda5
+mkfs.ext4 /dev/sda6
+mkfs.ext4 /dev/sda8
+mkfs.ext4 /dev/sda9
+</span></code></pre></div></div>
+<blockquote>
+  <p><strong>Atenção</strong>, todos os dados nas partições formatadas serão perdidos.</p>
+</blockquote>
+
+<h2 id="adicionando-a-swap">Adicionando a <em>swap</em></h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">mkswap -L swap /dev/sda2
+mkswapon /dev/sda2
+</span></code></pre></div></div>
+
+<h2 id="montando-as-partições-para-a-instalação">Montando as partições para a instalação:</h2>
+
+<p>Primeiro temos que montar a partição principal:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">mount /dev/sda3
+</span></code></pre></div></div>
+
+<p>Depois é necessário criar diretórios e montar as outras partições, caso você tenha criado várias partições:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">mkdir /mnt/usr &amp;&amp; mount /dev/sda5 /mnt/usr
+mkdir /mnt/home &amp;&amp; mount /dev/sda6 /mnt/home
+mkdir /mnt/var &amp;&amp; mount /dev/sda8 /mnt/var
+mkdir /mnt/opt &amp;&amp; mount /dev/sda9 /mnt/opt
+</span></code></pre></div></div>
+
+<h2 id="instalando-o-sistema-base">Instalando o sistema base</h2>
+
+<p>Agora vem a parte de copiar os arquivos base para o sistema funcionar. Eu aproveitei e já instalei editor de texto e o cliente DHCP, para facilitar o processo.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">pactrap /mnt base base-devel linux linux-firmware vi vim sudo man-db dhcpcd
+</span></code></pre></div></div>
+
+<h2 id="gerando-o-fstab">Gerando o <code class="language-plaintext highlighter-rouge">fstab</code></h2>
+
+<p>Com os arquivos de sistema prontos, podemos criar o arquivo que relaciona as partições criadas com os seus respectivos diretórios:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">genfstab -p /mnt &gt;</span><span class="o">&gt;</span> /mnt/etc/fstab
+</code></pre></div></div>
+
+<p>Bem, eu ainda editei e deixei o arquivo deixando o conteúdo da seguinte forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">/dev/sda3               /               ext4            defaults        0 1
+/dev/sda6               /home           ext4            rw,relatime     0 2
+/dev/sda5               /usr            ext4            defaults        0 2
+/dev/sda8               /var            ext4            rw,relatime     0 2
+/dev/sda9               /opt            ext4            rw,relatime     0 2
+/dev/sda2               none            swap            defaults        0 0
+</span></code></pre></div></div>
+
+<h2 id="preparando-o-sistema-de-arquivos-novo">Preparando o sistema de arquivos novo</h2>
+
+<p>Com os passos anteriores terminados, agora é possível acessar o sistema novo, via <code class="language-plaintext highlighter-rouge">chroot</code>, isso ajuda a terminar as configurações.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">arch-chroot /mnt
+</span></code></pre></div></div>
+
+<h2 id="configurando-alguns-detalhes">Configurando alguns detalhes</h2>
+
+<p>Já em ambiente <code class="language-plaintext highlighter-rouge">chroot</code>, vamos fazer algumas configurações básicas:</p>
+
+<h3 id="criando-chaves-para-verificação-de-pacotes">Criando chaves para verificação de pacotes</h3>
+
+<p>Criando as chaves para verificar/manter a integridade dos pacotes instalados:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">pacman-key --init
+pacman-key populate archlinux
+</span></code></pre></div></div>
+
+<h3 id="configurando-os-acentos">Configurando os acentos:</h3>
+
+<p>Como português precisa de acentos, é bom configurar a linguagem:</p>
+
+<p>Edite o arquivo <code class="language-plaintext highlighter-rouge">/etc/locale.gen</code>, deixando com o seguinte conteúdo (pode apenas comentar o que tiver e descomentar essa linha):</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">pt_BR.UTF-8 UTF-8
+</span></code></pre></div></div>
+
+<p>Edite o arquivo <code class="language-plaintext highlighter-rouge">cat /etc/locale.conf</code> e deixe com o seguinte conteúdo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">LANG=pt_BR.UTF-8
+</span></code></pre></div></div>
+
+<p>Então execute:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">locale-gen
+</span></code></pre></div></div>
+
+<h3 id="configurando-datahora">Configurando data/hora</h3>
+
+<p>Para ajustar a hora/data do sistema crie o arquivo de fuso horário:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">ls -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+</span></code></pre></div></div>
+
+<p>Sincronize o relógio do computador com o do sistema:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">hwclock --systohc
+</span></code></pre></div></div>
+
+<h3 id="dando-nome-ao-sistemahost">Dando nome ao sistema/host</h3>
+
+<p>É bom dar um nome para a máquina, então edite o arquivo <code class="language-plaintext highlighter-rouge">/etc/hostname</code>, colocando o nome do computador, no meu caso foi:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">fielAsus
+</span></code></pre></div></div>
+
+<p>Edite também o arquivo <code class="language-plaintext highlighter-rouge">/etc/hosts</code>, deixando ele mais ou menos assim - troque o último campo pelo nome do seu computador:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">127.0.0.1       localhost
+::1             localhost
+127.0.0.1       fielAsus
+</span></code></pre></div></div>
+
+<h2 id="criando-um-ramdisk-inicial">Criando um <em>ramdisk</em> inicial</h2>
+
+<p>É necessário criar um arquivo <em>ramdisk</em> inicial. Principalmente nesta instalação que utiliza o  <code class="language-plaintext highlighter-rouge">/usr</code> em uma partição diferente do <code class="language-plaintext highlighter-rouge">/</code> - é obrigatória uma configuração especial.</p>
+
+<blockquote>
+  <p>Atenção, sem essa configuração especial, por causa do <code class="language-plaintext highlighter-rouge">/usr</code> separado, o sistema não dá <em>boot</em>.</p>
+</blockquote>
+
+<p>Edite o arquivo <code class="language-plaintext highlighter-rouge">/etc/mkinitcpio.conf</code> e altere a linha a seguir incluindo os campos: <code class="language-plaintext highlighter-rouge">usr</code> e <code class="language-plaintext highlighter-rouge">shutdown</code> - o <code class="language-plaintext highlighter-rouge">fsck</code> também deve estar lá.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">HOOKS=(base udev autodetect modconf block filesystems keyboard fsck usr shutdown)
+</span></code></pre></div></div>
+
+<p>Depois execute o comando para criar o <em>ramdisk</em>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">mkinitcpio -p linux
+</span></code></pre></div></div>
+
+<h2 id="instalando-o-gerenciador-de-boot">Instalando o gerenciador de <em>boot</em></h2>
+
+<p>É recomendável ter um gerenciador de <em>boot</em>, então instale o <code class="language-plaintext highlighter-rouge">grub</code> no sistema:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">pacman -S grub
+</span></code></pre></div></div>
+
+<p>Agora instale o grub no HD/SSD:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">grub-install --target=i386-pc --recheck --debug /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+</span></code></pre></div></div>
+
+<h2 id="defina-senha-do-root">Defina senha do <em>root</em></h2>
+
+<p>Para finalizar a instalação básica, não esqueça de colocar uma senha para o usuário <em>root</em></p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">passwd
+</span></code></pre></div></div>
+
+<h2 id="reinicie-o-sistema">Reinicie o sistema</h2>
+
+<p>Pronto, o sistema está finalizado, agora é só sair do ambiente <code class="language-plaintext highlighter-rouge">chroot</code> (<code class="language-plaintext highlighter-rouge">exit</code>) e reiniciar o sistema:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">reboot
+</span></code></pre></div></div>
+
+<p>Depois disso ele deve dar <em>boot</em> pelo sistema novo, recém instalado! ;-)</p>
+
+<hr />
+
+<h1 id="instalando-driver-da-placa-de-vídeo-e-ambiente-gráfico">Instalando driver da placa de vídeo e ambiente gráfico</h1>
+
+<p>Aqui são apresentados os passos para a instalação e configuração do ambiente gráfico, caso a instalação seja para um servidor o ambiente gráfico não é necessário.</p>
+
+<h2 id="instalando-xorg">Instalando Xorg</h2>
+
+<p>Bem, inicie instalando o Xorg:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">pacman -S xorg-server xorg-xinit
+</span></code></pre></div></div>
+
+<h3 id="instalando-o-driver-da-placa-de-vídeo-ion-nvidia">Instalando o driver da placa de vídeo ION Nvidia</h3>
+
+<p>A placa ION, não está mais no repositório oficial do Arch, mas está no repositório da comunidade, uma boa forma de fazer uso desse repositório é com o comando <code class="language-plaintext highlighter-rouge">yay</code>, então vamos instalá-lo:</p>
+
+<blockquote>
+  <p>Isso deve ser feito com um usuário normal (não <em>root</em>), mas tal usuário deve ter permissão de executar o <code class="language-plaintext highlighter-rouge">sudo</code>.</p>
+</blockquote>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">sudo pacman -S git go base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay/
+makepkg -si
+yay -S nvidia-340xx
+yay -S nvidia-340xx
+yay -S nvidia-340xx-utils
+yay -S nvidia-340xx-settings
+</span></code></pre></div></div>
+
+<h3 id="instalando-o-gerenciador-de-janelas---xfce">Instalando o gerenciador de janelas - Xfce</h3>
+
+<p>Para o <em>netbook</em> não ficar muito pesado, instalamos o Xfce, o gerenciador de <em>login</em> gráfico <code class="language-plaintext highlighter-rouge">lightdm</code> e habilitamos o gerenciador de <em>login</em> no <em>boot</em>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter networkmanager network-manager-applet
+systemctl enable lightdm
+</span></code></pre></div></div>
+
+<h3 id="configurando-o-xorg-com-o-driver-da-placa-de-rede">Configurando o Xorg com o <em>driver</em> da placa de rede</h3>
+
+<p>O comando a seguir deve criar o arquivo do Xorg e fazer uma cópia de segurança do arquivo anterior:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">nvidia-xconfig 
+</span></code></pre></div></div>
+<h3 id="ativando-o-gerenciador-de-rede-gráfico">Ativando o gerenciador de rede gráfico</h3>
+
+<p>Para ficar com um ambiente mais amigável, vamos ativar o gerenciador de rede:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">systemctl enable NetworkManager
+</span></code></pre></div></div>
+
+<p>Pronto, com essa instalação ao iniciar o ambiente gráfico o <em>netbook</em> conseguirá reconhecer monitores e atribuir suas respectivas configurações.</p>
+
+<p>Agora, é só instalar os pacotes extras que você precisa usando o <code class="language-plaintext highlighter-rouge">pacman</code>.</p>
+
+<h1 id="referências">Referências</h1>
+
+<p>Segue:</p>
+
+<ul>
+  <li><a href="https://forum.archlinux-br.org/viewtopic.php?id=3624">https://forum.archlinux-br.org/viewtopic.php?id=3624</a>;</li>
+  <li><a href="https://serverfault.com/questions/723609/moving-usr-on-archlinux">https://serverfault.com/questions/723609/moving-usr-on-archlinux</a>;</li>
+  <li><a href="https://wiki.archlinux.org/index.php/Mkinitcpio#/usr_as_a_separate_partition">https://wiki.archlinux.org/index.php/Mkinitcpio#/usr_as_a_separate_partition</a>;</li>
+  <li><a href="https://linuxdicasesuporte.blogspot.com/2017/04/instalacao-do-xfce-no-arch-linux.html">https://linuxdicasesuporte.blogspot.com/2017/04/instalacao-do-xfce-no-arch-linux.html</a>.</li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong> / <strong><a href="mailto:luiz.arthur.feitosa.santos@gmail.com">luiz.arthur.feitosa.santos@gmail.com</a></strong></p>
+</blockquote>
+
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur F. Santos</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+
+  
+</body>
+
+</html>

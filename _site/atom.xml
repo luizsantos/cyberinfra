@@ -12,6 +12,373 @@
     </author>
     
       <item>
+        <title>Viarch</title>
+        <description>&lt;h1 id=&quot;configurando-as-setas-do-teclado-do-vi-no-arch-linux&quot;&gt;Configurando as setas do teclado do vi no Arch Linux&lt;/h1&gt;
+
+&lt;p&gt;Depois de instalar o Arch Linux, percebi que no editor de textos &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vi&lt;/code&gt;, no modo &lt;strong&gt;INSERT&lt;/strong&gt;, quando eu apertava as setas de navegação apareciam letras (ABC) ao invés de propriamente navegar no texto.&lt;/p&gt;
+
+&lt;p&gt;Bem, eu já havia visto o mesmo no Ubuntu Linux, sendo que lá eu resolvi da seguinte forma:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;cp /usr/share/vim/vim82/vimrc_example.vim ~/.vimrc
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Mas isso não resolveu no caso do meu Arch Linux, outra sugestão foi adicionar a seguinte linha no arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~.exrc&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;set nocompatible
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Todavia, isso também não resolveu no meu caso!&lt;/p&gt;
+
+&lt;h2 id=&quot;solução&quot;&gt;Solução&lt;/h2&gt;
+
+&lt;p&gt;Então, a solução foi instalar os seguintes pacotes:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;pacman &lt;span class=&quot;nt&quot;&gt;-S&lt;/span&gt; rxvt-unicode
+&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;pacman &lt;span class=&quot;nt&quot;&gt;-S&lt;/span&gt; rxvt-unicode-terminfo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Depois adicionar a seguinte linha no arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/bash.bashrc&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;alias vi='TERM=rxvt-unicode-256color vi'
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;O passo anterior é para a alteração valer para todo o sistema, mas dá para fazer usuário por usuário, adicionando a linha anterior no arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/.bashrc&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Após isso reinicie o terminal texto (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bash&lt;/code&gt;) e as setas do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vi&lt;/code&gt; devem começar a funcionar corretamente, sem aparecer as benditas letras ao invés da navegação.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 21 Jul 2020 00:00:00 -0300</pubDate>
+        <link>http://localhost:8000//viArch</link>
+        <link href="http://localhost:8000/viArch"/>
+        <guid isPermaLink="true">http://localhost:8000/viArch</guid>
+      </item>
+    
+      <item>
+        <title>Installarchlinux</title>
+        <description>&lt;h1 id=&quot;trocando-de-distro-linux&quot;&gt;Trocando de Distro Linux&lt;/h1&gt;
+
+&lt;p&gt;Bem, a mais de uma década eu utilizo o &lt;a href=&quot;http://www.slackware.com/&quot;&gt;Slackware Linux&lt;/a&gt;, pois é um Linux muito estável. Todavia, já tem algum tempo que o Slackware vem deixando a desejar nas atualizações. Assim, decidi mudar um pouco de distribuição em minhas máquinas pessoais.&lt;/p&gt;
+
+&lt;p&gt;Depois de algumas pesquisas, comecei a utilizar o &lt;a href=&quot;ttps://manjaro.org/&quot;&gt;Manjaro Linux&lt;/a&gt; no meu &lt;em&gt;notebook&lt;/em&gt;. Contudo, o Manjaro ficou muito pesado no meu &lt;em&gt;netbook&lt;/em&gt;. Assim, decidi utilizar o &lt;a href=&quot;https://www.archlinux.org/&quot;&gt;Arch Linux&lt;/a&gt; no &lt;em&gt;netbook&lt;/em&gt;, que é a base do Manjado.&lt;/p&gt;
+
+&lt;p&gt;O Arch Linux, tal como o Slackware, é um Linux muito estável, mas não é muito “amigável” com iniciantes. Ao meu ver, a grande vantagem do Arch sobre o Slackware, é o seu gerenciador de pacotes (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pacman&lt;/code&gt;) e sua grande comunidade, que gera uma ótima documentação.&lt;/p&gt;
+
+&lt;p&gt;Então, vou deixar aqui os passos para a instalação do Arch Linux em um &lt;em&gt;netbook&lt;/em&gt; Asus EeePC 1201PN (processador Aton+NVidia ION).&lt;/p&gt;
+
+&lt;h1 id=&quot;preparação&quot;&gt;Preparação&lt;/h1&gt;
+
+&lt;p&gt;Inicie baixando o Arch Linux x86_64. Exemplo:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;wget http://archlinux.pop-es.rnp.br/iso/2020.07.01/archlinux-2020.07.01-x86_64.iso
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Copie o arquivo para um &lt;em&gt;pendrive&lt;/em&gt;. Bem, eu não usei o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dd&lt;/code&gt;, fiz um &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cp&lt;/code&gt; direto, isso tem funcionado bem.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;cp archlinux-2020.07.01-x86_64.iso /dev/sdX
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;No comando anterior, você deve trocar &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdX&lt;/code&gt;, pelo nome do dispositivo relacionado com o seu &lt;em&gt;pendrive&lt;/em&gt;. Uma forma de verificar isso é usando o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lsblk&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Terminando a cópia é só dar &lt;em&gt;boot&lt;/em&gt; pelo &lt;em&gt;pendrive&lt;/em&gt;/USB.&lt;/p&gt;
+
+&lt;h1 id=&quot;instalação&quot;&gt;Instalação&lt;/h1&gt;
+
+&lt;p&gt;Agora são apresentados os passos de instalação e algumas configurações:&lt;/p&gt;
+
+&lt;h2 id=&quot;configuração-do-teclado&quot;&gt;Configuração do teclado:&lt;/h2&gt;
+
+&lt;p&gt;Dá para iniciar configurando o teclado, mas como o EeePC tem o teclado inglês, isso não é tão necessário.&lt;/p&gt;
+
+&lt;h2 id=&quot;configuração-da-rede&quot;&gt;Configuração da rede&lt;/h2&gt;
+
+&lt;p&gt;No meu caso eu usei cabo de rede e quando dei &lt;em&gt;boot&lt;/em&gt; o DHCP já atribuiu um IP. Caso isso não aconteça, é possível utilizar o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wifi-menu&lt;/code&gt;, no caso de utilizar a rede sem fio, ou colocar o cabo e digitar &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dhcpcd&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;particionando-discos&quot;&gt;Particionando disco(s)&lt;/h2&gt;
+
+&lt;p&gt;O próximo passo é particionar o HD/SSD, no meu caso utilizei o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cfdisk&lt;/code&gt;, e criei pelo menos três partições:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;3GiB, para o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;20GiB, para o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;7GiB, para o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;5GiB, para o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/var&lt;/code&gt;;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;8GiB, para o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/opt&lt;/code&gt;.&lt;/p&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;Tenho o costume de deixar o HD, com uma partição para cada diretório importante - coisas de segurança. Mas, para uso pessoal, isso não é necessário.&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;blockquote&gt;
+      &lt;p&gt;&lt;strong&gt;Atenção&lt;/strong&gt;, particonar o seu HD irá fazer com que você perca todos os dados das partições em questão, então muito cuidado.&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;formatando-as-partições&quot;&gt;Formatando as partições&lt;/h2&gt;
+
+&lt;p&gt;Depois de particionar é necessário formatar, exemplo:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;mkfs.ext4 -L boot /dev/sda3
+mkfs.ext4 /dev/sda5
+mkfs.ext4 /dev/sda6
+mkfs.ext4 /dev/sda8
+mkfs.ext4 /dev/sda9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Atenção&lt;/strong&gt;, todos os dados nas partições formatadas serão perdidos.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;adicionando-a-swap&quot;&gt;Adicionando a &lt;em&gt;swap&lt;/em&gt;&lt;/h2&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;mkswap -L swap /dev/sda2
+mkswapon /dev/sda2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;montando-as-partições-para-a-instalação&quot;&gt;Montando as partições para a instalação:&lt;/h2&gt;
+
+&lt;p&gt;Primeiro temos que montar a partição principal:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;mount /dev/sda3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Depois é necessário criar diretórios e montar as outras partições, caso você tenha criado várias partições:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;mkdir /mnt/usr &amp;amp;&amp;amp; mount /dev/sda5 /mnt/usr
+mkdir /mnt/home &amp;amp;&amp;amp; mount /dev/sda6 /mnt/home
+mkdir /mnt/var &amp;amp;&amp;amp; mount /dev/sda8 /mnt/var
+mkdir /mnt/opt &amp;amp;&amp;amp; mount /dev/sda9 /mnt/opt
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;instalando-o-sistema-base&quot;&gt;Instalando o sistema base&lt;/h2&gt;
+
+&lt;p&gt;Agora vem a parte de copiar os arquivos base para o sistema funcionar. Eu aproveitei e já instalei editor de texto e o cliente DHCP, para facilitar o processo.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;pactrap /mnt base base-devel linux linux-firmware vi vim sudo man-db dhcpcd
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;gerando-o-fstab&quot;&gt;Gerando o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fstab&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Com os arquivos de sistema prontos, podemos criar o arquivo que relaciona as partições criadas com os seus respectivos diretórios:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;genfstab -p /mnt &amp;gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /mnt/etc/fstab
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Bem, eu ainda editei e deixei o arquivo deixando o conteúdo da seguinte forma:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;/dev/sda3               /               ext4            defaults        0 1
+/dev/sda6               /home           ext4            rw,relatime     0 2
+/dev/sda5               /usr            ext4            defaults        0 2
+/dev/sda8               /var            ext4            rw,relatime     0 2
+/dev/sda9               /opt            ext4            rw,relatime     0 2
+/dev/sda2               none            swap            defaults        0 0
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;preparando-o-sistema-de-arquivos-novo&quot;&gt;Preparando o sistema de arquivos novo&lt;/h2&gt;
+
+&lt;p&gt;Com os passos anteriores terminados, agora é possível acessar o sistema novo, via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chroot&lt;/code&gt;, isso ajuda a terminar as configurações.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;arch-chroot /mnt
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;configurando-alguns-detalhes&quot;&gt;Configurando alguns detalhes&lt;/h2&gt;
+
+&lt;p&gt;Já em ambiente &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chroot&lt;/code&gt;, vamos fazer algumas configurações básicas:&lt;/p&gt;
+
+&lt;h3 id=&quot;criando-chaves-para-verificação-de-pacotes&quot;&gt;Criando chaves para verificação de pacotes&lt;/h3&gt;
+
+&lt;p&gt;Criando as chaves para verificar/manter a integridade dos pacotes instalados:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;pacman-key --init
+pacman-key populate archlinux
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;configurando-os-acentos&quot;&gt;Configurando os acentos:&lt;/h3&gt;
+
+&lt;p&gt;Como português precisa de acentos, é bom configurar a linguagem:&lt;/p&gt;
+
+&lt;p&gt;Edite o arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/locale.gen&lt;/code&gt;, deixando com o seguinte conteúdo (pode apenas comentar o que tiver e descomentar essa linha):&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;pt_BR.UTF-8 UTF-8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Edite o arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cat /etc/locale.conf&lt;/code&gt; e deixe com o seguinte conteúdo:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;LANG=pt_BR.UTF-8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Então execute:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;locale-gen
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;configurando-datahora&quot;&gt;Configurando data/hora&lt;/h3&gt;
+
+&lt;p&gt;Para ajustar a hora/data do sistema crie o arquivo de fuso horário:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;ls -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Sincronize o relógio do computador com o do sistema:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;hwclock --systohc
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;dando-nome-ao-sistemahost&quot;&gt;Dando nome ao sistema/host&lt;/h3&gt;
+
+&lt;p&gt;É bom dar um nome para a máquina, então edite o arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/hostname&lt;/code&gt;, colocando o nome do computador, no meu caso foi:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;fielAsus
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Edite também o arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/hosts&lt;/code&gt;, deixando ele mais ou menos assim - troque o último campo pelo nome do seu computador:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;127.0.0.1       localhost
+::1             localhost
+127.0.0.1       fielAsus
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;criando-um-ramdisk-inicial&quot;&gt;Criando um &lt;em&gt;ramdisk&lt;/em&gt; inicial&lt;/h2&gt;
+
+&lt;p&gt;É necessário criar um arquivo &lt;em&gt;ramdisk&lt;/em&gt; inicial. Principalmente nesta instalação que utiliza o  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr&lt;/code&gt; em uma partição diferente do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/&lt;/code&gt; - é obrigatória uma configuração especial.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Atenção, sem essa configuração especial, por causa do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr&lt;/code&gt; separado, o sistema não dá &lt;em&gt;boot&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Edite o arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/mkinitcpio.conf&lt;/code&gt; e altere a linha a seguir incluindo os campos: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;usr&lt;/code&gt; e &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;shutdown&lt;/code&gt; - o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fsck&lt;/code&gt; também deve estar lá.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;HOOKS=(base udev autodetect modconf block filesystems keyboard fsck usr shutdown)
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Depois execute o comando para criar o &lt;em&gt;ramdisk&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;mkinitcpio -p linux
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;instalando-o-gerenciador-de-boot&quot;&gt;Instalando o gerenciador de &lt;em&gt;boot&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;É recomendável ter um gerenciador de &lt;em&gt;boot&lt;/em&gt;, então instale o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grub&lt;/code&gt; no sistema:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;pacman -S grub
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora instale o grub no HD/SSD:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;grub-install --target=i386-pc --recheck --debug /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;defina-senha-do-root&quot;&gt;Defina senha do &lt;em&gt;root&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;Para finalizar a instalação básica, não esqueça de colocar uma senha para o usuário &lt;em&gt;root&lt;/em&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;passwd
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;reinicie-o-sistema&quot;&gt;Reinicie o sistema&lt;/h2&gt;
+
+&lt;p&gt;Pronto, o sistema está finalizado, agora é só sair do ambiente &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chroot&lt;/code&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;exit&lt;/code&gt;) e reiniciar o sistema:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;reboot
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Depois disso ele deve dar &lt;em&gt;boot&lt;/em&gt; pelo sistema novo, recém instalado! ;-)&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;instalando-driver-da-placa-de-vídeo-e-ambiente-gráfico&quot;&gt;Instalando driver da placa de vídeo e ambiente gráfico&lt;/h1&gt;
+
+&lt;p&gt;Aqui são apresentados os passos para a instalação e configuração do ambiente gráfico, caso a instalação seja para um servidor o ambiente gráfico não é necessário.&lt;/p&gt;
+
+&lt;h2 id=&quot;instalando-xorg&quot;&gt;Instalando Xorg&lt;/h2&gt;
+
+&lt;p&gt;Bem, inicie instalando o Xorg:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;pacman -S xorg-server xorg-xinit
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;instalando-o-driver-da-placa-de-vídeo-ion-nvidia&quot;&gt;Instalando o driver da placa de vídeo ION Nvidia&lt;/h3&gt;
+
+&lt;p&gt;A placa ION, não está mais no repositório oficial do Arch, mas está no repositório da comunidade, uma boa forma de fazer uso desse repositório é com o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yay&lt;/code&gt;, então vamos instalá-lo:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Isso deve ser feito com um usuário normal (não &lt;em&gt;root&lt;/em&gt;), mas tal usuário deve ter permissão de executar o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;sudo pacman -S git go base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay/
+makepkg -si
+yay -S nvidia-340xx
+yay -S nvidia-340xx
+yay -S nvidia-340xx-utils
+yay -S nvidia-340xx-settings
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;instalando-o-gerenciador-de-janelas---xfce&quot;&gt;Instalando o gerenciador de janelas - Xfce&lt;/h3&gt;
+
+&lt;p&gt;Para o &lt;em&gt;netbook&lt;/em&gt; não ficar muito pesado, instalamos o Xfce, o gerenciador de &lt;em&gt;login&lt;/em&gt; gráfico &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lightdm&lt;/code&gt; e habilitamos o gerenciador de &lt;em&gt;login&lt;/em&gt; no &lt;em&gt;boot&lt;/em&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;pacman -S xfce4 xfce4-goodies lightdm lightdm-gtk-greeter networkmanager network-manager-applet
+systemctl enable lightdm
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;configurando-o-xorg-com-o-driver-da-placa-de-rede&quot;&gt;Configurando o Xorg com o &lt;em&gt;driver&lt;/em&gt; da placa de rede&lt;/h3&gt;
+
+&lt;p&gt;O comando a seguir deve criar o arquivo do Xorg e fazer uma cópia de segurança do arquivo anterior:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;nvidia-xconfig 
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3 id=&quot;ativando-o-gerenciador-de-rede-gráfico&quot;&gt;Ativando o gerenciador de rede gráfico&lt;/h3&gt;
+
+&lt;p&gt;Para ficar com um ambiente mais amigável, vamos ativar o gerenciador de rede:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;systemctl enable NetworkManager
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Pronto, com essa instalação ao iniciar o ambiente gráfico o &lt;em&gt;netbook&lt;/em&gt; conseguirá reconhecer monitores e atribuir suas respectivas configurações.&lt;/p&gt;
+
+&lt;p&gt;Agora, é só instalar os pacotes extras que você precisa usando o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pacman&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;referências&quot;&gt;Referências&lt;/h1&gt;
+
+&lt;p&gt;Segue:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://forum.archlinux-br.org/viewtopic.php?id=3624&quot;&gt;https://forum.archlinux-br.org/viewtopic.php?id=3624&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://serverfault.com/questions/723609/moving-usr-on-archlinux&quot;&gt;https://serverfault.com/questions/723609/moving-usr-on-archlinux&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://wiki.archlinux.org/index.php/Mkinitcpio#/usr_as_a_separate_partition&quot;&gt;https://wiki.archlinux.org/index.php/Mkinitcpio#/usr_as_a_separate_partition&lt;/a&gt;;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://linuxdicasesuporte.blogspot.com/2017/04/instalacao-do-xfce-no-arch-linux.html&quot;&gt;https://linuxdicasesuporte.blogspot.com/2017/04/instalacao-do-xfce-no-arch-linux.html&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão&lt;/strong&gt;&lt;br /&gt;
+Autor: &lt;strong&gt;Prof. Dr. Luiz Arthur Feitosa dos Santos&lt;/strong&gt;&lt;br /&gt;
+E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;luizsantos@utfpr.edu.br&lt;/a&gt;&lt;/strong&gt; / &lt;strong&gt;&lt;a href=&quot;mailto:luiz.arthur.feitosa.santos@gmail.com&quot;&gt;luiz.arthur.feitosa.santos@gmail.com&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        <pubDate>Thu, 16 Jul 2020 00:00:00 -0300</pubDate>
+        <link>http://localhost:8000//installArchLinux</link>
+        <link href="http://localhost:8000/installArchLinux"/>
+        <guid isPermaLink="true">http://localhost:8000/installArchLinux</guid>
+      </item>
+    
+      <item>
+        <title>Openbsdrasp</title>
+        <description>
+</description>
+        <pubDate>Thu, 02 Jul 2020 00:00:00 -0300</pubDate>
+        <link>http://localhost:8000//OpenBSDRasp</link>
+        <link href="http://localhost:8000/OpenBSDRasp"/>
+        <guid isPermaLink="true">http://localhost:8000/OpenBSDRasp</guid>
+      </item>
+    
+      <item>
         <title>Olamundo</title>
         <description>&lt;p&gt;Olá, fiz este lugar para guardar coisas/comandos que eu faço durante o meu trabalho com Sistemas Operacionais (Linux, FreeBSD, OpenBSD…), Redes de Computadores (Servidores, Simuladores…) e CyberSegurança (Proxys, Firewalls, IDS), bem como outras coisas (programação, IoT, etc).&lt;/p&gt;
 
