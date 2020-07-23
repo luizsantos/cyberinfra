@@ -2,7 +2,7 @@ Comandos de rede úteis
 ======================
 
 Atualmente muitas distribuições Linux descontinuaram os comandos ``ifconfig``, ``route`` e ``netstat``.
-Assim, aqui eu irei apresentar alguns comandos de rede úteis, principalmente relacionados aos novos comandos apresentados nas distribuições Linux mais atuais. 
+Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relacionados aos novos comandos apresentados nas distribuições Linux mais atuais. 
 
 ## Desligando o gerenciador de rede 
 
@@ -22,8 +22,6 @@ Bem para fazer _scan_ eu recomendo desativar o ``NetworkManager``:
 # systemctl stop NetworkManager
 ```
 > Recomendo desligar o gerenciador gráfico, pois as configurações do gráfico pode sobrepor automaticamente as configurações que você está fazendo no texto. Isso pode gerar grandes transtornos. Só deixe o ``NetworkManager`` ligado se você espera utilizar as configurações do ambiente gráfico.
-
-## Verificando se a placa de rede está habilitada/ligada
 
 Algumas vezes após desligar o ``NetworkManager`` a placa de rede pode ficar desligada, não permitindo o uso desta, isso pode ser revertido via linha de comando com o ``rfkill``.
 
