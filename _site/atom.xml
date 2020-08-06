@@ -3,13 +3,86 @@
   <channel>
     <title>CyberInfra</title>
     <description>Operating Systems, Computer Networks, CyberSecurity...</description>
-    <link>http://localhost:8000</link>
-    <atom:link href="http://localhost:8000/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <author>
       <name>Luiz Arthur F. Santos</name>
       <email>luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com</email>
       <uri></uri>
     </author>
+    
+      <item>
+        <title>Comandosredelinux</title>
+        <description>&lt;h1 id=&quot;comandos-de-rede-úteis&quot;&gt;Comandos de rede úteis&lt;/h1&gt;
+
+&lt;p&gt;Atualmente muitas distribuições Linux descontinuaram os comandos &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ifconfig&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;route&lt;/code&gt; e &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;netstat&lt;/code&gt;.
+Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relacionados aos novos comandos, apresentados nas distribuições Linux mais atuais.&lt;/p&gt;
+
+&lt;h2 id=&quot;desligando-o-gerenciador-de-rede&quot;&gt;Desligando o gerenciador de rede&lt;/h2&gt;
+
+&lt;p&gt;As vezes é necessário desligar o gerenciador de rede &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NetworkManager&lt;/code&gt;, para realizar algumas operações ou teste mais incomuns na rede. Para desligar o gerenciador de rede no Arch Linux, execute:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;systemctl stop NetworkManager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Para ligar, reiniciar, habilitar no &lt;em&gt;boot&lt;/em&gt;  ou desabilitar no &lt;em&gt;boot&lt;/em&gt;, basta substituir respectivamente o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stop&lt;/code&gt;, por: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;start&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;restart&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;enable&lt;/code&gt; e &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;disable&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;fazendo-scan-em-interfaces-wifi&quot;&gt;Fazendo &lt;em&gt;scan&lt;/em&gt; em interfaces WiFi&lt;/h2&gt;
+
+&lt;p&gt;Para fazer &lt;em&gt;scan&lt;/em&gt; eu recomendo desativar o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NetworkManager&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;systemctl stop NetworkManager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Recomendo desligar o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NetworkManager&lt;/code&gt;, pois as configurações do gráfico podem sobrepor automaticamente as configurações que você está fazendo no texto. Isso pode gerar grandes transtornos. Só deixe o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NetworkManager&lt;/code&gt; ligado se você espera utilizar as configurações do ambiente gráfico.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Algumas vezes, após desligar o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NetworkManager&lt;/code&gt;, a placa de rede pode ficar desligada, não permitindo o uso desta, isso pode ser revertido via linha de comando, com o &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rfkill&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Exemplo: Tentando ativar a placa de rede sem fio, com o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ip link&lt;/code&gt; com a placa desligada a saída seria algo assim:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;ip &lt;span class=&quot;nb&quot;&gt;link set &lt;/span&gt;wlp2s0 up
+&lt;span class=&quot;go&quot;&gt;RTNETLINK answers: Operation not possible due to RF-kill
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;É possível verificar se a placa de rede está desligada utilizando o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rfkill&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;rfkill list all
+&lt;span class=&quot;go&quot;&gt;0: hci0: Bluetooth
+        Soft blocked: no
+        Hard blocked: no
+1: phy0: Wireless LAN
+        Soft blocked: yes
+        Hard blocked: no
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Observe a penúltima linha &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Soft blocked: yes&lt;/code&gt;, isso indica que a placa está desligada. Neste caso é necessário ligar a placa de rede da seguinte forma:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;rfkill unblock 1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Sendo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; o número referente a placa de rede sem fio, da saída do comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rfkill list&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Feito isso agora é só ativar a placa de rede com o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ip link&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;ip link set wlp2s0 up
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finalmente é possível listar as redes sem fio, com o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iwlist&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;iwlist wlp2s0 scan
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;referências&quot;&gt;Referências&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://bbs.archlinux.org/viewtopic.php?pid=1324810#p1324810&quot;&gt;https://bbs.archlinux.org/viewtopic.php?pid=1324810#p1324810&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 22 Jul 2020 00:00:00 -0300</pubDate>
+        <link>http://localhost:4000//comandosRedeLinux</link>
+        <link href="http://localhost:4000/comandosRedeLinux"/>
+        <guid isPermaLink="true">http://localhost:4000/comandosRedeLinux</guid>
+      </item>
     
       <item>
         <title>Viarch</title>
@@ -49,9 +122,9 @@
 &lt;p&gt;Após isso reinicie o terminal texto (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bash&lt;/code&gt;) e as setas do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vi&lt;/code&gt; devem começar a funcionar corretamente, sem aparecer as benditas letras ao invés da navegação.&lt;/p&gt;
 </description>
         <pubDate>Tue, 21 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8000//viArch</link>
-        <link href="http://localhost:8000/viArch"/>
-        <guid isPermaLink="true">http://localhost:8000/viArch</guid>
+        <link>http://localhost:4000//viArch</link>
+        <link href="http://localhost:4000/viArch"/>
+        <guid isPermaLink="true">http://localhost:4000/viArch</guid>
       </item>
     
       <item>
@@ -363,9 +436,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
 
 </description>
         <pubDate>Thu, 16 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8000//installArchLinux</link>
-        <link href="http://localhost:8000/installArchLinux"/>
-        <guid isPermaLink="true">http://localhost:8000/installArchLinux</guid>
+        <link>http://localhost:4000//installArchLinux</link>
+        <link href="http://localhost:4000/installArchLinux"/>
+        <guid isPermaLink="true">http://localhost:4000/installArchLinux</guid>
       </item>
     
       <item>
@@ -373,9 +446,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
         <description>
 </description>
         <pubDate>Thu, 02 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8000//OpenBSDRasp</link>
-        <link href="http://localhost:8000/OpenBSDRasp"/>
-        <guid isPermaLink="true">http://localhost:8000/OpenBSDRasp</guid>
+        <link>http://localhost:4000//OpenBSDRasp</link>
+        <link href="http://localhost:4000/OpenBSDRasp"/>
+        <guid isPermaLink="true">http://localhost:4000/OpenBSDRasp</guid>
       </item>
     
       <item>
@@ -392,9 +465,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
 
 </description>
         <pubDate>Tue, 16 Jun 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8000//olaMundo</link>
-        <link href="http://localhost:8000/olaMundo"/>
-        <guid isPermaLink="true">http://localhost:8000/olaMundo</guid>
+        <link>http://localhost:4000//olaMundo</link>
+        <link href="http://localhost:4000/olaMundo"/>
+        <guid isPermaLink="true">http://localhost:4000/olaMundo</guid>
       </item>
     
   </channel>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Comandosredelinux</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Comandosredelinux | CyberInfra</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Comandosredelinux" />
+<meta name="author" content="Luiz Arthur F. Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Comandos de rede úteis" />
+<meta property="og:description" content="Comandos de rede úteis" />
+<link rel="canonical" href="http://localhost:4000/comandosRedeLinux" />
+<meta property="og:url" content="http://localhost:4000/comandosRedeLinux" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-22T00:00:00-03:00" />
+<script type="application/ld+json">
+{"description":"Comandos de rede úteis","url":"http://localhost:4000/comandosRedeLinux","headline":"Comandosredelinux","@type":"BlogPosting","dateModified":"2020-07-22T00:00:00-03:00","datePublished":"2020-07-22T00:00:00-03:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/comandosRedeLinux"},"author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2>Comandosredelinux</h2>
+  <time datetime="2020-07-22T00:00:00-03:00" class="by-line">22 Jul 2020</time>
+  <h1 id="comandos-de-rede-úteis">Comandos de rede úteis</h1>
+
+<p>Atualmente muitas distribuições Linux descontinuaram os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code> e <code class="language-plaintext highlighter-rouge">netstat</code>.
+Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relacionados aos novos comandos, apresentados nas distribuições Linux mais atuais.</p>
+
+<h2 id="desligando-o-gerenciador-de-rede">Desligando o gerenciador de rede</h2>
+
+<p>As vezes é necessário desligar o gerenciador de rede <code class="language-plaintext highlighter-rouge">NetworkManager</code>, para realizar algumas operações ou teste mais incomuns na rede. Para desligar o gerenciador de rede no Arch Linux, execute:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>systemctl stop NetworkManager
+</code></pre></div></div>
+
+<p>Para ligar, reiniciar, habilitar no <em>boot</em>  ou desabilitar no <em>boot</em>, basta substituir respectivamente o <code class="language-plaintext highlighter-rouge">stop</code>, por: <code class="language-plaintext highlighter-rouge">start</code>, <code class="language-plaintext highlighter-rouge">restart</code>, <code class="language-plaintext highlighter-rouge">enable</code> e <code class="language-plaintext highlighter-rouge">disable</code>.</p>
+
+<h2 id="fazendo-scan-em-interfaces-wifi">Fazendo <em>scan</em> em interfaces WiFi</h2>
+
+<p>Para fazer <em>scan</em> eu recomendo desativar o <code class="language-plaintext highlighter-rouge">NetworkManager</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>systemctl stop NetworkManager
+</code></pre></div></div>
+<blockquote>
+  <p>Recomendo desligar o <code class="language-plaintext highlighter-rouge">NetworkManager</code>, pois as configurações do gráfico podem sobrepor automaticamente as configurações que você está fazendo no texto. Isso pode gerar grandes transtornos. Só deixe o <code class="language-plaintext highlighter-rouge">NetworkManager</code> ligado se você espera utilizar as configurações do ambiente gráfico.</p>
+</blockquote>
+
+<p>Algumas vezes, após desligar o <code class="language-plaintext highlighter-rouge">NetworkManager</code>, a placa de rede pode ficar desligada, não permitindo o uso desta, isso pode ser revertido via linha de comando, com o <code class="language-plaintext highlighter-rouge">rfkill</code>.</p>
+
+<p>Exemplo: Tentando ativar a placa de rede sem fio, com o comando <code class="language-plaintext highlighter-rouge">ip link</code> com a placa desligada a saída seria algo assim:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>ip <span class="nb">link set </span>wlp2s0 up
+<span class="go">RTNETLINK answers: Operation not possible due to RF-kill
+</span></code></pre></div></div>
+<p>É possível verificar se a placa de rede está desligada utilizando o comando <code class="language-plaintext highlighter-rouge">rfkill</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>rfkill list all
+<span class="go">0: hci0: Bluetooth
+        Soft blocked: no
+        Hard blocked: no
+1: phy0: Wireless LAN
+        Soft blocked: yes
+        Hard blocked: no
+</span></code></pre></div></div>
+
+<p>Observe a penúltima linha <code class="language-plaintext highlighter-rouge">Soft blocked: yes</code>, isso indica que a placa está desligada. Neste caso é necessário ligar a placa de rede da seguinte forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">rfkill unblock 1
+</span></code></pre></div></div>
+
+<p>Sendo <code class="language-plaintext highlighter-rouge">1</code> o número referente a placa de rede sem fio, da saída do comando <code class="language-plaintext highlighter-rouge">rfkill list</code>.</p>
+
+<p>Feito isso agora é só ativar a placa de rede com o comando <code class="language-plaintext highlighter-rouge">ip link</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">ip link set wlp2s0 up
+</span></code></pre></div></div>
+
+<p>Finalmente é possível listar as redes sem fio, com o comando <code class="language-plaintext highlighter-rouge">iwlist</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">iwlist wlp2s0 scan
+</span></code></pre></div></div>
+
+<h2 id="referências">Referências</h2>
+
+<ul>
+  <li><a href="https://bbs.archlinux.org/viewtopic.php?pid=1324810#p1324810">https://bbs.archlinux.org/viewtopic.php?pid=1324810#p1324810</a></li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur F. Santos</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+
+  
+</body>
+
+</html>
