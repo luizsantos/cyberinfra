@@ -2,7 +2,8 @@
 
 source "https://rubygems.org"
 
-git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+#git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) {"https://luizsantos.github.io/cyberinfra/" }
 
 gem "jekyll", "~> 4.1"
 gem "jekyll-paginate"

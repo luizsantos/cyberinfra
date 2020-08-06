@@ -3,14 +3,14 @@ description: "Operating Systems, Computer Networks, CyberSecurity..."
 author:
   name: "Luiz Arthur F. Santos"
   email: "luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com"
-#  url: "https://ashishchaudhary.in/hacker-blog"
+# template - url: "https://ashishchaudhary.in/hacker-blog"
 
 baseurl: /
 
 source: .
 destination: ./_site
 permalink: /:title
-paginate: 3
+paginate: 5 
 paginate_path: /page/:num/
 
 defaults:
@@ -32,3 +32,4 @@ plugins:
 owner : "luiz"
 company : "CyberInfra"
 year : "2020"
+url : "https://luizsantos.github.io/cyberinfra/"
