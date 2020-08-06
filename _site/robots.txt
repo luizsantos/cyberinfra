@@ -1,1 +1,1 @@
-Sitemap: https://luizsantos.github.io/cyberinfra//sitemap.xml
+Sitemap: https://luizsantos.github.io/cyberinfra/sitemap.xml
