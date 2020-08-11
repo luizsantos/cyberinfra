@@ -81,7 +81,7 @@ mkswapon /dev/sda2
 Primeiro temos que montar a partição principal:
 
 ```console
-mount /dev/sda3
+mount /dev/sda3 /mnt
 ```
 
 Depois é necessário criar diretórios e montar as outras partições, caso você tenha criado várias partições:
@@ -140,7 +140,7 @@ Criando as chaves para verificar/manter a integridade dos pacotes instalados:
 
 ```console
 pacman-key --init
-pacman-key populate archlinux
+pacman-key --populate archlinux
 ```
 
 ### Configurando os acentos:
@@ -153,7 +153,7 @@ Edite o arquivo ``/etc/locale.gen``, deixando com o seguinte conteúdo (pode ape
 pt_BR.UTF-8 UTF-8
 ```
 
-Edite o arquivo ``cat /etc/locale.conf`` e deixe com o seguinte conteúdo:
+Edite o arquivo ``/etc/locale.conf`` e deixe com o seguinte conteúdo:
  
 ```console
 LANG=pt_BR.UTF-8
@@ -170,7 +170,7 @@ locale-gen
 Para ajustar a hora/data do sistema crie o arquivo de fuso horário:
 
 ```console
-ls -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 ```
 
 Sincronize o relógio do computador com o do sistema:
