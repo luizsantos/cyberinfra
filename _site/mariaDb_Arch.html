@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Mariadb_arch</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Mariadb_arch | CyberInfra</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Mariadb_arch" />
+<meta name="author" content="Luiz Arthur F. Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Instalando e configurando o MariaDB no Manjaro/Arch Linux" />
+<meta property="og:description" content="Instalando e configurando o MariaDB no Manjaro/Arch Linux" />
+<link rel="canonical" href="http://localhost:4000/mariaDb_Arch" />
+<meta property="og:url" content="http://localhost:4000/mariaDb_Arch" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-12T00:00:00-03:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"description":"Instalando e configurando o MariaDB no Manjaro/Arch Linux","url":"http://localhost:4000/mariaDb_Arch","headline":"Mariadb_arch","dateModified":"2020-11-12T00:00:00-03:00","@type":"BlogPosting","datePublished":"2020-11-12T00:00:00-03:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/mariaDb_Arch"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2>Mariadb_arch</h2>
+  <time datetime="2020-11-12T00:00:00-03:00" class="by-line">12 Nov 2020</time>
+  <h1 id="instalando-e-configurando-o-mariadb-no-manjaroarch-linux">Instalando e configurando o MariaDB no Manjaro/Arch Linux</h1>
+
+<p>Instalação do MariaDB no Manjaro, que é uma derivação do Arch Linux</p>
+
+<h1 id="instalação">Instalação</h1>
+
+<p>Comando para instalar:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>pacman <span class="nt">-S</span> mariadb
+</code></pre></div></div>
+
+<h1 id="configuração">Configuração</h1>
+
+<p>Configuração inicial:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>mysql_install_db <span class="nt">--user</span><span class="o">=</span>mysql <span class="nt">--basedir</span><span class="o">=</span>/usr <span class="nt">--datadir</span><span class="o">=</span>/var/lib/mysql
+</code></pre></div></div>
+
+<h2 id="iniciando-o-mariadb">Iniciando o MariaDB</h2>
+<p>Agora é necessário iniciar o banco de dados:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>systemctl start mariadb
+</code></pre></div></div>
+
+<p>Se for para habilitar esse serviço no boot da máquina execute:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>systemctl <span class="nb">enable </span>mariadb
+</code></pre></div></div>
+
+<h1 id="configuração-necessária-com-o-banco-já-em-execução">Configuração necessária, com o banco já em execução:</h1>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>mysql_secure_installation
+</code></pre></div></div>
+
+<p>Neste comando anterior vai ser pedido a senha do administrador (<code class="language-plaintext highlighter-rouge">root</code>) e uma nova senha, minha saída/entrada foi:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user. If you've just installed MariaDB, and
+haven't set the root password yet, you should just press enter here.
+
+Enter current password for root (enter for none): 
+OK, successfully used password, moving on...
+
+Setting the root password or using the unix_socket ensures that nobody
+can log into the MariaDB root user without the proper authorisation.
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Switch to unix_socket authentication [Y/n] 
+Enabled successfully!
+Reloading privilege tables..
+... Success!
+
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Change the root password? [Y/n] 
+New password: 
+Re-enter new password: 
+Password updated successfully!
+Reloading privilege tables..
+... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] 
+... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] n
+... skipping.
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] n
+... skipping.
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] 
+... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+</span></code></pre></div></div>
+
+<h2 id="configuração-se-for-usar-na-rede">Configuração se for usar na rede:</h2>
+
+<p>Se for usar o MariaDB via rede:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>vi /etc/my.cnf.d/server.cnf
+</code></pre></div></div>
+
+<p>Inclua e ou altere a linha:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">bind-address=127.0.0.1
+</span></code></pre></div></div>
+
+<blockquote>
+  <blockquote>
+    <p>Ah, se for acessar a partir de outro IP, que não o 127.0.0.1, altere a configuração para <code class="language-plaintext highlighter-rouge">bind-address=0.0.0.0</code>, para dar acesso a qualquer IP. Se quiser mais segurança coloque o IP da sua rede local ao invés do endereço 0.0.0.0.</p>
+  </blockquote>
+</blockquote>
+
+<p>Se fizer essa alteração lembre de reiniciar o MariaDB novamente:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo </span>systemctl restart mariadb
+</code></pre></div></div>
+
+<h1 id="teste-o-banco-de-dados">Teste o banco de dados</h1>
+
+<p>Uma forma de testar o banco de dados é realizando o acesso ao mesmo, com o seguinte comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>mysql <span class="nt">-h</span> 127.0.0.1 <span class="nt">-u</span> root <span class="nt">-p</span>
+<span class="go">Enter password: 
+</span><span class="gp">Welcome to the MariaDB monitor.  Commands end with ;</span><span class="w"> </span>or <span class="se">\t</span>extbackslash<span class="se">\{\}</span>g.
+<span class="go">Your MariaDB connection id is 3
+Server version: 10.5.6-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+</span><span class="gp">Type 'help;</span><span class="s1">' or '</span><span class="se">\t</span>extbackslash<span class="se">\{\}</span>h<span class="s1">' for help. Type '</span><span class="se">\t</span>extbackslash<span class="se">\{\}</span>c<span class="s1">' to clear the current input statement.
+</span><span class="go">
+</span><span class="gp">MariaDB [(none)]&gt;</span><span class="w"> </span>quit
+<span class="go">Bye
+</span></code></pre></div></div>
+<p>Se a saída parecida com essa, significa que a instalação funcionou! ;-)</p>
+
+<h1 id="mais-uma-configuração-para-acesso-à-rede">Mais uma configuração para acesso à rede</h1>
+
+<p>Ainda quanto ao acesso remoto usando IPs que não o 127.0.0.1, pode ser é necessário dar permissões no próprio banco para o usuário acessar de um dado IP. Para isso utilize o comando anterior (<code class="language-plaintext highlighter-rouge">mysql -h 127.0.0.1 -u root -p</code>) para acessar o banco e depois execute:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.%.%' IDENTIFIED BY 'sua_senha' WITH GRANT OPTION;</span><span class="w">
+</span></code></pre></div></div>
+<p>Neste caso estamos deduzindo que o usuário é <code class="language-plaintext highlighter-rouge">root</code>, a rede é 192.168.0.0/16 e a senha <code class="language-plaintext highlighter-rouge">sua_senha</code>, troque isso conforme seus dados. Então será possível acessar o banco de dados via rede, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>mysql <span class="nt">-h</span> 192.168.0.1 <span class="nt">-u</span> root <span class="nt">-p</span>
+</code></pre></div></div>
+<p>Neste exemplo o servidor é o <code class="language-plaintext highlighter-rouge">192.168.0.1</code> e o usuário é o <code class="language-plaintext highlighter-rouge">root</code>.</p>
+
+<p>Bem, é isso… o MariaDB deve estar funcionando.</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur F. Santos</b>
+    </span>
+    
+    <span>© 2020</span>
+  </a>
+</footer>
+
+
+  
+</body>
+
+</html>
