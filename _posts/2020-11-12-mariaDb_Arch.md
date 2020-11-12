@@ -163,3 +163,7 @@ $ mysql -h 192.168.0.1 -u root -p
 Neste exemplo o servidor é o ``192.168.0.1`` e o usuário é o ``root``.
 
 Bem, é isso... o MariaDB deve estar funcionando.
+
+# Referência
+
+* <https://mariadb.com/kb/en/configuring-mariadb-for-remote-client-access/>.
