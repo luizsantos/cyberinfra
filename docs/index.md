@@ -3,8 +3,6 @@ layout: page
 title: DOCS
 ---
 
-Documents
-========================
 
 Aqui estão alguns documentos, tal como tutoriais a respeito de como instalar, configurar, executar e testar ativos digitais. Como por exemplo: sistemas operacionais, servidores de redes, firewalls, etc...
 
@@ -27,8 +25,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 * QoS (_Quality of Service_)
 	* [QoS no OpenBSD](QoS/QoS.md)
 * CISCO
-	* [Configurando acesso remoto](cisco/ativarSSH.md)
-	* [Outras configurações em switches](cisco/algumasConfSws.md)
+	* [Configurando acesso remoto](cisco/ativarSSH)
+	* [Outras configurações em switches](cisco/algumasConfSws)
 		
 # Cibersegurança
 * [PenTesting](penTest/pentest.md)
