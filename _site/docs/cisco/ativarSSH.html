@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Networks, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur F. Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Operating Systems, Computer Networks, CyberSecurity…" />
+<meta property="og:description" content="Operating Systems, Computer Networks, CyberSecurity…" />
+<link rel="canonical" href="http://localhost:4000/docs/cisco/ativarSSH" />
+<meta property="og:url" content="http://localhost:4000/docs/cisco/ativarSSH" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"description":"Operating Systems, Computer Networks, CyberSecurity…","url":"http://localhost:4000/docs/cisco/ativarSSH","headline":"CyberInfra","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="ativar-acesso-remoto-em-roteadores-e-switches-cisco">Ativar acesso remoto em roteadores e switches CISCO</h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<hr />
+
+<p>O acesso remoto é muito importante em um ambiente de rede, pois isso pode facilitar a vida do administrador de redes e agilizar suas tarefas. Todavia também é importante fazer isso da maneira correta para não trazer vulnerabilidades para a rede.</p>
+
+<p>O acesso remoto neste caso pode ser visto como o “compartilhamento” via rede do ambiente de trabalho (ambiente onde são executados comandos). Existem vários programas que permitem esse tipo de ação, para usuários finais em ambientes <em>desktop</em> é comum fazer uso de programas como o <a href="https://www.logmein.com/pt">LogMeIn</a>, <a href="https://pt.wikipedia.org/wiki/Virtual_Network_Computing">VNC</a>, dentre outros similares.</p>
+
+<p>Contudo em ambientes de infraestrutura de rede é mais comum fazer acesso remoto via <a href="https://pt.wikipedia.org/wiki/Telnet">Telnet</a> e <a href="https://pt.wikipedia.org/wiki/Secure_Shell">SSH</a>. Sendo que o Telnet é um protocolo dos primórdios da computação que mesmo nos dias atuais é muito utilizado ainda. Entretanto, atualmente não é nada recomendável utilizar o Telnet, pois esse transmite tudo pela rede como texto puro, ou seja, qualquer um com um analisador de tráfego de rede pode capturar usuários/senhas de sistemas que utilizam Telnet. Assim, o seu sucessor natural é o SSH, que faz o mesmo que o Telnet e um pouco mais, e o melhor! Transmite todos os dados de forma criptografada, o que mantem a confidencialidade dos dados enviados pela rede.</p>
+
+<blockquote>
+  <p>Mesmo que o Telnet não seja recomendável devido a sua falta de segurança, ele ainda é muito utilizado e por isso recomendá-se que administradores de redes saibam como configurar e utilizar tanto cliente como o servidor Telnet.</p>
+</blockquote>
+
+<p>A seguir são apresentados como habilitar, configurar e utilizar o acesso remoto em roteadores e <em>switches</em> CISCO, focando o SSH que é o método mais seguro e recomendado, mas em alguns casos há possibilidade de utilizar o Telnet ou HTTP.</p>
+
+<h1 id="switches">Switches</h1>
+
+<p>É possível fazer acesso remoto também em <em>switches</em>, alguns possuem interface gráfica através de HTTP. Aqui iremos trabalhar com acesso via SSH em <em>switches</em> CISCO.</p>
+
+<blockquote>
+  <p>Lembrando que habilitar esse tipo de acesso trás mas comodidade e agilidade para o administrador, todavia aumenta o riscos de ataques cibernéticos. Então, caso o acesso remoto não seja altamente necessário não o habilite.</p>
+</blockquote>
+
+<h2 id="acessando-o-terminal-de-configuração">Acessando o terminal de configuração</h2>
+
+<p>Para iniciar vamos criar no simulador da CISCO (Packet Tracer) uma rede com um <em>switch</em> e dois computadores, tal como na figura a seguir:</p>
+
+<p><img src="imagens/sw01.png" alt="SWrede1" /></p>
+
+<p>No cenário de rede da figura anterior, a principio, não é necessário nenhuma configuração para o <em>switch</em> funcionar. Neste cenário só foi configurado o PC0 com o IP 10.0.0.1/24 e 10.0.0.2/24, para o PC1. O PC0 consegue acessar o PC1, e o contrário também - ou seja, a rede está funcional. Todavia nenhum desses PCs conseguem acessar/gerenciar o <em>switch</em> via rede, para que isso aconteça é necessário configurá-lo. No simulador isso é feito clicando em cima do switch e indo na aba CLI, tal como ilustrado na figura a seguir:</p>
+
+<p><img src="imagens/sw02-cli.png" alt="SWrede2" /></p>
+
+<p>Agora para configurar o <em>switch</em> basta entrar com os comandos via terminal, e é possível por exemplo, habilitar o gerenciamento remoto. Todavia na vida real não dá para clicar em cima do <em>switch</em>, então provavelmente será necessário acessá-lo inicialmente via terminal serial e só depois de configurá-lo será possível acessar o <em>switch</em> via rede, facilitando assim o gerenciamento do mesmo.</p>
+
+<p>Para fazer acesso via serial no simulador será necessário inserir um cabo console em um PC tal com ilustrado na figura a seguir, para esse exemplo iremos fazer esse acesso pelo PC2 que foi inserido só para essa tarefa, depois de colocar o cabo console na interface console do <em>switch</em> e RS323 do PC, clique no PC e na aba Desktop clique em Terminal, tal como na figura a seguir:</p>
+
+<p><img src="imagens/sw03.01-console.png" alt="SWrede3" /></p>
+
+<p>Feito isso será apresentada uma tela para a configuração do console serial, a principio já está tudo configurado corretamente, então é só clicar em OK. Na vida real seria necessário instalar algum programa de acesso a console serial e ai configurar com as opções que estão na figura a seguir. Mas o procedimento é basicamente o mesmo.</p>
+
+<p><img src="imagens/sw03.02-console.png" alt="SWrede4" /></p>
+
+<p>Depois de clicar em OK, será apresentado um terminal, que representa o terminal do <em>switch</em>, ou seja, você está acessando o <em>switch</em> remotamente via cabo serial.</p>
+
+<p><img src="imagens/sw03.03-console.png" alt="SWrede5" /></p>
+
+<p>Após acessar o <em>switch</em> via cabo serial, o ambiente de configuração é mesmo que obter o terminal clicando no ícone do <em>switch</em>, tal como apresentado anteriormente, ou seja, conseguindo o  terminal, a configuração é a mesma para ambas as alternativas no simulador (configurar clicando no <em>switch</em> ou via cabo serial).</p>
+
+<h2 id="configurando-o-switch-para-ser-acessado-remotamente">Configurando o <em>switch</em> para ser acessado remotamente</h2>
+
+<p>Com acesso ao console/terminal do <em>switch</em> é possível configurá-lo com um IP para realizar o acesso remoto via rede TCP/IP. Para isso é necessário executar os seguintes comandos:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch&gt;</span><span class="nb">enable</span>
+<span class="gp">Switch#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface vlan 99
+<span class="gp">Switch(config-if)#</span>ip address 10.0.0.3 255.255.255.0
+<span class="gp">Switch(config-if)#</span>no shutdown
+<span class="gp">Switch(config-if)#</span>ip default-gateway 10.0.0.254
+<span class="gp">Switch(config)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Bem, os comandos anteriores habilitaram a configuração no <em>switch</em> <code class="language-plaintext highlighter-rouge">enable</code> e <code class="language-plaintext highlighter-rouge">configure terminal</code>. Depois, configuramos o IP 10.0.0.3/24 na interface de rede chamada <code class="language-plaintext highlighter-rouge">vlan 99</code>, que é uma VLAN que deve ser vinculada posteriormente com as portas do <em>switch</em>, para ditar quem tem acesso remoto ao <em>switch</em>. Opcionalmente também foi configurado um <em>gateway</em> padrão, desta forma é possível, a principio, acessar o <em>switch</em> de outras redes, é claro que isso deixa o <em>switch</em> mais vulnerável à ataques externos, então só coloque um <em>gateway</em> padrão se for estritamente necessário, caso contrário deixe apenas o acesso à rede local.</p>
+
+<p>Configurado o IP na VLAN 99, agora basta informar qual porta do <em>switch</em> tem acesso a essa VLAN, exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch(config)#</span><span class="w">
+</span><span class="gp">Switch(config)#</span>interface f0/2
+<span class="gp">Switch(config-if)#</span>switchport access vlan 99
+<span class="gp">Switch(config-if)#</span><span class="w">
+</span><span class="go">%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan99, changed state to up
+
+</span><span class="gp">Switch(config-if)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Neste caso a porta f0/2 do <em>switch</em> foi atrelada a VLAN 99, o que dará acesso ao IP do <em>switch</em> e consequentemente o PC1 poderá acessar o <em>switch</em> remotamente via TCP/IP. Para verificar isso é possível pingar o IP do <em>switch</em> a partir do PC1, tal como apresentado na figura a seguir:</p>
+
+<p><img src="imagens/sw04.png" alt="SWrede4" /></p>
+
+<p>Note que não é possível acessar o <em>switch</em> via PC1, pois esse não está vinculado a VLAN 99. Isso é interessante em termos de segurança, pois assim é possível limitar os <em>hosts</em> que possuem acesso ao <em>switch</em> - é claro que isso não é perfeito, pois a segurança está relacionada á porta do <em>switch</em> e não a um <em>host</em>/usuário específico. A figura a seguir mostra que não é possível acessar o <em>switch</em> a partir do PC0.</p>
+
+<p><img src="imagens/sw05.png" alt="SWrede5" /></p>
+
+<p>Agora temos que habilitar e configurar o serviço de SSH no <em>switch</em>.</p>
+
+<h2 id="configurando-o-ssh">Configurando o SSH</h2>
+
+<p>Primeiro é necessário gerar a chave de criptografia utilizada pelo SSH para manter os dados confidenciais. Para isso é recomendável configurar o nome do <em>host</em> e do domínio, tal como é ilustrado pelos comandos a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch&gt;</span><span class="nb">enable</span>
+<span class="gp">Switch#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span><span class="nb">hostname </span>sw0
+<span class="gp">sw0(config)#</span>ip domain name cyberinfra
+<span class="gp">sw0(config)#</span>crypto key generate rsa
+<span class="go">The name for the keys will be: sw0.cyberinfra
+Choose the size of the key modulus in the range of 360 to 2048 for your
+General Purpose Keys. Choosing a key modulus greater than 512 may take
+a few minutes.
+
+How many bits in the modulus [512]: 
+% Generating 512 bit RSA keys, keys will be non-exportable...[OK]
+
+</span><span class="gp">sw0(config)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Antes de continuar com o SSH é recomendável habilitar a senha para acessar o terminal de configuração da administração do switch (que é obtida após o comando <code class="language-plaintext highlighter-rouge">enable</code>), isso é feito pelo comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">sw0(config)#</span><span class="nb">enable </span>password 123mudar
+<span class="go">*Mar 1 1:58:28.322: RSA key size needs to be at least 768 bits for ssh version 2
+*Mar 1 1:58:28.323: %SSH-5-ENABLED: SSH 1.5 has been enabled
+</span><span class="gp">sw0(config)#</span><span class="w">
+</span></code></pre></div></div>
+<p>Neste caso colocamos a senha <code class="language-plaintext highlighter-rouge">123mudar</code>.</p>
+
+<p>O próximo passo é configurar realmente o usuário e senha do SSH:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">sw0(config)#</span>username admin password abc123
+<span class="gp">sw0(config)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Neste exemplo o nome do usuário é admin e a senha é <code class="language-plaintext highlighter-rouge">abc123</code>, para título de exemplo estamos utilizando nomes de usuários e senhas fáceis de lembrar, mas na prática utilize usuários e senhas apropriadas. Note que as senhas para acessar o SSH e ter acesso ao terminal de configuração são diferentes, elas podem ser iguais, mas isso seria menos seguro.</p>
+
+<p>Para finalizar é necessário configurar o SSH para dar acesso ao terminal do <em>switch</em>, isso é feito com os comandos a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">sw0(config)#</span>ip ssh version 2
+<span class="go">Please create RSA keys (of at least 768 bits size) to enable SSH v2.
+</span><span class="gp">sw0(config)#</span>line vty 0 15
+<span class="gp">sw0(config-line)#</span>transport input ssh
+<span class="gp">sw0(config-line)#</span>login <span class="nb">local</span>
+<span class="gp">sw0(config-line)#</span>end
+<span class="gp">sw0#</span>copy running-config startup-config
+<span class="go">Destination filename [startup-config]? 
+Building configuration...
+[OK]
+</span><span class="gp">sw0#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Com o <em>switch</em> disponível via IP na rede, com o SSH habilitado e configurado, é possível acessar o servidor SSH no <em>switch</em> através de um cliente SSH, neste exemplo, o cliente SSH está no PC1. A figura a seguir apresenta um acesso via SSH do PC1 para o <em>switch</em>.</p>
+
+<p><img src="imagens/sw06.png" alt="SWrede6" /></p>
+
+<p>Na imagem anterior depois de testar a conectividade com o <em>host</em>, com o comando <code class="language-plaintext highlighter-rouge">ping</code>. Foi utilizado o comando <code class="language-plaintext highlighter-rouge">ssh -l admin 10.0.0.3</code>, para acessar o <em>switch</em> via SSH. Neste caso o <em>switch</em> está acessível pelo IP 10.0.0.3 com o usuário <code class="language-plaintext highlighter-rouge">admin</code>, para este usuário havíamos configurado a senha <code class="language-plaintext highlighter-rouge">abc123</code>. 
+Após isso, fica disponível o <em>prompt</em> de comando do <em>switch</em>. 
+Então, é possível executar o comando <code class="language-plaintext highlighter-rouge">enable</code> para ter acesso as configurações do <em>switch</em>, neste caso também foi configurado uma senha para o usuário mudar para o administrador do sistema, tal senha neste exemplo é <code class="language-plaintext highlighter-rouge">123mudar</code>.</p>
+
+<blockquote>
+  <p>Em um cenário real, tanto com <em>switch</em> quanto com roteador, após configurar o servidor SSH não seria mais necessário utilizar o acesso via cabo serial.</p>
+</blockquote>
+
+<h1 id="roteadores">Roteadores</h1>
+
+<p>É muito comum fazer o uso de acesso remoto à roteadores, já que esses são dispositivos acessíveis diretamente via rede, ou seja possuem IPs. Então, normalmente é muito comodo configurar um roteador remotamente.</p>
+
+<blockquote>
+  <p><strong>Atenção</strong> - se você errar ao configurar um roteador remotamente, você pode perder o acesso a rede/roteador e consequentemente você será desconectado e pode chegar ao extremo de não ter mais como configurar o equipamento remotamente. Ou seja, você terá que fazer acesso local/físico à máquina e isso pode significar andar quilômetros para ter esse acesso físico. Então, <strong>é necessário cuidado redobrado ao executar comandos remotamente em equipamentos como roteadores</strong>.</p>
+</blockquote>
+
+<h2 id="acessando-o-terminal-de-configuração-1">Acessando o terminal de configuração</h2>
+
+<p>No caso de roteadores CISCO, se você estiver utilizando o simulador Packet Tracer da CISCO para estudar/treinar, basta clicar no ícone do roteador no cenário de rede e depois clicar na aba CLI. Tal como ilustrado no cenário de rede da figura a seguir.</p>
+
+<p><img src="imagens/router01.png" alt="SWrede7" /></p>
+
+<p>Na prática (não no simulador), pode ser necessário utilizar um cabo serial conectando um computador ao roteador, para iniciar a configuração. Tal como foi feito na configuração do <em>switch</em> (o texto anterior detalha melhor a conexão serial) e é apresentado nas figuras a seguir:</p>
+
+<p><img src="imagens/router02.png" alt="SWrede8" /></p>
+
+<p>Na figura anterior é adicionado um computador (PC2) ligado a um cabo serial/console ao roteador, depois (no simulador) clicamos no PC2, Desktop e Terminal, onde ai aparece a configuração do terminal, mas não é necessário configurar nada, só pressionar OK. Após isso é apresentado o terminal/console de configuração do roteador, ou seja, é feita a conexão serial entre PC2 e roteador. Tal como ilustra a figura a seguir:</p>
+
+<p><img src="imagens/router03.png" alt="SWrede9" /></p>
+
+<p>Lembrando que no simulador não é necessário ter um computador ligado no cabo serial, é só clicar no dispositivo e acessar o CLI deste dispositivo (roteador/<em>switch</em>). Todavia é bom saber fazer isso, pois na vida real o processo inicial pode ser este.</p>
+
+<h2 id="configurando-o-roteador-para-ser-acessado-remotamente">Configurando o roteador para ser acessado remotamente</h2>
+
+<p>Depois de ter acesso ao terminal do roteador é necessário configurar IPs para poder acessar via rede. Ou seja, é necessário configurar IPs nas interfaces do roteador - que é o básico a se fazer em um roteador.</p>
+
+<p>Um exemplo de configuração de IPs no roteador é apresentado a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">Would you like to enter the initial configuration dialog? [yes/no]: no
+
+
+Press RETURN to get started!
+
+
+
+</span><span class="gp">Router&gt;</span><span class="nb">enable</span>
+<span class="gp">Router#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Router(config)#</span>interface g0/0/0
+<span class="gp">Router(config-if)#</span>ip address 192.168.0.1 255.255.255.0
+<span class="gp">Router(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">Router(config-if)#</span><span class="w">
+</span><span class="go">%LINK-5-CHANGED: Interface GigabitEthernet0/0/0, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/0, 
+changed state to up
+
+</span><span class="gp">Router(config-if)#</span>interface g0/0/1
+<span class="gp">Router(config-if)#</span>ip address 172.16.0.1 255.255.255.0
+<span class="gp">Router(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">Router(config-if)#</span><span class="w">
+</span><span class="go">%LINK-5-CHANGED: Interface GigabitEthernet0/0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/1, 
+changed state to up
+
+</span><span class="gp">Router(config-if)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Na figura anterior foi configurado o IP 192.168.0.1/24 na interface <code class="language-plaintext highlighter-rouge">GigabitEthernet0/0/0</code> do roteador e o IP 172.16.0.1/24 na interface <code class="language-plaintext highlighter-rouge">GigabitEthernet0/0/1</code>. Com essa configuração tanto PC0 quanto PC1 podem “pingar” o roteador. Tal como é ilustrado na figura a seguir:</p>
+
+<p><img src="imagens/router04.png" alt="SWrede10" /></p>
+
+<p>Apesar do roteador já estar funcionando na rede, não é possível acessá-lo via SSH, pois esse normalmente está desabilitado. Portando agora basta ativar o SSH para o gerenciamento remoto.</p>
+
+<h2 id="configurando-o-ssh-1">Configurando o SSH</h2>
+
+<p>O processo de configuração do servidor SSH é o mesmo realizado no <em>switch</em>. A figura a seguir apresenta os passos para configurar o SSH no roteador do cenário simulado neste exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Router&gt;</span><span class="nb">enable</span>
+<span class="gp">Router#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Router(config)#</span><span class="nb">hostname </span>r0
+<span class="gp">r0(config)#</span>ip domain name cyberinfra
+<span class="gp">r0(config)#</span>crypto key generate rsa
+<span class="go">The name for the keys will be: r0.cyberinfra
+Choose the size of the key modulus in the range of 360 to 2048 for your
+General Purpose Keys. Choosing a key modulus greater than 512 may take
+a few minutes.
+
+How many bits in the modulus [512]: 
+% Generating 512 bit RSA keys, keys will be non-exportable...[OK]
+
+</span><span class="gp">r0(config)#</span>username admin password abc123
+<span class="go">*Mar 1 1:11:53.304: RSA key size needs to be at least 768 bits for ssh version 2
+*Mar 1 1:11:53.304: %SSH-5-ENABLED: SSH 1.5 has been enabled
+</span><span class="gp">r0(config)#</span><span class="nb">enable </span>password 123mudar
+<span class="gp">r0(config)#</span>ip ssh version 2
+<span class="go">Please create RSA keys (of at least 768 bits size) to enable SSH v2.
+</span><span class="gp">r0(config)#</span>line vty 0 15
+<span class="gp">r0(config-line)#</span>transport input ssh
+<span class="gp">r0(config-line)#</span>login <span class="nb">local</span>
+<span class="gp">r0(config-line)#</span>end
+<span class="gp">r0#</span><span class="w">
+</span><span class="go">%SYS-5-CONFIG_I: Configured from console by console
+
+</span><span class="gp">r0#</span>copy running-config startup-config
+<span class="go">Destination filename [startup-config]? 
+Building configuration...
+[OK]
+</span><span class="gp">r0#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Basicamente os comandos anteriores fazem:</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">enable</code> e <code class="language-plaintext highlighter-rouge">configure terminal</code> -  dão acesso á área de administração e configuração do roteador;</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">hostname r0</code> e <code class="language-plaintext highlighter-rouge">ip domain name cyberinfra</code> - atribuem um nome e um domínio ao roteador, isso é recomendável para ajudar na criação da chave criptográfica;</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">crypto key generate rsa</code> - gera a chave criptográfica;</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">username admin password abc123</code> - cria um usuário chamado admin e com a senha abc123, tal usuário/senha será utilizado para acessar o roteador via SSH - lembre de utilizar usuários e senhas fortes, aqui é só um exemplo.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">enable password 123mudar</code> - atribui uma senha que será requisitada quando o usuário tentar mudar para o modo configuração/administrador do roteador. Isso não é obrigatório mais é recomendável por motivos de segurança. De preferência utilize senhas diferentes para o usuário do SSH e essa senha;</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ip ssh version 2</code> - configura a versão utilizada no SSH, neste caso a versão 2;</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">line vty 0 15</code> e <code class="language-plaintext highlighter-rouge">transport input ssh</code> - habilita o console via SSH;</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">login local</code> - configura o roteador para usar usuários/senhas locais durante o <em>login</em>.</p>
+  </li>
+</ul>
+
+<p>Após essa configuração já é possível acessar o roteador via rede utilizando o SSH. Note que esse acesso pode ser feito de qualquer <em>host</em> da rede local, ou de outras redes/<em>hosts</em> que tenham acesso à esse roteador. Então habilitar o SSH no roteador é muito comodo, todavia é extremamente perigoso, desta forma recomendá-se o uso de ferramentas de segurança, tais como <em>firewall</em>, para evitar possíveis ataques.</p>
+
+<p>A figura a seguir mostra o acesso do PC1 ao roteador, via SSH:</p>
+
+<p><img src="imagens/router05.png" alt="SWrede11" /></p>
+
+<p>Na figura anterior o comando <code class="language-plaintext highlighter-rouge">ssh -l admin 172.16.0.1</code> é o programa cliente que pede acesso ao servidor SSH, que está disponível no roteador 172.16.0.1, com o usuário <code class="language-plaintext highlighter-rouge">admin</code>. Neste caso do exemplo, a senha para acessar o SSH com <code class="language-plaintext highlighter-rouge">admin</code> é <code class="language-plaintext highlighter-rouge">abc123</code>. Após isso o usuário pode mudar para o modo configuração do roteador com o comando <code class="language-plaintext highlighter-rouge">enable</code>, no qual a senha do exemplo é <code class="language-plaintext highlighter-rouge">123mudar</code>.</p>
+
+<blockquote>
+  <p>Em um cenário real, tanto com <em>switch</em> quanto com roteador, após configurar o servidor SSH não seria mais necessário utilizar o acesso via cabo serial.</p>
+</blockquote>
+
+<h1 id="conclusão">Conclusão</h1>
+
+<p>O acesso remoto à <em>switches</em> e roteadores é muito útil na administração das redes de computadores. Todavia deve ser utilizado com cautela para não gerar problemas de segurança. Atualmente o método mais indicado é o uso do SSH, todavia esse deve ser configurado com porta distintas da padrão e o acesso de preferência deve ser local.</p>
+
+<h1 id="referência">Referência</h1>
+
+<ul>
+  <li>CISCO. Routing and Switching Essentials - Companion Guide. Cisco Press. ISBN-13: 978-1-58713-318-3. 2014.</li>
+  <li><a href="https://www.thegeekstuff.com/2013/08/enable-ssh-cisco/">https://www.thegeekstuff.com/2013/08/enable-ssh-cisco/</a>.</li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur F. Santos</b>
+    </span>
+    
+    <span>© 2021</span>
+  </a>
+</footer>
+
+
+  
+</body>
+
+</html>
