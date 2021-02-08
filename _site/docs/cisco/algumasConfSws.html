@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CyberInfra | Operating Systems, Computer Networks, CyberSecurity…</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur F. Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Operating Systems, Computer Networks, CyberSecurity…" />
+<meta property="og:description" content="Operating Systems, Computer Networks, CyberSecurity…" />
+<link rel="canonical" href="http://localhost:4000/docs/cisco/algumasConfSws" />
+<meta property="og:url" content="http://localhost:4000/docs/cisco/algumasConfSws" />
+<meta property="og:site_name" content="CyberInfra" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Luiz Arthur F. Santos"},"description":"Operating Systems, Computer Networks, CyberSecurity…","url":"http://localhost:4000/docs/cisco/algumasConfSws","headline":"CyberInfra","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Operating Systems, Computer Networks, CyberSecurity...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documents</h2></a>
+<a href="/archive"><h2 class="header-link">Archive</h2></a>
+<a href="/about"><h2 class="header-link">About</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="algumas-configurações-de-switches">Algumas configurações de <em>switches</em></h1>
+
+<blockquote>
+  <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
+Autor: <strong>Prof. Dr. Luiz Arthur Feitosa dos Santos</strong><br />
+E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br</a></strong></p>
+</blockquote>
+
+<hr />
+
+<p>Em alguns casos é necessário realizar algumas configurações mais específicas nos <em>switches</em>, tais como configuração de velocidade da porta, ativação/desativação da porta, etc.</p>
+
+<p>Então a seguir são apresentadas algumas dessas configurações em <em>switches</em> CISCO.</p>
+
+<h1 id="velocidade-e-duplex">Velocidade e duplex</h1>
+
+<p>Atualmente é comum que <em>switches</em> sejam <em>full-duplex</em>, ou seja, possuam portas que permitem enviar e receber dados simultaneamente. Todavia, os <em>switches</em> mais antigos eram half-duplex, ou seja, suas portas podiam enviar e receber dados, mas só uma coisa de cada vez. Em outras palavras no <em>half-duplex</em> ou a porta estava enviando dados ou estava recebendo, mas não os dois ao mesmo tempo. Assim, alguns <em>switches</em> permitem configurar suas portas como <em>half</em> ou <em>full-duplex</em>.</p>
+
+<p>Na figura a seguir, há um cenário de rede, com os <em>switches</em> sem nenhum tipo de configuração. No Switch0 foi executado o comando <code class="language-plaintext highlighter-rouge">show interface f0/2</code>, que mostra que a interface rede f0/2, que possui como configuração padrão a transmissão <em>full-duplex</em> e velocidade de 100Mbps (ver parte marcada na figura).</p>
+
+<p><img src="imagens/algunsComandosSw/01.png" alt="fig1" /></p>
+
+<p>Bem, então dado o cenário anterior os comandos necessários para alterar o tipo de transmissão e a velocidade seriam:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch&gt;</span><span class="nb">enable</span>
+<span class="gp">Switch#</span>configure terminal 
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface f0/2
+<span class="gp">Switch(config-if)#</span>duplex half
+<span class="go">%LINK-3-UPDOWN: Interface FastEthernet0/2, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/2, changed state to down
+
+%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/2, changed state to up
+
+</span><span class="gp">Switch(config-if)#</span>speed 10
+<span class="gp">Switch(config-if)#</span>end
+</code></pre></div></div>
+<p>No exemplo anterior o Switch0 foi configurado para <em>half-duplex</em> com o comando <code class="language-plaintext highlighter-rouge">duplex half</code> e a velocidade foi alterada para 10Mbps com o comando <code class="language-plaintext highlighter-rouge">speed 10</code>. Tal alteração é apresentada na figura a seguir.</p>
+
+<p><img src="imagens/algunsComandosSw/02.png" alt="fig2" /></p>
+
+<p>Não foi apresentado aqui, mas o ideal é que em ambos os equipamentos conectados, no caso os dois <em>switches</em>, tenham a mesma configuração nas interfaces que os conectam. Assim, pelo menos a interface f0/2 do Switch0 e Switch1 devem ser configurados como <em>half-duplex</em> e 10Mbps.</p>
+
+<blockquote>
+  <p><strong>Atenção</strong> - aqui foi apresentado a ideia de redução de velocidade e troca de transmissão de <em>full</em> para <em>half</em> duplex a título de exemplo, é claro que no dia a dia a tendencia é subir a velocidade e que o tipo de transmissão seja <em>full-duplex</em>.</p>
+</blockquote>
+
+<p>A próxima figura ilustra como mudar a velocidade para 100Mbps e o tipo de transmissão para <em>full-duplex</em>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface f0/2
+<span class="gp">Switch(config-if)#</span>duplex full
+<span class="go">%LINK-3-UPDOWN: Interface FastEthernet0/2, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/2, changed state to down
+
+</span><span class="gp">Switch(config-if)#</span>speed 100
+<span class="gp">Switch(config-if)#</span>end
+</code></pre></div></div>
+
+<p>Como é possível ver na figura anterior basicamente é trocar de <code class="language-plaintext highlighter-rouge">half</code> para <code class="language-plaintext highlighter-rouge">full</code> no comando <code class="language-plaintext highlighter-rouge">duplex</code> e de <code class="language-plaintext highlighter-rouge">10</code> para <code class="language-plaintext highlighter-rouge">100</code> no comando <code class="language-plaintext highlighter-rouge">speed</code>.</p>
+
+<blockquote>
+  <p><strong>Atenção</strong> - Não adianta tentar colocar uma velocidade que a porta do <em>switch</em> não suporta. Por exemplo, trocando de 100Mbps para 1000Mbps (1Gbps) se a porta não é <em>gigabit</em>.</p>
+</blockquote>
+
+<h3 id="colocando-velocidade-duplex-e-mdix-automática">Colocando velocidade, duplex e MDIX automática</h3>
+
+<p>Anteriormente foi comentado como configurar a velocidade manualmente, todavia é possível configurar para que a velocidade seja negociada automaticamente pelos <em>hosts</em>/<em>switches</em>.</p>
+
+<p>Também é possível configurar o auto-MDIX (<em>automatic medium-dependent interface crossover</em>), que faz o cruzamento do cabo de forma automática, caso seja necessário. Ou seja, se for necessário um cabo crossover e o usuário utilizar um cabo comum (<em>straight-through</em>) a porta do host irá fazer o ajuste automático (cruzamento dos pares do cabo), para que a conexão seja possível. Em outras palavras é possível utilizar o cabo errado e a rede funciona.</p>
+
+<p>A seguir são apresentados os comandos necessários para que funcione o MDIX, bem como a configuração automática da velocidade e tipo de transmissão:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch&gt;</span><span class="nb">enable</span> 
+<span class="gp">Switch#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface f0/2
+<span class="gp">Switch(config-if)#</span>duplex auto
+<span class="go">%LINK-5-CHANGED: Interface FastEthernet0/2, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/2, changed state to up
+
+</span><span class="gp">Switch(config-if)#</span>speed auto
+<span class="gp">Switch(config-if)#</span>mdix auto
+<span class="gp">Switch(config-if)#</span>end
+</code></pre></div></div>
+<p>Assim, para configurar o auto-MDIX é necessário o comando <code class="language-plaintext highlighter-rouge">mdix auto</code>. Já para a configuração automática do tipo de transmissão e da velocidade basta utilizar <code class="language-plaintext highlighter-rouge">auto</code> tanto para o comando <code class="language-plaintext highlighter-rouge">duplex</code> quanto para o comando <code class="language-plaintext highlighter-rouge">speed</code>.</p>
+
+<h1 id="desabilitandohabilitando-portas">Desabilitando/habilitando portas</h1>
+
+<p>É comum imaginar que todas as portas dos <em>switches</em> devam estar ligadas (prontas para uso). Todavia, por questões de segurança pode ser interessante desabilitar portas de <em>switches</em> que não serão utilizadas. Isso é feito com o comando <code class="language-plaintext highlighter-rouge">shutdown</code>.</p>
+
+<p>Usando a rede dos exemplos anteriores,  imagine um cenário no qual ninguém deve utilizar, por motivos de segurança, nenhuma porta que não a f0/1 e f0/2, tanto do Switch0 quanto do Switch1. Ou seja, nesta rede só é permitida a conexão entra switches, PC0 e PC1. Para desabilitar as outras portas é necessário executar em cada porta os seguintes comandos:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface f0/3
+<span class="gp">Switch(config-if)#</span>shutdown
+<span class="go">
+%LINK-5-CHANGED: Interface FastEthernet0/3, changed state to administratively down
+</span><span class="gp">Switch(config-if)#</span><span class="w">
+</span></code></pre></div></div>
+<p>Dado o comando <code class="language-plaintext highlighter-rouge">shutdown</code> da figura anterior, é possível utilizar o comando <code class="language-plaintext highlighter-rouge">show interface status</code>, para verificar se a porta está desabilitada (<code class="language-plaintext highlighter-rouge">disabled</code>), tal como ilustra a figura a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>show interface status
+<span class="go">Port      Name               Status       Vlan       Duplex  Speed Type
+Fa0/1                        connected    1          auto    auto  10/100BaseTX
+Fa0/2                        connected    1          auto    auto  10/100BaseTX
+Fa0/3                        disabled 1          auto    auto  10/100BaseTX
+Fa0/4                        notconnect   1          auto    auto  10/100BaseTX
+Fa0/5                        notconnect   1          auto    auto  10/100BaseTX
+Fa0/6                        notconnect   1          auto    auto  10/100BaseTX
+Fa0/7                        notconnect   1          auto    auto  10/100BaseTX
+</span></code></pre></div></div>
+
+<p>Bem, para atingir o máximo de segurança é interessante desabilitar todas as portas que não foram planejadas para serem utilizadas. Todavia, fazer <code class="language-plaintext highlighter-rouge">shutdown</code> porta por porta irá ocupar muito tempo e pode gerar erros de configuração. Então uma opção interessante é passar uma faixa de portas de uma só vez, isso é possível utilizando o comando a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface range fastethernet 0/3 - 7
+<span class="gp">Switch(config-if-range)#</span>shutdown
+<span class="go">
+%LINK-5-CHANGED: Interface FastEthernet0/4, changed state to administratively down
+
+%LINK-5-CHANGED: Interface FastEthernet0/5, changed state to administratively down
+
+%LINK-5-CHANGED: Interface FastEthernet0/6, changed state to administratively down
+
+%LINK-5-CHANGED: Interface FastEthernet0/7, changed state to administratively down
+
+</span><span class="gp">Switch(config-if-range)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>O comando <code class="language-plaintext highlighter-rouge">interface range fastethernet 0/1 - 7</code> habilita a configuração para uma faixa de portas do switch. Desta forma, é só digitar uma vez o comando que ese será replicado para todas as portas. No exemplo foi utilizado o comando <code class="language-plaintext highlighter-rouge">shutdown</code>, mas pode ser qualquer outro (não só para habilitar e desabilitar portas). A seguir é apresentado o status de cada porta, também foi colocado um <em>host</em> novo, simulando uma pessoa não autorizada tentando acessar a rede, Na figura dá para ver que o <em>link</em> para esse novo PC (PC2) está em vermelho, ou seja, esse computador não está na rede, pois ele está em uma porta desabilitada.</p>
+
+<p><img src="imagens/algunsComandosSw/03.png" alt="fig3" /></p>
+
+<p>É claro que um invasor poderia remover o cabo de uma porta que funciona e tentar acessar a rede, mas isso pode gerar um alerta na rede já que essa pode parar de funcionar corretamente (algum PC pode parar ou a comunicação entre o <em>switch</em>.</p>
+
+<p>A proteção apenas pela porta não funciona em 100% dos casos, pois o invasor pode tentar achar uma porta habilitada ou remover um PC idôneo para conectar o seu. Entretanto, o ato de desabilitar portas já é uma medida de segurança interessante para bloquear pessoas leigas (não <em>hackers</em>) que tentam usar a rede sem permissão.</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur F. Santos</b>
+    </span>
+    
+    <span>© 2021</span>
+  </a>
+</footer>
+
+
+  
+</body>
+
+</html>
