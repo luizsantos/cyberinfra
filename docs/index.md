@@ -28,6 +28,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [QoS no OpenBSD](QoS/QoS.md)
 * CISCO
 	* [Configurando acesso remoto](cisco/ativarSSH.md)
+	* [Outras configurações em switches](cisco/algumasConfSws.md)
 		
 # Cibersegurança
 * [PenTesting](penTest/pentest.md)
