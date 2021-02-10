@@ -149,3 +149,52 @@ O comando ``interface range fastethernet 0/1 - 7`` habilita a configuração par
 É claro que um invasor poderia remover o cabo de uma porta que funciona e tentar acessar a rede, mas isso pode gerar um alerta na rede já que essa pode parar de funcionar corretamente (algum PC pode parar ou a comunicação entre o *switch*.
 
 A proteção apenas pela porta não funciona em 100% dos casos, pois o invasor pode tentar achar uma porta habilitada ou remover um PC idôneo para conectar o seu. Entretanto, o ato de desabilitar portas já é uma medida de segurança interessante para bloquear pessoas leigas (não *hackers*) que tentam usar a rede sem permissão.
+
+
+# Limitando fluxos DHCP
+
+O [DHCP](https://pt.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol) é um serviço de rede que permite configurar automaticamente os endereços de *hosts* na rede, para que esses consigam acessar a rede sem precisar de configuração manual. 
+
+Todavia, o DHCP dá brechas para ataques, como por exemplo: 
+
+1. Quando um atacante se passa por um servidor DHCP legítimo para fazer com que o cliente passe pela máquina do atacante (e assim roube dados) ou acesse um servidor DNS comprometido.
+2. Ou o atacante envia dados errados, tais como *gateway* padrão e servidor DNS, de forma que os clientes não consigam mais acessar a rede, o que gera instabilidade ou indisponibilidade na rede.  
+3. Além dos ataques propositais, causados por *hacker*, também existe a possibilidade de alguém ligar erroneamente um roteador ou AP com um servidor DHCP ativo e causar da mesma forma indisponibilidades na rede. 
+
+Assim, alguns *switches* permitem determinar em qual porta está o servidor DHCP, desta forma, qualquer tráfego que venha de outra porta será ignorado/bloqueado, ajudando a evitar problemas com servidores DHCP mal configurados ou maliciosos. 
+
+> Lembrando que o cliente obtém as configurações de rede do primeiro servidor DHCP que responder, não importa qual seja esse servidor.
+
+Em *switches* Catalyst  da CISCO essa funcionalidade é chamada de **DHCP Snooping** que permite configurar quais portas do *switch* são confiáveis (*trust*) ou não para enviar pacotes do servidor DHCP. Portas não confiáveis (*untrust*) podem enviar requisições DHCP e as portas confiáveis podem enviar respostas dos servidores DHCP.
+
+A figura a seguir traz um exemplo, no qual há uma rede com um PC0 e um servidor (Server0) simulando um hacker com um servidor DHCP malicioso, tal servidor passa erradamente para o PC0 faixas de IPs de 10.0.0.100 até 10.0.0.110. Na esquerda da figura é apresentado que o PC0 (vítima) obteve o seu IP a partir do servidor DHCP do *hacker*, obtendo o IP 10.0.0.100. 
+
+![fig4](imagens/algunsComandosSw/04.png)
+
+Em um cenário real haveria mais clientes e provavelmente já existiria na rede o servidor DHCP legítimo. Todavia para facilitar o exemplo, esta rede inicialmente só tem um servidor e um cliente. 
+
+A próxima imagem apresenta a rede já com um servidor legítimo além do servidor do hacker. O cliente pediu novamente para obter um IP na rede, mas quem respondeu primeiro foi o servidor do hacker, e dá para ver que o IP do PC0 agora é o 10.0.0.101, o que mostra que ele pegou um novo IP do *hacker*. Então o cliente não conseguiu pegar a faixa de IPs 172.16.0.200-250 que está configurado no servidor legítimo.
+
+![fig5](imagens/algunsComandosSw/05.png)
+
+Agora vamos aplicar os comandos para permitir que respostas de DHCP sejam enviadas apenas pela porta do *switch*, na qual está conectada o servidor DHCP legítimo (no caso porta Fa0/3). É possível realizar isso utilizando os comandos a seguir:
+
+```console
+Switch>enable
+Switch#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Switch(config)#ip dhcp snooping
+Switch(config)#int fa0/3
+Switch(config-if)#ip dhcp snooping trust
+Switch(config-if)#
+```
+
+Os comandos anteriores basicamente habilitam o DHCP Snooping (``ip dhcp snooping``) e depois configura a porta Fa0/3 como uma porta confiável (``ip dhcp snooping trust``). Depois disso o único servidor DHCP que pode responder nesta rede é Server 1 (que é o servidor legítimo), qualquer outro servidor DHCP conectado em outra porta não conseguirá agir na rede. 
+
+A figura a seguir mostra o cliente fazendo uma requisição de IP via DHCP e agora quem responde é o servidor legítimo, já que o *hacker* está bloqueado na rede.
+
+![fig6](imagens/algunsComandosSw/06.png)
+
+Como pode ser visto agora o PC0 pegou o IP 172.16.0.202, que vem do Server 1, ou seja, o IP não vem mais do hacker e sim do servidor legítimo. 
+
+Ainda quanto a configuração do *switch*, também seria possível regular a quantidade de pedidos que um cliente pode fazer para servidores DHCP o que pode evitar ataques DoS. Para fazer isso é necessário executar em cada porta do switch o seguinte comando: ``ip dhcp snooping limit rate 5``, neste caso só são aceitos pacotes DHCP a cada 5 segundos. É claro que é possível alterar esse valor de tempo. 
