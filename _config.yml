@@ -5,6 +5,8 @@ author:
   email: "luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com"
 # template - url: "https://ashishchaudhary.in/hacker-blog"
 
+url: "https://luizsantos.github.io/cyberinfra/"
+
 baseurl: /
 
 source: .
@@ -32,4 +34,4 @@ plugins:
 owner : "luiz"
 company : "CyberInfra"
 year : "2021"
-url : "https://luizsantos.github.io/cyberinfra"
+#url : "https://luizsantos.github.io/cyberinfra"

@@ -71,6 +71,8 @@ Switch(config)#
 
 Bem, os comandos anteriores habilitaram a configuração no *switch* ``enable`` e ``configure terminal``. Depois, configuramos o IP 10.0.0.3/24 na interface de rede chamada ``vlan 99``, que é uma VLAN que deve ser vinculada posteriormente com as portas do *switch*, para ditar quem tem acesso remoto ao *switch*. Opcionalmente também foi configurado um *gateway* padrão, desta forma é possível, a principio, acessar o *switch* de outras redes, é claro que isso deixa o *switch* mais vulnerável à ataques externos, então só coloque um *gateway* padrão se for estritamente necessário, caso contrário deixe apenas o acesso à rede local.
 
+> Para que todos os *hosts* conectados ao *switch* tenham acesso remoto ao *switch*, sem que seja necessária nenhuma configuração extra, é possível configurar a **VLAN 1**, que é a VLAN padrão.  Ou seja, por padrão todas as portas fazem da VLAN 1. Todavia isso pode trazer riscos à segurança, já que qualquer *host* da rede poderia tentar acessar o *switch*.
+
 Configurado o IP na VLAN 99, agora basta informar qual porta do *switch* tem acesso a essa VLAN, exemplo:
 
 ```console
@@ -90,6 +92,8 @@ Neste caso a porta f0/2 do *switch* foi atrelada a VLAN 99, o que dará acesso a
 Note que não é possível acessar o *switch* via PC1, pois esse não está vinculado a VLAN 99. Isso é interessante em termos de segurança, pois assim é possível limitar os *hosts* que possuem acesso ao *switch* - é claro que isso não é perfeito, pois a segurança está relacionada á porta do *switch* e não a um *host*/usuário específico. A figura a seguir mostra que não é possível acessar o *switch* a partir do PC0.
 
 ![SWrede5](imagens/sw05.png)
+
+> Atenção - somente com essas configurações a porta em questão não estará mais na mesma VLAN dos outros *hosts*, então não haverá comunicação desta porta com as demais. Então, para haver comunicação, depois de acessar remotamente o *switch*, é necessário remover o vinculo com a VLAN 99 - dentre outras alternativas que não abordaremos aqui.
 
 Agora temos que habilitar e configurar o serviço de SSH no *switch*.
 

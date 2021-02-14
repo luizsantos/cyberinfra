@@ -120,6 +120,10 @@ E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br
 
 <p>Bem, os comandos anteriores habilitaram a configuração no <em>switch</em> <code class="language-plaintext highlighter-rouge">enable</code> e <code class="language-plaintext highlighter-rouge">configure terminal</code>. Depois, configuramos o IP 10.0.0.3/24 na interface de rede chamada <code class="language-plaintext highlighter-rouge">vlan 99</code>, que é uma VLAN que deve ser vinculada posteriormente com as portas do <em>switch</em>, para ditar quem tem acesso remoto ao <em>switch</em>. Opcionalmente também foi configurado um <em>gateway</em> padrão, desta forma é possível, a principio, acessar o <em>switch</em> de outras redes, é claro que isso deixa o <em>switch</em> mais vulnerável à ataques externos, então só coloque um <em>gateway</em> padrão se for estritamente necessário, caso contrário deixe apenas o acesso à rede local.</p>
 
+<blockquote>
+  <p>Para que todos os <em>hosts</em> conectados ao <em>switch</em> tenham acesso remoto ao <em>switch</em>, sem que seja necessária nenhuma configuração extra, é possível configurar a <strong>VLAN 1</strong>, que é a VLAN padrão.  Ou seja, por padrão todas as portas fazem da VLAN 1. Todavia isso pode trazer riscos à segurança, já que qualquer <em>host</em> da rede poderia tentar acessar o <em>switch</em>.</p>
+</blockquote>
+
 <p>Configurado o IP na VLAN 99, agora basta informar qual porta do <em>switch</em> tem acesso a essa VLAN, exemplo:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch(config)#</span><span class="w">
@@ -138,6 +142,10 @@ E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br
 <p>Note que não é possível acessar o <em>switch</em> via PC1, pois esse não está vinculado a VLAN 99. Isso é interessante em termos de segurança, pois assim é possível limitar os <em>hosts</em> que possuem acesso ao <em>switch</em> - é claro que isso não é perfeito, pois a segurança está relacionada á porta do <em>switch</em> e não a um <em>host</em>/usuário específico. A figura a seguir mostra que não é possível acessar o <em>switch</em> a partir do PC0.</p>
 
 <p><img src="imagens/sw05.png" alt="SWrede5" /></p>
+
+<blockquote>
+  <p>Atenção - somente com essas configurações a porta em questão não estará mais na mesma VLAN dos outros <em>hosts</em>, então não haverá comunicação desta porta com as demais. Então, para haver comunicação, depois de acessar remotamente o <em>switch</em>, é necessário remover o vinculo com a VLAN 99 - dentre outras alternativas que não abordaremos aqui.</p>
+</blockquote>
 
 <p>Agora temos que habilitar e configurar o serviço de SSH no <em>switch</em>.</p>
 
