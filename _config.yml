@@ -29,6 +29,9 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
 
+# Google services
+google_analytics: G-WJPJ7DKEWG
+
 
 # Custom variables
 owner : "luiz"
