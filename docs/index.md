@@ -16,7 +16,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Alguns comandos OpenBSD](OpenBSDServers/OpenBSD_comandos)
 * Outros
 	* [Windows acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMWindows)
-	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac) - v1
+	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac)
 
 # Redes de Computadores
 * HTTP(_HyperText Transfer Protocol_)
