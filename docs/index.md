@@ -14,9 +14,12 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 # Sistemas Operacionais
 * OpenBSD
 	* [Alguns comandos OpenBSD](OpenBSDServers/OpenBSD_comandos)
+* Outros
+	* [Windows acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMWindows)
+	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac)
 
 # Redes de Computadores
-* HTTP(_ HyperText Transfer Protocol_)
+* HTTP(_HyperText Transfer Protocol_)
 	* [Apache HTTP no OpenBSD](OpenBSDServers/HTTP)
 * FTP(_File Transference Protocol_)
 	* [FTP no OpenBSD](OpenBSDServers/FTP)
@@ -25,9 +28,12 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 * QoS (_Quality of Service_)
 	* [QoS no OpenBSD](QoS/QoS)
 * CISCO
-	* [Configurando acesso remoto](cisco/ativarSSH)
+	* [VLAN](cisco/vlan)
 	* [Outras configurações em switches](cisco/algumasConfSws)
+	* [Configurando acesso remoto](cisco/ativarSSH)
 		
 # Cibersegurança
 * [PenTesting](penTest/pentest)
+
+
 
