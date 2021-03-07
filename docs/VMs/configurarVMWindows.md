@@ -59,7 +59,11 @@ Segue como configurar o Windows para acessar o ambiente gráfico do Linux via SS
 
 6. Na VM da disciplina abrirá um menu que permite dentre outras coisas, iniciar o GNS3 cliente ou o PacketTracer. Assim, basta escolher um desses e a janela gráfica desses aplicativos aparecerá na máquina hospedeira, como se fosse um aplicativo desta, mas na verdade está vindo do servidor SSH (no caso a VM).
 
-	![fig5](imagens/VM_SSH_X_Windows/putty4.png)
+![fig5](imagens/VM_SSH_X_Windows/putty4.png)
+
+Na imagem a seguir, por exemplo, está em execução o GNS3 no Windows, via SSH com o Linux:
+
+![fig6](imagens/VM_SSH_X_Windows/gns3.jpeg)
 
 > É possível executar qualquer comando gráfico via console. No exemplo da VM da disciplina, seria possível dar um ``Crtl+C``, acessar o *shell* da VM e digital algo como ``wireshark``, ``gedit``, ``firefox`` ou qualquer aplicativo gráfico que esteja instalado, e tal aplicativo será exibido na tela do hospedeiro, no caso deste texto, do Windows.
 
