@@ -73,6 +73,9 @@
 <loc>http://localhost:4000/docs/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/videos/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/docs/penTest/pentest</loc>
 </url>
 <url>

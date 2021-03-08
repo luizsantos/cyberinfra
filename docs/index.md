@@ -33,7 +33,9 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Configurando acesso remoto](cisco/ativarSSH)
 		
 # Cibersegurança
+<!---
 * [PenTesting](penTest/pentest)
+-->
 
 
 
