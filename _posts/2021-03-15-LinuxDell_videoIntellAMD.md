@@ -175,11 +175,11 @@ $ ./valley
 
 Após executar o comando ``./valley`` será aberta uma interface gráfica que permite a execução do *benckmark*/teste - tal interface é bem intuitiva:
 
-![fig1](../assets/imagens/LinuxDell_videoIntellAMD/valley.png)
+![fig1](../docs/imagens/LinuxDell_videoIntellAMD/valley.png)
 
 No caso da minha placa de vídeo é possível acompanhar o uso das GPUs, memória, dentre outros, com o comando ``radeontop``. Tal como mostra a imagem a seguir:
 
-![fig1](../assets/imagens/LinuxDell_videoIntellAMD/radeontop.png)
+![fig1](../docs/imagens/LinuxDell_videoIntellAMD/radeontop.png)
 
 # Conclusão
 
