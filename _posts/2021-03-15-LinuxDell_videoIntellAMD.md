@@ -162,7 +162,7 @@ Depois de configurar corretamente a placa de vídeo, no caso de escolher uma com
 
 Uma forma simples de testar é utilizando o aplicativo ``glxgears``, que abrirá uma janela com algumas engrenagens girando. Tal como na imagem a seguir:
 
-![fig1](../assets/imagens/LinuxDell_videoIntellAMD/glxgears.png)
+![fig1](docs/imagens/LinuxDell_videoIntellAMD/glxgears.png)
 
 Um teste um pouco mais "complexo" pode ser utilizando um *benckmark* de terceiros, tal como o Valley, que pode ser baixado em <https://benchmark.unigine.com/valley>. Depois de baixar basta dar permissão de execução para o arquivo e executar. Então será extraído um diretório com o executável do *benckmark*, desta forma basta executá-lo. Veja os comandos a seguir:
 
@@ -175,11 +175,11 @@ $ ./valley
 
 Após executar o comando ``./valley`` será aberta uma interface gráfica que permite a execução do *benckmark*/teste - tal interface é bem intuitiva:
 
-![fig1](../docs/imagens/LinuxDell_videoIntellAMD/valley.png)
+![fig1](docs/imagens/LinuxDell_videoIntellAMD/valley.png)
 
 No caso da minha placa de vídeo é possível acompanhar o uso das GPUs, memória, dentre outros, com o comando ``radeontop``. Tal como mostra a imagem a seguir:
 
-![fig1](../docs/imagens/LinuxDell_videoIntellAMD/radeontop.png)
+![fig1](docs/imagens/LinuxDell_videoIntellAMD/radeontop.png)
 
 # Conclusão
 

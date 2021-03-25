@@ -183,7 +183,7 @@ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs
 
 &lt;p&gt;Uma forma simples de testar é utilizando o aplicativo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;glxgears&lt;/code&gt;, que abrirá uma janela com algumas engrenagens girando. Tal como na imagem a seguir:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../assets/imagens/LinuxDell_videoIntellAMD/glxgears.png&quot; alt=&quot;fig1&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;docs/imagens/LinuxDell_videoIntellAMD/glxgears.png&quot; alt=&quot;fig1&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Um teste um pouco mais “complexo” pode ser utilizando um &lt;em&gt;benckmark&lt;/em&gt; de terceiros, tal como o Valley, que pode ser baixado em &lt;a href=&quot;https://benchmark.unigine.com/valley&quot;&gt;https://benchmark.unigine.com/valley&lt;/a&gt;. Depois de baixar basta dar permissão de execução para o arquivo e executar. Então será extraído um diretório com o executável do &lt;em&gt;benckmark&lt;/em&gt;, desta forma basta executá-lo. Veja os comandos a seguir:&lt;/p&gt;
 
@@ -195,11 +195,11 @@ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs
 
 &lt;p&gt;Após executar o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./valley&lt;/code&gt; será aberta uma interface gráfica que permite a execução do &lt;em&gt;benckmark&lt;/em&gt;/teste - tal interface é bem intuitiva:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../docs/imagens/LinuxDell_videoIntellAMD/valley.png&quot; alt=&quot;fig1&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;docs/imagens/LinuxDell_videoIntellAMD/valley.png&quot; alt=&quot;fig1&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;No caso da minha placa de vídeo é possível acompanhar o uso das GPUs, memória, dentre outros, com o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;radeontop&lt;/code&gt;. Tal como mostra a imagem a seguir:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../docs/imagens/LinuxDell_videoIntellAMD/radeontop.png&quot; alt=&quot;fig1&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;docs/imagens/LinuxDell_videoIntellAMD/radeontop.png&quot; alt=&quot;fig1&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h1&gt;
 
