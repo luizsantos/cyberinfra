@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>Linuxdell_videointellamd</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Linuxdell_videointellamd | CyberInfra</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Linuxdell_videointellamd" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Configurando o Linux para utilizar a placa de vídeo AMD Radeon e não Intel" />
+<meta property="og:description" content="Configurando o Linux para utilizar a placa de vídeo AMD Radeon e não Intel" />
+<link rel="canonical" href="http://localhost:4000/LinuxDell_videoIntellAMD" />
+<meta property="og:url" content="http://localhost:4000/LinuxDell_videoIntellAMD" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-15T00:00:00-03:00" />
+<script type="application/ld+json">
+{"headline":"Linuxdell_videointellamd","dateModified":"2021-03-15T00:00:00-03:00","datePublished":"2021-03-15T00:00:00-03:00","url":"http://localhost:4000/LinuxDell_videoIntellAMD","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/LinuxDell_videoIntellAMD"},"@type":"BlogPosting","description":"Configurando o Linux para utilizar a placa de vídeo AMD Radeon e não Intel","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2>Linuxdell_videointellamd</h2>
+  <time datetime="2021-03-15T00:00:00-03:00" class="by-line">15 Mar 2021</time>
+  <h1 id="configurando-o-linux-para-utilizar-a-placa-de-vídeo-amd-radeon-e-não-intel">Configurando o Linux para utilizar a placa de vídeo AMD Radeon e não Intel</h1>
+
+<p>Alguns <em>notebooks</em> vêm com duas placas de vídeo, tal como uma Intel e outra AMD/Radeon. Todavia, normalmente a placa de vídeo que o sistema utiliza é uma placa sem recursos de GPU e a outra placa de vídeo fica ociosa, mesmo tendo recursos (GPU) que possam ajudar no processamento de imagens. Assim, este <em>post</em> apresenta como alterar entre as placas de vídeo, principalmente colocando como placa de vídeo principal a placa que tem mais recursos.</p>
+
+<blockquote>
+  <p>Atenção: Colocar como principal, a placa de vídeo com mais recursos, pode consumir mais energia/bateria.</p>
+</blockquote>
+
+<h1 id="configuração">Configuração</h1>
+
+<p>Essa configuração foi feita no Manjaro Linux, que é derivante do Arch Linux. No caso do Manjaro os módulos das placas de vídeo já estão carregadas pelo Kernel. Aqui não abordarei como instalar o módulo/<em>drivers</em> das placas de vídeo, o foco é ativar/escolher entre as placas já configuradas.</p>
+
+<h2 id="identificando-as-placas-de-vídeo">Identificando as placas de vídeo:</h2>
+
+<p>Para identificar as placas de vídeo é possível utilizar o comando <code class="language-plaintext highlighter-rouge">lspci</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>lspci <span class="nt">-k</span> | <span class="nb">grep</span> <span class="nt">-EA3</span> <span class="s1">'VGA|Display|3D'</span>
+<span class="go">00:02.0 VGA compatible controller: Intel Corporation HD Graphics 5500 (rev 09)
+Subsystem: Dell Device 0643
+Kernel driver in use: i915
+Kernel modules: i915
+--
+04:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Topaz XT [Radeon R7 M260/M265 / M340/M360 / M440/M445 / 530/535 / 620/625 Mobile]
+Subsystem: Dell Radeon R7 M260/M265
+Kernel driver in use: amdgpu
+Kernel modules: amdgpu
+</span></code></pre></div></div>
+<p>Na saída anterior são apresentadas duas placas de vídeo:</p>
+<ul>
+  <li>1) <code class="language-plaintext highlighter-rouge">Intel Corporation HD Graphics 5500</code>;</li>
+  <li>2) <code class="language-plaintext highlighter-rouge">Advanced Micro Devices, Inc. [AMD/ATI] Topaz XT [Radeon R7 M260/M265 / M340/M360 / M440/M445 / 530/535 / 620/625 Mobile]</code>.</li>
+</ul>
+
+<p>O comando anterior apresenta o nome da placa de vídeo e o módulo do Kernel que cada uma está utilizando. É possível constatar o carregamento desses módulos com os seguintes comandos - é claro que isso depende de cada caso/placa, no exemplo anterior os módulos são:</p>
+
+<ul>
+  <li>1) <code class="language-plaintext highlighter-rouge">Intel</code>:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>lsmod | <span class="nb">grep</span> <span class="nt">-i</span> i915
+<span class="go">i915                 2666496  4
+i2c_algo_bit           16384  2 amdgpu,i915
+drm_kms_helper        266240  2 amdgpu,i915
+cec                    73728  2 drm_kms_helper,i915
+intel_gtt              24576  1 i915
+drm                   585728  16 gpu_sched,drm_kms_helper,amdgpu,i915,ttm
+</span></code></pre></div></div>
+
+<ul>
+  <li>2) <code class="language-plaintext highlighter-rouge">AMD Radeon</code>:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>lsmod | <span class="nb">grep</span> <span class="nt">-i</span> amdgpu
+<span class="go">amdgpu               6434816  29
+gpu_sched              40960  1 amdgpu
+ttm                   122880  1 amdgpu
+i2c_algo_bit           16384  2 amdgpu,i915
+drm_kms_helper        266240  2 amdgpu,i915
+drm                   585728  16 gpu_sched,drm_kms_helper,amdgpu,i915,ttm
+</span></code></pre></div></div>
+<p>Note que tais módulos também já haviam sido apresentados pelo comando anterior (<code class="language-plaintext highlighter-rouge">lspci -k</code>).</p>
+
+<h2 id="identificando-a-placa-padrão-utilizada-no-sistema">Identificando a placa padrão utilizada no sistema:</h2>
+
+<p>O comando a seguir mostra qual placa que está sendo utilizada para apresentar/processar os gráficos:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>glxinfo | <span class="nb">grep</span> <span class="s2">"OpenGL renderer string"</span>
+<span class="go">OpenGL renderer string: Intel Corporation HD Graphics 5500
+</span></code></pre></div></div>
+
+<p>Neste exemplo a placa padrão é a Intel, que não possui grande processamento gráfico, quando comparada à AMD/Radeon. Então, neste exemplo trocaremos a placa padrão para a AMD/Radeon, para que os programas gráficos utilizem a GPU.</p>
+
+<h2 id="alterando-a-placa-de-vídeo-padrão">Alterando a placa de vídeo padrão:</h2>
+
+<p>Há algumas formas de fazer a alteração da placa de vídeo padrão. A ideia aqui é fazer com que o sistema sempre utilize a placa mais potente, mesmo que isso consuma mais bateria. Tal configuração deve persistir, ou seja, deve valer mesmo que o computador seja reinicializado.</p>
+
+<p>Então para tal configuração, levando em consideração a placa de vídeo que estamos utilizando de exemplo, são necessárias as seguintes configurações:</p>
+
+<ul>
+  <li>1) Configurar corretamente o módulo do Kernel, editando e/ou criando o arquivo <code class="language-plaintext highlighter-rouge">/etc/modprobe.d/amdgpu.conf</code>:</li>
+</ul>
+
+<p>Isso pode ser feito com o seu editor de texto favorito, neste caso foi utilizado o <code class="language-plaintext highlighter-rouge">vi</code>:</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">vi /etc/modprobe.d/amdgpu.conf 
+</span></code></pre></div></div>
+
+<p>Dentro do arquivo <code class="language-plaintext highlighter-rouge">/etc/modprobe.d/amdgpu.conf</code> inclua o seguinte conteúdo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">options amdgpu si_support=1
+options amdgpu cik_support=1
+</span></code></pre></div></div>
+
+<ul>
+  <li>2) Configurar (“setar”) qual placa de vídeo que vai ser utilizada. Para isso primeiro temos que ver o número que identifica a ordem de cada placa de vídeo no sistema. Isso pode ser feito com o comando:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp"> $</span><span class="w"> </span>xrandr <span class="nt">--listproviders</span>
+<span class="go">
+ Providers: number : 2
+ 
+ Provider 0: id: 0x46 cap: 0xb, Source Output, Sink Output, Sink Offload crtcs: 4 outputs: 3 associated providers: 1 name:Intel
+ 
+ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs: 0 outputs: 0 associated providers: 1 name:AMD Radeon R7 M260 @ pci:0000:04:00.0
+</span></code></pre></div></div>
+
+<p>Neste caso a placa que queremos é a AMD\Radeon, que é identificada como provedor 1 (<code class="language-plaintext highlighter-rouge">Provider 1</code>).</p>
+
+<p>Então, identificado isso é necessário editar o arquivo <code class="language-plaintext highlighter-rouge">/etc/environment</code>, adicionando/editando a variável <code class="language-plaintext highlighter-rouge">DRI_PRIME</code>. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi /etc/environment
+<span class="go">
+DRI_PRIME=1
+</span></code></pre></div></div>
+
+<p>No qual <code class="language-plaintext highlighter-rouge">1</code> é a identificação do provedor (<code class="language-plaintext highlighter-rouge">Provider 1</code>), identificado pelo comando <code class="language-plaintext highlighter-rouge">xrandr</code>.</p>
+
+<ul>
+  <li>
+    <p>3) Feito isso agora é só reiniciar o computador.</p>
+  </li>
+  <li>
+    <p>4) Depois que o computador reiniciar, é possível identificar qual é a placa de vídeo que agora está sendo utilizada como padrão. Neste exemplo se tudo funcionou deve aparecer a placa AMD/Radeon. Exemplo:</p>
+  </li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>glxinfo | <span class="nb">grep</span> <span class="s2">"OpenGL renderer string"</span>
+<span class="go">OpenGL renderer string: AMD Radeon R7 M260 (ICELAND, DRM 3.39.0, 5.9.16-1-MANJARO, LLVM 11.1.0)
+</span></code></pre></div></div>
+
+<p>A saída do comando anterior indica que agora a placa de vídeo padrão é a AMD/Radeon e não mais a Intel.</p>
+
+<h2 id="mudando-a-placa-de-vídeo-padrão-em-tempo-de-execução-sem-reiniciar">Mudando a placa de vídeo padrão em tempo de execução (sem reiniciar):</h2>
+
+<p>É possível mudar a placa de vídeo que está sendo utilizada no sistema com o comando <code class="language-plaintext highlighter-rouge">xrandr</code>, sem precisar reiniciar o sistema (sem <em>reboot</em>).</p>
+
+<p>Então, como foi feito anteriormente, utiliza-se o comando <code class="language-plaintext highlighter-rouge">xrandr --listproviders</code>, para verificar o número do provedor. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>xrandr <span class="nt">--listproviders</span>
+<span class="go">
+Providers: number : 2
+
+Provider 0: id: 0x46 cap: 0xb, Source Output, Sink Output, Sink Offload crtcs: 4 outputs: 3 associated providers: 1 name:Intel
+
+Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs: 0 outputs: 0 associated providers: 1 name:AMD Radeon R7 M260 @ pci:0000:04:00.0
+</span></code></pre></div></div>
+
+<p>Após identificar tal provedor (qual placa utilizar), também utilizamos o comando <code class="language-plaintext highlighter-rouge">xrandr</code>, para configurar (“setar”) a placa que vai ser utilizada pelo computador. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>xrandr <span class="nt">--setprovideroffloadsink</span> 1
+</code></pre></div></div>
+
+<p>ou</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>xrandr <span class="nt">--setprovideroffloadsink</span> <span class="s1">'AMD Radeon R7 M260 @ pci:0000:04:00.0'</span>
+</code></pre></div></div>
+
+<p><strong>Atenção</strong>: Nos comandos anteriores, a ideia foi utilizar a placa AMD/Radeon, mas seria possível também trocar da placa AMD/Radeon, que estaria como padrão, para a placa Intel. Por exemplo, isso seria feito utilizando o comando <code class="language-plaintext highlighter-rouge">$ xrandr --setprovideroffloadsink 1</code> ou utilizando o nome da placa <code class="language-plaintext highlighter-rouge">$ xrandr --setprovideroffloadsink Intel</code>.</p>
+
+<blockquote>
+  <p><strong>Observação</strong>, nos meus testes esse último método não funcionou (trocar a placa com <code class="language-plaintext highlighter-rouge">xrandr</code>), o ambiente gráfico foi reiniciado e ficava apenas uma tela preta com o ponteiro do mouse, não saia disso. Mas vários sítios da Internet dão essa possibilidade e dizem que funciona.</p>
+</blockquote>
+
+<h1 id="testando-a-placa-de-vídeo">Testando a placa de vídeo</h1>
+
+<p>Depois de configurar corretamente a placa de vídeo, no caso de escolher uma com GPU, é possível realizar alguns testes para verificar se realmente tal placa está utilizando os recursos disponíveis de forma adequada.</p>
+
+<h2 id="benchmarks">Benchmarks</h2>
+
+<p>Uma forma simples de testar é utilizando o aplicativo <code class="language-plaintext highlighter-rouge">glxgears</code>, que abrirá uma janela com algumas engrenagens girando. Tal como na imagem a seguir:</p>
+
+<p><img src="../assets/imagens/LinuxDell_videoIntellAMD/glxgears.png" alt="fig1" /></p>
+
+<p>Um teste um pouco mais “complexo” pode ser utilizando um <em>benckmark</em> de terceiros, tal como o Valley, que pode ser baixado em <a href="https://benchmark.unigine.com/valley">https://benchmark.unigine.com/valley</a>. Depois de baixar basta dar permissão de execução para o arquivo e executar. Então será extraído um diretório com o executável do <em>benckmark</em>, desta forma basta executá-lo. Veja os comandos a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">chmod </span>a+x Unigine_Valley-1.0.run 
+<span class="gp">$</span><span class="w"> </span>./Unigine_Valley-1.0.run 
+<span class="gp">$</span><span class="w"> </span><span class="nb">cd </span>Unigine_Valley-1.0
+<span class="gp">$</span><span class="w"> </span>./valley
+</code></pre></div></div>
+
+<p>Após executar o comando <code class="language-plaintext highlighter-rouge">./valley</code> será aberta uma interface gráfica que permite a execução do <em>benckmark</em>/teste - tal interface é bem intuitiva:</p>
+
+<p><img src="../assets/imagens/LinuxDell_videoIntellAMD/valley.png" alt="fig1" /></p>
+
+<p>No caso da minha placa de vídeo é possível acompanhar o uso das GPUs, memória, dentre outros, com o comando <code class="language-plaintext highlighter-rouge">radeontop</code>. Tal como mostra a imagem a seguir:</p>
+
+<p><img src="../assets/imagens/LinuxDell_videoIntellAMD/radeontop.png" alt="fig1" /></p>
+
+<h1 id="conclusão">Conclusão</h1>
+
+<p>Bem, alterar entre as placas de vídeo no Linux dá trabalho mas é possível. No exemplo usado neste <em>post</em> o Linux foi configurado para usar a placa de vídeo com mais recursos e não a placa padrão.</p>
+
+<h1 id="referência">Referência</h1>
+
+<ul>
+  <li><a href="https://wiki.archlinux.org/index.php/AMDGPU">https://wiki.archlinux.org/index.php/AMDGPU</a>.</li>
+  <li><a href="https://askubuntu.com/questions/1068343/switch-between-intel-amd-gpu-on-18-04">https://askubuntu.com/questions/1068343/switch-between-intel-amd-gpu-on-18-04</a>.</li>
+  <li><a href="https://www.unixmen.com/using-hybrid-graphic-card-intel-amd-arch-linux/">https://www.unixmen.com/using-hybrid-graphic-card-intel-amd-arch-linux/</a>.</li>
+  <li><a href="https://wiki.archlinux.org/index.php/PRIME">https://wiki.archlinux.org/index.php/PRIME</a>.</li>
+  <li><a href="https://bbs.archlinux.org/viewtopic.php?id=211646">https://bbs.archlinux.org/viewtopic.php?id=211646</a></li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2021</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>
