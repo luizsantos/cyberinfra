@@ -60,7 +60,7 @@
     <div class="container">
       <section id="main_content">
         <article>
-  <h1 id="resumo-de-comandos-de-vlan-em-equipamentos-cisco">Resumo de comandos de VLAN em equipamentos CISCO</h1>
+  <h1 id="guia-rápido-de-comandos-de-vlancisco">Guia rápido de comandos de VLAN/CISCO</h1>
 
 <blockquote>
   <p><strong>UTFPR - Universidade Tecnológica Federal do Paraná, campus Campo Mourão</strong><br />
@@ -70,93 +70,132 @@ E-mail: <strong><a href="mailto:luizsantos@utfpr.edu.br">luizsantos@utfpr.edu.br
 
 <hr />
 
-<p>Uma função muito utilizada e importante dentro do conceito de <a href="https://youtu.be/dfuVBQsghJM">swithing</a> é a de  <a href="https://pt.wikipedia.org/wiki/Virtual_LAN">VLAN</a>. O vídeo a seguir apresenta os conceitos de VLAN:</p>
+<p>Uma função muito utilizada e importante dentro do conceito de <a href="https://youtu.be/dfuVBQsghJM">swithing</a> é a de  <a href="https://pt.wikipedia.org/wiki/Virtual_LAN">VLAN</a>. De forma resumida as VLANs aumentam o poder de organização e segmentação das redes em nível de enlace, melhorando seu desempenho e segurança. Os vídeos a seguir apresentam em mais detalhes tanto a ideia de VLAN, quanto os conceitos de <em>switch</em>, que são primordiais para entender VLAN:</p>
+
+<p>Vídeo a respeito de conceitos de <em>switchig</em>:</p>
+
+<p><a href="http://www.youtube.com/watch?v=dfuVBQsghJM" title="Switching"><img src="http://img.youtube.com/vi/dfuVBQsghJM/0.jpg" alt="VLAN" /></a></p>
+
+<p>Vídeo a respeito de VLAN:</p>
 
 <p><a href="http://www.youtube.com/watch?v=puZToHD-F8o" title="VLAN"><img src="http://img.youtube.com/vi/puZToHD-F8o/0.jpg" alt="VLAN" /></a></p>
 
 <p>Como apresentado no vídeo anterior, de forma geral, VLAN é a capacidade de subdividir um <em>switch</em> em várias LANs virtuais, pois fisicamente todas as portas do <em>switch</em> formam uma única LAN física, mas através do software/algoritmo empregado no <em>switch</em>, é possível separar as portas para formar mais que uma rede - só que virtualmente. Isso é muito útil, principalmente para organizar redes (ex. separar setores de empresas), por questões de segurança e desempenho.</p>
 
-<h1 id="criando-e-gerenciando-vlans">Criando e gerenciando VLANs</h1>
+<h1 id="guia-vlancisco">Guia VLAN/CISCO:</h1>
 
-<p>Switches
-VLAN</p>
+<p>A seguir é apresentado um guia rápido de comandos para realizar configurações básicas em VLANs com <em>switches</em> CISCO.</p>
 
-<p>Mostrar portas das VLANs:</p>
 <blockquote>
-  <p>show vlan brief</p>
+  <p>Tal guia já apresenta os comandos com valores preenchidos, é claro que esses valores provavelmente mudam para cada rede.</p>
 </blockquote>
 
-<p>Criando VLAN:
-Switch&gt;enable
-Switch#conf t
-Enter configuration commands, one per line. End with CNTL/Z.
-Switch(config)#vlan 20
-Switch(config-vlan)#name estudantes
-Switch(config-vlan)#end
-Switch#</p>
+<h2 id="criar-vlan-e-adicionar-portas">Criar VLAN e adicionar portas:</h2>
 
-<p>Adicionando portas para uma VLAN:
-Switch#conf t
-Enter configuration commands, one per line. End with CNTL/Z.
-Switch(config)#interface f0/1
-Switch(config-if)#switchport mode access
-Switch(config-if)#switchport access vlan 20
-Switch(config-if)#interface f0/2
-Switch(config-if)#switchport mode access
-Switch(config-if)#switchport access vlan 20
-Switch(config-if)#end
-Switch#</p>
+<p>Provavelmente as operações mais básicas no gerenciamento de VLAN é criar novas VLAN (além da VLAN padrão) e atribuir/atrelar portas do <em>switch</em> à essas VLANs.</p>
 
-<p>Removendo portas de uma VLAN:
-Switch#conf t
-Enter configuration commands, one per line. End with CNTL/Z.
-Switch(config)#int f0/1
-Switch(config-if)#no switchport access vlan
-Switch(config-if)#end
-Switch#</p>
+<h3 id="criando-vlan">Criando VLAN:</h3>
 
-<p>Removendo porta de uma VLAN específica:
-Switch#conf t
-Enter configuration commands, one per line. End with CNTL/Z.
-Switch(config)#int f0/1
-Switch(config-if)#no switchport access vlan 20
-Switch(config-if)#end
-Switch#</p>
+<p>Para criar uma VLAN em <em>switches</em> CISCO, basta utilizar o comando <code class="language-plaintext highlighter-rouge">vlan</code>, no terminal de administração do <em>switch</em>.</p>
 
-<p>Removendo uma LAN:
-Switch#conf t
-Enter configuration commands, one per line. End with CNTL/Z.
-Switch(config)#no vlan 30
-Switch(config)#end
-Switch#</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch&gt;</span><span class="nb">enable</span>
+<span class="gp">Switch#</span>conf t
+<span class="go">Enter configuration commands, one per line. End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>vlan 20
+<span class="gp">Switch(config-vlan)#</span>name estudantes
+<span class="gp">Switch(config-vlan)#</span>end
+<span class="gp">Switch#</span><span class="w">
+</span></code></pre></div></div>
 
-<p>Apresentando dados de uma VLAN:
-Switch#show vlan name estudantes</p>
+<h3 id="adicionando-portas-para-uma-vlan">Adicionando portas para uma VLAN:</h3>
 
-<p>Colocando uma porta no modo trunk:
-Switch#conf t
-Switch(config)#interface f0/5
-Switch(config-if)#switchport mode trunk
-Switch(config-if)#switchport trunk native vlan 99
-Switch(config-if)#switchport trunk allowed vlan 20,30</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>conf t
+<span class="go">Enter configuration commands, one per line. End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>interface f0/1
+<span class="gp">Switch(config-if)#</span>switchport mode access
+<span class="gp">Switch(config-if)#</span>switchport access vlan 20
+<span class="gp">Switch(config-if)#</span>interface f0/2
+<span class="gp">Switch(config-if)#</span>switchport mode access
+<span class="gp">Switch(config-if)#</span>switchport access vlan 20
+<span class="gp">Switch(config-if)#</span>end
+<span class="gp">Switch#</span><span class="w">
+</span></code></pre></div></div>
 
-<p>Configurando roteamento inter-vlan em um único link de roteamento (router-on-a-stick):
-No Switch:
-Switch(config)#int f0/6
-Switch(config-if)#switchport mode trunk</p>
+<h2 id="remover">Remover:</h2>
 
-<p>No roteador:
-Router&gt;enable
-Router#conf t
-Enter configuration commands, one per line. End with CNTL/Z.
-Router(config)#int f0/1.20
-Router(config-subif)#encapsulation dot1q 20
-Router(config-subif)#ip address 10.0.0.254 255.0.0.0
-Router(config-subif)#int f0/1.30
-Router(config-subif)#encapsulation dot1q 30
-Router(config-subif)#ip address 11.0.0.254 255.0.0.0
-Router(config-subif)#int f0/1
-Router(config-if)#no shut</p>
+<h3 id="removendo-portas-de-uma-vlan">Removendo portas de uma VLAN:</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>conf t
+<span class="go">Enter configuration commands, one per line. End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>int f0/1
+<span class="gp">Switch(config-if)#</span>no switchport access vlan
+<span class="gp">Switch(config-if)#</span>end
+<span class="gp">Switch#</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="removendo-porta-de-uma-vlan-específica">Removendo porta de uma VLAN específica:</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>conf t
+<span class="go">Enter configuration commands, one per line. End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>int f0/1
+<span class="gp">Switch(config-if)#</span>no switchport access vlan 20
+<span class="gp">Switch(config-if)#</span>end
+<span class="gp">Switch#</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="removendo-uma-lan">Removendo uma LAN:</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>conf t
+<span class="go">Enter configuration commands, one per line. End with CNTL/Z.
+</span><span class="gp">Switch(config)#</span>no vlan 30
+<span class="gp">Switch(config)#</span>end
+<span class="gp">Switch#</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="status-das-vlans">Status das VLANs:</h2>
+
+<h3 id="mostrar-portas-das-vlans">Mostrar portas das VLANs:</h3>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&gt;</span>show vlan brief
+</code></pre></div></div>
+
+<h3 id="apresentando-dados-de-uma-vlan">Apresentando dados de uma VLAN:</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>show vlan name estudantes
+</code></pre></div></div>
+
+<h2 id="comandos-avançados">Comandos avançados:</h2>
+
+<h3 id="colocando-uma-porta-no-modo-trunk">Colocando uma porta no modo trunk:</h3>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch#</span>conf t
+<span class="gp">Switch(config)#</span>interface f0/5
+<span class="gp">Switch(config-if)#</span>switchport mode trunk
+<span class="gp">Switch(config-if)#</span>switchport trunk native vlan 99
+<span class="gp">Switch(config-if)#</span>switchport trunk allowed vlan 20,30
+</code></pre></div></div>
+
+<h3 id="configurando-roteamento-inter-vlan-em-um-único-link-de-roteamento-router-on-a-stick">Configurando roteamento inter-vlan em um único link de roteamento (router-on-a-stick):</h3>
+
+<p>No Switch:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Switch(config)#</span>int f0/6
+<span class="gp">Switch(config-if)#</span>switchport mode trunk
+</code></pre></div></div>
+
+<p>No roteador:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">Router&gt;</span><span class="nb">enable</span>
+<span class="gp">Router#</span>conf t
+<span class="go">Enter configuration commands, one per line. End with CNTL/Z.
+</span><span class="gp">Router(config)#</span>int f0/1.20
+<span class="gp">Router(config-subif)#</span>encapsulation dot1q 20
+<span class="gp">Router(config-subif)#</span>ip address 10.0.0.254 255.0.0.0
+<span class="gp">Router(config-subif)#</span>int f0/1.30
+<span class="gp">Router(config-subif)#</span>encapsulation dot1q 30
+<span class="gp">Router(config-subif)#</span>ip address 11.0.0.254 255.0.0.0
+<span class="gp">Router(config-subif)#</span>int f0/1
+<span class="gp">Router(config-if)#</span>no shut
+</code></pre></div></div>
 
 </article>
       </section>
