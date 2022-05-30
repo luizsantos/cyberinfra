@@ -12,8 +12,6 @@ No contexto de DHCP, há basicamente duas formas de se configurar *hosts*, que s
 
 Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que será roteador e o servidor DHCP, além de quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo o Host-1, tem o endereço Ethernet 00:00:00:00:00:01.
 
-![Figura1](imagens/dhcp1)
-
 | ![dhcp1](imagens/dhcp1.png) |
 |:--:|
 | Figura 1- Rede com servidor DHCP |
@@ -129,7 +127,9 @@ Desde o protocolo BOOTP, antecessor do DHCP, é possível que o servidor DHCP fi
 
 A figura a seguir ilustra uma rede simples que utiliza servidor.
 
-![DHCP Relay](imagens/relay.png)
+| ![DHCP Relay](imagens/relay.png) |
+|:--:|
+| Figura 2 - DHCP Relay |
 
 Tomando como exemplo a rede da imagem anterior. Neste cenário temos a LAN1 (192.168.0.0/24) com um servidor DHCP configurado em R1. A princípio, neste cenário, os pedidos de um cliente DHCP, tal como do Host-2 são atendidos prontamente pelo servidor DHCP em R1. Entretanto os pedidos de Host-1 não chegam ao servidor DHCP de R1, já que Host-1 está em outro enlace de rede, que é representado pela LAN2. Assim, neste cenário para que Host-1 consiga utilizar o servidor DHCP que está em R1, é necessário configurar um DHCP Relay, que neste caso vai ser o roteador R2.
 
