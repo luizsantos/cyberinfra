@@ -10,7 +10,15 @@ No contexto de DHCP, há basicamente duas formas de se configurar *hosts*, que s
 
 * Configuração com *IPs fixos*, na qual determinados *hosts*, sempre obtêm o mesmo IP. Tais IPs são atrelados à características como o endereço físico da máquina.
 
-Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO:
+Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que será roteador e o servidor DHCP, além de quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo o Host-1, tem o endereço Ethernet 00:00:00:00:00:01.
+
+
+| ![dhcp1](imagens/dhcp1) |
+|:--:|
+| Figura 1- Rede com servidor DHCP |
+
+
+Assim, vamos ver as configurações levanto em conta este cenário de rede da Figura 1.
 
 ## Configurar faixa de IPs
 
