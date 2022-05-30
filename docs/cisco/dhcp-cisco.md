@@ -10,7 +10,7 @@ No contexto de DHCP, há basicamente duas formas de se configurar *hosts*, que s
 
 * Configuração com *IPs fixos*, na qual determinados *hosts*, sempre obtêm o mesmo IP. Tais IPs são atrelados à características como o endereço físico da máquina.
 
-Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que serve de roteador e o servidor DHCP. Também há na rede, quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo, o Host-1, tem o endereço Ethernet 00:00:00:00:00:01.
+Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que serve tanto de roteador e como de servidor DHCP. Também há na rede, quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo, o Host-1 tem o endereço Ethernet 00:00:00:00:00:01.
 
 | ![dhcp1](imagens/dhcp1.png) |
 |:--:|
@@ -19,10 +19,9 @@ Esses dois tipos de configurações são apresentados a seguir em roteadores/*sw
 
 Assim, vamos ver as configurações de servidores DHCP roteadores/*switches*, levanto em conta este cenário de rede da Figura 1.
 
-## Configurar faixa de IPs
+## Servidor DHCP com IPs dinâmicos
 
-Nesta configuração será estipulada uma faixa de IPs que não será atribuída dinamicamente via DHCP (``ip dhcp excluded-address``), para a rede chamada de LAN1 (``ip dhcp pool lan1``), depois é indicada a faixa de IP que será gerenciada/atribuída via DHCP (``network``). Também são "setados" *gateway* padrão (``default-router``) e IP do servidor DNS (``dns-server``).
-
+Nesta configuração será estipulada uma faixa de IPs que será atribuído dinamicamente para os *hosts* da rede.
 ```console
 R1#configure terminal
 Enter configuration commands, one per line.  End with CNTL/Z.
@@ -34,6 +33,8 @@ R1(dhcp-config)#default-router 192.168.0.1
 R1(dhcp-config)#dns-server 8.8.8.8
 R1(dhcp-config)#exit
 ```
+Todavia iniciamos a configuração anterior, informando quais IPs (faixa) não serão fornecidos pelo servidor DHCP (``ip dhcp excluded-address``) - isso é necessário para evitar que o servidor DHCP forneça dinamicamente IPs atribuídos estaticamente a alguns *hosts* da rede, tais como servidores, roteadores, etc. Em seguida, para a rede chamada de LAN1 (``ip dhcp pool lan1``), é indicada a faixa de IPs que será gerenciada/atribuída via DHCP (``network``). Também são "setados" *gateway* padrão (``default-router``) e IP do servidor DNS (``dns-server``).
+
 
 ### Obter os IPs via DHCP no cliente
 
