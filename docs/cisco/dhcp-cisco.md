@@ -12,8 +12,9 @@ No contexto de DHCP, há basicamente duas formas de se configurar *hosts*, que s
 
 Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que será roteador e o servidor DHCP, além de quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo o Host-1, tem o endereço Ethernet 00:00:00:00:00:01.
 
+![Figura1](imagens/dhcp1)
 
-| ![dhcp1](imagens/dhcp1) |
+| ![dhcp1](imagens/dhcp1.png) |
 |:--:|
 | Figura 1- Rede com servidor DHCP |
 
