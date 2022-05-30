@@ -1,4 +1,4 @@
-# Servidor DHCP em roteadores/switches CISCO
+# Servidor DHCP em roteadores CISCO
 
 Um servidor DHCP é um servidor que configura automaticamente IP, máscara de rede, *gateway* padrão, DNS, dentre outras configurações de *hosts* da rede.
 
@@ -10,18 +10,18 @@ No contexto de DHCP, há basicamente duas formas de se configurar *hosts*, que s
 
 * Configuração com *IPs fixos*, na qual determinados *hosts*, sempre obtêm o mesmo IP. Tais IPs são atrelados à características como o endereço físico da máquina.
 
-Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que será roteador e o servidor DHCP, além de quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo o Host-1, tem o endereço Ethernet 00:00:00:00:00:01.
+Esses dois tipos de configurações são apresentados a seguir em roteadores/*switches* CISCO, para isso vamos tomar como exemplo a rede ilustrada na Figura 1. Tal rede possui um roteador CISCO, chamado de R1, que serve de roteador e o servidor DHCP. Também há na rede, quatro *hosts* - note que os *hosts* possuem indicações de endereço físico (MAC), por exemplo, o Host-1, tem o endereço Ethernet 00:00:00:00:00:01.
 
 | ![dhcp1](imagens/dhcp1.png) |
 |:--:|
-| Figura 1- Rede com servidor DHCP |
+| **Figura 1- Rede com servidor DHCP** |
 
 
-Assim, vamos ver as configurações levanto em conta este cenário de rede da Figura 1.
+Assim, vamos ver as configurações de servidores DHCP roteadores/*switches*, levanto em conta este cenário de rede da Figura 1.
 
 ## Configurar faixa de IPs
 
-Nesta configuração será estipulada uma faixa de IPs que não será atribuída dinamicamente via DHCP (``ip dhcp excluded-address``), para a rede chamada de LAN1 (``ip dhcp pool lan1``), depois são indicados a faixa de rede que será gerenciada/atribuída via DHCP (``network``), também são "setados" *gateway* padrão (``default-router``) e DNS (``dns-server``).
+Nesta configuração será estipulada uma faixa de IPs que não será atribuída dinamicamente via DHCP (``ip dhcp excluded-address``), para a rede chamada de LAN1 (``ip dhcp pool lan1``), depois é indicada a faixa de IP que será gerenciada/atribuída via DHCP (``network``). Também são "setados" *gateway* padrão (``default-router``) e IP do servidor DNS (``dns-server``).
 
 ```console
 R1#configure terminal
@@ -35,7 +35,11 @@ R1(dhcp-config)#dns-server 8.8.8.8
 R1(dhcp-config)#exit
 ```
 
-Depois de realizar essa configuração no roteador que será o servidor DHCP, é só tentar obter a configuração de rede via cliente DHCP, no exemplo a seguir é utilizado um *host* Linux:
+### Obter os IPs via DHCP no cliente
+
+Depois de realizar essa configuração no roteador, que será o servidor DHCP, é só tentar obter a configuração de rede via cliente DHCP. Isso pode ser feito em qualquer dispositivos e sistema operacional.
+
+No exemplo dos comandos a seguir é utilizado um *host* Linux e portanto comandos Linux de cliente DHCP (foi utilizado o ``dhcpcd``, mas há outros métodos, tais como o comando ``dhclient``):
 
 
 ```console
@@ -55,7 +59,7 @@ eth0: adding default route
 forked to background, child pid 18264
 ```
 
-Neste caso foi dado para esse *host* Linux, o IP 192.168.0.101, veja:
+Neste exemplo, foi dado para esse *host* Linux, o IP 192.168.0.101, veja:
 
 
 ```console
@@ -74,7 +78,7 @@ eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 
 Em alguns casos é interessante determinar para o servidor DHCP que sempre dê o mesmo IP para determinadas máquinas, tais como servidores, roteadores, etc. Isso também pode ser interessante por questões de segurança (para por exemplo rastrear clientes).
 
-Assim, para determinar que um dado *host* sempre receba o mesmo IP do servidor DHCP CISCO, é necessário dar um "nome" para esse *host* (não vai ser o nome do *host* na rede, só uma identificação dentro da configuração do servidor DHCP), isso é feito com o comando ``ip dhcp pool server``, neste caso foi dado o nome "server". depois atribuir a identificação do cliente (``client-identifier``), o endereço de hardware (``hardware-address``), e opcionalmente é possível dar um nome para esse cliente (``client-name``).
+Assim, para determinar o servidor DHCP sempre atribua o mesmo IP para um dado *host*, é necessário dar um "nome" para esse *host* (não vai ser o nome do *host* na rede, só uma identificação dentro da configuração do servidor DHCP CISCO), isso é feito com o comando ``ip dhcp pool server``, neste caso foi dado o nome "server". Depois, atribuir a identificação do cliente (``client-identifier``), o endereço de hardware (``hardware-address``) e opcionalmente é possível dar um nome para esse cliente (``client-name``). Ver exemplo de comandos a seguir:
 
 ```console
 configure terminal
@@ -85,8 +89,9 @@ hardware-address 0000.0000.0004 ethernet
 client-name server
 end
 ```
+> Utilizando como base a Figura 1, está configuração seria para atribuir sempre o IP 192.168.0.254 para o Host-4, já que este tem o MAC 00:00:00:00:00:04.
 
-* Nest caso, o servidor DHCP CISCO será configurado pelo client-id, no linux para pegar esse número execute:
+* Neste caso, o servidor DHCP CISCO será configurado pelo ``client-id``. No Linux, para obter esse número no cliente, é possível executar:
 
 ```console
 # dhcpcd eth0
@@ -106,9 +111,10 @@ O número será: FF+IAID+DUID, ou seja:
 **``FF:00:00:00:04:00:04:4c:4c:45:44:00:4e:50:10:80:53:b4:c0:4f:52:32:32``**
 
 Outra forma de obter esse número é executando o comando a seguir no roteador CISCO:
-#debug ip dhcp server packet
 
-Então no cliente tente obter um IP via DHCP e o roteador mostrará esta tentativa como um log/saía na tela, exemplo:
+``#debug ip dhcp server packet``
+
+Então, no cliente, tente obter um IP via DHCP. E o roteador mostrará esta tentativa como um *log*/saída na tela/console, exemplo:
 
 ```console
 *May 18 17:45:36.327: DHCPD: DHCPDISCOVER received from client ff00.0000.0400.044c.4c45.4400.4e50.1080.53b4.c04f.5232.32 on interface FastEthernet0/0.
@@ -119,21 +125,21 @@ Então no cliente tente obter um IP via DHCP e o roteador mostrará esta tentati
 *May 18 17:45:36.331: DHCPD: DHCPREQUEST received from client ff00.0000.0400.044c.4c45.4400.4e50.1080.53b4.c04f.5232.32.
 ```
 
-Então é só copiar o cliente para a configuração do roteador CISCO.
+Desta forma, é só copiar a identificação do cliente, para a configuração do roteador CISCO.
 
 ## DHCP Relay CISCO
 
-Desde o protocolo BOOTP, antecessor do DHCP, é possível que o servidor DHCP fique em uma rede e forneça IPs para outra rede. Todavia, essa outra rede deve ter configurado um DHCP Relay, que fica responsável por obter o pedido DHCP da rede do cliente e repassar tal pedido, para a rede onde está o servidor DHCP.
+Desde o protocolo [BOOTP](https://pt.wikipedia.org/wiki/BOOTP), antecessor do DHCP, é possível que o servidor DHCP fique em uma rede e forneça IPs para outra rede. Todavia, essa outra rede deve ter configurada um DHCP Relay, que fica responsável por obter o pedido DHCP do cliente (que está em outra rede) e repassar tal pedido, para a rede onde está o servidor DHCP.
 
-A figura a seguir ilustra uma rede simples que utiliza servidor.
+A Figura 2 ilustra uma rede simples que utiliza servidor DHCP e DHCP Relay.
 
 | ![DHCP Relay](imagens/relay.png) |
 |:--:|
 | Figura 2 - DHCP Relay |
 
-Tomando como exemplo a rede da imagem anterior. Neste cenário temos a LAN1 (192.168.0.0/24) com um servidor DHCP configurado em R1. A princípio, neste cenário, os pedidos de um cliente DHCP, tal como do Host-2 são atendidos prontamente pelo servidor DHCP em R1. Entretanto os pedidos de Host-1 não chegam ao servidor DHCP de R1, já que Host-1 está em outro enlace de rede, que é representado pela LAN2. Assim, neste cenário para que Host-1 consiga utilizar o servidor DHCP que está em R1, é necessário configurar um DHCP Relay, que neste caso vai ser o roteador R2.
+Tomando como exemplo a rede da Figura 2. Neste cenário temos a LAN1 (192.168.0.0/24) com um servidor DHCP configurado em R1. A princípio, neste cenário, os pedidos de um cliente DHCP, tal como do Host-2 são atendidos prontamente pelo servidor DHCP em R1. Entretanto os pedidos de Host-1 não chegam ao servidor DHCP de R1, já que Host-1 está em outro enlace de rede, que é representado pela LAN2. Assim, neste cenário, para que Host-1 consiga utilizar o servidor DHCP, que está em R1, é necessário configurar um DHCP Relay, que neste exemplo vai ser o roteador R2.
 
-Desta forma, para que o cenário proposto funcione é primeiro necessário configurar o servidor DHCP, só que agora ele deve ter mais que uma faixa de rede, para este exemplo as faixas são: 192.168.0.0/24 (LAN1) e 192.168.1.1 (LAN2), veja as configurações a seguir, no servidor DHCP (R1):
+Desta forma, para que o cenário proposto funcione é primeiro necessário configurar o servidor DHCP, só que agora ele deve ter mais que uma faixa de rede. Para este exemplo as faixas são: 192.168.0.0/24 (LAN1) e 192.168.1.1 (LAN2), veja as configurações a seguir, no servidor DHCP (R1):
 
 * Iniciando configurando a interface de rede, com IP e máscara:
 
@@ -143,7 +149,6 @@ R1(config-if)#ip address 192.168.0.1 255.255.255.0
 R1(config-if)#no shutdown
 R1(config-if)#exit
 ```
-
 
 * Depois é adicionada a configuração DHCP para a LAN1:
 
@@ -168,9 +173,9 @@ R1(dhcp-config)#dns-server 8.8.8.8
 R1(dhcp-config)#end
 ```
 
-> É necessário configurar a rota para 192.168.1.0/24 (LAN2), pois caso contrário, quando chegar o pedido DHCP Relay o servidor não saberia para quem responder, já que não conhece essa rede. Neste cenário utilizou-se rotas estáticas, mas é possível fazer isso de outras formas.
+> É necessário configurar a rota para 192.168.1.0/24 (LAN2), pois caso contrário, quando chegar o pedido DHCP Relay, o servidor não saberia para quem responder, já que não conhece essa rede. Neste cenário utilizou-se rotas estáticas, mas é possível fazer isso de outras formas.
 
-* Por fim, é necessário configurar o DHCP Relay no roteador R2. Neste caso primeiro se configurou as interfaces de rede com IPs e para que funcione o DHCP Relay, deve-se incluir o comando ``ip helper-address`` na interface de rede que está conectada a rede que **não** está o servidor DHCP, neste comando deve-se passar o IP do servidor DHCP, que no exemplo é o 192.168.0.1.
+* Por fim, é necessário configurar o DHCP Relay no roteador R2. Neste caso, primeiro se configurou as interfaces de rede com IPs e para que funcione o DHCP Relay, deve-se incluir o comando ``ip helper-address`` na interface de rede que está conectada a rede que **não** está o servidor DHCP, neste comando deve-se passar o IP do servidor DHCP, que no exemplo é o 192.168.0.1.
 
 ```console
 R2(config)#interface f0/0
@@ -182,7 +187,7 @@ R2(config-if)#ip helper-address 192.168.0.1
 R2(config-if)#no shutdown
 ```
 
-Tomando o cenário de exemplo, após essas configurações o Host-1 da LAN2 pode obter um IP, via DHCP a partir do servidor DHCP, que está em R1 na LAN1.
+Tomando o cenário de exemplo, após essas configurações o Host-1 da LAN2 pode obter um IP, via DHCP a partir do servidor DHCP, que está em outra rede, ou seja, R1 na LAN1).
 
 > Neste cenário o DHCP Relay está sendo configurado em um roteador CISCO (no exemplo R2), mas seria possível também configurar o DHCP Relay em um switch CISCO - se este tiver esse recurso.
 
