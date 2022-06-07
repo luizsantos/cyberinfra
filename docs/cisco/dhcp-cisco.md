@@ -33,7 +33,7 @@ R1(dhcp-config)#default-router 192.168.0.1
 R1(dhcp-config)#dns-server 8.8.8.8
 R1(dhcp-config)#exit
 ```
-Todavia iniciamos a configuração anterior, informando quais IPs (faixa) não serão fornecidos pelo servidor DHCP (``ip dhcp excluded-address``) - isso é necessário para evitar que o servidor DHCP forneça dinamicamente IPs atribuídos estaticamente a alguns *hosts* da rede, tais como servidores, roteadores, etc. Em seguida, para a rede chamada de LAN1 (``ip dhcp pool lan1``), é indicada a faixa de IPs que será gerenciada/atribuída via DHCP (``network``). Também são "setados" *gateway* padrão (``default-router``) e IP do servidor DNS (``dns-server``).
+Todavia iniciamos a configuração anterior, informando quais IPs (faixa) não serão fornecidos pelo servidor DHCP (``ip dhcp excluded-address``) - isso é necessário para evitar que o servidor DHCP forneça dinamicamente IPs atribuídos estaticamente para alguns *hosts* da rede, tais como: servidores, roteadores, etc. Em seguida, para a rede chamada de LAN1 (``ip dhcp pool lan1``), é indicada a faixa de IPs que será gerenciada/atribuída via DHCP (``network``). Também são "setados" *gateway* padrão (``default-router``) e IP do servidor DNS (``dns-server``).
 
 
 ### Obter os IPs via DHCP no cliente
