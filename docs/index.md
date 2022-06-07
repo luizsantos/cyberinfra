@@ -31,6 +31,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [VLAN](cisco/vlan)
 	* [Outras configurações em switches](cisco/algumasConfSws)
 	* [Configurando acesso remoto](cisco/ativarSSH)
+	* [Telnet e SSH em roteador/switch](cisco/exemploSSHTelnet)
 	* [DHCP](cisco/dhcp-cisco)
 		
 # Cibersegurança
