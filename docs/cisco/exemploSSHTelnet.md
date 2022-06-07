@@ -7,7 +7,7 @@ Esse acesso remoto à roteadores e *switches* é possível graças a serviços c
 
 A seguir são apresentados exemplos de comandos utilizados para configurar SSH em um modelo de roteador CISCO 7200 e Telnet em um *switch* CISCO 3640. O cenário de rede apresentado na Figura 1 será utilizado para ilustrar e como base para esse exemplo.
 
-| ![dhcp1](imagens/sshTelnet) |
+| ![dhcp1](imagens/sshTelnet.png) |
 |:--:|
 | **Figura 1- Rede com roteador 7200 com SSH e 3640 com Telnet** |
 
