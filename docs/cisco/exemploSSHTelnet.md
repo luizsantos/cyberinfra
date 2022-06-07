@@ -12,15 +12,15 @@ A seguir são apresentados exemplos de comandos utilizados para configurar SSH e
 | **Figura 1- Rede com roteador 7200 com SSH e 3640 com Telnet** |
 
 
-> Na verdade o CISCO 3640 é um switch camada 3, mas aqui estava levando em conta que ele é apenas um switch comum.
+> Na verdade o CISCO 3640 é um *switch* camada 3, mas aqui ele será utilizando como um *switch* comum.
 
 ## Configuração do servidor SSH no CISCO 7200
 
-A seguir são apresentados os comandos necessários para configurar um roteador CISCO 7200 como servidor SSH. E desta forma acessá-lo remotamente via rede TCP/IP.
+A seguir são apresentados os comandos necessários para configurar um roteador CISCO 7200 como servidor SSH e desta forma acessá-lo remotamente via rede TCP/IP.
 
 ### O primeiro passo é configurar a interface de rede:
 
-Aqui é dado o IP 192.168.0.254, que será utilizado para acessar o roteador via SSH da rede local.
+Neste exemplo (comandos) é dado o IP 192.168.0.254, que será utilizado para acessar o roteador via SSH da rede local.
 
 ```console
 R1#configure terminal
@@ -29,11 +29,11 @@ R1(config-if)#ip address 192.168.0.254 255.255.255.0
 R1(config-if)#no shutdown
 ```
 
-> Aqui é não é apresentado como configurar a interface de rede da Internet, que teria provavelmente a configuração do *gateway* padrão e DNS. Todavia isso seria necessário para que o roteador seja acessado de outras redes.
+> No exemplo é não foi apresentado como configurar a interface de rede da Internet, que teria provavelmente a configuração do *gateway* padrão e DNS. Todavia isso seria necessário para que o roteador seja acessado de outras redes.
 
 ### O segundo passo é configurar a chave criptográfica
 
-O SSH utiliza criptografia para transmissão de dados segura, assim neste passo é necessário configurar/criar chaves criptográficas para essa conexão segura entre roteador e clientes. Isso é feito com o comando ``crypto key generate rsa``, todavia para essa chave ser criada é necessário dar um nome ao roteador, bem como domínio (respecitvamente os comandos ``hostname`` e ``ip domain name``).
+O SSH utiliza criptografia para transmissão de dados segura. Assim, neste passo é necessário configurar/criar chaves criptográficas para essa conexão segura entre roteador e clientes. Isso é feito com o comando ``crypto key generate rsa``, todavia para essa chave ser criada é necessário dar um nome ao roteador, bem como domínio (respecitvamente os comandos ``hostname`` e ``ip domain name``).
 
 ```console
 R1(config-if)#hostname R1
@@ -49,9 +49,12 @@ R1(config)#crypto key generate rsa
   *Jun  7 18:24:51.371: %SSH-5-ENABLED: SSH 1.99 has been enabled
 R1(config)#
 ```
+
+> Por padrão o CISCO 7200 dá como padrão um valor de chave muito pequeno (512), no exemplo anterior escolhemos **2048**.
+
 ### O terceiro passo é criar usuários e senhas
 
-O SSH é antes de mais nada um servidor de terminal remoto, para acesso a esse terminal é necessário usuário e senha. Assim, é necessário utilizar o comando ``#username`` para, neste exemplo, criar o usuário *admin* com a senha *123mudar*. Também é altamente recomendável criar uma senha para que um usuário altere para o usuário administrador (terminal com o ``#``), isso é feito com o comando ``enable password``.
+O SSH é antes de mais nada um servidor de terminal remoto, para acesso a esse terminal é necessário usuário e senha. Assim, é necessário utilizar o comando ``#username`` para neste exemplo, criar o usuário *admin* com a senha *123mudar*. Também é altamente recomendável criar uma senha para que um usuário comum altere para o usuário administrador (terminal com o ``#``), isso é feito com o comando ``enable password``.
 
 ```console
 R1(config)#enable password 123mudar
@@ -75,9 +78,9 @@ R1#
 
 Feita as configurações dos passos anterior o servidor SSH do roteador 7200 da CISCO deve estar funcional.
 
-## Acesso do cliente ao roteador com SSH
+### Acesso do cliente ao roteador com SSH
 
-Com o servidor SSH ativo no roteador CISCO 7200 é possível utilizar programas como o [PUTTY](https://www.putty.org/)no Windows ou o comando ``ssh`` do Linux para realizar acesso e gerenciar esse roteador remotamente.
+Com o servidor SSH ativo no roteador CISCO 7200 é possível utilizar programas como o [PUTTY](https://www.putty.org/) no Windows ou o comando ``ssh`` do Linux para realizar acesso e gerenciar esse roteador remotamente.
 
 No caso do Linux, para esse modelo de roteador (7200), foi necessário utilizar o comando ``ssh`` com alguns parâmetros extras. Veja a seguir o comando executado do Host-1 do cenário apresentado na Figura 1.
 
@@ -93,7 +96,7 @@ R1>enable
 Password:
 R1#
 ```
-> Os parâmetros extras são necessários, pois o roteador CISCO em questão apresenta um conjunto de opções de configuração SSH, que é diferente do padrão utilizado pelo ``ssh`` do Linux utilizado no exemplo.
+> Os parâmetros extras são necessários, pois o roteador CISCO em questão apresenta um conjunto de opções de configuração SSH que é diferente do padrão utilizado pelo ``ssh`` do Linux, utilizado no exemplo.
 
 ## Configuração do servidor Telnet no CISCO 3640
 
@@ -101,7 +104,7 @@ O Telnet é um protocolo legado, que não deve ser utilizado por enviar dados vi
 
 > Neste caso, para melhorar a segurança, é altamente recomendável criar redes isoladas (VLAN), só para acessar esses equipamentos via Telnet.
 
-Os passo para ativar o CISCO 3640 são bem similares aos passo do SSH do CISCO 7200. Só que não é necessário criar chaves criptográfica, já que o Telnet não utiliza. Assim, vamos ver os comandos necessário no exemplo a seguir:
+Os passo para ativar o CISCO 3640 são bem similares aos passo do SSH do CISCO 7200. Só que não é necessário criar chaves criptográfica, já que o Telnet não utiliza. Assim, vamos ver os comandos necessários no exemplo a seguir:
 
 ### O primeiro passo é configurar interface de rede
 
@@ -118,7 +121,7 @@ L3_Sw1(config-if)#no shutdown
 
 ### O segundo passo é criar usuários/senhas
 
-O Telnet é um protocolo de acesso remoto baseado em usuário e senha. Assim, o comando ``user`` deve ser utilizado para criar usuári e senha no *switch*. Também é altamente recomendável criar uma senha para alterar de usuário comum para usuário administrador (``enable password``):
+O Telnet é um protocolo de acesso remoto baseado em usuário e senha. Assim, o comando ``user`` deve ser utilizado para criar usuário e senha no *switch*. Também é altamente recomendável criar uma senha para alterar de usuário comum para usuário administrador (``enable password``):
 
 ```console
 L3_Sw1(config-if)#enable password 123mudar
@@ -136,12 +139,12 @@ L3_Sw1(config-line)#login local
 L3_Sw1(config-line)#end
 L3_Sw1#
 ```
-Feitos esses passos o *switch* pode ser administrador via rede utilizando-se o protocolo Telnet.
+Feitos esses passos, o *switch* pode ser administrador via rede utilizando-se o protocolo Telnet.
 
 
-## Acesso do cliente ao roteador com SSH
+### Acesso do cliente ao roteador com SSH
 
-Com o servidor Telent ativo no *switch* CISCO 36400 é possível utilizar programas como o [PUTTY](https://www.putty.org/)no Windows ou o comando ``telnet`` do Linux para realizar acesso e gerenciar esse *switch* remotamente.
+Com o servidor Telnet ativo, no *switch* CISCO 36400 é possível utilizar programas como o [PUTTY](https://www.putty.org/) no Windows ou o comando ``telnet`` do Linux para realizar acesso e gerenciar esse *switch* remotamente.
 
 No caso do Linux, o acesso via telnet do Host-2 (ver Figura 1) é feito tal como:
 
