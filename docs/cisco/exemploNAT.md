@@ -41,7 +41,8 @@ No contexto do NAT, foi adicionado o comando ``ip nat outside``, que significa q
 
 ## Configurando interface interna
 
-A interface de rede f0/0 foi configurada na rede 192.168.0.0/25, com o IP 192.168.0.254. No contexto do NAT em CISCO, essa interface foi configurada como interna com o comando ``ip nat inside``.
+A interface de rede ``f0/0``, foi configurada na rede 192.168.0.0/25, com o IP 192.168.0.254. No contexto do NAT em CISCO, essa interface foi configurada como interna, com o comando ``ip nat inside``.
+
 ```console
 R1(config-if)#interface f0/0
 R1(config-if)#ip address 192.168.0.254 255.255.255.0
@@ -50,7 +51,7 @@ R1(config-if)#no shutdown
 R1(config-if)#exit
 ```
 
-Desta forma, neste exemplo, os pacotes que vierem da rede 192.168.0.0/24 e tiverem como destino a Internet (ou a rede 192.168.122.0/24) vão ter o IP de origem substituído pelo IP da interface f1/0 do roteador (que é o IP 192.168.122.254 - interface ``outside``).
+Neste exemplo, os pacotes que vierem da rede 192.168.0.0/24 e tiverem como destino a Internet (ou a rede 192.168.122.0/24) vão ter o IP de origem substituído pelo IP da interface ``f1/0`` do roteador (que é o IP 192.168.122.254 - interface ``outside``).
 
 
 
@@ -89,8 +90,11 @@ R1#show ip nat translations
  udp 192.168.122.254:59252 192.168.0.1:59252 8.8.8.8:53       8.8.8.8:53
 R1#
 ```
+Na saída anterior, é possível observar que o ``host`` 192.168.0.1 está realizando algum tipo de acesso na Internet, por exemplo, para o ``host`` 8.8.8.8 via DNS (UDP/53).
 
-## Lista/resumo de comandos:
+## Lista completa de comandos utilizados:
+
+Segue a lista completa e contiguá de comandos utilizados neste exemplo:
 
 ```console
 R1#enable
@@ -109,6 +113,7 @@ R1(config)#access-list 1 permit 192.168.0.0 0.0.0.255
 R1(config)#ip nat inside source list 1 interface f1/0 overload
 R1(config)#ip route 0.0.0.0 0.0.0.0 192.168.122.1
 R1(config)#exit
+R1#show ip nat translations
 ```
 
 ## Conclusão
