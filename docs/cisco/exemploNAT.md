@@ -12,13 +12,13 @@ Assim, é muito importante para administradores de rede saber como funciona e co
 
 A seguir são apresentados os passos básicos para a configuração de SNAT (**Source NAT**) em um roteador CISCO (o do exempĺo foi um 7200).
 
-Comummente, o processo de configuração de NAT em roteador CISCO, inicia com a atribuição normal de IP e máscara nas interfaces de rede do roteador. Todavia, acrecido do passo de identificar se a interface de rede é interna ou externa (``inside`` ou ``outside``).
+Comummente, o processo de configuração de NAT em roteador CISCO, inicia com a atribuição normal de IP e máscara nas interfaces de rede do roteador. Todavia, acrecido do passo de identificar se a interface de rede é interna ou externa (``inside`` ou ``outside``), sendo que:
 
-Uma interface interna/*inside* vai estar conectada a uma rede, que terá o seu IP de origem substituído, para dar lugar ao IP do roteador do lado da interface externa/*outside*.
+* Uma interface interna/*inside* vai estar conectada a uma rede, que terá o seu IP de origem substituído, para dar lugar ao IP do roteador, do lado da interface externa/*outside*.
 
-Já uma interface outside/inside vai estar conectada a uma rede, pelos quais os pacotes das redes internas serão normalmente destinadas, tal como a Internet. Assim, o IP da interface *outside* substituirá os IPs dos datagramas IPs que vêm dos hosts conectados nas interfaces *inside*.
+* Já uma interface outside/inside vai estar conectada a uma rede, pelos quais os pacotes das redes internas serão normalmente destinadas, tal como a Internet. Assim, o IP da interface *outside* substituirá os IPs dos datagramas IPs que vêm dos hosts conectados nas interfaces *inside*.
 
-> Se você não conhece o processo de NAT, pesquise por materiais teóricos mais detalhados na Internet. É bem comum não entender como funciona o NAT de inicio, o que pode comprometer a implementação prática do NAT em redes de computadores.
+> Se você não conhece o processo de NAT, pesquise por materiais teóricos mais detalhados na Internet. É bem comum não entender como funciona o NAT de inicio, o que pode comprometer a implementação prática do NAT.
 
 As duas subseções a seguir mostram como configurar as interfaces internas e externas.
 
@@ -37,7 +37,7 @@ R1(config-if)#ip nat outside
 R1(config-if)#no shutdown
 R1(config-if)#
 ```
-No contexto do NAT, foi adicionado o comando ``ip nat outside``, que significa que esta interface será responsável por realizar NAT nos pacotes que forem roteados para essa interface. Assim, os IPs dos pacotes das outras redes que tiverem como caminho/rota essa interface, vão ter o IP de origem substituído pelo IP 192.168.122.254, que é o IP desta interface.
+No contexto do NAT, foi adicionado o comando ``ip nat outside``, que significa que esta interface será responsável por realizar NAT nos pacotes que forem roteados para ``f1/0``. Assim, os IPs dos pacotes das outras redes que tiverem como caminho/rota a interface ``f1/0``, vão ter o IP de origem substituído pelo IP 192.168.122.254, que é o IP desta interface.
 
 ## Configurando interface interna
 
