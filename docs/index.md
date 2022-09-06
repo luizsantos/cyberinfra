@@ -36,9 +36,4 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [NAT](cisco/exemploNAT)
 		
 # Cibersegurança
-<!---
 * [PenTesting](penTest/pentest)
--->
-
-
-
