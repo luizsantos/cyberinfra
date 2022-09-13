@@ -66,6 +66,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ffi (~> 1.15)
   jekyll (~> 4.1)
   jekyll-paginate
   jekyll-seo-tag

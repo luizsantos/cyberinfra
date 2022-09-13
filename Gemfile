@@ -13,3 +13,5 @@ gem "jekyll-seo-tag"
 
 # gem "rails"
 
+
+gem "ffi", "~> 1.15"
