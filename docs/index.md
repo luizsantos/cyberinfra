@@ -37,3 +37,5 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 		
 # Cibersegurança
 * [PenTesting](penTest/pentest)
+	* [Escaneamento com Nmap](penTest/nmap)
+	* [Ganhando Acesso com Metaesploit](penTest/metaexploit)
