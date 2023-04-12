@@ -39,3 +39,4 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 * [PenTesting](penTest/pentest)
 	* [Escaneamento com Nmap](penTest/nmap)
 	* [Ganhando Acesso com Metasploit](penTest/metaexploit)
+		* [Quebrando senhas](penTest/passwordCracking)
