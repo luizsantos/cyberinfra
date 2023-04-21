@@ -40,3 +40,4 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Escaneamento com Nmap](penTest/nmap)
 	* [Ganhando Acesso com Metasploit](penTest/metaexploit)
 		* [Quebrando senhas](penTest/passwordCracking)
+		* [SQL Injection](penTest/sqli)
