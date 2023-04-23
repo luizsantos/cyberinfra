@@ -2,12 +2,13 @@
 layout: default
 ---
 
-<ul>
-    {% for post in paginator.docs %}
-      <li>
-          <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
-          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
-          <p>{{ post.content | strip_html | truncatewords:50 }}</p>
-      </li>
-    {% endfor %}
-</ul>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <p><strong>Luiz Arthur Feitosa dos Santos</strong>, professor na Universidade Tecnológica Federal do Paraná campus Campo Mourão (UTFPR/CM). Doutorado em Ciência da Computação pelo IME/USP, mestrado em Ciência da Computação pela UEM e graduado em Ciência da Computação pela UNIPAR. Trabalha com informática desde 1997. Possui certificação Linux - LPI. Atua principalmente nas áreas de Sistemas Operacionais, Redes de Computadores e Cybersegurança.</p>
+
+<center>
+<img src="docs/imagens/luizGit.png" alt="centered image" width="200" />
+</center>
