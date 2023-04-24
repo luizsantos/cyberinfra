@@ -3,8 +3,8 @@
   <channel>
     <title>CyberInfra</title>
     <description>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</description>
-    <link>https://luizsantos.github.io/cyberinfra/</link>
-    <atom:link href="https://luizsantos.github.io/cyberinfra//feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:8080</link>
+    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml" />
     <author>
       <name>Luiz Arthur Feitosa dos Santos</name>
       <email>luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com</email>
@@ -29,7 +29,7 @@
 
 &lt;p&gt;Para identificar as placas de vídeo é possível utilizar o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lspci&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;lspci &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-EA3&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'VGA|Display|3D'&lt;/span&gt;
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;lspci &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-EA3&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;VGA|Display|3D&apos;&lt;/span&gt;
 &lt;span class=&quot;go&quot;&gt;00:02.0 VGA compatible controller: Intel Corporation HD Graphics 5500 (rev 09)
 Subsystem: Dell Device 0643
 Kernel driver in use: i915
@@ -166,7 +166,7 @@ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs
 
 &lt;p&gt;ou&lt;/p&gt;
 
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;xrandr &lt;span class=&quot;nt&quot;&gt;--setprovideroffloadsink&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'AMD Radeon R7 M260 @ pci:0000:04:00.0'&lt;/span&gt;
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;xrandr &lt;span class=&quot;nt&quot;&gt;--setprovideroffloadsink&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&apos;AMD Radeon R7 M260 @ pci:0000:04:00.0&apos;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Atenção&lt;/strong&gt;: Nos comandos anteriores, a ideia foi utilizar a placa AMD/Radeon, mas seria possível também trocar da placa AMD/Radeon, que estaria como padrão, para a placa Intel. Por exemplo, isso seria feito utilizando o comando &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ xrandr --setprovideroffloadsink 1&lt;/code&gt; ou utilizando o nome da placa &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ xrandr --setprovideroffloadsink Intel&lt;/code&gt;.&lt;/p&gt;
@@ -216,9 +216,9 @@ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 15 Mar 2021 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///LinuxDell_videoIntellAMD</link>
-        <link href="https://luizsantos.github.io/cyberinfra//LinuxDell_videoIntellAMD"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//LinuxDell_videoIntellAMD</guid>
+        <link>http://localhost:8080//LinuxDell_videoIntellAMD</link>
+        <link href="http://localhost:8080/LinuxDell_videoIntellAMD"/>
+        <guid isPermaLink="true">http://localhost:8080/LinuxDell_videoIntellAMD</guid>
       </item>
     
       <item>
@@ -260,9 +260,9 @@ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs
 &lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
 SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
 
-In order to log into MariaDB to secure it, we'll need the current
-password for the root user. If you've just installed MariaDB, and
-haven't set the root password yet, you should just press enter here.
+In order to log into MariaDB to secure it, we&apos;ll need the current
+password for the root user. If you&apos;ve just installed MariaDB, and
+haven&apos;t set the root password yet, you should just press enter here.
 
 Enter current password for root (enter for none): 
 OK, successfully used password, moving on...
@@ -270,7 +270,7 @@ OK, successfully used password, moving on...
 Setting the root password or using the unix_socket ensures that nobody
 can log into the MariaDB root user without the proper authorisation.
 
-You already have your root account protected, so you can safely answer 'n'.
+You already have your root account protected, so you can safely answer &apos;n&apos;.
 
 Switch to unix_socket authentication [Y/n] 
 Enabled successfully!
@@ -278,7 +278,7 @@ Reloading privilege tables..
 ... Success!
 
 
-You already have your root account protected, so you can safely answer 'n'.
+You already have your root account protected, so you can safely answer &apos;n&apos;.
 
 Change the root password? [Y/n] 
 New password: 
@@ -297,13 +297,13 @@ production environment.
 Remove anonymous users? [Y/n] 
 ... Success!
 
-Normally, root should only be allowed to connect from 'localhost'.  This
+Normally, root should only be allowed to connect from &apos;localhost&apos;.  This
 ensures that someone cannot guess at the root password from the network.
 
 Disallow root login remotely? [Y/n] n
 ... skipping.
 
-By default, MariaDB comes with a database named 'test' that anyone can
+By default, MariaDB comes with a database named &apos;test&apos; that anyone can
 access.  This is also intended only for testing, and should be removed
 before moving into a production environment.
 
@@ -318,7 +318,7 @@ Reload privilege tables now? [Y/n]
 
 Cleaning up...
 
-All done!  If you've completed all of the above steps, your MariaDB
+All done!  If you&apos;ve completed all of the above steps, your MariaDB
 installation should now be secure.
 
 Thanks for using MariaDB!
@@ -358,7 +358,7 @@ Server version: 10.5.6-MariaDB Arch Linux
 
 Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
-&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;Type 'help;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;' or '&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;extbackslash&lt;span class=&quot;se&quot;&gt;\{\}&lt;/span&gt;h&lt;span class=&quot;s1&quot;&gt;' for help. Type '&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;extbackslash&lt;span class=&quot;se&quot;&gt;\{\}&lt;/span&gt;c&lt;span class=&quot;s1&quot;&gt;' to clear the current input statement.
+&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;Type &apos;help;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos; or &apos;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;extbackslash&lt;span class=&quot;se&quot;&gt;\{\}&lt;/span&gt;h&lt;span class=&quot;s1&quot;&gt;&apos; for help. Type &apos;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;extbackslash&lt;span class=&quot;se&quot;&gt;\{\}&lt;/span&gt;c&lt;span class=&quot;s1&quot;&gt;&apos; to clear the current input statement.
 &lt;/span&gt;&lt;span class=&quot;go&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;MariaDB [(none)]&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;quit
 &lt;span class=&quot;go&quot;&gt;Bye
@@ -369,7 +369,7 @@ Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
 &lt;p&gt;Ainda quanto ao acesso remoto usando IPs que não o 127.0.0.1, pode ser é necessário dar permissões no próprio banco para o usuário acessar de um dado IP. Para isso utilize o comando anterior (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mysql -h 127.0.0.1 -u root -p&lt;/code&gt;) para acessar o banco e depois execute:&lt;/p&gt;
 
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.%.%' IDENTIFIED BY 'sua_senha' WITH GRANT OPTION;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;192.168.%.%&apos; IDENTIFIED BY &apos;sua_senha&apos; WITH GRANT OPTION;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;Neste caso estamos deduzindo que o usuário é &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;root&lt;/code&gt;, a rede é 192.168.0.0/16 e a senha &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sua_senha&lt;/code&gt;, troque isso conforme seus dados. Então será possível acessar o banco de dados via rede, tal como:&lt;/p&gt;
 
@@ -386,9 +386,9 @@ Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 &lt;/ul&gt;
 </description>
         <pubDate>Thu, 12 Nov 2020 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///mariaDb_Arch</link>
-        <link href="https://luizsantos.github.io/cyberinfra//mariaDb_Arch"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//mariaDb_Arch</guid>
+        <link>http://localhost:8080//mariaDb_Arch</link>
+        <link href="http://localhost:8080/mariaDb_Arch"/>
+        <guid isPermaLink="true">http://localhost:8080/mariaDb_Arch</guid>
       </item>
     
       <item>
@@ -459,9 +459,9 @@ Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relac
 &lt;/ul&gt;
 </description>
         <pubDate>Wed, 22 Jul 2020 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///comandosRedeLinux</link>
-        <link href="https://luizsantos.github.io/cyberinfra//comandosRedeLinux"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//comandosRedeLinux</guid>
+        <link>http://localhost:8080//comandosRedeLinux</link>
+        <link href="http://localhost:8080/comandosRedeLinux"/>
+        <guid isPermaLink="true">http://localhost:8080/comandosRedeLinux</guid>
       </item>
     
       <item>
@@ -492,7 +492,7 @@ Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relac
 
 &lt;p&gt;Depois adicionar a seguinte linha no arquivo &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/bash.bashrc&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;alias vi='TERM=rxvt-unicode-256color vi'
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;alias vi=&apos;TERM=rxvt-unicode-256color vi&apos;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
@@ -502,9 +502,9 @@ Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relac
 &lt;p&gt;Após isso reinicie o terminal texto (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bash&lt;/code&gt;) e as setas do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vi&lt;/code&gt; devem começar a funcionar corretamente, sem aparecer as benditas letras ao invés da navegação.&lt;/p&gt;
 </description>
         <pubDate>Tue, 21 Jul 2020 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///viArch</link>
-        <link href="https://luizsantos.github.io/cyberinfra//viArch"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//viArch</guid>
+        <link>http://localhost:8080//viArch</link>
+        <link href="http://localhost:8080/viArch"/>
+        <guid isPermaLink="true">http://localhost:8080/viArch</guid>
       </item>
     
       <item>
@@ -816,9 +816,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
 
 </description>
         <pubDate>Thu, 16 Jul 2020 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///installArchLinux</link>
-        <link href="https://luizsantos.github.io/cyberinfra//installArchLinux"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//installArchLinux</guid>
+        <link>http://localhost:8080//installArchLinux</link>
+        <link href="http://localhost:8080/installArchLinux"/>
+        <guid isPermaLink="true">http://localhost:8080/installArchLinux</guid>
       </item>
     
       <item>
@@ -826,9 +826,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
         <description>
 </description>
         <pubDate>Thu, 02 Jul 2020 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///OpenBSDRasp</link>
-        <link href="https://luizsantos.github.io/cyberinfra//OpenBSDRasp"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//OpenBSDRasp</guid>
+        <link>http://localhost:8080//OpenBSDRasp</link>
+        <link href="http://localhost:8080/OpenBSDRasp"/>
+        <guid isPermaLink="true">http://localhost:8080/OpenBSDRasp</guid>
       </item>
     
       <item>
@@ -845,9 +845,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
 
 </description>
         <pubDate>Tue, 16 Jun 2020 00:00:00 -0300</pubDate>
-        <link>https://luizsantos.github.io/cyberinfra///olaMundo</link>
-        <link href="https://luizsantos.github.io/cyberinfra//olaMundo"/>
-        <guid isPermaLink="true">https://luizsantos.github.io/cyberinfra//olaMundo</guid>
+        <link>http://localhost:8080//olaMundo</link>
+        <link href="http://localhost:8080/olaMundo"/>
+        <guid isPermaLink="true">http://localhost:8080/olaMundo</guid>
       </item>
     
   </channel>

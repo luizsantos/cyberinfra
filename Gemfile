@@ -8,10 +8,10 @@ git_source(:github) {"https://luizsantos.github.io/cyberinfra/" }
 gem "jekyll", "~> 4.1"
 gem "jekyll-paginate"
 gem "jekyll-sitemap"
-gem "jekyll-paginate"
+#gem "jekyll-paginate"
 gem "jekyll-seo-tag"
 
 # gem "rails"
 
 
-gem "ffi", "~> 1.15"
+gem "ffi", "~> 1.15.5"

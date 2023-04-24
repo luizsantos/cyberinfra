@@ -1,13 +1,23 @@
 ---
-layout: default
+layout: default2
 ---
 
 <ul>
-    {% for post in paginator.posts %}
-      <li>
-          <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
-          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
-          <p>{{ post.content | strip_html | truncatewords:50 }}</p>
-      </li>
-    {% endfor %}
+    <img src="docs/imagens/luizGit.png" alt="centered image" width="150" style="float: right" />
+    Material de apoio às disciplinas de Sistemas Operacionais, Redes de Computadores e Cibersegurança, ministradas no curso de Bacharelado em Ciência da Computação (<a href="http://www.utfpr.edu.br/cursos/coordenacoes/graduacao/campo-mourao/cm-ciencia-da-computacao">BCC</a>), da Universidade Tecnológica Federal do Paraná (<a href="http://www.utfpr.edu.br/campus/campomourao">UTFPR</a>), campus Campo Mourão, pelo professor <b>Luiz Arthur Feitosa dos Santos</b>.
+    <p>
+    Esse sítio Web está organizado da seguinte forma:
+    <p>
+    <ul>
+      <li><a href="docs/">Documentos</a>: textos a respeito de assuntos abordados em sala de aula. Tais textos normalmente têm fins mais práticos, todavia o material também aborda algumas teorias quando necessário; </li>
+      <p>
+      <li><a href="videos/">Vídeos</a>: são vídeos explicando principalmente assuntos teóricos, mas tentam referenciar também a prática;</li>
+      <p>
+      <li><a href="archive/">Postagens</a>: são textos a respeito de práticas (Linux, BSD, Redes, Segurança, etc) não relacionadas diretamente com as aulas, que utilizo como memória, para lembrar como fiz e como refazer no futuro. Acredito que isso pode ser útil à outras pessoas;</li>
+      <p>
+      <li><a href="about/">Sobre</a>: informações a respeito do autor.</li>
+    </ul>
+    <p>
+    Este material foi feito com a intenção de ajudar alunos e entusiastas da área de infraestrutura de computadores, então espero que vocês gostem e que este material ajude de alguma maneira. <p><b>Ah, use por sua conta e risco!</b> ;-p <p>
+    Bom estudo...
 </ul>
