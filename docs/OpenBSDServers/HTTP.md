@@ -201,7 +201,7 @@ Descomente a linha a seguir no arquivo de configuração do Apache:
 
 Edite o arquivo de configuração padrão do Apache:
 
-``# vim /etc/apache2/extra/httpd-vhosts.conf``
+``# vim /etc/apache2/httpd2.conf``
 
 Procure a linha seguir e descomente:
 
