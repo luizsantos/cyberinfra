@@ -19,14 +19,11 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac)
 
 # Redes de Computadores
-* HTTP(_HyperText Transfer Protocol_)
-	* [Apache HTTP no OpenBSD](OpenBSDServers/HTTP)
-* FTP(_File Transference Protocol_)
-	* [FTP no OpenBSD](OpenBSDServers/FTP)
-* DNS (_Domain Name System_)
-	* [BIND no OpenBSD](DNS/DNS)
-* QoS (_Quality of Service_)
-	* [QoS no OpenBSD](QoS/QoS)
+* Servidores no OpenBSD:
+    * [Apache HTTP](OpenBSDServers/HTTP)
+	* [FTP](OpenBSDServers/FTP)
+	* [BIND](DNS/DNS)
+	* [QoS](QoS/QoS)
 * CISCO
 	* [VLAN](cisco/vlan)
 	* [Outras configurações em switches](cisco/algumasConfSws)
