@@ -1,6 +1,6 @@
 # Servidor DHCP no OpenBSD
 
-Servidores [DHCP](https://pt.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol) estão presentes em qualquer rede atualmente. Os servidores DHCP realizam nos *hosts* clientes, a configuração automática de parâmetros como: IP do *host*, máscara, *gateway*, DNS, etc. Assim, o servidor DHCP é um grande facilitador para se gerenciar e manter redes de computadores. Desta forma, é fundamental para qualquer administrador de rede saber configurar um bom servidor DHCP.
+Servidores Dynamic Host Configuration Protocol ([DHCP](https://pt.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol)) estão presentes em qualquer rede atualmente. Os servidores DHCP realizam nos *hosts* clientes, a configuração automática de parâmetros como: IP do *host*, máscara, *gateway*, DNS, etc. Assim, o servidor DHCP é um grande facilitador para se gerenciar e manter redes de computadores. Desta forma, é fundamental para qualquer administrador de rede saber configurar um bom servidor DHCP.
 
 O texto a seguir apresenta brevemente como instalar e configurar um servidor DHCP utilizando o sistema operacional [OpenBSD](https://www.openbsd.org/). Para isso será utilizado como exemplo a rede da Figura 1.
 
@@ -179,3 +179,23 @@ forked to background, child pid 134
 Na saída anterior, note que o cliente realmente obteve o IP 10.0.0.254.
 
 > Atenção, em alguns casos, como placas de rede WiFi, o endereço físico pode ficar mudando a cada *boot* do *host*. Nestes casos é necessário configurar tal sistema para manter um endereço físico fixo.
+
+## DHCP Relay
+
+O servidor DHCP é uma evolução dos protocolos [BOOTP](https://pt.wikipedia.org/wiki/BOOTP#:~:text=O%20protocolo%20BOOTP%20(acr%C3%B4nimo%20para,permanente%2C%20o%20chamado%20direcionamento%20est%C3%A1tico) e [RARP](https://youtu.be/Jw9I2d6gTDI), sendo que duas das principais características dessas evoluções são:
+1. **Fornecer IPs dinâmicamente**, através do empréstimo de uma faixa de IPs prédeterminada (isso veio da evolução do DHCP em relação ao BOOTP);
+2. Conseguir **rotear pedidos DHCP de uma rede para outra**, assim o cliente DHCP pode estar em uma rede diferente do servidor DHCP (isso veio da evolução do BOOTP em relalção ao RARP).
+
+Bem, então para que o servidor DHCP forneça IPs para enlaces de rede diferentes da que ele está conectado, é necessário o uso do DHCP Relay. Isso basicamente consiste em configurar um *host* em uma dada rede, para encaminhar pedidos DHCP dos clientes para um servidor DHCP que está em outra rede. Assim, um DHCP Relay é um intermidiador/ponte entre o cliente DHCP e o servidor.
+
+Neste material não vamos nos aprofundar em como configurar o DHCP Relay no OpenBSD, mas isso pode ser fácilmente obtido no material da [``kb.isc.org``](https://kb.isc.org/docs/isc-dhcp-44-manual-pages-dhcrelay). Também, é mais comum configurar *switches* para fazer o Relay. Assim, você pode conferir como configurar um *switch* CISCO para ser um DHCP Relay no *link* a seguir: [DHCP em *swiches* CISCO](cisco/dhcp-cisco).
+
+## Conclusão
+
+Servidores DHCP estão presentes em basicamente todas as redes atualmente, principalmente dentro de roteadores e Access Points WiFi. Assim, usuários não precisam configurar manualmente os *hosts* na rede, tudo é feito de forma automática e quase mágica pelo servidor DHCP.
+
+Entender como funciona tais servidores é muito importante para administradores de rede, pois isso pode ajudar a evitar problemas na rede e matê-las sempre em pleno fucionamento.
+
+Aqui apresentamos a instalação e configuração de um servidor DHCP no OpenBSD, que é considerados um dos sistemas mais seguros do mundo.
+
+> Exemplo, não é nada recomendável ter dois ou mais servidores DHCP em um mesmo enlace de rede! Procure a teória do DHCP para entender o motivo disso...  ;-)
