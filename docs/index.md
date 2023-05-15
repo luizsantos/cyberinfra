@@ -20,9 +20,11 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 # Redes de Computadores
 * Servidores no OpenBSD:
+	* [DHCP](OpenBSDServers/dhcp)
     * [Apache HTTP](OpenBSDServers/HTTP)
 	* [FTP](OpenBSDServers/FTP)
 	* [BIND](DNS/DNS)
+	* [NAT](OpenBSDServers/nat)
 	* [QoS](QoS/QoS)
 * CISCO
 	* [VLAN](cisco/vlan)
