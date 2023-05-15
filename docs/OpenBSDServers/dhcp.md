@@ -199,3 +199,9 @@ Entender como funciona tais servidores é muito importante para administradores 
 Aqui apresentamos a instalação e configuração de um servidor DHCP no OpenBSD, que é considerados um dos sistemas mais seguros do mundo.
 
 > Exemplo, não é nada recomendável ter dois ou mais servidores DHCP em um mesmo enlace de rede! Procure a teória do DHCP para entender o motivo disso...  ;-)
+
+## Referências
+
+* <https://www.isc.org/dhcp/>
+
+* <https://www.openbsd.org/faq/faq15.html>
