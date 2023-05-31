@@ -175,7 +175,7 @@ $TTL 6h
 7d      ; expiration
 1h )    ; minimum
 
-NS      vm.redes2.comp.
+@   NS      vm.redes2.comp.
 
 vm.redes2.comp.         IN      A       192.168.56.111
 real.redes2.comp.       IN      A       192.168.56.1
