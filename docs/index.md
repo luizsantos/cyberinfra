@@ -25,6 +25,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
     * [Apache HTTP](OpenBSDServers/HTTP)
 	* [FTP](OpenBSDServers/FTP)
 	* [BIND](DNS/DNS)
+	* [NFS](OpenBSDServers/nfsd)
 	* [NAT](OpenBSDServers/nat)
 	* [QoS](QoS/QoS)
 * CISCO
