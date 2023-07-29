@@ -99,5 +99,29 @@ localhost          lo0                UHl         -        -  33624  lo0
 10.0.2.2           52:54:00:12:35:02  UHL         -        -      -  wm0
 ```
 
+### NAT (mascaramento)
 
+Ative o roteamento:
 
+```console
+nbsd# sysctl -w net.inet.ip.forwarding=1
+net.inet.ip.forwarding: 0 -> 1
+```
+
+Crie/edite o arquivo ``/etc/ipnat.conf``:
+
+```console
+nbsd# vi /etc/ipnat.conf
+map wm0 0/0 -> 0/32
+```
+Neste caso estamos pedindo para "mapear"/mascarar, tudo (``0/0``) que for sair pela interface ``wm0``, para o IP que estiver na interface ``wm0``.
+
+> Atenção, este exemplo a interface ``wm0`` é a interface de rede conectada à Internet! Então você tem que ver se o nome da interface no seu cenário de rede é o mesmo...
+
+Iniciar e carregar o NAT:
+
+```console
+nbsd# /etc/rc.d/ipnat onestart
+Enabling ipfilter for NAT.
+Installing NAT rules ... 1 entries flushed from NAT table
+```
