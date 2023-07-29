@@ -125,3 +125,29 @@ nbsd# /etc/rc.d/ipnat onestart
 Enabling ipfilter for NAT.
 Installing NAT rules ... 1 entries flushed from NAT table
 ```
+
+## Referências
+
+### Instalação
+
+* <https://www.unixmen.com/howto-install-pkgin-on-netbsd-6/>
+
+* <https://www.netbsd.org/docs/pkgsrc/using.html>
+
+### Rede
+
+* <https://man.netbsd.org/NetBSD-9.1/sockstat.1>
+
+* <https://man.netbsd.org/NetBSD-9.1/netstat.1>
+
+### Quagga
+
+* <https://wiki.netbsd.org/tutorials/quagga/>
+
+### NAT
+
+* <https://wiki.netbsd.org/nsps/>
+
+* <https://man.netbsd.org/ipnat.conf.5>
+
+* <https://man.netbsd.org/NetBSD-9.3/npf.conf.5>
