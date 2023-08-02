@@ -334,6 +334,10 @@ nbsd# vtysh
 
 ### Rede
 
+* <https://www.netbsd.org/docs/guide/en/chap-net-practice.html>
+
+* <https://man.netbsd.org/NetBSD-6.0/ifconfig.if.5>
+
 * <https://man.netbsd.org/NetBSD-9.1/sockstat.1>
 
 * <https://man.netbsd.org/NetBSD-9.1/netstat.1>
