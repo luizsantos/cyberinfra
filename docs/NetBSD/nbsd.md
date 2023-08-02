@@ -64,6 +64,113 @@ proceed ? [Y/n]
 
 ## Redes
 
+### Configuração de rede volátil
+
+#### IP e Máscara de rede
+A configuração de IPs e máscaras de rede no NetBSD pode ser realizada através do comando ``ifconfig``, tal como:
+
+```console
+nbsd# ifconfig wm3 10.0.0.2/24
+```
+Neste caso foi atribuída a placa de rede ``wm3``, o IP/máscara 10.0.0.2/24. A efetividade da configuração pode ser vista com o mesmo comando, tal como:
+
+```console
+nbsd# ifconfig wm3
+wm3: flags=0x8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+        capabilities=2bf80<TSO4,IP4CSUM_Rx,IP4CSUM_Tx,TCP4CSUM_Rx>
+        capabilities=2bf80<TCP4CSUM_Tx,UDP4CSUM_Rx,UDP4CSUM_Tx,TCP6CSUM_Tx>
+        capabilities=2bf80<UDP6CSUM_Tx>
+        enabled=0
+        ec_capabilities=7<VLAN_MTU,VLAN_HWTAGGING,JUMBO_MTU>
+        ec_enabled=2<VLAN_HWTAGGING>
+        address: 08:00:27:83:88:1e
+        media: Ethernet autoselect (none)
+        status: no carrier
+        inet 10.0.0.2/24 broadcast 10.0.0.255 flags 0x0
+        inet6 fe80::a00:27ff:fe83:881e%wm3/64 flags 0x8<DETACHED> scopeid 0x4
+```
+
+É possível ver na saída que o IP/máscara foram atribuídas com sucesso (penúltima linha) na placa de rede ``wm3``.
+
+#### Rota padrão
+
+Para adicionar a rota padrão:
+
+```console
+nbsd# route add default 192.168.122.1
+add net default: gateway 192.168.122.1
+```
+
+No exemplo anterior o *gateway* padrão é o IP 192.168.122.1.
+
+Para remover a rota padrão:
+```console
+nbsd# route delete default
+delete net default
+```
+
+É possível verificar as rotas através dos comandos:
+* ``route -n show ``;
+* ``netstat -r -f inet`` - a opção ``-f inet``, apresenta apenas as rotas IPv4, para ver todas é só remover tal opção.
+
+### Configurando rede via arquivos
+
+#### IPs e máscaras de rede
+Para configurar a rede via arquivo, de forma que as configurações persistam depois do *boot*, é possível criar/editar o arquivo ``/etc/ifconfig.wm0``, sendo que ``wm0`` deve ser trocado pelo nome da placa de rede a ser configurada. Então neste exemplo a placa de rede chama-se ``wm0``.
+
+> É possível ver as placas de rede através do comando ``ifconfig -a``.
+
+Um exemplo de configuração seria:
+
+```console
+nbsd# cat /etc/ifconfig.wm0
+#dhcp
+inet 192.168.122.10 netmask 255.255.255.0
+```
+
+Neste exemplo a placa ``wm0`` receberá o IP 192.168.122.10/24. Note que a configuração via DHCP está desabilitada, para habilitá-la seria necessário descomentar a linha do ``dhcp`` (removendo o ``#``) e inserindo um ``#``, na linha que inicia com ``inet``.
+
+#### Rota Padrão
+
+Para configurar a rota padrão é possível criar/editar o arquivo ``/etc/mygate``, tal como:
+
+```console
+nbsd# cat /etc/mygate
+192.168.122.1
+```
+
+No exemplo anterior, o *gateway* padrão é o *host* 192.168.122.1.
+
+#### Aplicando as configurações de rede
+
+Após alterar IPs, máscaras e *gateway* padrão utilizando os arquivos dos passos anteriores, é possível reiniciar o *host*, ou executar o comando ``/etc/rc.d/network``, para que as configurações sejam aplicadas imediatamente. Exemplo:
+
+```console
+nbsd# /etc/rc.d/network restart
+
+Stopping network.
+Deleting aliases.
+Downing network interfaces: wm0 wm1 wm2.
+Starting network.
+Hostname: nbsd
+IPv6 mode: host
+Configuring network interfaces: wm0 wm1 wm2.
+Adding interface aliases:.
+add net default: gateway 192.168.122.1
+Waiting for DAD to complete for statically configured addresses...
+```
+#### Servidor de nomes
+
+A configuração do servidor de nomes no NetBSD é a mesma utilizada em outros sistemas Unix-Like, exemplo:
+
+```console
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+```
+Neste caso foi adicionado o servidor 8.8.8.8, como servidor de nomes principal do *host*.
+
+> Não é necessário reiniciar nenhum serviço para que a configuração do DNS passe a valer.
+
+
 ### Verificando conexões de redes
 
 ```console
@@ -125,6 +232,97 @@ nbsd# /etc/rc.d/ipnat onestart
 Enabling ipfilter for NAT.
 Installing NAT rules ... 1 entries flushed from NAT table
 ```
+
+## Quagga
+
+Instalar o Quagga:
+```console
+nbsd# pkgin install quagga
+```
+
+Configurar o zebra:
+
+```console
+nbsd# cat /usr/pkg/etc/zebra/zebra.conf
+!
+! Zebra configuration saved from vty
+!   2023/07/29 12:02:46
+!
+hostname nbsd-router
+password 123mudar
+enable password 123mudar
+log syslog
+!
+interface lo0
+!
+interface wm0
+!
+interface wm1
+ ip address 172.16.0.10/24
+!
+interface wm2
+ ip address 172.16.1.10/24
+!
+interface wm3
+!
+ip forwarding
+!
+!
+line vty
+!
+```
+Configurar o OSPF, ou outro similar:
+
+```console
+nbsd# cat /usr/pkg/etc/zebra/ospfd.conf
+!
+! Zebra configuration saved from vty
+!   2023/07/29 12:02:46
+!
+hostname nbsd-router
+password 123mudar
+enable password 123mudar
+log syslog
+!
+!
+!
+interface lo0
+!
+interface wm0
+!
+interface wm1
+!
+interface wm2
+!
+interface wm3
+!
+router ospf
+ ospf router-id 10.10.10.10
+ network 172.16.0.0/24 area 0.0.0.0
+ network 172.16.1.0/24 area 0.0.0.0
+ default-information originate
+!
+line vty
+!
+```
+
+Iniciar:
+
+```console
+nbsd# mkdir /var/run/zebra
+nbsd# chown quagga.quagga /var/run/zebra/
+nbsd# /usr/pkg/sbin/zebra -d
+nbsd# /usr/pkg/sbin/ospfd  -d
+```
+> Neste caso sempre que reiniciar a máquina vai ter que criar o diretório e dar esse para o usuário/grupo ``quagga``, então seria bom fazer um *script*. Isso pode ser feito com o arquivo ``/usr/pkg/share/examples/rc.d/zebra``.
+
+O quagga/zebra também pode ser acessado pelo comando:
+
+```console
+nbsd# vtysh
+```
+
+> Atenção que quando você executa esse comando não muda nada no terminal, então é bom digitar ``help`` para ver se você está no ``vtysh``, ou no terminal normal. Para sair do terminal ``vtysh``, digite o comando ``quit``, os outros comandos são bem similares ao terminal CISCO.
 
 ## Referências
 
