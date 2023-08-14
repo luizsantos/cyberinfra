@@ -14,6 +14,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 # Sistemas Operacionais
 * OpenBSD
 	* [Alguns comandos OpenBSD](OpenBSDServers/OpenBSD_comandos)
+* NetBSD
+    * [Configuração básica do NetBSD](NetBSD/nbsd)
 * Outros
 	* [Windows acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMWindows)
 	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac)
