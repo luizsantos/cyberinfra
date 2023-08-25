@@ -202,14 +202,19 @@ Exiting configuration mode
 
 # OSPF entre roteadores Juniper e Cisco (problema)
 
-Durante a interligação entre roteadores Juniper e CISCO, ou entre roteadores de fabricantes diversos, pode ocorrer das interfaces de rede que interligam os roteadores serem configuradas
+Durante a interligação entre roteadores Juniper e CISCO, ou entre roteadores de fabricantes diversos, pode ocorrer das interfaces de rede que interligam os roteadores possuírem configurações incompatíveis.
 
+No exemplo a seguir, um roteador Juniper inunda de informações OSPF um roteador CISCO e por isso os roteadores até se identificam como vizinhos OSPF, todavia não conseguem trocar informações a respeito de rotas - ou seja, não funciona.
+
+
+A constatação do problema, se dá principalmente por essa saída apresentada no roteador CISCO:
 ```console
 *Aug 24 21:06:46.435: OSPF: Killing nbr 10.2.0.11 on GigabitEthernet1/0 due to excessive (25) retransmissions
 *Aug 24 21:06:46.435: OSPF: 10.2.0.11 address 10.8.0.11 on GigabitEthernet1/0 is dead, state DOWN
 *Aug 24 21:06:46.435: %OSPF-5-ADJCHG: Process 1, Nbr 10.2.0.11 on GigabitEthernet1/0 from EXSTART to DOWN, Neighbor Down: Too many retransmissions
 ```
 
+Outra forma de identificar o problema é pedir mais detalhes a respeito do OSPF no roteador CISCO:
 ```console
 R1#debug ip ospf adj
 OSPF adjacency events debugging is on
@@ -245,24 +250,31 @@ R1#
 *Aug 24 21:06:49.651: OSPF: OSPF: Nbr 10.2.0.11 10.8.0.11 GigabitEthernet1/0 is currently ignored
 ```
 
+Bem, uma maneira de tentar corrigir tal problema, é tentar acertar o tamanho do MTU entre os roteadores. No exemplo a seguir o MTU é configurado para 1500 bytes.
+
+Configurando o MTU no roteador CISCO:
 ```console
 R1(config)#interface g1/0
 R1(config-if)#ip mtu 1500
 R1(config-if)#
 ```
 
-```console
-R1(config)#interface g1/0
-R1(config-if)#ip ospf mtu-ignore
-```
-
-Juniper:
+Configurando o MTU no roteador Juniper:
 ```console
 root@j11# set interfaces em4 mtu 1500
 
 [edit]
 root@j11# commit
 ```
+
+Todavia, em meus testes o OSPF entre esses roteadores só funcionaram apos essa configuração no roteador CISCO:
+
+```console
+R1(config)#interface g1/0
+R1(config-if)#ip ospf mtu-ignore
+```
+Após isso os roteadores conseguem trocar informações a respeito das rota via OSPF e a tabela de roteamento é povoada corretamente.
+
 * <https://www.cisco.com/c/en/us/support/docs/ip/open-shortest-path-first-ospf/119384-technote-ospf-00.html>
 * <https://www.cisco.com/c/en/us/support/docs/ip/open-shortest-path-first-ospf/119433-technote-ospf-00.html>
 * <https://www.cisco.com/c/en/us/support/docs/ip/open-shortest-path-first-ospf/116119-technote-ospf-mtu-00.html>

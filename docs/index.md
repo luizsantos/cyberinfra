@@ -37,7 +37,9 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Telnet e SSH em roteador/switch](cisco/exemploSSHTelnet)
 	* [DHCP](cisco/dhcp-cisco)
 	* [NAT](cisco/exemploNAT)
-		
+* Juniper
+	* [Configuração básica dos roteadores](juniper/router)
+
 # Cibersegurança
 * [PenTesting](penTest/pentest)
 	* [Escaneamento com Nmap](penTest/nmap)
