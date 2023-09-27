@@ -3,8 +3,8 @@
   <channel>
     <title>CyberInfra</title>
     <description>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</description>
-    <link>http://localhost:8080</link>
-    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     <author>
       <name>Luiz Arthur Feitosa dos Santos</name>
       <email>luizsantos@utfpr.edu.br / luiz.arthur.feitosa.santos@gmail.com</email>
@@ -216,9 +216,9 @@ Provider 1: id: 0xa9 cap: 0xd, Source Output, Source Offload, Sink Offload crtcs
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 15 Mar 2021 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//LinuxDell_videoIntellAMD</link>
-        <link href="http://localhost:8080/LinuxDell_videoIntellAMD"/>
-        <guid isPermaLink="true">http://localhost:8080/LinuxDell_videoIntellAMD</guid>
+        <link>http://localhost:4000//LinuxDell_videoIntellAMD</link>
+        <link href="http://localhost:4000/LinuxDell_videoIntellAMD"/>
+        <guid isPermaLink="true">http://localhost:4000/LinuxDell_videoIntellAMD</guid>
       </item>
     
       <item>
@@ -386,9 +386,9 @@ Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 &lt;/ul&gt;
 </description>
         <pubDate>Thu, 12 Nov 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//mariaDb_Arch</link>
-        <link href="http://localhost:8080/mariaDb_Arch"/>
-        <guid isPermaLink="true">http://localhost:8080/mariaDb_Arch</guid>
+        <link>http://localhost:4000//mariaDb_Arch</link>
+        <link href="http://localhost:4000/mariaDb_Arch"/>
+        <guid isPermaLink="true">http://localhost:4000/mariaDb_Arch</guid>
       </item>
     
       <item>
@@ -459,9 +459,9 @@ Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relac
 &lt;/ul&gt;
 </description>
         <pubDate>Wed, 22 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//comandosRedeLinux</link>
-        <link href="http://localhost:8080/comandosRedeLinux"/>
-        <guid isPermaLink="true">http://localhost:8080/comandosRedeLinux</guid>
+        <link>http://localhost:4000//comandosRedeLinux</link>
+        <link href="http://localhost:4000/comandosRedeLinux"/>
+        <guid isPermaLink="true">http://localhost:4000/comandosRedeLinux</guid>
       </item>
     
       <item>
@@ -502,9 +502,9 @@ Assim, aqui irei apresentar alguns comandos de rede úteis, principalmente relac
 &lt;p&gt;Após isso reinicie o terminal texto (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bash&lt;/code&gt;) e as setas do &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vi&lt;/code&gt; devem começar a funcionar corretamente, sem aparecer as benditas letras ao invés da navegação.&lt;/p&gt;
 </description>
         <pubDate>Tue, 21 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//viArch</link>
-        <link href="http://localhost:8080/viArch"/>
-        <guid isPermaLink="true">http://localhost:8080/viArch</guid>
+        <link>http://localhost:4000//viArch</link>
+        <link href="http://localhost:4000/viArch"/>
+        <guid isPermaLink="true">http://localhost:4000/viArch</guid>
       </item>
     
       <item>
@@ -816,9 +816,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
 
 </description>
         <pubDate>Thu, 16 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//installArchLinux</link>
-        <link href="http://localhost:8080/installArchLinux"/>
-        <guid isPermaLink="true">http://localhost:8080/installArchLinux</guid>
+        <link>http://localhost:4000//installArchLinux</link>
+        <link href="http://localhost:4000/installArchLinux"/>
+        <guid isPermaLink="true">http://localhost:4000/installArchLinux</guid>
       </item>
     
       <item>
@@ -826,9 +826,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
         <description>
 </description>
         <pubDate>Thu, 02 Jul 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//OpenBSDRasp</link>
-        <link href="http://localhost:8080/OpenBSDRasp"/>
-        <guid isPermaLink="true">http://localhost:8080/OpenBSDRasp</guid>
+        <link>http://localhost:4000//OpenBSDRasp</link>
+        <link href="http://localhost:4000/OpenBSDRasp"/>
+        <guid isPermaLink="true">http://localhost:4000/OpenBSDRasp</guid>
       </item>
     
       <item>
@@ -845,9 +845,9 @@ E-mail: &lt;strong&gt;&lt;a href=&quot;mailto:luizsantos@utfpr.edu.br&quot;&gt;l
 
 </description>
         <pubDate>Tue, 16 Jun 2020 00:00:00 -0300</pubDate>
-        <link>http://localhost:8080//olaMundo</link>
-        <link href="http://localhost:8080/olaMundo"/>
-        <guid isPermaLink="true">http://localhost:8080/olaMundo</guid>
+        <link>http://localhost:4000//olaMundo</link>
+        <link href="http://localhost:4000/olaMundo"/>
+        <guid isPermaLink="true">http://localhost:4000/olaMundo</guid>
       </item>
     
   </channel>

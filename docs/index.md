@@ -22,6 +22,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Virtualização Nested](VMs/configurarNestedVM)
 
 # Redes de Computadores
+* Configuração básica de rede:
+	* [Introdução](linux/confRedeHost)
 * Servidores no OpenBSD:
 	* [DHCP](OpenBSDServers/dhcp)
     * [Apache HTTP](OpenBSDServers/HTTP)

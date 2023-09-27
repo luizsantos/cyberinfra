@@ -17,13 +17,13 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
 <meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
-<link rel="canonical" href="http://localhost:8080/docs/" />
-<meta property="og:url" content="http://localhost:8080/docs/" />
+<link rel="canonical" href="http://localhost:4000/docs/" />
+<meta property="og:url" content="http://localhost:4000/docs/" />
 <meta property="og:site_name" content="CyberInfra" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="DOCS" />
 <script type="application/ld+json">
-{"headline":"DOCS","url":"http://localhost:8080/docs/","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"http://localhost:4000/docs/","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"headline":"DOCS","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -75,34 +75,36 @@
       <li><a href="OpenBSDServers/OpenBSD_comandos">Alguns comandos OpenBSD</a></li>
     </ul>
   </li>
+  <li>NetBSD
+    <ul>
+      <li><a href="NetBSD/nbsd">Configuração básica do NetBSD</a></li>
+    </ul>
+  </li>
   <li>Outros
     <ul>
       <li><a href="VMs/configurarVMWindows">Windows acessando o ambiente gráfico do Linux via SSH</a></li>
       <li><a href="VMs/configurarVMMac">MacOS acessando o ambiente gráfico do Linux via SSH</a></li>
+      <li><a href="VMs/configurarNestedVM">Virtualização Nested</a></li>
     </ul>
   </li>
 </ul>
 
 <h1 id="redes-de-computadores">Redes de Computadores</h1>
 <ul>
-  <li>HTTP(<em>HyperText Transfer Protocol</em>)
+  <li>Configuração básica de rede:
     <ul>
-      <li><a href="OpenBSDServers/HTTP">Apache HTTP no OpenBSD</a></li>
+      <li><a href="linux/confRedeHost">Introdução</a></li>
     </ul>
   </li>
-  <li>FTP(<em>File Transference Protocol</em>)
+  <li>Servidores no OpenBSD:
     <ul>
-      <li><a href="OpenBSDServers/FTP">FTP no OpenBSD</a></li>
-    </ul>
-  </li>
-  <li>DNS (<em>Domain Name System</em>)
-    <ul>
-      <li><a href="DNS/DNS">BIND no OpenBSD</a></li>
-    </ul>
-  </li>
-  <li>QoS (<em>Quality of Service</em>)
-    <ul>
-      <li><a href="QoS/QoS">QoS no OpenBSD</a></li>
+      <li><a href="OpenBSDServers/dhcp">DHCP</a></li>
+      <li><a href="OpenBSDServers/HTTP">Apache HTTP</a></li>
+      <li><a href="OpenBSDServers/FTP">FTP</a></li>
+      <li><a href="DNS/DNS">BIND</a></li>
+      <li><a href="OpenBSDServers/nfsd">NFS</a></li>
+      <li><a href="OpenBSDServers/nat">NAT</a></li>
+      <li><a href="QoS/QoS">QoS</a></li>
     </ul>
   </li>
   <li>CISCO
@@ -115,6 +117,11 @@
       <li><a href="cisco/exemploNAT">NAT</a></li>
     </ul>
   </li>
+  <li>Juniper
+    <ul>
+      <li><a href="juniper/router">Configuração básica dos roteadores</a></li>
+    </ul>
+  </li>
 </ul>
 
 <h1 id="cibersegurança">Cibersegurança</h1>
@@ -124,8 +131,8 @@
       <li><a href="penTest/nmap">Escaneamento com Nmap</a></li>
       <li><a href="penTest/metaexploit">Ganhando Acesso com Metasploit</a>
         <ul>
-          <li><a href="penTest/passwordCracking">Quebrando senhas</a></li>
           <li><a href="penTest/sqli">SQL Injection</a></li>
+          <li><a href="penTest/passwordCracking">Quebrando senhas</a></li>
         </ul>
       </li>
     </ul>
