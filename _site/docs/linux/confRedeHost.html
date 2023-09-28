@@ -165,26 +165,30 @@
   <li><code class="language-plaintext highlighter-rouge">ip link set dev eth0 up</code> - liga a placa de rede.</li>
 </ul>
 
+<blockquote>
+  <p>É possível abreviar as opções do comando <code class="language-plaintext highlighter-rouge">ip</code>, tal como <code class="language-plaintext highlighter-rouge">ip a</code>, para ver o status da parte de endereçamento. Entretanto, se você pretende fazer alguma prova ou certificação Linux, é aconselhável utilizar/treinar as opções sem abreviação, já em que provas e certificações são exigidos os comandos completos!</p>
+</blockquote>
+
 <p>Há outras opções do comando <code class="language-plaintext highlighter-rouge">ip</code>, mas a configuração básica de <em>hosts</em> na rede normalmente requer apenas o que foi apresentado anteriormente.</p>
 
 <h3 id="configurando-dns-com-o-arquivo-etcresolvconf">Configurando DNS com o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code></h3>
 
-<p>Para que <em>hosts</em> consigam acessar redes/Internet utilizando nomes, é necessário informar ao <em>host</em> qual é o IP do servidor DNS que ele deve utilizar para converter nomes em IPs. Assim, para realizar essa tarefa em <em>hosts</em> Like-UNIX, basta criar/editar o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> e incluir nele a opção <code class="language-plaintext highlighter-rouge">nameserver</code> seguida do IP do servidor DNS. Isso pode ser feito da seguinte forma:</p>
+<p>Para que <em>hosts</em> consigam acessar redes/Internet utilizando nomes, é necessário informar ao <em>host</em> qual é o IP do servidor DNS, que ele deve utilizar para converter nomes em IPs. Assim, para realizar essa tarefa em <em>hosts</em> Like-UNIX, basta criar/editar o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> e incluir nele a opção <code class="language-plaintext highlighter-rouge">nameserver</code> seguida do IP do servidor DNS. Isso pode ser feito da seguinte forma:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">echo nameserver 8.8.8.8 &gt; /etc/resolv.conf</code> - informa que o servidor de nomes é o Google (8.8.8.8). Neste exemplo foi utilizado o 8.8.8.8, mas você pode utilizar outros servidores. Tal comando sobrescreve o conteúdo do arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">echo nameserver 8.8.8.8 &gt; /etc/resolv.conf</code> - informa que o servidor de nomes é o Google (8.8.8.8). Neste exemplo foi utilizado o 8.8.8.8, mas você pode utilizar outros servidores/IPs. Atenção, tal comando sobrescreve (<code class="language-plaintext highlighter-rouge">&gt;</code>) o conteúdo do arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</li>
   <li><code class="language-plaintext highlighter-rouge">echo nameserver 172.16.1.254 &gt;&gt; /etc/resolv.conf</code> - mesmo que o anterior, mas não sobrescreve o arquivo, mas sim adiciona o conteúdo no final do arquivo (<code class="language-plaintext highlighter-rouge">&gt;&gt;</code>).</li>
-  <li><code class="language-plaintext highlighter-rouge">cat /etc/resolv.conf</code> - apresenta o conteúdo do arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, isso é útil para verificar qual é a configuração atual presente no arquivo.</li>
+  <li><code class="language-plaintext highlighter-rouge">cat /etc/resolv.conf</code> - apresenta o conteúdo do arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, isso é útil para verificar qual é a configuração atual, presente no arquivo.</li>
 </ul>
 
-<p>Normalmente no Linux é possível configurar até 2 servidores DNS, o primeiro que aparecer no arquivo é chamado de primário e o seguinte é o secundário. O Linux primeiro tentará resolver o nome via com o servidor DNS primário, se esse falhar ele utilizará o secundário. Alguns Linux permitem configurar até mais que dois servidores DNS para a resolução de nomes. No exemplo a seguir o arquivo de configuração <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, tem como servidor primário o 8.8.4.4 e o secundário é o 1.1.1.1, veja:</p>
+<p>Normalmente no Linux é possível configurar até 2 servidores DNS, o primeiro <code class="language-plaintext highlighter-rouge">nameserver</code> que aparecer no arquivo, é chamado de primário e o seguinte é o secundário. Inicialmente, o sistema tentará resolver o nome utilizando o servidor primário, se esse falhar será utilizado o servidor secundário. Alguns Linux permitem configurar mais que dois servidores DNS para a resolução de nomes. No exemplo a seguir o arquivo de configuração <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, tem como servidor primário o 8.8.4.4 e o secundário é o 1.1.1.1, ou seja, é a ordem que aparece o <code class="language-plaintext highlighter-rouge">nameserver</code>:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
 <span class="go">
 nameserver 8.8.4.4
 nameserver 1.1.1.1
 </span></code></pre></div></div>
-<p>Aqui, foi apresentado o comando <code class="language-plaintext highlighter-rouge">echo</code> para inserir conteúdos no arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> e <code class="language-plaintext highlighter-rouge">cat</code> para ver o conteúdo. Entretanto, também é possível criar/editar esse arquivo utilizando <strong>editores de texto</strong>, tais como o <code class="language-plaintext highlighter-rouge">vi</code> ou o <code class="language-plaintext highlighter-rouge">nano</code>.</p>
+<p>Aqui, foi apresentado o comando <code class="language-plaintext highlighter-rouge">echo</code> para inserir conteúdos no arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> e <code class="language-plaintext highlighter-rouge">cat</code> para ver o conteúdo. Entretanto, também é possível criar/editar esse arquivo utilizando <strong>editores de texto</strong>, tais como o <code class="language-plaintext highlighter-rouge">vi</code> ou <code class="language-plaintext highlighter-rouge">nano</code>.</p>
 
 <p>Há outras configurações/opções possíveis para o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, mas não vamos abordá-las aqui.</p>
 
@@ -194,9 +198,9 @@ nameserver 1.1.1.1
 
 <h3 id="configurando-a-rede-automaticamente-via-dhcp-utilizando-o-comando-dhcpcd">Configurando a rede automaticamente via DHCP utilizando o comando <code class="language-plaintext highlighter-rouge">dhcpcd</code></h3>
 
-<p>Atualmente quase todos os <em>hosts</em> são configurados para acessar a rede de forma automática, via DHCP. Isso é possível, pois a maioria das redes possuem equipamentos como roteadores e APs, que por sua vez são normalmente equipados com servidores DHCP. Assim, o servidor DHCP fornece para os clientes da rede, configurações como: IP do <em>host</em>, máscara de rede, rota padrão e DNS.</p>
+<p>Atualmente, quase todos <em>hosts</em> têm sua configuração de rede feita via DHCP. Isso é possível, pois a maioria das redes possuem equipamentos como roteadores e APs, que por sua vez são normalmente equipados com servidores DHCP. Assim, o servidor DHCP fornece para os clientes da rede, configurações como: IP do <em>host</em>, máscara de rede, rota padrão e DNS.</p>
 
-<p>Utilizar configuração via DHCP é muito prático, fácil e evita erros de configuração (ex. IPs duplicados). Isso facilita muito o trabalho do administrador de rede e também permite que redes sem administradores funcionem sem grandes problemas, mesmo que o cliente/usuário da rede não tenha profundo conhecimento em redes de computadores.</p>
+<p>Utilizar configuração via DHCP é muito prático, fácil e evita erros de configuração (ex. IPs duplicados). Isso facilita muito o trabalho do administrador de rede e também permite que redes sem administradores funcionem sem grandes problemas, mesmo que o cliente/usuário da rede não tenha conhecimentos a respeito de redes de computadores.</p>
 
 <p>Atualmente o comando mais utilizado para se obter configurações de rede no cliente, via DHCP deve ser o <code class="language-plaintext highlighter-rouge">dhclient</code>. Todavia aqui iremos apresentar o <code class="language-plaintext highlighter-rouge">dhcpcd</code>, que também é outro comando muito utilizado em Linux e BSDs.</p>
 
@@ -215,13 +219,21 @@ nameserver 1.1.1.1
   <p>Há outras opções para o <code class="language-plaintext highlighter-rouge">dhcpcd</code>, mas vamos parar por aqui.</p>
 </blockquote>
 
-<p>Após executar o comando <code class="language-plaintext highlighter-rouge">dhcpcd</code> o host cliente envia um pacote DHCP para a rede, o servidor recebe esse pacote e responde com a configuração da rede para este cliente. O cliente recebe a configuração enviada pelo servidor, e realiza as configurações. Após isso, o host cliente deve conseguir acessar a rede. É possível verificar essa configuração posteriormente com os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code>, <code class="language-plaintext highlighter-rouge">ip</code> e vendo o conteúdo do <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</p>
+<p>Após executar o comando <code class="language-plaintext highlighter-rouge">dhcpcd</code> o host cliente envia um pacote DHCP para a rede, o servidor recebe esse pacote e responde com a configuração da rede para este cliente. O cliente recebe a configuração enviada pelo servidor e aplica as configurações. Após isso, o <em>host</em> cliente deve conseguir acessar a rede. É possível verificar essa configuração posteriormente com os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code>, <code class="language-plaintext highlighter-rouge">ip</code> e <code class="language-plaintext highlighter-rouge">cat /etc/resolv.conf</code>.</p>
 
-<p>Os comando de cliente DHCP (<code class="language-plaintext highlighter-rouge">dhclient</code>, <code class="language-plaintext highlighter-rouge">dhcpcd</code>, etc), normalmente continuam em execução após serem executados, isso é necessário, pois o servidor DHCPC pode exigir que o cliente renove o empréstimo do IP de tempos em tempos.</p>
+<p>Os comando de cliente DHCP (<code class="language-plaintext highlighter-rouge">dhclient</code>, <code class="language-plaintext highlighter-rouge">dhcpcd</code>, etc), normalmente continuam em execução após serem executados. Isso é necessário, pois o servidor DHCP pode exigir que o cliente renove o empréstimo do IP de tempos em tempos.</p>
+
+<h2 id="configuração-via-de-rede-via-arquivos">Configuração via de rede via arquivos</h2>
+
+<blockquote>
+  <blockquote>
+    <p>em construção!</p>
+  </blockquote>
+</blockquote>
 
 <h2 id="exemplo-prático">Exemplo prático</h2>
 
-<p>A seguir, são apresentadas algumas possibilidades de configurações voláteis e não voláteis para <em>hosts</em> Linux. Isso será feito com utilizando-se como exemplo o cenário de rede da Figura X a seguir:</p>
+<p>Para uma melhor consolidação dos conceitos apresentados anteriormente, a seguir são apresentados exemplos práticos do uso dos comandos necessários para a configuração básica de redes de computadores. Tal exemplo utiliza o cenário de rede da Figura 1.</p>
 
 <table>
   <thead>
@@ -236,367 +248,13 @@ nameserver 1.1.1.1
   </tbody>
 </table>
 
-<h1 id="ifconfigroute">ifconfig/route</h1>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig
-<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="gp">        inet6 fe80::e09c:58ff:fe14:c687  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
-</span><span class="go">        ether e2:9c:58:14:c6:87  txqueuelen 1000  (Ethernet)
-        RX packets 16  bytes 1312 (1.3 KB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 8  bytes 656 (656.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-</span><span class="gp">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;</span><span class="w">  </span>mtu 65536
-<span class="go">        inet 127.0.0.1  netmask 255.0.0.0
-</span><span class="gp">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><span class="w">
-</span><span class="go">        loop  txqueuelen 1000  (Local Loopback)
-        RX packets 0  bytes 0 (0.0 B)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 0  bytes 0 (0.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>route add default gw 10.0.0.254
-<span class="gp">root@Host-1:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0
-10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping 10.0.0.254
-<span class="go">PING 10.0.0.254 (10.0.0.254) 56(84) bytes of data.
-64 bytes from 10.0.0.254: icmp_seq=1 ttl=64 time=0.567 ms
-64 bytes from 10.0.0.254: icmp_seq=2 ttl=64 time=0.370 ms
-^C
---- 10.0.0.254 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1017ms
-rtt min/avg/max/mdev = 0.370/0.468/0.567/0.098 ms
-</span><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping www.google.com.br
-<span class="go">ping: www.google.com.br: Temporary failure in name resolution
-</span><span class="gp">root@Host-1:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> <span class="o">&gt;</span> /etc/resolv.conf
-<span class="gp">root@Host-1:/#</span><span class="w"> </span>ping www.google.com.br
-<span class="go">PING www.google.com.br (142.250.219.195) 56(84) bytes of data.
-64 bytes from gru06s64-in-f3.1e100.net (142.250.219.195): icmp_seq=1 ttl=117 time=14.5 ms
-64 bytes from gru06s64-in-f3.1e100.net (142.250.219.195): icmp_seq=2 ttl=117 time=17.2 ms
-^C
---- www.google.com.br ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1001ms
-rtt min/avg/max/mdev = 14.457/15.812/17.167/1.355 ms
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig eth0
-<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="go">        inet 10.0.0.1  netmask 255.255.255.0  broadcast 10.0.0.255
-</span><span class="gp">        inet6 fe80::e09c:58ff:fe14:c687  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
-</span><span class="go">        ether e2:9c:58:14:c6:87  txqueuelen 1000  (Ethernet)
-        RX packets 20  bytes 1592 (1.5 KB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 10  bytes 796 (796.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig eth0 down
-<span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig
-<span class="gp">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;</span><span class="w">  </span>mtu 65536
-<span class="go">        inet 127.0.0.1  netmask 255.0.0.0
-</span><span class="gp">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><span class="w">
-</span><span class="go">        loop  txqueuelen 1000  (Local Loopback)
-        RX packets 0  bytes 0 (0.0 B)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 0  bytes 0 (0.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig <span class="nt">-a</span>
-<span class="gp">eth0: flags=4098&lt;BROADCAST,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="go">        inet 10.0.0.1  netmask 255.255.255.0  broadcast 10.0.0.255
-        ether e2:9c:58:14:c6:87  txqueuelen 1000  (Ethernet)
-        RX packets 20  bytes 1592 (1.5 KB)
-        RX errors 0  dropped 2  overruns 0  frame 0
-        TX packets 10  bytes 796 (796.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-</span><span class="gp">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;</span><span class="w">  </span>mtu 65536
-<span class="go">        inet 127.0.0.1  netmask 255.0.0.0
-</span><span class="gp">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><span class="w">
-</span><span class="go">        loop  txqueuelen 1000  (Local Loopback)
-        RX packets 0  bytes 0 (0.0 B)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 0  bytes 0 (0.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig eth0 10.0.0.1 netmask 255.255.255.0 broadcast 10.0.0.255 up
-<span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig eth0
-<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="go">        inet 10.0.0.1  netmask 255.255.255.0  broadcast 10.0.0.255
-</span><span class="gp">        inet6 fe80::e09c:58ff:fe14:c687  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
-</span><span class="go">        ether e2:9c:58:14:c6:87  txqueuelen 1000  (Ethernet)
-        RX packets 20  bytes 1592 (1.5 KB)
-        RX errors 0  dropped 2  overruns 0  frame 0
-        TX packets 16  bytes 1312 (1.3 KB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>route add default gw 10.0.0.254
-<span class="gp">root@Host-1:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0
-10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
-</span></code></pre></div></div>
-
-<h1 id="ip">ip</h1>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address
-<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host
-       valid_lft forever preferred_lft forever
-</span><span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
-       valid_lft forever preferred_lft forever
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address add 10.0.0.2/24 dev eth0
-<span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address show dev eth0
-<span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.0.2/24 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
-       valid_lft forever preferred_lft forever
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route show
-<span class="go">10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.2
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route add default via 10.0.0.254
-<span class="go">
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route show
-<span class="go">default via 10.0.0.254 dev eth0
-10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.2
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route del default
-<span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route
-<span class="go">10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.2
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address add 172.16.2.1/24 dev eth0
-<span class="go">
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address show dev eth0
-<span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.0.2/24 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet 172.16.2.1/24 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
-       valid_lft forever preferred_lft forever
-</span></code></pre></div></div>
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address show dev eth0
-<span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.0.2/24 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
-       valid_lft forever preferred_lft forever
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address del 172.16.2.1/24 dev eth0
-<span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address show dev eth0
-<span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.0.2/24 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
-       valid_lft forever preferred_lft forever
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip <span class="nb">link </span>show
-<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-</span><span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN mode DEFAULT group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip <span class="nb">link</span>
-<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-</span><span class="gp">14: eth0: &lt;BROADCAST,MULTICAST&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip <span class="nb">link set </span>dev eth0 up
-<span class="gp">root@Host-2:/#</span><span class="w"> </span>ip <span class="nb">link</span>
-<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
-<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-</span><span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN mode DEFAULT group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address
-<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host
-       valid_lft forever preferred_lft forever
-</span><span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
-<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.0.2/24 scope global eth0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
-    valid_lft forever preferred_lft forever
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ping 10.0.0.254
-<span class="go">PING 10.0.0.254 (10.0.0.254) 56(84) bytes of data.
-64 bytes from 10.0.0.254: icmp_seq=1 ttl=64 time=0.292 ms
-64 bytes from 10.0.0.254: icmp_seq=2 ttl=64 time=0.317 ms
-^C
---- 10.0.0.254 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1014ms
-rtt min/avg/max/mdev = 0.292/0.304/0.317/0.012 ms
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>ping 192.168.122.1
-<span class="go">ping: connect: Network is unreachable
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>route add default gw 10.0.0.254
-<span class="gp">root@Host-2:/#</span><span class="w"> </span>ping 192.168.122.1
-<span class="go">PING 192.168.122.1 (192.168.122.1) 56(84) bytes of data.
-64 bytes from 192.168.122.1: icmp_seq=1 ttl=63 time=0.543 ms
-64 bytes from 192.168.122.1: icmp_seq=2 ttl=63 time=0.643 ms
-^C
---- 192.168.122.1 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1022ms
-rtt min/avg/max/mdev = 0.543/0.593/0.643/0.050 ms
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>ping www.google.com.br
-<span class="go">ping: www.google.com.br: Temporary failure in name resolution
-</span><span class="gp">root@Host-2:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> <span class="o">&gt;</span> /etc/resolv.conf
-<span class="gp">root@Host-2:/#</span><span class="w"> </span>ping www.google.com.br
-<span class="go">PING www.google.com.br (142.250.219.195) 56(84) bytes of data.
-64 bytes from gru06s64-in-f3.1e100.net (142.250.219.195): icmp_seq=1 ttl=117 time=15.4 ms
-64 bytes from gru06s64-in-f3.1e100.net (142.250.219.195): icmp_seq=2 ttl=117 time=17.8 ms
-^C
---- www.google.com.br ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1002ms
-rtt min/avg/max/mdev = 15.354/16.563/17.772/1.209 ms
-</span></code></pre></div></div>
-
-<h2 id="dhcp">dhcp</h2>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ifconfig
-<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="gp">        inet6 fe80::8ce0:e3ff:fe4b:23da  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
-</span><span class="go">        ether 8e:e0:e3:4b:23:da  txqueuelen 1000  (Ethernet)
-        RX packets 613  bytes 45704 (45.7 KB)
-        RX errors 0  dropped 5  overruns 0  frame 0
-        TX packets 13  bytes 1006 (1.0 KB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-</span><span class="gp">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;</span><span class="w">  </span>mtu 65536
-<span class="go">        inet 127.0.0.1  netmask 255.0.0.0
-</span><span class="gp">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><span class="w">
-</span><span class="go">        loop  txqueuelen 1000  (Local Loopback)
-        RX packets 0  bytes 0 (0.0 B)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 0  bytes 0 (0.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
-<span class="gp">root@Host-3:/#</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>dhcpcd eth0
-<span class="go">DUID 00:04:4c:4c:45:44:00:36:32:10:80:34:b3:c0:4f:35:34:32
-eth0: IAID e3:4b:23:da
-eth0: soliciting a DHCP lease
-eth0: soliciting an IPv6 router
-eth0: offered 192.168.122.205 from 192.168.122.1
-eth0: probing address 192.168.122.205/24
-eth0: leased 192.168.122.205 for 3600 seconds
-eth0: adding route to 192.168.122.0/24
-eth0: adding default route via 192.168.122.1
-forked to background, child pid 114
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ifconfig eth0
-<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="go">        inet 192.168.122.205  netmask 255.255.255.0  broadcast 192.168.122.255
-</span><span class="gp">        inet6 fe80::8ce0:e3ff:fe4b:23da  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
-</span><span class="go">        ether 8e:e0:e3:4b:23:da  txqueuelen 1000  (Ethernet)
-        RX packets 673  bytes 50676 (50.6 KB)
-        RX errors 0  dropped 5  overruns 0  frame 0
-        TX packets 27  bytes 2527 (2.5 KB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-0.0.0.0         192.168.122.1   0.0.0.0         UG    213    0        0 eth0
-192.168.122.0   0.0.0.0         255.255.255.0   U     213    0        0 eth0
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
-<span class="gp">#</span><span class="w"> </span>Generated by resolvconf
-<span class="go">nameserver 192.168.122.1
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ping www.google.com.br
-<span class="go">PING www.google.com.br (142.250.219.35) 56(84) bytes of data.
-64 bytes from gru14s28-in-f3.1e100.net (142.250.219.35): icmp_seq=1 ttl=118 time=13.9 ms
-64 bytes from gru14s28-in-f3.1e100.net (142.250.219.35): icmp_seq=2 ttl=118 time=14.7 ms
-^C
---- www.google.com.br ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1002ms
-rtt min/avg/max/mdev = 13.918/14.306/14.695/0.388 ms
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>dhcpcd <span class="nt">-k</span> eth0
-<span class="go">sending signal ALRM to pid 114
-waiting for pid 114 to exit
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span>ifconfig eth0
-<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
-<span class="gp">        inet6 fe80::8ce0:e3ff:fe4b:23da  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
-</span><span class="go">        ether 8e:e0:e3:4b:23:da  txqueuelen 1000  (Ethernet)
-        RX packets 697  bytes 52142 (52.1 KB)
-        RX errors 0  dropped 5  overruns 0  frame 0
-        TX packets 28  bytes 2869 (2.8 KB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span>route <span class="nt">-n</span>
-<span class="go">Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-</span><span class="gp">root@Host-3:/#</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
-<span class="go">
-</span><span class="gp">root@Host-3:/#</span><span class="w">
-</span></code></pre></div></div>
-
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>ifconfig eth0 10.0.0.254/24
-<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>ip address add 192.168.122.254/24 dev eth1
-<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>ip route add default via 192.168.122.1
-<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> <span class="o">&gt;</span> /etc/resolv.conf
-<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span><span class="nb">echo </span>1 <span class="o">&gt;</span> /proc/sys/net/ipv4/ip_forward
-<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>iptables <span class="nt">-t</span> nat <span class="nt">-A</span> POSTROUTING <span class="nt">-o</span> eth1 <span class="nt">-j</span> MASQUERADE
-<span class="go">
-</span></code></pre></div></div>
+<p>Neste cenário de exemplo as configurações utilizadas são:</p>
+<ul>
+  <li><a href="confRedeHostExemplo1/#host1">Host-1 ifconfig e route</a></li>
+  <li><a href="confRedeHostExemplo1/#host2">Host-2 ip</a></li>
+  <li><a href="confRedeHostExemplo1/#host3">Host-3 dhcpcd</a></li>
+  <li><a href="confRedeHostExemplo1/#LinuxRouter-1">LinuxRouter-1 ip, ifconfig, NAT</a></li>
+</ul>
 
 <h1 id="referências">Referências</h1>
 

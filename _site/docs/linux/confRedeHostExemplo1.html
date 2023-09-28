@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/linux/confRedeHostExemplo1" />
+<meta property="og:url" content="http://localhost:4000/docs/linux/confRedeHostExemplo1" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/docs/linux/confRedeHostExemplo1","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"headline":"CyberInfra","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2 id="exemplo-prático">Exemplo prático</h2>
+
+<p>A seguir, são apresentadas algumas possibilidades de configurações voláteis e não voláteis para <em>hosts</em> Linux. Isso será feito com utilizando-se como exemplo o cenário de rede da Figura 1:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="/docs/linux/img/cenarioRede.png" alt="rede" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Figura 1 - Cenário de rede</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="host1">Configurando o Host-1 utilizando ifconfig/route</h2>
+
+<p>Iniciamos verificando a configuração de rede do Host-1, com o comando <code class="language-plaintext highlighter-rouge">ifconfig</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig
+<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
+<span class="gp">        inet6 fe80::e09c:58ff:fe14:c687  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
+</span><span class="go">        ether e2:9c:58:14:c6:87  txqueuelen 1000  (Ethernet)
+        RX packets 16  bytes 1312 (1.3 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 8  bytes 656 (656.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+</span><span class="gp">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;</span><span class="w">  </span>mtu 65536
+<span class="go">        inet 127.0.0.1  netmask 255.0.0.0
+</span><span class="gp">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><span class="w">
+</span><span class="go">        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</span></code></pre></div></div>
+
+<p>No comando anterior, observa-se que não há configurações de endereço IPv4 (<code class="language-plaintext highlighter-rouge">inet</code>).</p>
+
+<p>Na sequência foi atribuído o endereço 10.0.0.1/24 à interface <code class="language-plaintext highlighter-rouge">eth0</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig eth0 10.0.0.1/24
+<span class="go">
+</span><span class="gp">root@Host-1:/#</span><span class="w"> </span>ifconfig eth0
+<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
+<span class="go">        inet 10.0.0.1  netmask 255.255.255.0  broadcast 10.0.0.255
+</span><span class="gp">        inet6 fe80::e09c:58ff:fe14:c687  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
+</span><span class="go">        ether e2:9c:58:14:c6:87  txqueuelen 1000  (Ethernet)
+        RX packets 112  bytes 8338 (8.3 KB)
+        RX errors 0  dropped 2  overruns 0  frame 0
+        TX packets 60  bytes 4452 (4.4 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</span></code></pre></div></div>
+<p>Quando se atribui um IP a uma placa de rede, aparece automaticamente uma rota para a rede do IP atribuído. Isso pode ser visto com o comando <code class="language-plaintext highlighter-rouge">route</code> a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>route <span class="nt">-n</span>
+<span class="go">Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
+</span></code></pre></div></div>
+<p>Da forma que está este <em>host</em> consegue acessar a rede local, mas não outras redes. O uso do comando <code class="language-plaintext highlighter-rouge">ping</code> a seguir mostra que é possível acessar o host 10.0.0.254, que está na rede local, mas não o IP do Google (8.8.8.8), que está em outra rede:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping 10.0.0.254 <span class="nt">-c</span> 2
+<span class="go">PING 10.0.0.254 (10.0.0.254) 56(84) bytes of data.
+64 bytes from 10.0.0.254: icmp_seq=1 ttl=64 time=0.194 ms
+64 bytes from 10.0.0.254: icmp_seq=2 ttl=64 time=0.241 ms
+
+--- 10.0.0.254 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1020ms
+rtt min/avg/max/mdev = 0.194/0.217/0.241/0.023 ms
+</span><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping 8.8.8.8 <span class="nt">-c</span> 2
+<span class="go">ping: connect: Network is unreachable
+</span></code></pre></div></div>
+
+<p>Então, agora, para acessar outras redes é necessário configurar a rota padrão, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>route add default gw 10.0.0.254
+<span class="go">
+</span><span class="gp">root@Host-1:/#</span><span class="w"> </span>route <span class="nt">-n</span>
+<span class="go">Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0
+10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0
+</span></code></pre></div></div>
+
+<p>A saída do comando <code class="language-plaintext highlighter-rouge">route -n</code>, apresentada anteriormente, mostra que agora há duas rotas, sendo uma a rota padrão.</p>
+
+<p>Bem, agora já acessamos a Internet, mas não por nomes, veja a saída do comando <code class="language-plaintext highlighter-rouge">ping</code> a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping 8.8.8.8 <span class="nt">-c</span> 2
+<span class="go">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=16.0 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=16.0 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 15.985/15.995/16.006/0.010 ms
+</span><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping www.google.com.br
+<span class="go">ping: www.google.com.br: Temporary failure in name resolution
+</span></code></pre></div></div>
+<p>A saída anterior, mostra que é possível acessar o 8.8.8.8, mas não o www.google.com.br. Neste caso, isso provavelmente significa que não há um IP de servidor DNS configurado cliente (o problema poderia ser outro). Isso é resolvido editando-se o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, veja:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 1.1.1.1"</span> <span class="o">&gt;</span> /etc/resolv.conf
+<span class="go">
+</span><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping www.google.com.br <span class="nt">-c</span> 2
+<span class="go">PING www.google.com.br (142.250.218.67) 56(84) bytes of data.
+64 bytes from gru06s61-in-f3.1e100.net (142.250.218.67): icmp_seq=1 ttl=117 time=15.2 ms
+64 bytes from gru06s61-in-f3.1e100.net (142.250.218.67): icmp_seq=2 ttl=117 time=14.0 ms
+
+--- www.google.com.br ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 13.963/14.578/15.193/0.615 ms
+</span></code></pre></div></div>
+<p>Na saída anterior, o <em>host</em> é configurado para utilizar o 1.1.1.1 como servidor DNS e logo na sequência, já é possível “pingar” o www.google.com.br.</p>
+
+<p>Assim, com esses passos temos o Host-1, configurado e acessando a rede via comandos <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code> e <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</p>
+
+<p>Note que é extremamente importante saber utilizar o comando <code class="language-plaintext highlighter-rouge">ping</code>, para analisar possíveis problemas na rede, tal como problemas de configurações básicas de IP, máscara, rota padrão e DNS. Também, é muito importante saber analisar as saída obtidas nos comandos <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code>, <code class="language-plaintext highlighter-rouge">ip</code> e do arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, para ver se há algo de errado na configuração. Atenção, não vamos nos aprofundar nisso neste texto, mas faremos isso durante nossas as aulas de redes!</p>
+
+<h2 id="host2">Configurando o Host-2 utilizando o comando <code class="language-plaintext highlighter-rouge">ip</code></h2>
+
+<p>Vamos iniciar vendo as configurações atuais do <em>host</em>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address
+<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+</span><span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
+<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
+       valid_lft forever preferred_lft forever
+</span></code></pre></div></div>
+
+<p>Como não há IP configurado, vamos fazer isso:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address add 10.0.0.2/24 dev eth0
+<span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address show dev eth0
+<span class="gp">14: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
+<span class="go">    link/ether 3a:7b:6e:85:16:c8 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.0.2/24 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::387b:6eff:fe85:16c8/64 scope link
+       valid_lft forever preferred_lft forever
+</span></code></pre></div></div>
+<p>Neste caso foi adicionado o IP 10.0.0.2/24 à interface eth0, depois verificou-se se tal configuração foi aplicada na interface.</p>
+
+<p>Agora, para o <em>host</em> conseguir acessar outras redes será configurada a rota padrão, via host 10.0.0.254:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route add default via 10.0.0.254
+<span class="go">
+</span><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip route show
+<span class="go">default via 10.0.0.254 dev eth0
+10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.2
+</span></code></pre></div></div>
+<p>A saída anterior, mostra que a rota padrão está presente no <em>host</em> depois do comando <code class="language-plaintext highlighter-rouge">ip route add default via 10.0.0.254</code>.</p>
+
+<p>Por fim basta, configurar o IP do servidor de nomes e testar com um <code class="language-plaintext highlighter-rouge">ping</code> para um <em>host</em> da Internet, veja:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> <span class="o">&gt;</span> /etc/resolv.conf
+<span class="gp">root@Host-2:/#</span><span class="w"> </span>ping www.google.com.br
+<span class="go">PING www.google.com.br (142.250.219.195) 56(84) bytes of data.
+64 bytes from gru06s64-in-f3.1e100.net (142.250.219.195): icmp_seq=1 ttl=117 time=15.4 ms
+64 bytes from gru06s64-in-f3.1e100.net (142.250.219.195): icmp_seq=2 ttl=117 time=17.8 ms
+^C
+--- www.google.com.br ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 15.354/16.563/17.772/1.209 ms
+</span></code></pre></div></div>
+
+<h2 id="host3">Configurando o Host-3 utilizando dhcpd <code class="language-plaintext highlighter-rouge">ip</code></h2>
+
+<p>O Host-3 será configurado via DHCP, pois no cenário de rede há um servidor DHCP dentro da nuvem da Internet (tal host não aparece no cenário, está estondido). Assim, o Host-3 e o LinuxRouter-1 (na interface <code class="language-plaintext highlighter-rouge">eth1</code>), podem receber configuração automática. Todavia, note, que Host-1 e Host-2, não podem receber configuração via DHCP, pois o servidor DHCP está em outro enlace de rede (LAN2), e a princípio pacotes DHCP não passam de uma rede para outra.</p>
+
+<p>Assim, para a configuração automática do Host-3, vamos iniciar verificando que após o <em>boot</em> do <em>host</em> esta inicialmente não possui nenhuma configuração de rede. Isso será feito com os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code> e <code class="language-plaintext highlighter-rouge">route</code>, tal como é apresentado a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ifconfig
+<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
+<span class="gp">        inet6 fe80::8ce0:e3ff:fe4b:23da  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
+</span><span class="go">        ether 8e:e0:e3:4b:23:da  txqueuelen 1000  (Ethernet)
+        RX packets 613  bytes 45704 (45.7 KB)
+        RX errors 0  dropped 5  overruns 0  frame 0
+        TX packets 13  bytes 1006 (1.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+</span><span class="gp">lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;</span><span class="w">  </span>mtu 65536
+<span class="go">        inet 127.0.0.1  netmask 255.0.0.0
+</span><span class="gp">        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;</span><span class="w">
+</span><span class="go">        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+</span><span class="gp">root@Host-3:/#</span><span class="w"> </span>route <span class="nt">-n</span>
+<span class="go">Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+</span><span class="gp">root@Host-3:/#</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
+<span class="gp">root@Host-3:/#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Agora, para que o Host-3 obtenha automaticamente suas configurações de rede, vamos executar o comando <code class="language-plaintext highlighter-rouge">dhcpcd</code>, veja a saída deste comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>dhcpcd eth0
+<span class="go">DUID 00:04:4c:4c:45:44:00:36:32:10:80:34:b3:c0:4f:35:34:32
+eth0: IAID e3:4b:23:da
+eth0: soliciting a DHCP lease
+eth0: soliciting an IPv6 router
+eth0: offered 192.168.122.205 from 192.168.122.1
+eth0: probing address 192.168.122.205/24
+eth0: leased 192.168.122.205 for 3600 seconds
+eth0: adding route to 192.168.122.0/24
+eth0: adding default route via 192.168.122.1
+forked to background, child pid 114
+</span></code></pre></div></div>
+
+<p>A saída do comando <code class="language-plaintext highlighter-rouge">dhcpcd</code> apresentada anteriormente, já apresenta algumas informações que foram obtidas do servidor DHCP. Por exemplo, o endereço oferecido, a principio foi o 172.168.122.205/24 e o roteador padrão é o 192.168.122.1. Isso pode ser constatado com os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code> e <code class="language-plaintext highlighter-rouge">route</code>, ver a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ifconfig eth0
+<span class="gp">eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;</span><span class="w">  </span>mtu 1500
+<span class="go">        inet 192.168.122.205  netmask 255.255.255.0  broadcast 192.168.122.255
+</span><span class="gp">        inet6 fe80::8ce0:e3ff:fe4b:23da  prefixlen 64  scopeid 0x20&lt;link&gt;</span><span class="w">
+</span><span class="go">        ether 8e:e0:e3:4b:23:da  txqueuelen 1000  (Ethernet)
+        RX packets 673  bytes 50676 (50.6 KB)
+        RX errors 0  dropped 5  overruns 0  frame 0
+        TX packets 27  bytes 2527 (2.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+</span><span class="gp">root@Host-3:/#</span><span class="w"> </span>route <span class="nt">-n</span>
+<span class="go">Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.122.1   0.0.0.0         UG    213    0        0 eth0
+192.168.122.0   0.0.0.0         255.255.255.0   U     213    0        0 eth0
+</span><span class="gp">root@Host-3:/#</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
+<span class="gp">#</span><span class="w"> </span>Generated by resolvconf
+<span class="go">nameserver 192.168.122.1
+</span></code></pre></div></div>
+<p>O saída anterior, mostra todas as configurações, inclusive que o servidor DNS utilizado é o 192.168.122.1. Assim, vamos testar a conectividade da rede com a Internet, fazendo um <code class="language-plaintext highlighter-rouge">ping</code> em www.google.com.br.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ping www.google.com.br
+<span class="go">PING www.google.com.br (142.250.219.35) 56(84) bytes of data.
+64 bytes from gru14s28-in-f3.1e100.net (142.250.219.35): icmp_seq=1 ttl=118 time=13.9 ms
+64 bytes from gru14s28-in-f3.1e100.net (142.250.219.35): icmp_seq=2 ttl=118 time=14.7 ms
+^C
+--- www.google.com.br ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 13.918/14.306/14.695/0.388 ms
+</span></code></pre></div></div>
+<p>Como a saída do comando <code class="language-plaintext highlighter-rouge">ping</code> executada anteriormente foi realizada com sucesso, podemos presumir que a rede foi configurada corretamente pelo servidor DHCP.</p>
+
+<h2 id="LinuxRouter-1">Configurando o LinuxRouter-1</h2>
+
+<p>Para este <em>host</em>, que é um roteador, temos que configurar os IPs e máscara de duas interfaces de rede, bem como configurar a rota padrão, que neste caso é o roteador 192.168.122.1 (que está escondido na nuvem). Isso foi feito utilizando os comandos <code class="language-plaintext highlighter-rouge">ip</code> e <code class="language-plaintext highlighter-rouge">ifconfig</code>, só para título de ilustração. Também foi configurado o servidor DNS, para ser o 8.8.8.8. Ver comandos a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>ifconfig eth0 10.0.0.254/24
+<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>ip address add 192.168.122.254/24 dev eth1
+<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>ip route add default via 192.168.122.1
+<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> <span class="o">&gt;</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<p>Não faz parte do escopo desta explicação, mas para o cenário de rede funcionar, também foi ativado o roteamento e foi habilitado o NAT, de forma que todos pacotes que saem da LAN1, para LAN2/Internet recebam o IP que está na interface <code class="language-plaintext highlighter-rouge">eth1</code> do LinuxRouter-1. Tais comandos forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span><span class="nb">echo </span>1 <span class="o">&gt;</span> /proc/sys/net/ipv4/ip_forward
+<span class="gp">root@LinuxRouter-1:/#</span><span class="w"> </span>iptables <span class="nt">-t</span> nat <span class="nt">-A</span> POSTROUTING <span class="nt">-o</span> eth1 <span class="nt">-j</span> MASQUERADE
+</code></pre></div></div>
+
+<p>Assim, o cenário de rede está completo! ;-)</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2023</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>
