@@ -134,7 +134,27 @@ Os comando de cliente DHCP (``dhclient``, ``dhcpcd``, etc), normalmente continua
 
 ## Configuração via de rede via arquivos
 
->> em construção!
+```console
+#
+# This is a sample network config, please uncomment lines to configure the network
+#
+
+# Uncomment this line to load custom interface files
+# source /etc/network/interfaces.d/*
+
+# Static config for eth0
+#auto eth0
+#iface eth0 inet static
+#	address 192.168.0.2
+#	netmask 255.255.255.0
+#	gateway 192.168.0.1
+#	up echo nameserver 192.168.0.1 > /etc/resolv.conf
+
+# DHCP config for eth0
+#auto eth0
+#iface eth0 inet dhcp
+#	hostname Host-4
+```
 
 ## Exemplo prático
 
@@ -145,10 +165,12 @@ Para uma melhor consolidação dos conceitos apresentados anteriormente, a segui
 | Figura 1 - Cenário de rede |
 
 Neste cenário de exemplo as configurações utilizadas são:
-* [Host-1 ifconfig e route](confRedeHostExemplo1/#host1)
-* [Host-2 ip](confRedeHostExemplo1/#host2)
-* [Host-3 dhcpcd](confRedeHostExemplo1/#host3)
-* [LinuxRouter-1 ip, ifconfig, NAT](confRedeHostExemplo1/#LinuxRouter-1)
+* [Host-1 ifconfig e route](confRedeHostExemplo1#host1)
+* [Host-2 ip](confRedeHostExemplo1#host2)
+* [Host-3 dhcpcd](confRedeHostExemplo1#host3)
+* [Host-4 arquivo estático](confRedeHostExemplo1#host4)
+* [Host-5 arquivo DHCP](confRedeHostExemplo1#host5)
+* [LinuxRouter-1 ip, ifconfig, NAT](confRedeHostExemplo1#LinuxRouter-1)
 
 # Referências
 

@@ -317,6 +317,25 @@ rtt min/avg/max/mdev = 13.918/14.306/14.695/0.388 ms
 </span></code></pre></div></div>
 <p>Como a saída do comando <code class="language-plaintext highlighter-rouge">ping</code> executada anteriormente foi realizada com sucesso, podemos presumir que a rede foi configurada corretamente pelo servidor DHCP.</p>
 
+<h2 id="host4">Configurando o Host-4</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>Static config <span class="k">for </span>eth0
+<span class="go">auto eth0
+iface eth0 inet static
+	address 10.0.0.3
+	netmask 255.255.255.0
+	gateway 10.0.0.254
+</span><span class="gp">	up echo nameserver 8.8.8.8 &gt;</span><span class="w"> </span>/etc/resolv.conf
+</code></pre></div></div>
+
+<h2 id="host5">Configurando o Host-5</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>DHCP config <span class="k">for </span>eth0
+<span class="go">auto eth0
+iface eth0 inet dhcp
+	hostname Host-5
+</span></code></pre></div></div>
+
 <h2 id="LinuxRouter-1">Configurando o LinuxRouter-1</h2>
 
 <p>Para este <em>host</em>, que é um roteador, temos que configurar os IPs e máscara de duas interfaces de rede, bem como configurar a rota padrão, que neste caso é o roteador 192.168.122.1 (que está escondido na nuvem). Isso foi feito utilizando os comandos <code class="language-plaintext highlighter-rouge">ip</code> e <code class="language-plaintext highlighter-rouge">ifconfig</code>, só para título de ilustração. Também foi configurado o servidor DNS, para ser o 8.8.8.8. Ver comandos a seguir:</p>
