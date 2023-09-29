@@ -229,7 +229,7 @@ Note, no conteúdo anterior, que a parte de IP estático foi mantida, e a parte 
 
 Sempre que alguma configuração for alterada no arquivo, é necessário reiniciar o computador ou melhor, reinicia apenas o serviço de rede. Novamente isso varia entre as distribuições/versões Linux. Então é necessário pesquisar como realizar isso na distribuição que você estiver utilizando.
 
-Lembrando que o foco aqui não foi ensinar como configurar o arquivo de rede de um dado Linux, mas sim apenas dar uma ideia de como isso é feito. Agora, você pode portar essa ideia para a distribuição que você estiver utilizando, ou seja, em minha distribuição:
+Lembrando que o foco aqui não foi ensinar como configurar o arquivo de rede de um dado Linux, mas sim apenas dar uma ideia de como isso é feito. Agora, você pode portar essa ideia para a distribuição que você estiver utilizando, ou seja, o que você tem que saber para conseguir configurar, independente da distribuição é achar:
 * Como é que eu configuro o IP, máscara, gateway e DNS no arquivo?
 * Como alterar entre as placas de rede?
 * Cada placa tem um arquivo próprio ou é tudo junto?
