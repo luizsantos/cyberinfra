@@ -134,6 +134,15 @@ Os comando de cliente DHCP (``dhclient``, ``dhcpcd``, etc), normalmente continua
 
 ## Configuração via de rede via arquivos
 
+Todos os comandos apresentados anteriormente são voláteis, ou seja, se você desligar o host, todas as configurações de rede realizadas serão perdidas. Comandos voláteis são bem úteis para testes, todavia se você pretende persistir tal configuração, você terá que fazer isso via arquivo.
+
+> **Atenção!!!** É claro que a configuração de rede para usuários finais, pode ser feita via interface gráfica, que por sua vez consolida as configurações em arquivos - configurar assim é muito fácil e amigável. Todavia, a maioria dos servidores e dispositivos embarcados/IoT, não possuem interface gráfica. Assim, é necessário configurar o arquivo de configuração de rede na mão - é isso que estamos abordando aqui.
+
+Atualmente, um problema da configuração da rede Linux via arquivo, é que cada distribuição/versão pode fazer isso de uma forma diferente, gerando uma falta de padronização e consequentemente uma certa confusão. Moral da história, é que para configurar um Linux via arquivo atualmente você deve buscar na Internet algo como: "configuração rede arquivo", seguido no nome da sua distribuição/versão. Tal como:
+("configuração rede arquivo debian 10")[https://www.google.com/search?q=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&oq=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&aqs=chrome..69i57j33i22i29i30.9512j0j7&sourceid=chrome&ie=UTF-8] e dentre os resultados deve aparecer algo como: <https://www.debian.org/doc/manuals/debian-reference/ch05.pt.html>, ai é só seguir os passos citados.
+
+Dada a falta padronização para configuração de arquivos entre as distribuições/versões Linux, vamos ver um exemplo de arquivo genérico (semelhante ao utilizado no Debian/Ubuntu). Veja o conteúdo do arquivo a seguir:
+
 ```console
 #
 # This is a sample network config, please uncomment lines to configure the network
@@ -155,6 +164,78 @@ Os comando de cliente DHCP (``dhclient``, ``dhcpcd``, etc), normalmente continua
 #iface eth0 inet dhcp
 #	hostname Host-4
 ```
+
+Bem, dado o conteúdo do arquivo de configuração de rede anterior e já tendo um conhecimento mínimo de rede e Linux, observa-se o seguinte:
+* Tudo que iniciar com ``#`` é comentário e desta forma é desconsiderado (não é executado). Normalmente este tipo de arquivo vem com textos descrevendo o que fazer, bem como, com exemplos de opções e parâmetros comentados.
+* A configuração estática de rede, inicia abaixo do comentário: ``# Static config for eth0``, sendo as principais opções:
+    * ``address`` - endereço IP a ser atribuído ao host;
+    * ``netmask`` - máscara de rede;
+    * ``gateway`` - endereço IP do *gateway* padrão à ser utilizado;
+    * ``nameserver`` - IP do servidor de nomes (DNS) a ser utilizado - na verdade aqui está sendo executado um comando completo para se atribuir endereço do servidor DNS;
+* A configuração dinâmica de rede, inicia após o comentário: ``# DHCP config for eth0``. Nesta configuração a única opção apresentada é ``hostname``, que pode ser utilizada para configurar o nome do *host*, entretanto essa não é obrigatória.
+
+Bem, é claro que no conteúdo dado anteriormente, tudo está comentado e logo, não há configuração de rede válida. Então, supondo que se deseja realizar uma configuração de rede estática e persistente, tal arquivo poderia ficar assim:
+
+```console
+#
+# This is a sample network config, please uncomment lines to configure the network
+#
+
+# Uncomment this line to load custom interface files
+# source /etc/network/interfaces.d/*
+
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 192.168.0.2
+	netmask 255.255.255.0
+	gateway 192.168.0.1
+	up echo nameserver 192.168.0.1 > /etc/resolv.conf
+
+# DHCP config for eth0
+#auto eth0
+#iface eth0 inet dhcp
+#	hostname Host-4
+```
+Comparando o conteúdo inicial com o apresentado anteriormente, observa-se que foram descomentadas as linhas com as opções de configuração de rede estática. É válido mencionar que a configuração de *gateway* e DNS é opcional.
+
+Outro exemplo seria configurar uma nova placa utilizando DHCP, essa nova placa seria a ``eth1``, veja como ficaria o conteúdo com essa alteração:
+
+```console
+#
+# This is a sample network config, please uncomment lines to configure the network
+#
+
+# Uncomment this line to load custom interface files
+# source /etc/network/interfaces.d/*
+
+# Static config for eth0
+auto eth0
+iface eth0 inet static
+	address 192.168.0.2
+	netmask 255.255.255.0
+#	gateway 192.168.0.1
+#	up echo nameserver 192.168.0.1 > /etc/resolv.conf
+
+# DHCP config for eth0
+auto eth1
+iface eth1 inet dhcp
+	hostname Host-4
+```
+
+Note, no conteúdo anterior, que a parte de IP estático foi mantida, e a parte de DHCP foi descomentada e mais, a interface foi trocada de ``eth0`` para ``eth1``. **Atenção:** não é recomendável utiliza configuração estática e dinâmica para a mesma placa de rede do *host* - utilize apenas uma para cada interface. Assim, neste exemplo a placa ``eth0`` vai receber IP estático e a ``eth1`` vai receber configuração via DHCP. No exemplo, esperá-se que o DHCP forneça o IP do *gateway* e do DNS, então a opção de *gateway* e DNS foi comentada na configuração da ``eth0``.
+
+> A principio a configuração básica de rede de clientes Linux (ou qualquer outro sistema operacional) não suporta balanceamento de carga entre vários *gateways*. Então, não adianta ter mais que uma rota padrão, o sistema operacional sempre vai mandar os pacotes pela primeira rota padrão que ele analisar, as outras não serão utilizadas. :-\
+
+Bem, sempre que alguma configuração for alterada no arquivo, é necessário reiniciar o computador ou melhor, reinicia apenas o serviço de rede. Novamente isso varia entre as distribuições/versões Linux. Então é necessário pesquisar como realizar isso na distribuição que você estiver utilizando.
+
+Lembrando que o foco aqui não foi ensinar como configurar o arquivo de rede de um dado Linux, mas sim apenas dar uma ideia de como isso é feito. Agora, você pode portar essa ideia para a distribuição que você estiver utilizando, ou seja, em minha distribuição:
+* Como é que eu configuro o IP, máscara, gateway e DNS no arquivo?
+* Como alterar entre as placas de rede?
+* Cada placa tem um arquivo próprio ou é tudo junto?
+* Como reiniciar o serviço de rede para que as configurações possam valer?
+
+São essas perguntas que você tem que responder, não só no Linux, mas em qualquer outro sistema operacional. ;-)
 
 ## Exemplo prático
 
