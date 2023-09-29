@@ -6,7 +6,7 @@ layout: page
 
 A seguir, são apresentadas algumas possibilidades de configurações voláteis e não voláteis para *hosts* Linux. Isso será feito com utilizando-se como exemplo o cenário de rede da Figura 1:
 
-| ![rede](/docs/linux/img/cenarioRede.png) |
+| ![rede](img/cenarioRede.png) |
 |:--:|
 | Figura 1 - Cenário de rede |
 
