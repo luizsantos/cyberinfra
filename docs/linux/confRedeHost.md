@@ -139,9 +139,9 @@ Todos os comandos apresentados anteriormente são voláteis, ou seja, se você d
 > **Atenção!!!** É claro que a configuração de rede para usuários finais, pode ser feita via interface gráfica, que por sua vez consolida as configurações em arquivos - configurar assim é muito fácil e amigável. Todavia, a maioria dos servidores e dispositivos embarcados/IoT, não possuem interface gráfica. Assim, é necessário configurar o arquivo de configuração de rede na mão - é isso que estamos abordando aqui.
 
 Atualmente, um problema da configuração da rede Linux via arquivo, é que cada distribuição/versão pode fazer isso de uma forma diferente, gerando uma falta de padronização e consequentemente uma certa confusão. Moral da história, é que para configurar um Linux via arquivo atualmente você deve buscar na Internet algo como: "configuração rede arquivo", seguido no nome da sua distribuição/versão. Tal como:
-["configuração rede arquivo debian 10"](https://www.google.com/search?q=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&oq=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&aqs=chrome..69i57j33i22i29i30.9512j0j7&sourceid=chrome&ie=UTF-8) e dentre os resultados deve aparecer algo como: <https://www.debian.org/doc/manuals/debian-reference/ch05.pt.html>, ai é só seguir os passos citados.
+["configuração rede arquivo debian 10"](https://www.google.com/search?q=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&oq=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&aqs=chrome..69i57j33i22i29i30.9512j0j7&sourceid=chrome&ie=UTF-8) e dentre os resultados deve aparecer algo como: <https://wiki.debian.org/pt_BR/NetworkConfiguration>, ai é só seguir os passos citados.
 
-Dada a falta padronização para configuração de arquivos entre as distribuições/versões Linux, vamos ver um exemplo de arquivo genérico (semelhante ao utilizado no Debian/Ubuntu). Veja o conteúdo do arquivo a seguir:
+Dada a falta padronização para configuração de arquivos entre as distribuições/versões Linux, vamos ver um exemplo de arquivo genérico (semelhante ao utilizado no Debian/Ubuntu - principalmente essa é a configuração dos Dockers do GNS3 que utilizo nas aulas :-p). Veja o conteúdo do arquivo a seguir:
 
 ```console
 #
@@ -236,6 +236,8 @@ Lembrando que o foco aqui não foi ensinar como configurar o arquivo de rede de 
 * Como reiniciar o serviço de rede para que as configurações possam valer?
 
 São essas perguntas que você tem que responder, não só no Linux, mas em qualquer outro sistema operacional. ;-)
+
+Para finalizar, parece que está se tornando um padrão entre os Linux o [NetworManager](https://wiki.debian.org/NetworkManager), este permite configuração de rede persistente via texto e ambiente gráfico, além de permitir também  facilitar muito a configuração de enlaces sem fio (não vamos abordar a configuração de enlaces sem fio aqui, mas isso é importante).
 
 ## Exemplo prático
 
