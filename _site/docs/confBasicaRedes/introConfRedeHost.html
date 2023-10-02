@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/confBasicaRedes/introConfRedeHost" />
+<meta property="og:url" content="http://localhost:4000/docs/confBasicaRedes/introConfRedeHost" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/docs/confBasicaRedes/introConfRedeHost","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"headline":"CyberInfra","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="configuração-básica-de-rede-em-hosts">Configuração básica de rede em <em>hosts</em></h1>
+
+<p>Uma tarefa muito corriqueira para qualquer administrador de rede é a configuração de <em>hosts</em> na rede, de forma que este acesse a rede local e principalmente à Internet.</p>
+
+<h2 id="o-que-é-necessário-configurar-para-a-rede-funcionar">O que é necessário configurar para a rede funcionar?</h2>
+
+<p>A configuração de um <em>host</em> na rede, normalmente se dá por três passos básico, sendo esses:</p>
+
+<ol>
+  <li>Configuração do <strong>IP e máscara de rede</strong>, isso permite que o <em>host</em> acesse a rede local;</li>
+  <li>Configuração da <strong>rota padrão</strong>, que permitirá que o <em>host</em> acesse outras redes, tal como a Internet;</li>
+  <li>Configuração do IP do servidor ou <strong>servidores DNS</strong>, isso possibilitará que o <em>host</em> acesse <em>hosts</em> através de nomes e não endereços IPs - já que é bem mais fácil lembrar de nomes do que IPs.</li>
+</ol>
+
+<p>Com o passo 1, é possível acessar a rede local, com o passo 2 é possível acessar outras redes e com o passo 3 é possível acessar <em>hosts</em> utilizando nomes, tal como www.google.com.br.</p>
+
+<blockquote>
+  <p><strong>Atenção:</strong> O primeiro passo é obrigatório se você quiser acessar a rede local. Já o passo 2 e 3 são opcionais! Executando apenas o passo 1 e passo 2 corretamente, você já pode acessar outras redes, como por exemplo a Internet, mas somente através do uso de endereços IP, o que a maioria das pessoas normalmente não fazem. Assim, é quase obrigatório realizar também o terceiro passo, para só então as pessoas considerem que o <em>host</em> esteja conectado corretamente na rede/Internet.</p>
+</blockquote>
+
+<h2 id="configuração-manual-ou-automática">Configuração manual ou automática?</h2>
+
+<p>Há duas formas de realizar os três passos de configuração de rede citados anteriormente:</p>
+<ol>
+  <li><strong>Manual/Estática</strong>: neste as configurações são feitas manualmente, pelo usuário/administrador do sistema. Então, o usuário/administrador do <em>host</em> deve ter conhecimento prévio da rede, para saber quais endereços utilizar durante a configuração do <em>host</em>. Este tipo de configuração também é considerada estática, pois os endereços atribuídos não mudam a menos que o administrador altere esses;</li>
+  <li><strong>Automática</strong>: utilizando esse método o computador será configurado automaticamente por outro computador da rede. Normalmente tal configuração vem via servidor <a href="https://pt.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP/BOOTP</a>, pelo roteador da rede ou ponto de acesso sem fio. Neste tipo de configuração o usuário não precisa saber dos endereços de rede, pois isso é feito “magicamente” para ele. Além disso, os endereços de rede podem mudar de forma dinâmica ao longo do tempo.</li>
+</ol>
+
+<blockquote>
+  <p>O termo “automática” e “estática, utilizado anteriormente, pode levar à algumas confusões, pois por exemplo, tem como o endereço IP ser conseguido de forma automática, mas mesmo assim ser um endereço estático (sempre o <em>host</em> receberá o mesmo IP). Todavia não vamos nos aprofundar nesta discussão agora! :-p</p>
+</blockquote>
+
+<p>É importante perceber que a maioria dos <em>hosts</em> atualmente têm sua configuração de rede feita de forma automática, via DHCP. Entretanto, <strong>bons administradores de rede, devem saber configurar <em>hosts</em> manualmente</strong> (não só via DHCP), pois isso pode ser vital durante a resolução de problemas. Além do que, muitos equipamentos quem compõem a infraestrutura das redes são preferencialmente, se não obrigatoriamente configurados com o método manual (devido à questões administrativas, de segurança, etc).</p>
+
+<h2 id="configuração-permanente-ou-temporária">Configuração permanente ou temporária?</h2>
+
+<p>Sistemas UNIX-Like, permitem ainda duas formas de configuração de rede:</p>
+<ol>
+  <li><strong>Volátil</strong>: nesta, toda configuração feita é perdida se o <em>host</em> for reiniciado (ligado/desligado). É uma configuração “temporária”, que pode ser mais indicada/utilizada para testes;</li>
+  <li><strong>Não volátil</strong>: nesta, a configuração persiste mesmo que o <em>host</em> seja desligado e religado. Este tipo de configuração é realizada em arquivos que ficam armazenados nos <em>hosts</em> da rede.</li>
+</ol>
+
+<blockquote>
+  <p>A configuração chamada aqui de <strong>não volátil</strong>, também é denominada de estática ou via arquivo, mas ela pode ser utilizada tanto para configurar IPs estáticos, quanto automáticos/dinâmicos. Cuidado com a confusão nos termos… ;-)</p>
+</blockquote>
+
+<p>Normalmente a configuração em ambiente grágico é não volátil, por isso em sistemas operacionais como no caso do Microsoft Windows, a configuração que você fizer para a rede vai normalmente persistir. O mesmo se aplica para configuração de rede em ambiente gráfico utilizando o Linux, ou seja, a configuração de rede realizada no ambiente gráfico do Linux ou da maioria dos sistemas Like-UNIX, vai persistir, já que se entende que ambiente gráfico normalmente é para usuário leigo (não administrador), assim esperá-se que a configuração feita no ambiente gráfico persista.</p>
+
+<p>Visto as possibilidades de configurações de rede para <em>hosts</em> Linux, agora serão apresentados os comandos e arquivos que permitem efetivar essas configurações nos seguintes sistemas:</p>
+
+<ul>
+  <li><a href="linux/linuxConfRedeHost">Linux</a></li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2023</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>

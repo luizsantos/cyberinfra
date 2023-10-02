@@ -17,13 +17,13 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
 <meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
-<link rel="canonical" href="http://localhost:4000/docs/linux/confRedeHost" />
-<meta property="og:url" content="http://localhost:4000/docs/linux/confRedeHost" />
+<link rel="canonical" href="http://localhost:4000/docs/confBasicaRedes/linux/linuxConfRedeHost" />
+<meta property="og:url" content="http://localhost:4000/docs/confBasicaRedes/linux/linuxConfRedeHost" />
 <meta property="og:site_name" content="CyberInfra" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="CyberInfra" />
 <script type="application/ld+json">
-{"url":"http://localhost:4000/docs/linux/confRedeHost","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"headline":"CyberInfra","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@type":"WebPage","@context":"https://schema.org"}</script>
+{"url":"http://localhost:4000/docs/confBasicaRedes/linux/linuxConfRedeHost","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"headline":"CyberInfra","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@type":"WebPage","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -62,55 +62,19 @@
     <div class="container">
       <section id="main_content">
         <article>
-  <h1 id="configuração-básica-de-rede-em-hosts-linux">Configuração básica de rede em <em>hosts</em> Linux</h1>
+  <h1 id="configuração-de-básica-de-rede-no-linux">Configuração de básica de rede no Linux</h1>
 
-<p>Uma tarefa muito corriqueira para qualquer administrador de rede é a configuração de <em>hosts</em> na rede, de forma que este acesse a rede local e principalmente à Internet.</p>
-
-<h2 id="o-que-é-necessário-configurar-para-a-rede-funcionar">O que é necessário configurar para a rede funcionar?</h2>
-
-<p>A configuração de um <em>host</em> na rede, normalmente se dá por três passos básico, sendo esses:</p>
-
-<ol>
-  <li>Configuração do <strong>IP e máscara de rede</strong>, isso permite que o <em>host</em> acesse a rede local;</li>
-  <li>Configuração da <strong>rota padrão</strong>, que permitirá que o <em>host</em> acesse outras redes, tal como a Internet;</li>
-  <li>Configuração do IP do servidor ou <strong>servidores DNS</strong>, isso possibilitará que o <em>host</em> acesse <em>hosts</em> através de nomes e não endereços IPs - já que é bem mais fácil lembrar de nomes do que IPs.</li>
-</ol>
-
-<p>Com o passo 1, é possível acessar a rede local, com o passo 2 é possível acessar outras redes e com o passo 3 é possível acessar <em>hosts</em> utilizando nomes, tal como www.google.com.br.</p>
+<p>Como explicado no texto <a href="/docs/confBasicaRedes/introConfRedeHost">introdução de configuração básica de rede</a>, sistemas Linux, permitem configurações de rede: manual; automática; temporária ou persistente. Assim, a seguir serão apresentadas as principais formas (comandos, parâmetros, opções e arquivos), para realizar a configuração básica de rede em ambientes Linux.</p>
 
 <blockquote>
-  <p><strong>Atenção:</strong> O primeiro passo é obrigatório se você quiser acessar a rede local. Já o passo 2 e 3 são opcionais! Executando apenas o passo 1 e passo 2 corretamente, você já pode acessar outras redes, como por exemplo a Internet, mas somente através do uso de endereços IP, o que a maioria das pessoas normalmente não fazem. Assim, é quase obrigatório realizar também o terceiro passo, para só então as pessoas considerem que o <em>host</em> esteja conectado corretamente na rede/Internet.</p>
+  <p>Configuração básica de rede são: IP do host, máscara de rede, rota padrão, e IP do servidor DNS.</p>
 </blockquote>
 
-<h2 id="configuração-manual-ou-automática">Configuração manual ou automática?</h2>
+<p><strong>Atenção!!!</strong> normalmente a tarefa de configuração de rede requer privilégios de administrador, ou seja você deve ser <a href="https://www.cyberciti.biz/faq/how-can-i-log-in-as-root/"><strong>root</strong></a> para realizar a configuração. Atualmente isso pode ser feito também com o auxilio do comando <code class="language-plaintext highlighter-rouge">sudo</code>.</p>
 
-<p>Há duas formas de realizar os três passos de configuração de rede citados anteriormente:</p>
-<ol>
-  <li><strong>Estático</strong>: neste as configurações são feitas manualmente, pelo usuário/administrador do sistema. Então, o usuário/administrador do <em>host</em> deve ter conhecimento prévio da rede, para saber quais endereços utilizar durante a configuração do <em>host</em>;</li>
-  <li><strong>Automático</strong>: utilizando esse método o computador será configurado automaticamente por outro computador da rede. Normalmente tal configuração vem via servidor DHCP/BOOTP, pelo roteador da rede ou ponto de acesso sem fio. Neste tipo de configuração o usuário não precisa saber dos endereços de rede, pois isso é feito “magicamente” para ele.</li>
-</ol>
+<h2 id="configuração-temporária">Configuração temporária</h2>
 
-<p>É importante perceber que a maioria dos <em>hosts</em> atualmente têm sua configuração de rede feita de forma automática, via DHCP. Entretanto, <strong>bons administradores de rede, devem saber configurar <em>hosts</em> manualmente</strong> (não só via DHCP), pois isso pode ser vital durante a resolução de problemas. Além do que, muitos equipamentos quem compõem a infraestrutura das redes são preferencialmente, se não obrigatoriamente configurados com o método manual (devido à questões administrativas, de segurança, etc).</p>
-
-<h2 id="configuração-permanente-ou-temporária">Configuração permanente ou temporária?</h2>
-
-<p>Sistemas UNIX-Like, permitem ainda duas formas de configuração de rede:</p>
-<ol>
-  <li><strong>Volátil</strong>: nesta, toda configuração feita é perdida se o <em>host</em> for reiniciado (ligado/desligado). É uma configuração “temporária”, que pode ser mais indicada/utilizada para testes;</li>
-  <li><strong>Não volátil</strong>: nesta, a configuração persiste mesmo que o <em>host</em> seja desligado e religado. Este tipo de configuração é realizada em arquivos que ficam armazenados nos <em>hosts</em> da rede.</li>
-</ol>
-
-<blockquote>
-  <p>A configuração chamada aqui de <strong>não volátil</strong>, também é denominada de estática ou via arquivo, mas ela pode ser utilizada tanto para configurar IPs estáticos, quanto automáticos/dinâmicos. Cuidado com a confusão nos termos… :-p</p>
-</blockquote>
-
-<p>Atualmente, um problema que existe na configuração <strong>não volátil</strong> em <em>hosts</em> Linux, é que cada distribuição Linux pode fazer isso de uma forma diferente da outra, e pior, a configuração pode mudar de versão para versão, dentro da mesma distribuição. É claro que essa falta de padronização geralmente causa confusão na hora de configurar <em>hosts</em> Linux.</p>
-
-<p>Visto as possibilidades de configurações de rede para <em>hosts</em> Linux, agora serão apresentados os comandos e arquivos que permitem efetivar essas configurações.</p>
-
-<blockquote>
-  <p><strong>Atenção!!!</strong> normalmente a tarefa de configuração de rede requer privilégios de administrador, ou seja você deve ser <strong>root</strong> para realizar a configuração. Atualmente isso pode ser feito também com o auxilio do comando <code class="language-plaintext highlighter-rouge">sudo</code>.</p>
-</blockquote>
+<p>A configuração temporária é mais utilizada para corrigir erros rapidamente ou para testes, os comandos mais comuns para este fim, no Linux são: <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code> e <code class="language-plaintext highlighter-rouge">ip</code>, tais comandos são apresentados a seguir:</p>
 
 <h3 id="configurando-ipmáscara-com-o-comando-ifconfig">Configurando IP/Máscara com o comando <code class="language-plaintext highlighter-rouge">ifconfig</code></h3>
 
@@ -128,7 +92,7 @@
 <p>Há outras opções e parâmetros possíveis para o <code class="language-plaintext highlighter-rouge">ifconfig</code>, mas o básico que queremos por enquanto é isso!</p>
 
 <blockquote>
-  <p>O comando <code class="language-plaintext highlighter-rouge">ifconfig</code> foi descontinuado no Linux, todavia é muito comum ainda encontrar ele por ai e principalmente sistemas como os BSDs ainda utilizam o <code class="language-plaintext highlighter-rouge">ifconfig</code>, por isso é muito importante saber como utilizá-lo.</p>
+  <p>O comando <code class="language-plaintext highlighter-rouge">ifconfig</code> foi descontinuado no Linux, todavia é muito comum ainda encontrar ele por ai e principalmente sistemas como os BSDs ainda utilizam o <code class="language-plaintext highlighter-rouge">ifconfig</code>, por isso é muito importante saber como utilizá-lo - para mais informações <a href="https://phoenixnap.com/kb/linux-ifconfig">clique aqui</a>.</p>
 </blockquote>
 
 <h3 id="configurando-rotas-com-o-comando-route">Configurando rotas com o comando <code class="language-plaintext highlighter-rouge">route</code></h3>
@@ -141,7 +105,7 @@
   <li><code class="language-plaintext highlighter-rouge">route del default</code> - apaga a rota padrão. Caso mais de uma rota padrão esteja presente, é possível complementar o comando informando qual rota será deletada, tal como: <code class="language-plaintext highlighter-rouge">route del default gw 172.16.1.254</code>.</li>
 </ul>
 
-<p>O comando <code class="language-plaintext highlighter-rouge">route</code>, também permite adicionar rotas para rede (<code class="language-plaintext highlighter-rouge">--net</code>) e <em>hosts</em> (<code class="language-plaintext highlighter-rouge">--host</code>), mas não abordaremos isso aqui.</p>
+<p>O comando <code class="language-plaintext highlighter-rouge">route</code>, também permite adicionar rotas para rede (<code class="language-plaintext highlighter-rouge">--net</code>) e <em>hosts</em> (<code class="language-plaintext highlighter-rouge">--host</code>), mas não abordaremos isso aqui - para mais informações <a href="https://man7.org/linux/man-pages/man8/route.8.html">clique aqui</a>.</p>
 
 <blockquote>
   <p>O comando <code class="language-plaintext highlighter-rouge">route</code> foi descontinuado no Linux. Todavia, é muito comum encontrá-lo por ai e assim como o <code class="language-plaintext highlighter-rouge">ifconfig</code>, os BSDs ainda utilizam o <code class="language-plaintext highlighter-rouge">route</code>.</p>
@@ -150,6 +114,10 @@
 <h3 id="configurando-ipmáscararotas-com-o-comando-ip">Configurando IP/Máscara/rotas com o comando <code class="language-plaintext highlighter-rouge">ip</code></h3>
 
 <p>Como mencionado anteriormente os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code> e <code class="language-plaintext highlighter-rouge">route</code> foram descontinuados no Linux. Atualmente o comando padrão para configuração de IP, máscara de rede e rotas no Linux é o comando <code class="language-plaintext highlighter-rouge">ip</code>. Então, o <code class="language-plaintext highlighter-rouge">ip</code> substitui os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code> e <code class="language-plaintext highlighter-rouge">route</code>, entretanto o <code class="language-plaintext highlighter-rouge">ip</code> não é utilizado para configurar o DNS.</p>
+
+<blockquote>
+  <p>Note que existe o comando <code class="language-plaintext highlighter-rouge">ip</code> e o protocolo IP, eles tem relação, mas não são a mesma coisa!</p>
+</blockquote>
 
 <p>Os principais exemplos de uso de opções e parâmetros utilizados com o comando <code class="language-plaintext highlighter-rouge">ip</code>, são:</p>
 <ul>
@@ -169,7 +137,7 @@
   <p>É possível abreviar as opções do comando <code class="language-plaintext highlighter-rouge">ip</code>, tal como <code class="language-plaintext highlighter-rouge">ip a</code>, para ver o status da parte de endereçamento. Entretanto, se você pretende fazer alguma prova ou certificação Linux, é aconselhável utilizar/treinar as opções sem abreviação, já em que provas e certificações são exigidos os comandos completos!</p>
 </blockquote>
 
-<p>Há outras opções do comando <code class="language-plaintext highlighter-rouge">ip</code>, mas a configuração básica de <em>hosts</em> na rede normalmente requer apenas o que foi apresentado anteriormente.</p>
+<p>Há outras opções do comando <code class="language-plaintext highlighter-rouge">ip</code>, mas a configuração básica de <em>hosts</em> na rede normalmente requer apenas o que foi apresentado anteriormente - para mais informações <a href="https://www.cyberciti.biz/faq/linux-ip-command-examples-usage-syntax/">clique aqui</a>.</p>
 
 <h3 id="configurando-dns-com-o-arquivo-etcresolvconf">Configurando DNS com o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code></h3>
 
@@ -181,6 +149,10 @@
   <li><code class="language-plaintext highlighter-rouge">cat /etc/resolv.conf</code> - apresenta o conteúdo do arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, isso é útil para verificar qual é a configuração atual, presente no arquivo.</li>
 </ul>
 
+<blockquote>
+  <p>Atenção: na verdade a configuração do endereço IP do servidor DNS é uma configuração persistente, mas normalmente precisamos dela em qualquer tipo de configuração (não há outra opção de configurar o IP do servidor DNS - pelo menos que o autor conheça).</p>
+</blockquote>
+
 <p>Normalmente no Linux é possível configurar até 2 servidores DNS, o primeiro <code class="language-plaintext highlighter-rouge">nameserver</code> que aparecer no arquivo, é chamado de primário e o seguinte é o secundário. Inicialmente, o sistema tentará resolver o nome utilizando o servidor primário, se esse falhar será utilizado o servidor secundário. Alguns Linux permitem configurar mais que dois servidores DNS para a resolução de nomes. No exemplo a seguir o arquivo de configuração <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, tem como servidor primário o 8.8.4.4 e o secundário é o 1.1.1.1, ou seja, é a ordem que aparece o <code class="language-plaintext highlighter-rouge">nameserver</code>:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">cat</span> /etc/resolv.conf
@@ -190,7 +162,7 @@ nameserver 1.1.1.1
 </span></code></pre></div></div>
 <p>Aqui, foi apresentado o comando <code class="language-plaintext highlighter-rouge">echo</code> para inserir conteúdos no arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> e <code class="language-plaintext highlighter-rouge">cat</code> para ver o conteúdo. Entretanto, também é possível criar/editar esse arquivo utilizando <strong>editores de texto</strong>, tais como o <code class="language-plaintext highlighter-rouge">vi</code> ou <code class="language-plaintext highlighter-rouge">nano</code>.</p>
 
-<p>Há outras configurações/opções possíveis para o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, mas não vamos abordá-las aqui.</p>
+<p>Há outras configurações/opções possíveis para o arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, mas não vamos abordá-las aqui - para mais informações <a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">clique aqui</a>.</p>
 
 <blockquote>
   <p>Atenção, todos os sistemas operacionais like-UNIX utilizam o mesmo arquivo/método para configurar o servidor DNS no cliente, isso é padrão!</p>
@@ -202,7 +174,7 @@ nameserver 1.1.1.1
 
 <p>Utilizar configuração via DHCP é muito prático, fácil e evita erros de configuração (ex. IPs duplicados). Isso facilita muito o trabalho do administrador de rede e também permite que redes sem administradores funcionem sem grandes problemas, mesmo que o cliente/usuário da rede não tenha conhecimentos a respeito de redes de computadores.</p>
 
-<p>Atualmente o comando mais utilizado para se obter configurações de rede no cliente, via DHCP deve ser o <code class="language-plaintext highlighter-rouge">dhclient</code>. Todavia aqui iremos apresentar o <code class="language-plaintext highlighter-rouge">dhcpcd</code>, que também é outro comando muito utilizado em Linux e BSDs.</p>
+<p>Atualmente o comando mais utilizado para se obter configurações de rede no cliente, via DHCP deve ser o <a href="https://man.archlinux.org/man/dhclient.8.en"><code class="language-plaintext highlighter-rouge">dhclient</code></a>. Todavia aqui iremos apresentar o <code class="language-plaintext highlighter-rouge">dhcpcd</code>, que também é outro comando muito utilizado em Linux e BSDs.</p>
 
 <blockquote>
   <p>Não há grandes diferenças entre esses comandos, então se você aprender trabalhar com um desses não terá problemas em utilizar o outro!</p>
@@ -216,14 +188,25 @@ nameserver 1.1.1.1
 </ul>
 
 <blockquote>
-  <p>Há outras opções para o <code class="language-plaintext highlighter-rouge">dhcpcd</code>, mas vamos parar por aqui.</p>
+  <p>Há outras opções para o <code class="language-plaintext highlighter-rouge">dhcpcd</code>, mas vamos parar por aqui - para mais informa <a href="https://man.archlinux.org/man/core/dhcpcd/dhcpcd.8.en#:~:text=dhcpcd%20gets%20the%20host%20information,directly%20to%20%2Fetc%2Fresolv.">clique aqui</a>.</p>
 </blockquote>
 
 <p>Após executar o comando <code class="language-plaintext highlighter-rouge">dhcpcd</code> o host cliente envia um pacote DHCP para a rede, o servidor recebe esse pacote e responde com a configuração da rede para este cliente. O cliente recebe a configuração enviada pelo servidor e aplica as configurações. Após isso, o <em>host</em> cliente deve conseguir acessar a rede. É possível verificar essa configuração posteriormente com os comandos <code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">route</code>, <code class="language-plaintext highlighter-rouge">ip</code> e <code class="language-plaintext highlighter-rouge">cat /etc/resolv.conf</code>.</p>
 
 <p>Os comando de cliente DHCP (<code class="language-plaintext highlighter-rouge">dhclient</code>, <code class="language-plaintext highlighter-rouge">dhcpcd</code>, etc), normalmente continuam em execução após serem executados. Isso é necessário, pois o servidor DHCP pode exigir que o cliente renove o empréstimo do IP de tempos em tempos.</p>
 
-<h2 id="configuração-via-de-rede-via-arquivos">Configuração via de rede via arquivos</h2>
+<h2 id="configuração-básica-da-rede-via-arquivos">Configuração básica da rede via arquivos</h2>
+
+<p>Todos os comandos apresentados anteriormente são voláteis, ou seja, se você desligar o <em>host</em>, todas as configurações de rede realizadas serão perdidas. Comandos voláteis são bem úteis para testes, todavia se você pretende persistir tal configuração, você terá que fazer isso via arquivo.</p>
+
+<blockquote>
+  <p><strong>Atenção!!!</strong> É claro que a configuração de rede para usuários finais, pode ser feita via interface gráfica, que por sua vez consolida as configurações em arquivos - configurar assim é muito fácil e amigável. Todavia, a maioria dos servidores e alguns dispositivos embarcados/IoT, não possuem interface gráfica. Assim, é necessário configurar o arquivo de configuração de rede na mão - é isso que estamos abordando aqui.</p>
+</blockquote>
+
+<p>Atualmente, um problema da configuração da rede Linux via arquivo, é que cada distribuição/versão pode fazer isso de uma forma diferente, gerando uma falta de padronização e consequentemente uma certa confusão (ver <a href="linuxConfRedeHost#ref">Referências</a>). Moral da história, é que para configurar um Linux via arquivo atualmente você deve buscar na Internet algo como: “configuração rede arquivo”, seguido no nome da sua distribuição/versão. Tal como:
+<a href="https://www.google.com/search?q=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&amp;oq=configura%C3%A7%C3%A3o+rede+arquivo+debian+10&amp;aqs=chrome..69i57j33i22i29i30.9512j0j7&amp;sourceid=chrome&amp;ie=UTF-8">“configuração rede arquivo debian 10”</a> e dentre os resultados deve aparecer algo como: <a href="https://wiki.debian.org/pt_BR/NetworkConfiguration">https://wiki.debian.org/pt_BR/NetworkConfiguration</a>, ai é só seguir os passos citados.</p>
+
+<p>Dada a falta padronização para configuração de arquivos entre as distribuições/versões Linux, vamos ver um exemplo de arquivo genérico (semelhante ao utilizado no Debian/Ubuntu - principalmente essa é a configuração dos <a href="https://pt.wikipedia.org/wiki/Docker_(software)">Dockers</a> do <a href="https://www.gns3.com/">GNS3</a> que utilizo nas aulas :-p). Veja o conteúdo do arquivo a seguir:</p>
 
 <div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w">
 </span><span class="gp">#</span><span class="w"> </span>This is a sample network config, please uncomment lines to configure the network
@@ -246,7 +229,94 @@ nameserver 1.1.1.1
 <span class="gp">#</span><span class="w">	</span><span class="nb">hostname </span>Host-4
 </code></pre></div></div>
 
-<h2 id="exemplo-prático">Exemplo prático</h2>
+<p>Dado o conteúdo do arquivo de configuração de rede anterior e já tendo um conhecimento mínimo de rede e Linux, observa-se o seguinte:</p>
+<ul>
+  <li>Tudo que iniciar com <code class="language-plaintext highlighter-rouge">#</code> é comentário e desta forma é desconsiderado (não é executado). Normalmente este tipo de arquivo vem com textos descrevendo o que fazer, bem como, com exemplos de opções e parâmetros comentados.</li>
+  <li>A configuração estática de rede inicia abaixo do comentário: <code class="language-plaintext highlighter-rouge"># Static config for eth0</code>, sendo as principais opções:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">address</code> - endereço IP a ser atribuído ao host;</li>
+      <li><code class="language-plaintext highlighter-rouge">netmask</code> - máscara de rede;</li>
+      <li><code class="language-plaintext highlighter-rouge">gateway</code> - endereço IP do <em>gateway</em> padrão à ser utilizado;</li>
+      <li><code class="language-plaintext highlighter-rouge">nameserver</code> - IP do servidor de nomes (DNS) a ser utilizado - na verdade aqui está sendo executado um comando completo para se atribuir endereço do servidor DNS;</li>
+    </ul>
+  </li>
+  <li>A configuração dinâmica de rede inicia após o comentário: <code class="language-plaintext highlighter-rouge"># DHCP config for eth0</code>. Nesta configuração a única opção apresentada é <code class="language-plaintext highlighter-rouge">hostname</code>, que pode ser utilizada para configurar o nome do <em>host</em>, entretanto essa não é obrigatória.</li>
+</ul>
+
+<h3 id="configuração-manual-via-arquivo">Configuração manual via arquivo</h3>
+
+<p>No conteúdo apresentado anteriormente, tudo está comentado, logo não há configuração de rede válida. Então, supondo que se deseja realizar uma configuração de rede estática e persistente, tal arquivo poderia ficar assim:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span>This is a sample network config, please uncomment lines to configure the network
+<span class="gp">#</span><span class="w">
+</span><span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Uncomment this line to load custom interface files
+<span class="gp">#</span><span class="w"> </span><span class="nb">source</span> /etc/network/interfaces.d/<span class="k">*</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Static config <span class="k">for </span>eth0
+<span class="go">auto eth0
+iface eth0 inet static
+	address 192.168.0.2
+	netmask 255.255.255.0
+	gateway 192.168.0.1
+</span><span class="gp">	up echo nameserver 192.168.0.1 &gt;</span><span class="w"> </span>/etc/resolv.conf
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>DHCP config <span class="k">for </span>eth0
+<span class="gp">#</span>auto eth0
+<span class="gp">#</span>iface eth0 inet dhcp
+<span class="gp">#</span><span class="w">	</span><span class="nb">hostname </span>Host-4
+</code></pre></div></div>
+<p>Comparando o conteúdo inicial com o apresentado anteriormente, observa-se que foram descomentadas as linhas com as opções de configuração de rede estática. É válido mencionar que a configuração de <em>gateway</em> e DNS são opcionais.</p>
+
+<h3 id="configuração-automática-via-arquivo">Configuração automática via arquivo</h3>
+
+<p>Outro exemplo seria configurar uma nova placa utilizando DHCP, essa nova placa seria a <code class="language-plaintext highlighter-rouge">eth1</code>, veja como ficaria o conteúdo com essa alteração:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w">
+</span><span class="gp">#</span><span class="w"> </span>This is a sample network config, please uncomment lines to configure the network
+<span class="gp">#</span><span class="w">
+</span><span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Uncomment this line to load custom interface files
+<span class="gp">#</span><span class="w"> </span><span class="nb">source</span> /etc/network/interfaces.d/<span class="k">*</span>
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Static config <span class="k">for </span>eth0
+<span class="go">auto eth0
+iface eth0 inet static
+	address 192.168.0.2
+	netmask 255.255.255.0
+</span><span class="gp">#</span><span class="w">	</span>gateway 192.168.0.1
+<span class="gp">#</span><span class="w">	</span>up <span class="nb">echo </span>nameserver 192.168.0.1 <span class="o">&gt;</span> /etc/resolv.conf
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>DHCP config <span class="k">for </span>eth0
+<span class="go">auto eth1
+iface eth1 inet dhcp
+	hostname Host-4
+</span></code></pre></div></div>
+
+<p>Note, no conteúdo anterior, que a parte de IP estático foi mantida, e a parte de DHCP foi descomentada e mais, a interface foi trocada de <code class="language-plaintext highlighter-rouge">eth0</code> para <code class="language-plaintext highlighter-rouge">eth1</code>. <strong>Atenção:</strong> não é recomendável utiliza configuração estática e dinâmica para a mesma placa de rede do <em>host</em> - utilize apenas uma para cada interface. Assim, neste exemplo, a placa <code class="language-plaintext highlighter-rouge">eth0</code> vai receber IP estático e a <code class="language-plaintext highlighter-rouge">eth1</code> vai receber configuração via DHCP. No exemplo, esperá-se que o DHCP forneça o IP do <em>gateway</em> e do DNS, então a opção de <em>gateway</em> e DNS foi comentada na configuração da <code class="language-plaintext highlighter-rouge">eth0</code>. Se uma nova placa de rede for adicionada ao <em>host</em>, basta adicionar a configuração para essa nova placa no arquivo.</p>
+
+<blockquote>
+  <p>A principio a configuração básica de rede de clientes Linux (ou qualquer outro sistema operacional) não suporta balanceamento de carga entre vários <em>gateways</em>. Então, não adianta ter mais que uma rota padrão, o sistema operacional sempre vai mandar os pacotes pela primeira rota padrão que ele analisar, as outras não serão utilizadas. :-\</p>
+</blockquote>
+
+<p>Sempre que alguma configuração for alterada no arquivo, é necessário reiniciar o computador ou melhor, reinicia apenas o serviço de rede. Novamente isso varia entre as distribuições/versões Linux. Então é necessário pesquisar como realizar isso na distribuição que você estiver utilizando.</p>
+
+<p>Lembrando que o foco aqui não foi ensinar como configurar o arquivo de rede de um dado Linux, mas sim apenas dar uma ideia de como isso é feito, mesmo assim, no <a href="linuxConfRedeHost#ref">final deste texto há alguns <em>links</em> de como configurar os Linux mais famosos</a>. Agora, você pode portar essa ideia para a distribuição que você estiver utilizando, ou seja, o que você tem que saber para conseguir configurar, independente da distribuição é achar:</p>
+<ul>
+  <li>Como é que eu configuro o IP, máscara, <em>gateway</em> e DNS no arquivo?</li>
+  <li>Como alterar entre as placas de rede?</li>
+  <li>Cada placa tem um arquivo próprio ou é tudo junto?</li>
+  <li>Como reiniciar o serviço de rede para que as configurações possam valer?</li>
+</ul>
+
+<blockquote>
+  <p>São essas perguntas que você tem que responder, não só no Linux, mas em qualquer outro sistema operacional. ;-)</p>
+</blockquote>
+
+<p>Para finalizar, parece que a ferramenta <a href="https://wiki.debian.org/NetworkManager">NetworManager</a> está se tornando um padrão entre os Linux. Esse permite realizar a configuração de rede persistente via texto ou ambiente gráfico, ele também facilita muito a configuração de enlaces sem fio (não vamos abordar a configuração de enlaces sem fio aqui, mas isso é importante - o autor recomenda realizá-la via NetworkManager, caso contrário as opções são <a href="https://www.linuxforce.com.br/comandos-linux/comandos-linux-comando-iwconfig/"><code class="language-plaintext highlighter-rouge">iwconfig</code></a>, <a href="https://wiki.archlinux.org/title/wpa_supplicant"><code class="language-plaintext highlighter-rouge">wpa_supplicant</code></a>, etc.).</p>
+
+<h2 id="exemplo-prático-de-configuração-básica-de-rede-em-ambiente-linux">Exemplo prático de configuração básica de rede em ambiente Linux</h2>
 
 <p>Para uma melhor consolidação dos conceitos apresentados anteriormente, a seguir são apresentados exemplos práticos do uso dos comandos necessários para a configuração básica de redes de computadores. Tal exemplo utiliza o cenário de rede da Figura 1.</p>
 
@@ -273,10 +343,16 @@ nameserver 1.1.1.1
   <li><a href="confRedeHostExemplo1#LinuxRouter-1">LinuxRouter-1 ip, ifconfig, NAT</a></li>
 </ul>
 
-<h1 id="referências">Referências</h1>
+<h1 id="ref">Referências</h1>
 
+<p>Referências para exemplos de configurações de rede para algumas distribuições Linux:</p>
 <ul>
-  <li><a href="https://tldp.org/HOWTO/Linux+IPv6-HOWTO/ch05s02.html">https://tldp.org/HOWTO/Linux+IPv6-HOWTO/ch05s02.html</a></li>
+  <li>Debian: <a href="https://wiki.debian.org/NetworkConfiguration">https://wiki.debian.org/NetworkConfiguration</a></li>
+  <li>Ubuntu: <a href="https://ubuntu.com/server/docs/network-configuration">https://ubuntu.com/server/docs/network-configuration</a></li>
+  <li>Arch: <a href="https://wiki.archlinux.org/title/Network_configuration">https://wiki.archlinux.org/title/Network_configuration</a></li>
+  <li>Fedora: <a href="https://docs.fedoraproject.org/en-US/fedora-coreos/sysconfig-network-configuration/">https://docs.fedoraproject.org/en-US/fedora-coreos/sysconfig-network-configuration/</a></li>
+  <li>Gentoo: <a href="https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Networking">https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Networking</a></li>
+  <li>Slackware: <a href="http://www.slackware.com/config/network.php">http://www.slackware.com/config/network.php</a></li>
 </ul>
 
 </article>

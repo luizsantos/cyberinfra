@@ -65,10 +65,10 @@
 <loc>http://localhost:4000/docs/cisco/ativarSSH</loc>
 </url>
 <url>
-<loc>http://localhost:4000/docs/linux/confRedeHost</loc>
+<loc>http://localhost:4000/docs/confBasicaRedes/linux/confRedeHost%20(C%C3%B3pia%20em%20conflito%20de%20fielDACOM%202023-09-29)</loc>
 </url>
 <url>
-<loc>http://localhost:4000/docs/linux/confRedeHostExemplo1</loc>
+<loc>http://localhost:4000/docs/confBasicaRedes/linux/confRedeHostExemplo1</loc>
 </url>
 <url>
 <loc>http://localhost:4000/docs/VMs/configurarVMMac</loc>
@@ -84,6 +84,12 @@
 </url>
 <url>
 <loc>http://localhost:4000/videos/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/docs/confBasicaRedes/introConfRedeHost</loc>
+</url>
+<url>
+<loc>http://localhost:4000/docs/confBasicaRedes/linux/linuxConfRedeHost</loc>
 </url>
 <url>
 <loc>http://localhost:4000/docs/penTest/pentest-old</loc>

@@ -23,7 +23,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 # Redes de Computadores
 * Configuração básica de rede:
-	* [Introdução](linux/confRedeHost)
+	* [Introdução](confBasicaRedes/introConfRedeHost)
+	* [Linux](confBasicaRedes/linux/linuxConfRedeHost)
 * Servidores no OpenBSD:
 	* [DHCP](OpenBSDServers/dhcp)
     * [Apache HTTP](OpenBSDServers/HTTP)
