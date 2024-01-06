@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/virtualization/virtualization" />
+<meta property="og:url" content="http://localhost:4000/docs/virtualization/virtualization" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@type":"WebPage","headline":"CyberInfra","url":"http://localhost:4000/docs/virtualization/virtualization","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h1 id="virtualização">Virtualização</h1>
+
+<p>No contexto da informática, a virtualização tem ganhado grande notoriedade ao longo das últimas décadas. Isso se deve ao fato da virtualização trazer muitos benefícios, tais como:</p>
+<ul>
+  <li>A facilidade de executar de forma isolada vários sistemas operacionais, dentro de um único computador físico;</li>
+  <li>Executar sistemas criados para determinado hardware/sistema operacional em outro sistema distinto e até mesmo incompatível;</li>
+  <li>Permitir a fácil migração de sistemas de um hardware de computador para outro, com um simples copiar de arquivo. Isso facilita, por exemplo, o gerenciamento de <em>datacenter</em> e ajuda na criação do conceito de nuvem (<em>cloud computer</em>).</li>
+</ul>
+
+<p>Ao longo do tempo, a virtualização utilizou e ainda utiliza de várias técnicas, o que pode gerar alguma confusão na hora de definir o que é virtualização. Assim, a seguir, são apresentadas algumas definições para virtualização:</p>
+
+<ul>
+  <li>
+    <p>Segundo HUMBLE (2016), virtual significa algo que não é real, já na computação, virtual significa um ambiente de hardware que não é real. Assim, neste contexto da computação, a virtualização pode ser por exemplo, a execução de algum software em um hardware que é na verdade é um software fingindo ser um hardware.</p>
+  </li>
+  <li>
+    <p>Já segundo CHAGANTI (2007), virtualização é a técnica de dividir recursos de um único servidor em múltiplos ambientes segregados. Desta forma, cada ambiente virtualizado pode ser executado independente dos outros ambientes. Assim é possível, por exemplo, que cada um desses ambientes execute um sistema operacional diferente.</p>
+  </li>
+  <li>
+    <p>Conforme  WILLIANS(2007), virtualização é um <em>framework</em> ou metodologia para divisão de recursos do hardware do computador para múltiplos 
+ambientes de execução. Isso é feito aplicando-se uma ou mais técnicas de particionamento de hardware e software, compartilhamento de tempo (<em>time-sharing</em>), simulação parcial ou completa da máquina, emulação, qualidade de serviço e muitas outras técnicas.</p>
+  </li>
+</ul>
+
+<p>Então, resumidamente, a virtualização permite executar vários sistemas em um mesmo hardware, todavia cada um desses sistemas virtualizados terão a percepção que eles estão em um computador dedicado só para ele, só que isso não é necessariamente verdade.</p>
+
+<h2 id="história">História</h2>
+
+<p>O conceito de virtualização não é novo, vem da década de 1960-70 e surgiu basicamente do conceito de compartilhamento de tempo (<em>time sharing</em>) e multiprogração. Sendo que o computador Atlas apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado <strong>supervisor</strong>. Então, no Atlas, o <em>supervisor</em> gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o <strong>supoervisor</strong> do Atlas, surge o <strong><em>hypervisor</em></strong> ou <strong><em>Virtual Machine Monitor</em> (VMM)</strong>, que são utilizados na virtualização de hoje em dia. Já o projeto M44/44X da IBM, que utiliza arquitetura similar à do Atlas, foi o primeiro a utilizar o termo <strong><em>Virtual Machine</em></strong> <strong>(VM)</strong>, neste projeto foi utilizado o computador IBM 7044(M44) para executar VMs chamadas 44X, dai o nome M44/44X.</p>
+
+<blockquote>
+  <p>Este texto irá constantemente utilizar a sigla <strong>VM (Virtual Machine)</strong> se referindo ao sistema que está sendo virtualizado.</p>
+</blockquote>
+
+<h2 id="tipos-de-virtualização">Tipos de virtualização:</h2>
+
+<p>Ainda conforme  CHAGANTI(2007), há basicamente três métodos principais para se fornecer virtualização: Emulação de sistema, Paravirtualização e Contêiner. Esses são explicados a seguir:</p>
+
+<h3 id="1-emulação-de-sistema">1. Emulação de Sistema</h3>
+
+<p>Neste tipo de virtualização, o ambiente de execução é chamado de <em>Virtual Machime</em> (VM) e essa <strong>emula todos os recursos de hardware</strong>. Neste tipo de técnica o software que emula o hardware permite que o <em>guest</em>/hospede (nome dado ao sistema que está sendo virtualizado) seja executado sem nenhum tipo de alteração (sem que seja necessário alterar por exemplo, as chamadas de sistema, do Sistema Operacional do hospede). Tudo que o hospede precisa fazer, é repassado ao software que está emulando o hardware, que por sua vez repassa ao sistema operacional do computador físico, também chamado de <em>host</em>, anfitrião ou ainda hospedeiro. Essa é a técnica utilizada inicialmente no <a href="https://www.vmware.com/br/products/workstation-player.html">VMWare Player</a> e <a href="https://www.virtualbox.org/">VirtualBox</a>.</p>
+
+<!-- | ![sem virtualização](img/semVirtualizacao.png) | -->
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="img/semVirtualizacao.png" alt="image" width="40%" height="auto" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Figura 1 - Sistema sem virtualização</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="img/fullVirtualizacao.png" alt="image" width="40%" height="auto" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Figura 2 - Virtualização Completa/Full/Emulação</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="2-paravirtualização">2. Paravirtualização</h3>
+
+<p>Nesta técnica, em comparação à anterior, não há emulação de hardware, o que permite uma execução mais rápida, se comparada à técnica de emulação do hardware (já que é removido um intermediário de intercomunicação com o hardware - o software emulador). Todavia, nesta técnica, o sistema hospede precisa obrigatoriamente ser modificado para ser executado neste ambiente virtual, mas isso permite um aumento de desempenho para o hospede. Um exemplo de sistema que utiliza essa técnica é o <a href="https://xenproject.org/">Xen</a>;</p>
+
+<!-- | ![Paravirtualização](img/paraVirtualizacao.png) | -->
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="img/paraVirtualizacao.png" alt="image" width="40%" height="auto" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Figura 3 - Paravirtualização</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="3-contêiner">3. Contêiner</h3>
+
+<p>ou Virtualização em Nível de Sistema Operacional<strong>: Com a técnica de  **<em>container</em></strong>, cada hospede é executado em um ambiente isolado e seguro, todavia todos os hospedes devem ter o mesmo sistema operacional do hospedeiro - ou seja, não é possível executar um sistema operacional diferente do hospedeiro.
+Por exemplo, se o hospedeiro utiliza o Sistema Operacional FreeBSD, todos os hospedes vão executar FreeBSD, não sendo possível neste caso, que o hospede execute um Linux, Windows, ou qualquer outro. Esta técnica é provavelmente a que tem menos <em>overhead</em> dentre as outras apresentadas.</p>
+
+<!-- | ![Contêiner](img/soVirtualizacao.png) | -->
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="img/soVirtualizacao.png" alt="image" width="40%" height="auto" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Figura 4 - Contêiner</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Para muitas pessoas, há apenas dois métodos de virtualização: <strong>VM</strong> e <strong>Container</strong>. Sendo que VM se refere às técnicas de Emulação de Sistema e Paravirtualização. Já Container, seria a virtualização em Nível de Sistema Operacional, que está muito na moda quando o assunto é isolar microserviços. É claro que para leigos, tudo isso as vezes é chamado de VM ou simplesmente virtualização, mas agora sabemos que chamar de VM, pode estar errado, mas tudo isso com certeza é virtualização.</p>
+
+<h1 id="referências">Referências</h1>
+
+<ul>
+  <li>
+    <p>HUMBLE DEVASSY CHIRAMMAL; PRASAD MUKHEDKAR; ANIL VETTATHU. Mastering KVM Virtualization. Birmingham: Packt Publishing, 2016. Disponível em: <a href="https://research.ebsco.com/linkprocessor/plink?id=930abf25-3297-3717-805c-cc421b3b40db">https://research.ebsco.com/linkprocessor/plink?id=930abf25-3297-3717-805c-cc421b3b40db</a>. Acesso em: 29 dez. 2023.</p>
+  </li>
+  <li>
+    <p>CHAGANTI, P. Xen Virtualization : A Fast and Practical Guide to Supporting Multiple Operating Systems with the Xen Hypervisor. Birmingham: Packt Publishing, 2007. Disponível em: <a href="https://research.ebsco.com/linkprocessor/plink?id=7ededa0a-4250-3f01-b195-0945012c5333">https://research.ebsco.com/linkprocessor/plink?id=7ededa0a-4250-3f01-b195-0945012c5333</a>. Acesso em: 29 dez. 2023.</p>
+  </li>
+  <li>DAVID E. WILLIAMS. Virtualization with Xen(tm): Including XenEnterprise, XenServer, and XenExpress. Burlington, Mass: Syngress, 2007. Disponível em: <a href="https://research.ebsco.com/linkprocessor/plink?id=9ad67e1a-3683-36ec-af22-648e304387a9">https://research.ebsco.com/linkprocessor/plink?id=9ad67e1a-3683-36ec-af22-648e304387a9</a>. Acesso em: 29 dez. 2023.
+    <blockquote>
+      <blockquote>
+        <p>utilizar esse texto, tem a história</p>
+      </blockquote>
+    </blockquote>
+  </li>
+  <li>
+    <p>CHAGANTI, P. Xen Virtualization : A Fast and Practical Guide to Supporting Multiple Operating Systems with the Xen Hypervisor. Birmingham: Packt Publishing, 2007. Disponível em: <a href="https://research.ebsco.com/linkprocessor/plink?id=7ededa0a-4250-3f01-b195-0945012c5333">https://research.ebsco.com/linkprocessor/plink?id=7ededa0a-4250-3f01-b195-0945012c5333</a>. Acesso em: 2 jan. 2024.</p>
+  </li>
+  <li>
+    <p><a href="https://www.redhat.com/pt-br/topics/containers/containers-vs-vms">https://www.redhat.com/pt-br/topics/containers/containers-vs-vms</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.pcmag.com/encyclopedia/term/paravirtualization">https://www.pcmag.com/encyclopedia/term/paravirtualization</a></p>
+  </li>
+  <li><a href="https://blog.zwindler.fr/2016/08/25/when-should-we-have-containers/">https://blog.zwindler.fr/2016/08/25/when-should-we-have-containers/</a></li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2024</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>

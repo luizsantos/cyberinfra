@@ -86,6 +86,9 @@
 <loc>http://localhost:4000/videos/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/indexBkp</loc>
+</url>
+<url>
 <loc>http://localhost:4000/docs/confBasicaRedes/introConfRedeHost</loc>
 </url>
 <url>
@@ -95,6 +98,9 @@
 <loc>http://localhost:4000/docs/penTest/pentest-old</loc>
 </url>
 <url>
+<loc>http://localhost:4000/docs/virtualization/virtualization</loc>
+</url>
+<url>
 <loc>http://localhost:4000/docs/cisco/vlan</loc>
 </url>
 <url>
@@ -102,10 +108,14 @@
 </url>
 <url>
 <loc>http://localhost:4000/docs/QoS/tmp/QoS.html</loc>
-<lastmod>2022-05-30T10:57:24-03:00</lastmod>
+<lastmod>2024-01-02T12:22:55-03:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/google30613be578b79efe.html</loc>
-<lastmod>2022-05-30T10:57:24-03:00</lastmod>
+<lastmod>2024-01-02T12:22:55-03:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/index-bkp.html</loc>
+<lastmod>2024-01-02T12:22:55-03:00</lastmod>
 </url>
 </urlset>

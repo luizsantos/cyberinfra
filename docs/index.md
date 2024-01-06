@@ -20,6 +20,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Windows acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMWindows)
 	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac)
 	* [Virtualização Nested](VMs/configurarNestedVM)
+* Virtualização
+    * [Introdução à virtualização](virtualization/virtualization)
 
 # Redes de Computadores
 * Configuração básica de rede:
