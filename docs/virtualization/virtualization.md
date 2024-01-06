@@ -8,7 +8,7 @@ Virtualização
 No contexto da informática, a virtualização tem ganhado grande notoriedade ao longo das últimas décadas. Isso se deve ao fato da virtualização trazer muitos benefícios, tais como: 
 * A facilidade de executar de forma isolada vários sistemas operacionais, dentro de um único computador físico; 
 * Executar sistemas criados para determinado hardware/sistema operacional em outro sistema distinto e até mesmo incompatível; 
-* Permitir a fácil migração de sistemas de um hardware de computador para outro, com um simples copiar de arquivo. Isso facilita, por exemplo, o gerenciamento de *datacenter* e ajuda na criação do conceito de nuvem (*cloud computer*).
+* Permitir a fácil migração de sistemas de um hardware de computador para outro, com um simples copiar de arquivo. Isso facilita, por exemplo, o gerenciamento de *datacenters* e ajuda na criação do conceito de nuvem (*cloud computer*).
 
 Ao longo do tempo, a virtualização utilizou e ainda utiliza de várias técnicas, o que pode gerar alguma confusão na hora de definir o que é virtualização. Assim, a seguir, são apresentadas algumas definições para virtualização:  
 
@@ -23,7 +23,11 @@ Então, resumidamente, a virtualização permite executar vários sistemas em um
 
 ## História
 
-O conceito de virtualização não é novo, vem da década de 1960-70 e surgiu basicamente do conceito de compartilhamento de tempo (*time sharing*) e multiprogração. Sendo que o computador Atlas apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado **supervisor**. Então, no Atlas, o *supervisor* gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o **supoervisor** do Atlas, surge o **_hypervisor_** ou **_Virtual Machine Monitor_ (VMM)**, que são utilizados na virtualização de hoje em dia. Já o projeto M44/44X da IBM, que utiliza arquitetura similar à do Atlas, foi o primeiro a utilizar o termo **_Virtual Machine_** **(VM)**, neste projeto foi utilizado o computador IBM 7044(M44) para executar VMs chamadas 44X, dai o nome M44/44X.
+O conceito de virtualização não é novo, vem da década de 1960 e surgiu basicamente do conceito de compartilhamento de tempo (*time sharing*) e multiprogração. 
+
+Assim, em 1962, o [computador Atlas](https://www.chilton-computing.org.uk/acl/technology/atlas/p019.htm) apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado **supervisor**. Então, no Atlas, o *supervisor* gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o **supervisor** do Atlas, surge o **_hypervisor_** ou **_Virtual Machine Monitor_ (VMM)**, que são técnicas/termos utilizados na virtualização até hoje em dia. 
+
+Já na metade dos anos de 1960, o [projeto M44/44X](https://dl.acm.org/doi/pdf/10.1145/1465482.1465581) da IBM, que utiliza arquitetura similar à do Atlas, foi o primeiro a utilizar o termo **_Virtual Machine_** **(VM)**, neste projeto foi utilizado o computador IBM 7044(M44) para executar VMs chamadas 44X, dai o nome M44/44X.
 
 > Este texto irá constantemente utilizar a sigla **VM (Virtual Machine)** se referindo ao sistema que está sendo virtualizado.
 
