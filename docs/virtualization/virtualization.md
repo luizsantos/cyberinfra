@@ -14,7 +14,7 @@ Ao longo do tempo, a virtualização utilizou e ainda utiliza de várias técnic
 
 * Segundo HUMBLE (2016), virtual significa algo que não é real, já na computação, virtual significa um ambiente de hardware que não é real. Assim, neste contexto da computação, a virtualização pode ser por exemplo, a execução de algum software em um hardware que é na verdade é um software fingindo ser um hardware.
 
-* Já segundo CHAGANTI (2007), virtualização é a técnica de dividir recursos de um único servidor em múltiplos ambientes segregados. Desta forma, cada ambiente virtualizado pode ser executado independente dos outros ambientes. Assim é possível, por exemplo, que cada um desses ambientes execute um sistema operacional diferente.
+* Já CHAGANTI (2007), define virtualização como a técnica de dividir recursos de um único servidor em múltiplos ambientes segregados. Desta forma, cada ambiente virtualizado pode ser executado independente dos outros ambientes. Assim é possível, por exemplo, que cada um desses ambientes execute um sistema operacional diferente.
 
 * Conforme  WILLIANS(2007), virtualização é um *framework* ou metodologia para divisão de recursos do hardware do computador para múltiplos 
 ambientes de execução. Isso é feito aplicando-se uma ou mais técnicas de particionamento de hardware e software, compartilhamento de tempo (*time-sharing*), simulação parcial ou completa da máquina, emulação, qualidade de serviço e muitas outras técnicas.
@@ -24,30 +24,79 @@ Então, resumidamente, a virtualização permite executar vários sistemas em um
 ## História
 
 O conceito de virtualização não é novo, vem da década de 1960 e surgiu basicamente do conceito de compartilhamento de tempo (*time sharing*) e multiprogração. 
+> Sim, *time sharing* e multiprogramação podem ser consideradas técnicas de virtualização, já que gerenciam o hardware sendo compartilhado entre vários processos, todavia são técnicas tão comuns, que as pessoas nem relacionam com virtualização, mas veja a definição anterior, de WILLIANS(2007).
 
-Assim, em 1962, o [computador Atlas](https://www.chilton-computing.org.uk/acl/technology/atlas/p019.htm) apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado **supervisor**. Então, no Atlas, o *supervisor* gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o **supervisor** do Atlas, surge o **_hypervisor_** ou **_Virtual Machine Monitor_ (VMM)**, que são técnicas/termos utilizados na virtualização até hoje em dia. 
+Assim, em 1962, o [computador Atlas](https://www.chilton-computing.org.uk/acl/technology/atlas/p019.htm) apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado **supervisor**. No Atlas, o *supervisor* gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o **supervisor** do Atlas, surge o **_hypervisor_** ou **_Virtual Machine Monitor_ (VMM)**, que são técnicas/termos utilizados na virtualização até hoje em dia. 
 
-Já na metade dos anos de 1960, o [projeto M44/44X](https://dl.acm.org/doi/pdf/10.1145/1465482.1465581) da IBM, que utiliza arquitetura similar à do Atlas, foi o primeiro a utilizar o termo **_Virtual Machine_** **(VM)**, neste projeto foi utilizado o computador IBM 7044(M44) para executar VMs chamadas 44X, dai o nome M44/44X.
+Já na metade da década de 1960, o [projeto M44/44X](https://dl.acm.org/doi/pdf/10.1145/1465482.1465581) da IBM, que utiliza arquitetura similar à do Atlas, foi o primeiro a utilizar o termo **_Virtual Machine_** **(VM)**, neste projeto foi utilizado o computador IBM 7044(M44) para executar VMs chamadas 44X, dai o nome M44/44X.
 
 > Este texto irá constantemente utilizar a sigla **VM (Virtual Machine)** se referindo ao sistema que está sendo virtualizado.
 
-## Tipos de virtualização:
+Bem, para entender melhor a virtualização, é necessário saber **como funciona o básico de um sistema computacional sem a virtualização**, isso é apresentado a seguir e posteriormente são explicados alguns tipos de virtualização.
 
-Ainda conforme  CHAGANTI(2007), há basicamente três métodos principais para se fornecer virtualização: Emulação de sistema, Paravirtualização e Contêiner. Esses são explicados a seguir:
+## Computador/sistema sem virtualização
 
-### 1. Emulação de Sistema 
+Minimamente, um computador moderno é formado de: 
+* Hardware; 
+* Sistema Operacional (SO);
+* e Softwares - também chamados de programas, aplicações, aplicativos (APP) - esses em execução são chamados de processos.
 
-Neste tipo de virtualização, o ambiente de execução é chamado de *Virtual Machime* (VM) e essa **emula todos os recursos de hardware**. Neste tipo de técnica o software que emula o hardware permite que o *guest*/hospede (nome dado ao sistema que está sendo virtualizado) seja executado sem nenhum tipo de alteração (sem que seja necessário alterar por exemplo, as chamadas de sistema, do Sistema Operacional do hospede). Tudo que o hospede precisa fazer, é repassado ao software que está emulando o hardware, que por sua vez repassa ao sistema operacional do computador físico, também chamado de *host*, anfitrião ou ainda hospedeiro. Essa é a técnica utilizada inicialmente no [VMWare Player](https://www.vmware.com/br/products/workstation-player.html) e [VirtualBox](https://www.virtualbox.org/).
+<!-- 
+A Figura 1, ilustra minimamente as camadas de um computador moderno, sem virtualização. Basicamente, qualquer sistema atual, possui um Sistema Operacional que serve para gerenciar hardwares e softwares (na figura são os APPs) - caso contrário tudo seria uma grande bagunça, pois todo programa deveria saber falar com o hardware (saber a linguagem do hardware) e também os programas poderiam acessar um hardware ocupado por outro programa, o que provavelmente geraria inconsistências e problemas de segurança. Assim, para evitar essas situações, os computadores utilizam um sistema operacional.
+-->
 
-<!-- | ![sem virtualização](img/semVirtualizacao.png) | -->
+No exemplo da Figura 1, o computador utiliza o sistema operacional [Linux](https://pt.wikipedia.org/wiki/Linux), e há três softwares/processos em execução (APP1 - [Firefox](https://pt.wikipedia.org/wiki/Mozilla_Firefox), APP2 - [Apache HTTP](https://pt.wikipedia.org/wiki/Servidor_Apache) e APP3 - [MariaDB](https://pt.wikipedia.org/wiki/MariaDB)). 
+Neste caso, o Linux gerencia a execução desses APPs, de forma que um não interfira no funcionamento do outro e consigam utilizar da forma mais harmoniosa o hardware ou recursos do computador. 
+Ainda neste exemplo, se o Firefox for acessar a rede, ele pede para o Sistema Operacional, o sistema operacional por vez utiliza os *drivers* para acessar a placa de rede, e a placa de rede deve dar acesso a rede propriamente dita.
+
+> O funcionamento de um computador moderno é bem mais complexo do que foi apresentado anteriormente, mas isso já deve servir para o entendimento de virtualização. Todavia, caso você queira saber de mais detalhes, procure um livro de Sistemas Operacionais, tal como o do [TANENBAUM](https://www.amazon.com.br/Sistemas-operacionais-modernos-Andrew-Tanenbaum/dp/8543005671).
 
 | <img src="img/semVirtualizacao.png" alt="image" width="40%" height="auto"> | 
 |:--:|
 | Figura 1 - Sistema sem virtualização |
 
+| <img src="img/camadas1.png" alt="image" width="50%" height="auto"> | 
+|:--:|
+| Figura 2 - Virtualização Completa/Full/Emulação |
+
+| <img src="img/camadas1-incompativel.png" alt="image" width="35%" height="auto"> | 
+|:--:|
+| Figura 2 - Virtualização Completa/Full/Emulação |
+
+| <img src="img/camadas1-virtualizacao.png" alt="image" width="35%" height="auto"> | 
+|:--:|
+| Figura 2 - Virtualização Completa/Full/Emulação |
+
+Na explicação anterior, do sistema sem virtualização, há várias questões ocultas, tais como:
+* Um processo (APP) pode acessar a área de memória de outro processo, de forma maliciosa/intencional ou não? Como isso afetaria as informações desses processos?
+* Os processos de um computador podem acessar arquivos de terceiros e por exemplo apagar/alterar dados que não são deles? Como o sistema operacional trata isso?
+* Um programa feito (compilado) para um dado sistema funciona em outro? As chamadas de um sistema operacional são compatíveis com outro?
+* Caso o hardware falhe, a migração completa de um sistema para outro computador/hardware é simples/rápida?
+
+Tais questões não serão respondidas na integra neste texto, mas parte das soluções são dadas pelos sistemas operacionais e com certeza a virtualização surge justamente para tentar solucionar ou amenizar os problemas levantados nestas questões.
+
+Então, agora que sabemos mais ou menos como funciona um computador moderno sem virtualização, vamos ver como a virtualização ajuda na resposta das questões anteriores, e é claro que cada tipo de virtualização pode fazer isso de forma diferente apresentando vantagens e desvantagens. A seguir são apresentados alguns tipos de virtualização. 
+
+
+## Tipos de virtualização:
+
+Há várias possibilidades de virtualização, vamos iniciar com três métodos: Virtualização Completa, Paravirtualização e Contêiner (CHAGANTI,2007) e depois serão apresentadas algumas variações e outras técnicas.
+
+### 1. Virtualização Completa
+
+Na Virtualização Completa/Total, do inglês *Full Virtualization* é caracterizada por ser um tipo de virtualização que emula completamente o hardware. Neste cenário o sistema virtualizado é executado completamente dentro desse hardware virtual, o que gera o conceito de Máquina Virtual/*Virtual Machime* (VM).
+
+
+Neste tipo de técnica o software que emula o hardware permite que o *guest*/hospede (nome dado ao sistema que está sendo virtualizado) seja executado sem nenhum tipo de alteração (sem que seja necessário alterar por exemplo, as chamadas de sistema, do Sistema Operacional do hospede). Tudo que o hospede precisa fazer, é repassado ao software que está emulando o hardware, que por sua vez repassa ao sistema operacional do computador físico, também chamado de *host*, anfitrião ou ainda hospedeiro. Essa é a técnica utilizada inicialmente no [VMWare Player](https://www.vmware.com/br/products/workstation-player.html) e [VirtualBox](https://www.virtualbox.org/).
+
+<!-- | ![sem virtualização](img/semVirtualizacao.png) | -->
+
 | <img src="img/fullVirtualizacao.png" alt="image" width="40%" height="auto"> | 
 |:--:|
 | Figura 2 - Virtualização Completa/Full/Emulação |
+
+
+
 
 ### 2. Paravirtualização
 
@@ -84,6 +133,8 @@ Para muitas pessoas, há apenas dois métodos de virtualização: **VM** e **Con
 >> utilizar esse texto, tem a história
 
 - CHAGANTI, P. Xen Virtualization : A Fast and Practical Guide to Supporting Multiple Operating Systems with the Xen Hypervisor. Birmingham: Packt Publishing, 2007. Disponível em: <https://research.ebsco.com/linkprocessor/plink?id=7ededa0a-4250-3f01-b195-0945012c5333>. Acesso em: 2 jan. 2024.
+
+- LAUREANO, Marcos Aurelio Pchek. MAZIERO, Carlos Alberto. Virtualização: Conceitos e Aplicações em Segurança. DOI: <https://doi.org/10.5753/sbc.9691.4.4>.
 
 - <https://www.redhat.com/pt-br/topics/containers/containers-vs-vms>
 
