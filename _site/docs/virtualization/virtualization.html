@@ -114,10 +114,6 @@ ambientes de execução. Isso é feito aplicando-se uma ou mais técnicas de par
   <li>e Softwares - também chamados de programas, aplicações, aplicativos (APP) - esses em execução são chamados de processos.</li>
 </ul>
 
-<!-- 
-A Figura 1, ilustra minimamente as camadas de um computador moderno, sem virtualização. Basicamente, qualquer sistema atual, possui um Sistema Operacional que serve para gerenciar hardwares e softwares (na figura são os APPs) - caso contrário tudo seria uma grande bagunça, pois todo programa deveria saber falar com o hardware (saber a linguagem do hardware) e também os programas poderiam acessar um hardware ocupado por outro programa, o que provavelmente geraria inconsistências e problemas de segurança. Assim, para evitar essas situações, os computadores utilizam um sistema operacional.
--->
-
 <p>No exemplo da Figura 1, o computador utiliza o sistema operacional <a href="https://pt.wikipedia.org/wiki/Linux">Linux</a>, e há três softwares/processos em execução (APP1 - <a href="https://pt.wikipedia.org/wiki/Mozilla_Firefox">Firefox</a>, APP2 - <a href="https://pt.wikipedia.org/wiki/Servidor_Apache">Apache HTTP</a> e APP3 - <a href="https://pt.wikipedia.org/wiki/MariaDB">MariaDB</a>). 
 Neste caso, o Linux gerencia a execução desses APPs, de forma que um não interfira no funcionamento do outro e consigam utilizar da forma mais harmoniosa o hardware ou recursos do computador. 
 Ainda neste exemplo, se o Firefox for acessar a rede, ele pede para o Sistema Operacional, o sistema operacional por vez utiliza os <em>drivers</em> para acessar a placa de rede, e a placa de rede deve dar acesso a rede propriamente dita.</p>
@@ -139,6 +135,14 @@ Ainda neste exemplo, se o Firefox for acessar a rede, ele pede para o Sistema Op
   </tbody>
 </table>
 
+<p>Um detalhe a ser notado em um sistema computacional moderno, tal como apresentado na Figura 1, é que:</p>
+<ol>
+  <li>O software é compilado para conversar com um sistema operacional específico (Linux, Windows, etc), pois cada sistema normalmente tem <a href="https://en.wikipedia.org/wiki/System_call">chamadas de sistemas</a> distintas;</li>
+  <li>O sistema operacional também deve ter a capacidade de conversar com o hardware, principalmente no que se refere à arquitetura do hardware (<a href="https://en.wikipedia.org/wiki/X86">x86</a>, <a href="https://en.wikipedia.org/wiki/X86-64">x86_64</a>, <a href="https://en.wikipedia.org/wiki/ARM_architecture_family">ARM</a>,  <a href="https://en.wikipedia.org/wiki/SPARC">Sparc</a>, etc). Assim, normalmente o sistema operacional é desenvolvido para interagir com um ou alguns hardwares específicos, mas dificilmente com todo tipo de hardware/arquitetura.</li>
+</ol>
+
+<p>Isso significa que existem interfaces de comunicação específicas entre programas, sistemas operacionais e hardwares (ver Figura 2).</p>
+
 <table>
   <thead>
     <tr>
@@ -147,10 +151,28 @@ Ainda neste exemplo, se o Firefox for acessar a rede, ele pede para o Sistema Op
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: center">Figura 2 - Virtualização Completa/Full/Emulação</td>
+      <td style="text-align: center">Figura 2 - Interfaces de comunicação/interação entre as partes</td>
     </tr>
   </tbody>
 </table>
+
+<p>Tomando como exemplo a Figura 2, a imagem 2a representa um computador com sistema operacional Linux, sendo executado em uma arquitetura Sparc. 
+Já a imagem 2b, representa o mesmo Linux sendo executado em uma arquitetura x86. 
+Note que a parte da figura que interliga o SO com o hardware é diferente na imagem 2a e 2b, representando que o Linux deve ser moldado para conseguir interagir com o Sparc e com o x86.
+Agora na imagem 2c, é apresentada a ideia de um SO Windows, que está instalado em um computador x86. Neste exemplo, note que o Windows, da mesma forma que o Linux, foi moldado para conseguir ser acoplado no hardware x86. 
+Todavia, como o Windows não dá suporte à arquitetura Sparc não é possível executá-lo neste tipo de hardware e consequentemente nem seus programas.</p>
+
+<p>Ainda analisando a Figura 2 e sabendo que o Windows não pode ser executado em um computador Sparc, alguém pode estar se perguntando/pensando:</p>
+
+<center><b> "Então, eu posso instalar o Linux em um Sparc, depois instalar/executar o Microsoft Office no Linux, e isso resolve o problema do Windows não dar suporte ao Sparc!?"</b></center>
+
+<p>Bem, não é tão simples assim, pois o sistema operacional é uma camada de abstração. Então, ao invés do programa ser desenvolvido para um hardware específico, ele é feito para um sistema operacional específico. Ou seja, uma das vantagens do sistema operacional, é que não é necessário se preocupar com o hardware. Assim, você programa para um dado SO e seu programa será compatível nos hardwares que esse SO tem suporte. Todavia, como descrito anteriormente, cada SO pode ter chamadas de sistemas diferentes e isso na prática significa que a forma que o programa conversa com o SO pode não ser a mesma para cada SO. Desta forma, um programa feito para o Windows não pode ser executado nativamente no Linux e o contrário também. É justamente isso que a Figura 2 mostra na parte das aplicações - a parte de conexão entre o aplicativo Windows é incompatível com o encaixe fornecido pelo Linux e o contrário também.</p>
+
+<p>A Figura 3, deixa mais evidente esse problema de incompatibilidade entre das interfaces de comunicação entre programas, SO e hardware.
+Neste caso o Windows não pode ser executado no hardware Sparc e a aplicação Windows não pode ser executada no Linux.</p>
+<blockquote>
+  <p>O exemplo da Figura 3 e o texto está apresentando a incompatibilidade do Microsoft Windows e seus softwares com hardwares e outros SO, mas isso é só um exemplo, tal problema não é exclusividade do Windows, pois esta presente outros sistemas operacionais e seus programas.</p>
+</blockquote>
 
 <table>
   <thead>
@@ -160,7 +182,7 @@ Ainda neste exemplo, se o Firefox for acessar a rede, ele pede para o Sistema Op
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: center">Figura 2 - Virtualização Completa/Full/Emulação</td>
+      <td style="text-align: center">Figura 3 - Incompatibilidade entre as interfaces de comunicação dos computadores</td>
     </tr>
   </tbody>
 </table>
