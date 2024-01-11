@@ -12,9 +12,9 @@ No contexto da informática, a virtualização tem ganhado grande notoriedade ao
 
 Ao longo do tempo, a virtualização utilizou e ainda utiliza de várias técnicas, o que pode gerar alguma confusão na hora de definir o que é virtualização. Assim, a seguir, são apresentadas algumas definições para virtualização:  
 
-* Segundo HUMBLE (2016), virtual significa algo que não é real, já na computação, virtual significa um ambiente de hardware que não é real. Assim, neste contexto da computação, a virtualização pode ser por exemplo, a execução de algum software em um hardware que é na verdade é um software fingindo ser um hardware.
+* Segundo HUMBLE (2016), virtual significa algo que não é real, já na computação, virtual significa um ambiente de hardware que não é real. Desta forma, neste contexto da computação, a virtualização pode ser por exemplo, a execução de algum software em um hardware que é na verdade é um software fingindo ser um hardware.
 
-* Já CHAGANTI (2007), define virtualização como a técnica de dividir recursos de um único servidor em múltiplos ambientes segregados. Desta forma, cada ambiente virtualizado pode ser executado independente dos outros ambientes. Assim é possível, por exemplo, que cada um desses ambientes execute um sistema operacional diferente.
+* Já CHAGANTI (2007), define virtualização como a técnica de dividir recursos de um único servidor em múltiplos ambientes segregados. Desta forma, cada ambiente virtualizado pode ser executado independente dos outros ambientes. Tornando possível, por exemplo, que cada um desses ambientes execute um sistema operacional diferente.
 
 * Conforme  WILLIANS(2007), virtualização é um *framework* ou metodologia para divisão de recursos do hardware do computador para múltiplos 
 ambientes de execução. Isso é feito aplicando-se uma ou mais técnicas de particionamento de hardware e software, compartilhamento de tempo (*time-sharing*), simulação parcial ou completa da máquina, emulação, qualidade de serviço e muitas outras técnicas.
@@ -26,7 +26,7 @@ Então, resumidamente, a virtualização permite executar vários sistemas em um
 O conceito de virtualização não é novo, vem da década de 1960 e surgiu basicamente do conceito de compartilhamento de tempo (*time sharing*) e multiprogração. 
 > Sim, *time sharing* e multiprogramação podem ser consideradas técnicas de virtualização, já que gerenciam o hardware sendo compartilhado entre vários processos, todavia são técnicas tão comuns, que as pessoas nem relacionam com virtualização, mas veja a definição anterior, de WILLIANS(2007).
 
-Assim, em 1962, o [computador Atlas](https://www.chilton-computing.org.uk/acl/technology/atlas/p019.htm) apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado **supervisor**. No Atlas, o *supervisor* gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o **supervisor** do Atlas, surge o **_hypervisor_** ou **_Virtual Machine Monitor_ (VMM)**, que são técnicas/termos utilizados na virtualização até hoje em dia. 
+Assim, em 1962, o [computador Atlas](https://www.chilton-computing.org.uk/acl/technology/atlas/p019.htm) apresentou melhoras de desempenho devido a separação de algumas operações do Sistema Operacional em um componente chamado **supervisor**. No Atlas, o *supervisor* gerenciava os recursos principais do computador para aprovisionar e gerenciar o ambiente computacional requeridos pelas chamadas de sistema dos programas de usuário. Desta forma, com o supervisor do Atlas, surge o **_hypervisor_** ou **_Virtual Machine Monitor_ (VMM)**, que são técnicas/termos utilizados na virtualização até hoje em dia. 
 
 Já na metade da década de 1960, o [projeto M44/44X](https://dl.acm.org/doi/pdf/10.1145/1465482.1465581) da IBM, que utiliza arquitetura similar à do Atlas, foi o primeiro a utilizar o termo **_Virtual Machine_** **(VM)**, neste projeto foi utilizado o computador IBM 7044(M44) para executar VMs chamadas 44X, dai o nome M44/44X.
 
@@ -42,7 +42,7 @@ Minimamente, um computador moderno é formado de:
 * e Softwares - também chamados de programas, aplicações, aplicativos (APP) - esses em execução são chamados de processos.
 
 No exemplo da Figura 1, o computador utiliza o sistema operacional [Linux](https://pt.wikipedia.org/wiki/Linux), e há três softwares/processos em execução (APP1 - [Firefox](https://pt.wikipedia.org/wiki/Mozilla_Firefox), APP2 - [Apache HTTP](https://pt.wikipedia.org/wiki/Servidor_Apache) e APP3 - [MariaDB](https://pt.wikipedia.org/wiki/MariaDB)). 
-Neste caso, o Linux gerencia a execução desses APPs, de forma que um não interfira no funcionamento do outro e consigam utilizar da forma mais harmoniosa o hardware ou recursos do computador. 
+Neste caso, o Linux gerencia a execução desses APPs, de forma que um não interfira no funcionamento do outro e consigam utilizar de forma harmoniosa, os recursos do computador. 
 Ainda neste exemplo, se o Firefox for acessar a rede, ele pede para o Sistema Operacional, o sistema operacional por vez utiliza os *drivers* para acessar a placa de rede, e a placa de rede deve dar acesso a rede propriamente dita.
 
 > O funcionamento de um computador moderno é bem mais complexo do que foi apresentado anteriormente, mas isso já deve servir para o entendimento de virtualização. Todavia, caso você queira saber de mais detalhes, procure um livro de Sistemas Operacionais, tal como o do [TANENBAUM](https://www.amazon.com.br/Sistemas-operacionais-modernos-Andrew-Tanenbaum/dp/8543005671).
@@ -66,11 +66,13 @@ Tomando como exemplo a Figura 2, a imagem 2a representa um computador com sistem
 Já a imagem 2b, representa o mesmo Linux sendo executado em uma arquitetura x86. 
 Note que a parte da figura que interliga o SO com o hardware é diferente na imagem 2a e 2b, representando que o Linux deve ser moldado para conseguir interagir com o Sparc e com o x86.
 Agora na imagem 2c, é apresentada a ideia de um SO Windows, que está instalado em um computador x86. Neste exemplo, note que o Windows, da mesma forma que o Linux, foi moldado para conseguir ser acoplado no hardware x86. 
-Todavia, como o Windows não dá suporte à arquitetura Sparc não é possível executá-lo neste tipo de hardware e consequentemente nem seus programas.
+Todavia, como o Windows não dá suporte à arquitetura Sparc não é possível executá-lo neste tipo de hardware.
 
 Ainda analisando a Figura 2 e sabendo que o Windows não pode ser executado em um computador Sparc, alguém pode estar se perguntando/pensando: 
 
 <center><b> "Então, eu posso instalar o Linux em um Sparc, depois instalar/executar o Microsoft Office no Linux, e isso resolve o problema do Windows não dar suporte ao Sparc!?"</b></center>
+
+> Supondo que o objetivo da pessoa é executar apenas o Microsoft Office.
 
 Bem, não é tão simples assim, pois o sistema operacional é uma camada de abstração. 
 Então, ao invés do programa ser desenvolvido para um hardware específico, ele é feito para um sistema operacional específico. 
@@ -86,7 +88,10 @@ Neste caso o Windows não pode ser executado no hardware Sparc e a aplicação W
 |:--:|
 | Figura 3 - Incompatibilidade entre as interfaces de comunicação dos computadores |
 
+## Camadas de Virtualização
+
 Uma das formas de tentar resolver esse problema de incompatibilidade entre hardwares, softwares e SO, é com o uso de virtualização. 
+
 Neste contexto é possível criar camadas virtuais entre hardware, software e SO, de forma à criar interfaces de comunicação compatíveis entre esses. Tal camada pode ser vista como um software que fica entre as partes incompatíveis, servindo de tradutor entre essas.
 
 Tomando como exemplo a Figura 4, é possível criar uma camada de software que virtualiza, neste caso traduz, instruções x86 para Sparc. Assim, a Camada de Virtualização da Figura 4a, poderia ser um software que simula uma arquitetura x86, sendo tal sofware de virtualização executado em cima de uma arquitetura Sparc. Logo, o Windows pode entregar instruções x86, que essa Camada de Virtualização converterá em algo compatível para o Sparc.
