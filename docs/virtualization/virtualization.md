@@ -72,29 +72,34 @@ Ainda analisando a Figura 2 e sabendo que o Windows não pode ser executado em u
 
 <center><b> "Então, eu posso instalar o Linux em um Sparc, depois instalar/executar o Microsoft Office no Linux, e isso resolve o problema do Windows não dar suporte ao Sparc!?"</b></center>
 
-Bem, não é tão simples assim, pois o sistema operacional é uma camada de abstração. Então, ao invés do programa ser desenvolvido para um hardware específico, ele é feito para um sistema operacional específico. Ou seja, uma das vantagens do sistema operacional, é que não é necessário se preocupar com o hardware. Assim, você programa para um dado SO e seu programa será compatível nos hardwares que esse SO tem suporte. Todavia, como descrito anteriormente, cada SO pode ter chamadas de sistemas diferentes e isso na prática significa que a forma que o programa conversa com o SO pode não ser a mesma para cada SO. Desta forma, um programa feito para o Windows não pode ser executado nativamente no Linux e o contrário também. É justamente isso que a Figura 2 mostra na parte das aplicações - a parte de conexão entre o aplicativo Windows é incompatível com o encaixe fornecido pelo Linux e o contrário também.
+Bem, não é tão simples assim, pois o sistema operacional é uma camada de abstração. 
+Então, ao invés do programa ser desenvolvido para um hardware específico, ele é feito para um sistema operacional específico. 
+Ou seja, uma das vantagens do sistema operacional, é que não é necessário se preocupar com o hardware. 
+Assim, você programa para um dado SO e seu programa será compatível com os hardwares que esse SO tem suporte.
+Todavia, como descrito anteriormente, cada SO pode ter chamadas de sistemas distintas. Desta forma, um programa feito para o Windows não pode ser executado nativamente no Linux e o contrário também. É justamente isso que a Figura 2 mostra na parte das aplicações - a parte de conexão entre o aplicativo Windows é incompatível com o encaixe fornecido pelo Linux e o contrário também.
 
 A Figura 3, deixa mais evidente esse problema de incompatibilidade entre das interfaces de comunicação entre programas, SO e hardware.
 Neste caso o Windows não pode ser executado no hardware Sparc e a aplicação Windows não pode ser executada no Linux.
-> O exemplo da Figura 3 e o texto está apresentando a incompatibilidade do Microsoft Windows e seus softwares com hardwares e outros SO, mas isso é só um exemplo, tal problema não é exclusividade do Windows, pois esta presente outros sistemas operacionais e seus programas.
+> O exemplo da Figura 3 e o texto está apresentando a incompatibilidade do Microsoft Windows e seus softwares com outros hardwares e SO, mas isso é só um exemplo, tal problema não é exclusividade do Windows. Tal problema também se encontra em outros sistemas operacionais e seus programas.
 
 | <img src="img/camadas1-incompativel.png" alt="image" width="35%" height="auto"> | 
 |:--:|
 | Figura 3 - Incompatibilidade entre as interfaces de comunicação dos computadores |
 
+Uma das formas de tentar resolver esse problema de incompatibilidade entre hardwares, softwares e SO, é com o uso de virtualização. 
+Neste contexto é possível criar camadas virtuais entre hardware, software e SO, de forma à criar interfaces de comunicação compatíveis entre esses. Tal camada pode ser vista como um software que fica entre as partes incompatíveis, servindo de tradutor entre essas.
+
+Tomando como exemplo a Figura 4, é possível criar uma camada de software que virtualiza, neste caso traduz, instruções x86 para Sparc. Assim, a Camada de Virtualização da Figura 4a, poderia ser um software que simula uma arquitetura x86, sendo tal sofware de virtualização executado em cima de uma arquitetura Sparc. Logo, o Windows pode entregar instruções x86, que essa Camada de Virtualização converterá em algo compatível para o Sparc.
+
+Da mesma forma, é possível criar uma camada de virtualização que converte as chamadas de sistema de um SO para outro. No exemplo da Figura 4b, as chamadas de sistemas geradas pelo Aplicativo Windows, seriam convertidas em chamadas de sistema que o Linux entenda.
+
 | <img src="img/camadas1-virtualizacao.png" alt="image" width="35%" height="auto"> | 
 |:--:|
-| Figura 2 - Virtualização Completa/Full/Emulação |
+| Figura 4 - Camadas de virtualização |
 
-Na explicação anterior, do sistema sem virtualização, há várias questões ocultas, tais como:
-* Um processo (APP) pode acessar a área de memória de outro processo, de forma maliciosa/intencional ou não? Como isso afetaria as informações desses processos?
-* Os processos de um computador podem acessar arquivos de terceiros e por exemplo apagar/alterar dados que não são deles? Como o sistema operacional trata isso?
-* Um programa feito (compilado) para um dado sistema funciona em outro? As chamadas de um sistema operacional são compatíveis com outro?
-* Caso o hardware falhe, a migração completa de um sistema para outro computador/hardware é simples/rápida?
+A ideia de virtualização apresentada anteriormente foi centrada basicamente no conceito de tradução, mas a virtualização vai muito além disso. Por exemplo, ela normalmente isola o ambiente que está sendo virtualizado - o que não é feito só com o conceito de tradução. 
 
-Tais questões não serão respondidas na integra neste texto, mas parte das soluções são dadas pelos sistemas operacionais e com certeza a virtualização surge justamente para tentar solucionar ou amenizar os problemas levantados nestas questões.
-
-Então, agora que sabemos mais ou menos como funciona um computador moderno sem virtualização, vamos ver como a virtualização ajuda na resposta das questões anteriores, e é claro que cada tipo de virtualização pode fazer isso de forma diferente apresentando vantagens e desvantagens. A seguir são apresentados alguns tipos de virtualização. 
+Agora sabendo como funciona um computador moderno sem virtualização e sabendo também o que seria uma ideia básica de virtualização, a seguir serão apresentados alguns tipos de virtualização e suas vantagens e desvantagens.
 
 
 ## Tipos de virtualização:
