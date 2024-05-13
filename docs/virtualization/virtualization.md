@@ -80,13 +80,15 @@ Ou seja, uma das vantagens do sistema operacional, é que não é necessário se
 Assim, você programa para um dado SO e seu programa será compatível com os hardwares que esse SO tem suporte.
 Todavia, como descrito anteriormente, cada SO pode ter chamadas de sistemas distintas. Desta forma, um programa feito para o Windows não pode ser executado nativamente no Linux e o contrário também. É justamente isso que a Figura 2 mostra na parte das aplicações - a parte de conexão entre o aplicativo Windows é incompatível com o encaixe fornecido pelo Linux e o contrário também.
 
-A Figura 3, deixa mais evidente esse problema de incompatibilidade entre das interfaces de comunicação entre programas, SO e hardware.
+A Figura 3, deixa mais evidente esse problema de incompatibilidade entre as interfaces de comunicação dos programas, SO e hardwares.
 Neste caso o Windows não pode ser executado no hardware Sparc e a aplicação Windows não pode ser executada no Linux.
 > O exemplo da Figura 3 e o texto está apresentando a incompatibilidade do Microsoft Windows e seus softwares com outros hardwares e SO, mas isso é só um exemplo, tal problema não é exclusividade do Windows. Tal problema também se encontra em outros sistemas operacionais e seus programas.
 
 | <img src="img/camadas1-incompativel.png" alt="image" width="35%" height="auto"> | 
 |:--:|
 | Figura 3 - Incompatibilidade entre as interfaces de comunicação dos computadores |
+
+A seguir serão apresentadas abordagens de virtualização para resolver o problema apresentado até aqui.
 
 ## Camadas de Virtualização
 
@@ -109,22 +111,23 @@ Agora sabendo como funciona um computador moderno sem virtualização e sabendo 
 
 ## Tipos de virtualização:
 
-Há várias possibilidades de virtualização, vamos iniciar com três métodos: Virtualização Completa, Paravirtualização e Contêiner (CHAGANTI,2007) e depois serão apresentadas algumas variações e outras técnicas.
+Há várias abordagens de virtualização, a seguir serão apresentadas alguns tipos de virtualização:
 
 ### 1. Virtualização Completa
 
-Na Virtualização Completa/Total, do inglês *Full Virtualization* é caracterizada por ser um tipo de virtualização que emula completamente o hardware. Neste cenário o sistema virtualizado é executado completamente dentro desse hardware virtual, o que gera o conceito de Máquina Virtual/*Virtual Machime* (VM).
+A Virtualização Completa/Total, do inglês *Full Virtualization* é caracterizada por ser um tipo de virtualização que **emula** completamente o hardware. 
+Neste cenário o sistema virtualizado é executado completamente dentro desse hardware virtual, o que gera o conceito de Máquina Virtual/*Virtual Machime* (VM).
 
-
-Neste tipo de técnica o software que emula o hardware permite que o *guest*/hospede (nome dado ao sistema que está sendo virtualizado) seja executado sem nenhum tipo de alteração (sem que seja necessário alterar por exemplo, as chamadas de sistema, do Sistema Operacional do hospede). Tudo que o hospede precisa fazer, é repassado ao software que está emulando o hardware, que por sua vez repassa ao sistema operacional do computador físico, também chamado de *host*, anfitrião ou ainda hospedeiro. Essa é a técnica utilizada inicialmente no [VMWare Player](https://www.vmware.com/br/products/workstation-player.html) e [VirtualBox](https://www.virtualbox.org/).
-
-<!-- | ![sem virtualização](img/semVirtualizacao.png) | -->
+Neste tipo de técnica o software que emula o hardware permite que o *guest*/hospede (nome dado ao sistema que está sendo virtualizado), seja executado sem nenhum tipo de alteração - sem que seja necessário alterar por exemplo, as chamadas de sistema, do Sistema Operacional do hospede. Tudo que o hospede precisa fazer, é repassado ao software que está emulando o hardware, que por sua vez repassa ao sistema operacional do computador físico, também chamado de *host*, anfitrião ou ainda hospedeiro. Ver Figura 5. 
 
 | <img src="img/fullVirtualizacao.png" alt="image" width="40%" height="auto"> | 
 |:--:|
-| Figura 2 - Virtualização Completa/Full/Emulação |
+| Figura 5 - Virtualização Completa/Full/Emulação |
 
 
+Esse tipo de abordagem de virtualização também é chamada de Máquina Virtual de Sistema, pois nesta virtualização o hospedeiro espera hospedar um ou mais sistemas operacionais, com suas aplicações e bibliotecas, tudo sendo executado de forma isolada, independente e transparente.
+Essa é a técnica utilizada inicialmente no [VMWare Player](https://www.vmware.com/br/products/workstation-player.html) e [VirtualBox](https://www.virtualbox.org/).
+Na Virtualização Completa, as VMs a princípio só podem interagir por mecanismos tais como redes de computadores, ou seja, por mecanismos que normalmente permitiriam a comunicação entre máquinas "normais" (não virtuais), já que as VMs estão fortemente isoladas. Todavia, em alguns casos, o software que realiza a virtualização (VMWare, VirtualBoX, etc), permite criar diretórios compartilhados entre hospedes e hospedeiros.
 
 
 ### 2. Paravirtualização

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/cisco/bgp-ebgp1-interfaces" />
+<meta property="og:url" content="http://localhost:4000/docs/cisco/bgp-ebgp1-interfaces" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"@type":"WebPage","headline":"CyberInfra","url":"http://localhost:4000/docs/cisco/bgp-ebgp1-interfaces","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <p>Segue a configuração dos IPs na placas de rede dos roteadores CISCO do exemplo:</p>
+
+<blockquote>
+  <p>Note que a identificação das placas de rede estão ao lado de cada enlace (linha) nos desenhos que representam os roteadores.</p>
+</blockquote>
+
+<h1 id="configuração-do-exemplo-1">Configuração do Exemplo 1</h1>
+
+<h2 id="configuração-de-ips-em-r1">Configuração de IPs em R1</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R1&gt;</span><span class="nb">enable</span>
+<span class="gp">R1#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">R1(config)#</span>interface f0/0
+<span class="gp">R1(config-if)#</span>ip address 10.10.1.10 255.255.255.0
+<span class="gp">R1(config-if)#</span>no shutdown
+<span class="gp">R1(config-if)#</span>interface g1/0
+<span class="gp">R1(config-if)#</span>ip address 10.10.2.10 255.255.255.0
+<span class="gp">R1(config-if)#</span>no shutdown
+<span class="gp">R1(config-if)#</span>interface g2/0
+<span class="gp">R1(config-if)#</span>ip address 172.16.1.10 255.255.255.0
+<span class="gp">R1(config-if)#</span>no shutdown
+</code></pre></div></div>
+<h2 id="configuração-de-ips-em-r2">Configuração de IPs em R2</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R2&gt;</span><span class="nb">enable</span>
+<span class="gp">R2#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">R2(config)#</span>interface f0/0
+<span class="gp">R2(config-if)#</span>ip address 10.20.3.20 255.255.255.0
+<span class="gp">R2(config-if)#</span>no shutdown
+<span class="gp">R2(config-if)#</span>interface g1/0
+<span class="gp">R2(config-if)#</span>ip address 172.16.2.20 255.255.255.0
+<span class="gp">R2(config-if)#</span>no shutdown
+<span class="gp">R2(config-if)#</span>interface g2/0
+<span class="gp">R2(config-if)#</span>ip address 172.16.1.20 255.255.255.0
+<span class="gp">R2(config-if)#</span>no shutdown
+</code></pre></div></div>
+
+<h2 id="configuração-de-ips-em-r3">Configuração de IPs em R3</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R3&gt;</span><span class="nb">enable</span>
+<span class="gp">R3#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">R3(config-if)#</span>interface f0/0
+<span class="gp">R3(config-if)#</span>ip address 10.30.4.30 255.255.255.0
+<span class="gp">R3(config-if)#</span>no shutdown
+<span class="gp">R3(config-if)#</span>interface g1/0
+<span class="gp">R3(config-if)#</span>ip address 10.30.5.30 255.255.255.0
+<span class="gp">R3(config-if)#</span>no shutdown
+<span class="gp">R3(config-if)#</span>interface g2/0
+<span class="gp">R3(config-if)#</span>ip address 10.30.6.30 255.255.255.0
+<span class="gp">R3(config-if)#</span>no shutdown
+<span class="gp">R3(config-if)#</span>interface g3/0
+<span class="gp">R3(config-if)#</span>ip address 172.16.2.30 255.255.255.0
+<span class="gp">R3(config-if)#</span>no shutdown
+</code></pre></div></div>
+
+<h1 id="configuração-do-exemplo-1-1">Configuração do Exemplo 1</h1>
+
+<p>Lembrando que é necessário realizar as configurações do Exemplo 1 para que o cenário do Exemplo 2 fique completo, pois o Exemplo 2 é uma expansão do Exemplo 1.</p>
+
+<h2 id="configuração-de-ips-em-r1-1">Configuração de IPs em R1</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R1#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">R1(config)#</span>interface g3/0
+<span class="gp">R1(config-if)#</span>ip address 172.16.4.10 255.255.255.0
+<span class="gp">R1(config-if)#</span>no shutdown
+</code></pre></div></div>
+
+<h2 id="configuração-de-ips-em-r3-1">Configuração de IPs em R3</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R3#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">R3(config)#</span>interface g4/0
+<span class="gp">R3(config-if)#</span>ip address 172.16.3.30 255.255.255.0
+<span class="gp">R3(config-if)#</span>no shutdown
+</code></pre></div></div>
+<h2 id="configuração-de-ips-em-r3-2">Configuração de IPs em R3</h2>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R4&gt;</span><span class="nb">enable</span>
+<span class="gp">R4#</span>configure terminal
+<span class="go">Enter configuration commands, one per line.  End with CNTL/Z.
+</span><span class="gp">R4(config)#</span>interface g1/0
+<span class="gp">R4(config-if)#</span>ip address 172.16.3.40 255.255.255.0
+<span class="gp">R4(config-if)#</span>no shutdown
+<span class="gp">R4(config-if)#</span>interface g2/0
+<span class="gp">R4(config-if)#</span>ip address 172.16.4.40 255.255.255.0
+<span class="gp">R4(config-if)#</span>no shutdown
+</code></pre></div></div>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2024</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>
