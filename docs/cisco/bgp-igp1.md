@@ -663,3 +663,9 @@ PC9> ping 192.168.12.1 -c 1
 ```
 
 Assim, as saídas dos "*pings*" realizadas, demonstram também que o cenário está totalmente funcional e conectado.
+
+Ainda temos que fazer os testes de conectividade, e acredite, ainda há problemas para serem resolvidos, mas vamos parar por aqui. E fica a conclusão...
+
+# Conclusão
+
+O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a Internet. Todavia ao contrário dos IGPs, o BGP não trata os problemas de forma automática, ou seja, o BGP depende muito do conhecimento do engenheiro de rede que vai configurá-lo, esse deve conhecer bem a fundo as vantagens e desvantagens do BGP e saber utilizar corretamente oturas ferramentas que podem auxiliar a configuração do BGP (roteamento estático, e IGPs). Também há outros artifícios/feramentas do próprio BGP que ajudam em sua configuração, mas não é intenção deste material cobrir tudo que há sobre BGP.
