@@ -12,7 +12,7 @@ Anteriormente foram apresentados [dois exemplos de configuração utilizando ape
 
 # Exemplo 3 - Configuração iBGP e eBGP
 
-O cenário de rede proposto aqui, é para ilustrar principalmente a configuração de uma rede BGP, com iBGP, mas é claro que para isso, também serão configurados roteadores com eBGP. Devido à isso, este cenário é uma mescla de eBGP com iBGP, além de protocolos IGP (OSPF) e EGP (BGP). Por isso esse cenário de exemplo é bem mais complexo que os cenários apresentados no [Exemplo 1 e 2 apenas com eBGP](bgp-egp1).
+O cenário de rede proposto aqui, é para ilustrar principalmente a configuração de uma rede BGP, com iBGP, mas é claro que para isso, também serão configurados roteadores com eBGP. Devido à isso, este cenário é uma mescla de eBGP com iBGP, além de protocolos IGP (OSPF e RIP) e EGP (BGP). Por isso esse cenário de exemplo é bem mais complexo que os cenários apresentados no [Exemplo 1 e 2 apenas com eBGP](bgp-egp1).
 
 | ![rede](imagens/BGP03.png) |
 |:--:|
@@ -288,13 +288,46 @@ TODAVIA, note que não há nenhuma rota para as redes de dentro do próprio AS3.
 
 ## Configuração dos pares iBGP
 
-Bem, até aqui só havíamos configurado o BGP via eBGP, mas agora vamos utilizar o iBGP. A primeira coisa a se notar, é que o eBGP é utilizado para conectar roteadores de ASs distintos, diferentes. Já o iBGP é utilizado para conectar roteadores de um mesmo AS.
+Até aqui só havíamos configurado o BGP via eBGP, mas agora vamos utilizar o iBGP. A primeira coisa a se notar, é que o eBGP é utilizado para conectar roteadores de ASs distintos/diferentes. Já o iBGP é utilizado para conectar roteadores de um mesmo AS.
 
-Assim, o iBGP vai fazer basicamente o mesmo trabalho que fez o OSPF no AS4, mas com uma grande diferença! O OSPF, no AS4, só propagou e informou a respeito de redes que estavam dentro do AS4, mas quando utilizamos o iBGP no AS3, esse vai compartilhar informações a respeito de todas as redes descobertas via BGP. Ou seja, ao configurar o iBGP no AS3, as tabelas de roteamento dos roteadores com iBGP, terão informações a respeito de todas as redes do cenário de rede do exemplo, e é muito importante perceber isso, pois isso trará vantagens e desvantagens, que comentaremos depois.
+Assim, o iBGP vai fazer basicamente o mesmo trabalho que fez o OSPF no AS4, mas com uma grande diferença: O OSPF, no AS4, só propagou e informou a respeito de redes que estavam dentro do AS4, mas quando utilizamos o iBGP no AS3, esse pode compartilhar informações a respeito de todas as redes descobertas via BGP. Ou seja, ao configurar o iBGP no AS3, as tabelas de roteamento dos roteadores com iBGP, terão informações a respeito de todas as redes do cenário do exemplo, e é muito importante perceber isso, pois isso trará vantagens e desvantagens (por exemplo tabelas de roteamento provavelmente maiores).
+
+**Atenção**, outro ponto importante a ser notado é que o eBGP usa o campo AS_PATH para evitar *loops*, assim os **roteadores BGP descartam rotas que tenham o próprio AS na lista de caminhos para as rotas recebidas**. Já o iBGP usa uma abordagem diferente, ele utiliza a regra de **horizonte dividido** (*split-horizon* - similar ao RIP). Desta forma o **iBGP não repassa para outro par iBGP as rotas aprendidas com um roteador iBGP**.
+
+Devido a essa peculiaridade do iBGP, em não anunciar rotas aprendidas para outros roteadores iBGP, se faz necessário utilizar uma das três técnicas a seguir:
+* **Topologia Full Mesh**: Nesta é necessário estabelecer uma conexão iBGP com todos os roteadores iBGP da rede em questão. Ou seja se tivermos *n* roteadores, serão necessárias *n*.(*n*-1)/2 conexões iBGP para conectar todos os pares iBGP do AS. Em um exemplo de uma rede com 10 roteadores serão necessárias 45 conexões para fechar uma rede *Full Mesh* - muito né?
+* **Route Reflector**: um roteador é designado para refletir as rotas aprendidas para os outros roteadores da rede, via iBGP. Esse roteador leva o nome de *route reflector*, ou seja, ele reflete para os outros as redes descobertas. Neste cenário todos os roteadores devem ter apenas uma conexão com o roteador refletor (não precisam de conexões com os demais roteadores do AS via iBGP). Assim, para *n* roteadores teremos *n*-1 conexões iBGP, ou seja, em uma rede com 10 roteadores teremos 9 conexões BGP.
+* **BGP Confederation**: Tal técnica, reduz o número de pares iBGP em um AS, dividindo tal AS em "subASes" (sub sistemas autônomos) e os agrupando em uma única confederação.
+
+É possível criar uma conexão iBGP sem nenhuma das técnicas citadas anteriormente, é claro que isso pode dar certo ou muito errado, principalmente em caso de mudanças na rede (falhas, alterações nos *links*, etc). É importante notar que a resolução dos problemas no BGP fica por conta do administrador de rede, assim esse deve conhecer o protocolo, a rede e tentar prever tudo o que pode acontecer. ;-)
 
 ### Configurando iBGP no AS 3
 
-Vamos iniciar a configuração iBGP, estabelecendo vizinhança entre todos os roteadores do AS3, no caso R6, R7 e R8. Na sequência vamos publicas as rotas das redes do cenário no AS3 (vamos fazer isso apenas nos roteadores conectados diretamente às LANs do AS - como já fizemos até aqui):
+Podemos iniciar a configuração iBGP, estabelecendo vizinhança entre todos os roteadores do AS3, no caso R6, R7 e R8. Assim, os comandos em R6 seriam:
+
+> Não execute esses comandos ainda...
+
+```console
+R6#configure terminal
+R6(config)#router bgp 3
+R6(config-router)#neighbor 172.16.2.107 remote-as 3
+R6(config-router)#neighbor 172.16.1.108 remote-as 3
+```
+
+Observe só, dados os comandos anterior, estamos criando vizinhanças iBGP do R6->R7 e R6->R8. Depois de fazer isso no R6, devemos executar comandos que estabeleçam vizinhança do R7->R6 e R7->R8, bem como do R8->R6 e R8->R7. Então, para criar uma rede *Full Mesh* aqui a formula é (3*(3-1))/2, só que para criar a vizinhança entre R6->R7 é preciso executar o comando anterior ``neighbor 172.16.1.108 remote-as 3`` em R7 e executar o comando ``neighbor 172.16.1.106 remote-as 3`` em R2, ou seja, o número de comandos é dobrado!
+
+E pior, no exemplo dado anteriormente, criando a vizinhança entre R6->R7, escolhemos utilizar o IP 172.16.1.108 para chegar em R8 e 172.16.1.106 para chegar em R6, mas e se essa rede 172.16.1.0/24 falhar - o cabo quebrar? perderemos a vizinhança entre R6 e R8, mas note que pela configuração de rede, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7. Então, para que essa falha não ocorra, poderíamos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também R8 indo para R6 por 172.16.2.106. Todavia se fizemos essa redundância, o número de "vizinhos" vai dobrar e a quantidade de comandos vai quadruplicar! Sem falar que ainda será necessário ou roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes do cenário... :-p
+
+> É preciso perceber que na prática, principalmente em roteadores CISCO - mas isso pode acontecer em outros também - quando o *link* de uma data placa de rede falha, a placa para de responder por aquele IP daquela placa - ou seja, é como se a placa fosse desligada.
+
+Dado o problema de citado anteriormente, uma boa prática é configurar um IP roteável em uma interface de *loopback*. Assim, essa interface virtual vai responder por todas/qualquer interface de rede física do roteador. Desta forma, não precisamos quadruplicar os comandos digitados para estabelecer os vizinhos iBGP - é claro que ainda teremos que colocar essas em rotas para que os roteadores saibam como chegar nesses IPs atrelados às interfaces de *loopback*.
+
+Assim, dado o problema e a solução anterior, vamos configurar nossa rede iBGP no AS3 da seguinte forma:
+
+...terminar.
+
+
+Na sequência vamos publicar as rotas das redes do cenário no AS3 (vamos fazer isso apenas nos roteadores conectados diretamente às LANs do AS - como já fizemos até aqui):
 * Roteador R6:
 ```console
 R6#configure terminal
@@ -666,6 +699,123 @@ Assim, as saídas dos "*pings*" realizadas, demonstram também que o cenário es
 
 Ainda temos que fazer os testes de conectividade, e acredite, ainda há problemas para serem resolvidos, mas vamos parar por aqui. E fica a conclusão...
 
+## Teste redundância
+
+# Teste do PC9 para PC11
+
+Neste teste vamos desligar as interfaces g2/0 de R8 e g2/0 de R3...
+
+
+# Solução adotada
+
+# Configurando interface de Loopback0 no R6
+```console
+R6(config)#int lo0
+R6(config-if)#ip
+R6(config-if)#ip address 172.16.106.106 255.255.255.255
+R6(config-if)#exit
+```
+
+# Reconfigurando BGP no R6
+```console
+R6(config)#no router bgp 3
+R6(config)#router bgp 3
+R6(config-router)#neighbor 172.16.0.103 remote-as 1
+R6(config-router)#neighbor 172.16.107.107 remote-as 3
+R6(config-router)#neighbor 172.16.107.107 update-source lo0
+R6(config-router)#neighbor 172.16.107.107 next-hop-self
+R6(config-router)#neighbor 172.16.108.108 remote-as 3
+R6(config-router)#neighbor 172.16.108.108 update-source lo0
+R6(config-router)#neighbor 172.15.108.108 next-hop-self
+R6(config-router)#exit
+```
+# Configurando RIP no R6
+```console
+R6(config)#router rip
+R6(config-router)#version 2
+R6(config-router)#network 172.16.2.0
+R6(config-router)#network 172.16.1.0
+R6(config-router)#network 172.16.106.106
+```
+
+```console
+R7(config)#interface lo0
+R7(config-if)#ip address 172.16.107.107 255.255.255.255
+R7(config-if)#exit
+
+R7(config)#no router bgp 3
+
+R7(config)#router bgp 3
+R7(config-router)#neighbor 172.16.106.106 remote-as 3
+R7(config-router)#neighbor 172.16.106.106 update-source lo0
+R7(config-router)#neighbor 172.16.106.106 next-hop-self
+R7(config-router)#neighbor 172.16.108.108 remote-as 3
+R7(config-router)#neighbor 172.16.108.108 update-source lo0
+R7(config-router)#neighbor 172.16.108.108 next-hop-self
+R7(config-router)#network 172.16.7.0 mask 255.255.255.0
+R7(config-router)#network 172.16.8.0 mask 255.255.255.0
+R7(config-router)#exit
+
+R7(config)#router rip
+R7(config-router)#version 2
+R7(config-router)#network 172.16.2.0
+R7(config-router)#network 172.16.3.0
+R7(config-router)#network 172.16.107.107
+R7(config-router)#exit
+```
+
+```console
+R8(config)#interface lo0
+R8(config-if)#ip address 172.16.108.108 255.255.255.255
+R8(config-if)#exit
+
+R8(config)#router bgp 3
+R8(config-router)#neighbor 172.16.106.106 remote-as 3
+R8(config-router)#neighbor 172.16.106.106 update-source lo0
+R8(config-router)#neighbor 172.16.106.106 next-hop-self
+R8(config-router)#neighbor 172.16.107.107 remote-as 3
+R8(config-router)#neighbor 172.16.107.107 update-source lo0
+R8(config-router)#neighbor 172.16.107.107 next-hop-self
+R8(config-router)#network 172.16.9.0 mask 255.255.255.0
+R8(config-router)#exit
+
+R8(config)#router rip
+R8(config-router)#version 2
+R8(config-router)#network 172.16.2.0
+R8(config-router)#no network 172.16.2.0
+R8(config-router)#network 172.16.1.0
+R8(config-router)#network 172.16.3.0
+R8(config-router)#network 172.16.108.108
+R8(config-router)#exit
+R8(config)#end
+```
+
+Nos teste, após desligar as interfaces g2/0 de R8 e R8, nesse teste demorou aproximadamente 3 minutos para a rede se auto reconfigurar novamente. Vejamos na saída a seguir a nova rota escolhida pelo BGP:
+
+```console
+PC9> trace 192.168.11.1
+trace to 192.168.11.1, 8 hops max, press Ctrl+C to stop
+ 1   172.16.9.108   5.483 ms  9.198 ms  9.620 ms
+ 2   172.16.3.107   30.241 ms  19.333 ms  19.209 ms
+ 3   172.16.2.106   40.211 ms  39.984 ms  40.646 ms
+ 4   172.16.0.103   49.280 ms  39.338 ms  39.537 ms
+ 5   10.1.103.101   59.539 ms  60.429 ms  60.108 ms
+ 6   10.1.100.102   70.039 ms  70.121 ms  69.710 ms
+ 7   192.168.0.109   80.060 ms  79.975 ms  80.104 ms
+ 8   192.168.2.111   90.187 ms  90.723 ms  90.596 ms
+
+PC9> ping 192.168.11.1 -c 1
+
+84 bytes from 192.168.11.1 icmp_seq=1 ttl=56 time=98.331 ms
+```
+
+Então, agora a rota escolhida passa pelos roteadores R8, R7, R6, R3, R1, R2, R9 e R11.
+
 # Conclusão
 
 O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a Internet. Todavia ao contrário dos IGPs, o BGP não trata os problemas de forma automática, ou seja, o BGP depende muito do conhecimento do engenheiro de rede que vai configurá-lo, esse deve conhecer bem a fundo as vantagens e desvantagens do BGP e saber utilizar corretamente oturas ferramentas que podem auxiliar a configuração do BGP (roteamento estático, e IGPs). Também há outros artifícios/feramentas do próprio BGP que ajudam em sua configuração, mas não é intenção deste material cobrir tudo que há sobre BGP.
+
+# Referências
+
+* <https://www.catchpoint.com/bgp-monitoring/bgp-route-reflector>
+* <https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13751-23.html>
