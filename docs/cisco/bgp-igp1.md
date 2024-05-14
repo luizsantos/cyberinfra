@@ -898,7 +898,7 @@ Tal exemplo, demonstra que o a agregação ajuda a melhorar a leitura e processa
 
 # Conclusão
 
-O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a Internet. Todavia ao contrário dos IGPs, o BGP não trata os problemas de forma automática, ou seja, o BGP depende muito do conhecimento do engenheiro de rede que vai configurá-lo, esse deve conhecer bem a fundo as vantagens e desvantagens do BGP e saber utilizar corretamente outras ferramentas que podem auxiliar a configuração do BGP (roteamento estático, IGPs, etc). Também há outros artifícios/feramentas do próprio BGP que ajudam em sua configuração, mas não é intenção deste material cobrir tudo que há sobre BGP.
+O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a Internet. Todavia ao contrário dos IGPs, o BGP não trata os problemas de forma automática, ou seja, o BGP depende muito do conhecimento do engenheiro de rede que vai configurá-lo, esse deve conhecer bem a fundo as vantagens e desvantagens do BGP e saber utilizar corretamente outras ferramentas que podem auxiliar a configuração do BGP (roteamento estático, IGPs, etc). Também há outros artifícios/ferramentas do próprio BGP que ajudam em sua configuração, mas não é intenção deste material cobrir tudo que há sobre BGP.
 
 # Referências
 
