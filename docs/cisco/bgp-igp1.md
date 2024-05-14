@@ -895,10 +895,14 @@ Desta forma, nesta rede, deduz-se que tudo que for 192.168. deve ir para o AS4, 
 
 Tal exemplo, demonstra que o a agregação ajuda a melhorar a leitura e processamento das rotas em redes BGP. Isso ajuda muito no entendimento de redes gigantes como à Internet. É claro que para utilizar a agregação de rotas, é necessário antes de tudo, projetar as redes para que essas permitam a utilização da agregação de rotas.
 
-
 # Conclusão
 
 O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a Internet. Todavia ao contrário dos IGPs, o BGP não trata os problemas de forma automática, ou seja, o BGP depende muito do conhecimento do engenheiro de rede que vai configurá-lo, esse deve conhecer bem a fundo as vantagens e desvantagens do BGP e saber utilizar corretamente outras ferramentas que podem auxiliar a configuração do BGP (roteamento estático, IGPs, etc). Também há outros artifícios/ferramentas do próprio BGP que ajudam em sua configuração, mas não é intenção deste material cobrir tudo que há sobre BGP.
+
+# Arquivos de configurações dos roteadores do cenário
+
+Todos os arquivos de configurações do cenário estão nos *links* a seguir:
+* [R1](confs/iBGP/R1.cfg), [R2](confs/iBGP/R2.cfg), [R3](confs/iBGP/R3.cfg), [R4](confs/iBGP/R4.cfg), [R5](confs/iBGP/R5.cfg), [R6](confs/iBGP/R6.cfg), [R7](confs/iBGP/R7.cfg), [R8](confs/iBGP/R8.cfg), [R9](confs/iBGP/R9.cfg), [R10](confs/iBGP/R10.cfg) e [R11](confs/iBGP/R11.cfg).
 
 # Referências
 
