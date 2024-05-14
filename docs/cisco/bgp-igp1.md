@@ -132,7 +132,6 @@ R2#configure terminal
 Enter configuration commands, one per line.  End with CNTL/Z.
 R2(config)#router bgp 1
 R2(config-router)#neighbor 192.168.0.109 remote-as 4
-R2(config-router)#network
 *May  9 22:01:38.383: %BGP-5-ADJCHANGE: neighbor 192.168.0.109 Up
 R2(config-router)#network 10.1.3.0 mask 255.255.255.0
 R2(config-router)#network 10.1.4.0 mask 255.255.255.0
@@ -260,7 +259,7 @@ R3(config-router)#network 10.1.2.0 mask 255.255.255.0
 ```
 Em R3, configuramos a conexão eBGP entre os vizinhos R3 e R6, e depois publicamos as LANs 1 e 2.
 
-* Roteador R3:
+* Roteador R6:
 ```console
 R6(config)#router bgp 3
 R6(config-router)#neighbor 172.16.0.103 remote-as 1
@@ -290,16 +289,18 @@ TODAVIA, note que não há nenhuma rota para as redes de dentro do próprio AS3.
 
 Até aqui só havíamos configurado o BGP via eBGP, mas agora vamos utilizar o iBGP. A primeira coisa a se notar, é que o eBGP é utilizado para conectar roteadores de ASs distintos/diferentes. Já o iBGP é utilizado para conectar roteadores de um mesmo AS.
 
-Assim, o iBGP vai fazer basicamente o mesmo trabalho que fez o OSPF no AS4, mas com uma grande diferença: O OSPF, no AS4, só propagou e informou a respeito de redes que estavam dentro do AS4, mas quando utilizamos o iBGP no AS3, esse pode compartilhar informações a respeito de todas as redes descobertas via BGP. Ou seja, ao configurar o iBGP no AS3, as tabelas de roteamento dos roteadores com iBGP, terão informações a respeito de todas as redes do cenário do exemplo, e é muito importante perceber isso, pois isso trará vantagens e desvantagens (por exemplo tabelas de roteamento provavelmente maiores).
+Assim, o iBGP vai fazer basicamente o mesmo trabalho que fez o OSPF no AS4, mas com uma grande diferença: O OSPF, no AS4, só propagou e informou a respeito de redes que estavam dentro do AS4, mas quando utilizamos o iBGP no AS3, esse pode compartilhar informações a respeito de todas as redes descobertas via BGP. Ou seja, ao configurar o iBGP no AS3, as tabelas de roteamento dos roteadores com iBGP, terão informações a respeito de todas as redes do cenário do exemplo, e é muito importante perceber que isso pode trazer vantagens e desvantagens (por exemplo tabelas de roteamento provavelmente maiores - mais custosas e processar).
 
-**Atenção**, outro ponto importante a ser notado é que o eBGP usa o campo AS_PATH para evitar *loops*, assim os **roteadores BGP descartam rotas que tenham o próprio AS na lista de caminhos para as rotas recebidas**. Já o iBGP usa uma abordagem diferente, ele utiliza a regra de **horizonte dividido** (*split-horizon* - similar ao RIP). Desta forma o **iBGP não repassa para outro par iBGP as rotas aprendidas com um roteador iBGP**.
+**Atenção**, outro ponto importante a ser notado é que o eBGP usa o campo AS_PATH para evitar *loops*, assim os **roteadores BGP descartam rotas que tenham o próprio AS na lista de caminhos para as rotas recebidas**.
+
+Já o iBGP usa uma abordagem diferente, ele utiliza a regra de **horizonte dividido** (*split-horizon* - similar ao RIP). Desta forma o **iBGP não repassa para outro par iBGP as rotas aprendidas com um roteador iBGP**.
 
 Devido a essa peculiaridade do iBGP, em não anunciar rotas aprendidas para outros roteadores iBGP, se faz necessário utilizar uma das três técnicas a seguir:
 * **Topologia Full Mesh**: Nesta é necessário estabelecer uma conexão iBGP com todos os roteadores iBGP da rede em questão. Ou seja se tivermos *n* roteadores, serão necessárias *n*.(*n*-1)/2 conexões iBGP para conectar todos os pares iBGP do AS. Em um exemplo de uma rede com 10 roteadores serão necessárias 45 conexões para fechar uma rede *Full Mesh* - muito né?
-* **Route Reflector**: um roteador é designado para refletir as rotas aprendidas para os outros roteadores da rede, via iBGP. Esse roteador leva o nome de *route reflector*, ou seja, ele reflete para os outros as redes descobertas. Neste cenário todos os roteadores devem ter apenas uma conexão com o roteador refletor (não precisam de conexões com os demais roteadores do AS via iBGP). Assim, para *n* roteadores teremos *n*-1 conexões iBGP, ou seja, em uma rede com 10 roteadores teremos 9 conexões BGP.
-* **BGP Confederation**: Tal técnica, reduz o número de pares iBGP em um AS, dividindo tal AS em "subASes" (sub sistemas autônomos) e os agrupando em uma única confederação.
+* **Route Reflector**: um roteador é designado para refletir as rotas aprendidas para os outros roteadores da rede, via iBGP. Esse roteador leva o nome de *route reflector*, ou seja, ele reflete para os outros roteadores, as redes descobertas. Neste cenário todos os roteadores devem ter apenas uma conexão com o roteador refletor (não precisam de conexões com os demais roteadores do AS via iBGP). Assim, para *n* roteadores teremos *n*-1 conexões iBGP, ou seja, em uma rede com 10 roteadores teremos 9 conexões BGP. Entretanto, se o roteador responsável pela reflexão "cair", a rede inteira pode ficar indisponível - para evitar isso dá para utilizar *clusters* BGP.
+* **BGP Confederation**: Tal técnica, reduz o número de pares iBGP do AS, dividindo o AS em "subASes" (sub sistemas autônomos) e os agrupando em uma única confederação.
 
-É possível criar uma conexão iBGP sem nenhuma das técnicas citadas anteriormente, é claro que isso pode dar certo ou muito errado, principalmente em caso de mudanças na rede (falhas, alterações nos *links*, etc). É importante notar que a resolução dos problemas no BGP fica por conta do administrador de rede, assim esse deve conhecer o protocolo, a rede e tentar prever tudo o que pode acontecer. ;-)
+É possível criar uma conexão iBGP sem nenhuma das técnicas citadas anteriormente, é claro que isso pode dar certo ou errado, principalmente em casos de mudanças na rede (falhas, alterações nos *links*, etc). É importante notar que a resolução dos problemas no BGP fica por conta do administrador de rede, assim esse deve conhecer o protocolo, a rede e tentar prever tudo o que pode acontecer. :-p
 
 ### Configurando iBGP no AS 3
 
@@ -314,422 +315,69 @@ R6(config-router)#neighbor 172.16.2.107 remote-as 3
 R6(config-router)#neighbor 172.16.1.108 remote-as 3
 ```
 
-Observe só, dados os comandos anterior, estamos criando vizinhanças iBGP do R6->R7 e R6->R8. Depois de fazer isso no R6, devemos executar comandos que estabeleçam vizinhança do R7->R6 e R7->R8, bem como do R8->R6 e R8->R7. Então, para criar uma rede *Full Mesh* aqui a formula é (3*(3-1))/2, só que para criar a vizinhança entre R6->R7 é preciso executar o comando anterior ``neighbor 172.16.1.108 remote-as 3`` em R7 e executar o comando ``neighbor 172.16.1.106 remote-as 3`` em R2, ou seja, o número de comandos é dobrado!
+Observe só, dados os comandos anterior, estamos criando vizinhanças iBGP do R6, sendo essas:
+* R6->R7;
+* R6->R8.
 
-E pior, no exemplo dado anteriormente, criando a vizinhança entre R6->R7, escolhemos utilizar o IP 172.16.1.108 para chegar em R8 e 172.16.1.106 para chegar em R6, mas e se essa rede 172.16.1.0/24 falhar - o cabo quebrar? perderemos a vizinhança entre R6 e R8, mas note que pela configuração de rede, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7. Então, para que essa falha não ocorra, poderíamos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também R8 indo para R6 por 172.16.2.106. Todavia se fizemos essa redundância, o número de "vizinhos" vai dobrar e a quantidade de comandos vai quadruplicar! Sem falar que ainda será necessário ou roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes do cenário... :-p
+Depois de fazer isso no R6, devemos executar comandos que estabeleçam vizinhança do R7, sendo:
+* R7->R6;
+* R7->R8.
 
-> É preciso perceber que na prática, principalmente em roteadores CISCO - mas isso pode acontecer em outros também - quando o *link* de uma data placa de rede falha, a placa para de responder por aquele IP daquela placa - ou seja, é como se a placa fosse desligada.
+Bem como do R8:
+* R8->R6;
+* R8->R7.
 
-Dado o problema de citado anteriormente, uma boa prática é configurar um IP roteável em uma interface de *loopback*. Assim, essa interface virtual vai responder por todas/qualquer interface de rede física do roteador. Desta forma, não precisamos quadruplicar os comandos digitados para estabelecer os vizinhos iBGP - é claro que ainda teremos que colocar essas em rotas para que os roteadores saibam como chegar nesses IPs atrelados às interfaces de *loopback*.
+Ou seja, para criar uma rede *Full Mesh*, a formula é (3*(3-1))/2, só que para criar, por exemplo, a vizinhança entre R6->R7 é preciso executar o comando anterior ``neighbor 172.16.1.108 remote-as 3``, em R7. Bem como executar o comando ``neighbor 172.16.1.106 remote-as 3`` em R6 para criar o par, ou seja, o número de comandos é dobrado!
 
-Assim, dado o problema e a solução anterior, vamos configurar nossa rede iBGP no AS3 da seguinte forma:
+Pior, no exemplo dado anteriormente, criando a vizinhança entre R6->R7, escolhemos utilizar o IP 172.16.1.108, para chegar em R8, e 172.16.1.106 para chegar em R6 (linha amarela na Figura 2), mas e se essa rede 172.16.1.0/24 falhar - o cabo quebrar?
 
-...terminar.
+Neste caso, é bem provável que iremos perder a vizinhança/conexão entre R6 e R8. Todavia, perceba que pela configuração de rede do exemplo, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7 (linha vermelha da Figura 2). Então, para que essa falha não ocorra, podemos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também, R8 indo para R6 por 172.16.2.106. Todavia, se fizemos essa redundância, o número de "vizinhos" vai dobrar e a quantidade de comandos necessário para os pares vai quadruplicar! Sem falar que ainda será necessário roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes do cenário... :-p
 
+| ![rede](imagens/BGP03-AS3.png) |
+|:--:|
+| Figura 2 - Possibilidades de IPs para criar vizinhança do R6-R8 no iBGP do AS3 |
 
-Na sequência vamos publicar as rotas das redes do cenário no AS3 (vamos fazer isso apenas nos roteadores conectados diretamente às LANs do AS - como já fizemos até aqui):
+> É preciso perceber que na prática, principalmente em roteadores CISCO - mas isso pode acontecer em outros também - quando o *link* de uma dada placa de rede falha, a placa para de responder por aquele IP - ou seja, é como se a placa fosse desligada e o IP fica indisponível.
+
+### Interface de *loopback* no BGP
+
+Dado o problema citado anteriormente, uma boa prática é configurar um IP roteável em uma interface de *loopback*. Assim, essa interface virtual vai responder por todas/qualquer interface de rede física do roteador. Desta forma, não precisamos quadruplicar os comandos digitados para estabelecer os vizinhos iBGP - é claro que ainda teremos que colocar essas em rotas para que os roteadores saibam como chegar nesses IPs atrelados às interfaces de *loopback*.
+
+Dadas as explicações anteriores vamos configurar o iBGP do AS3 utilizando uma rede *Full Mesh*, interface de *loopback* e o RIP para propagar as rotas internas e o IP de loopback do AS3:
+
 * Roteador R6:
-```console
-R6#configure terminal
-R6(config)#router bgp 3
-R6(config-router)#neighbor 172.16.2.107 remote-as 3
-R6(config-router)#neighbor 172.16.1.108 remote-as 3
-```
-Note que a única diferença na configuração do iBGP, a principio, é que os vizinhos estão no mesmo AS, no caso R7 e R8 tem o final com ``remote-as 3``.
 
-* Roteador R7:
-```console
-R7#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-R7(config)#router bgp 3
-R7(config-router)#neighbor 172.16.2.106 remote-as 3
-R7(config-router)#
-*May  9 23:59:21.314: %BGP-5-ADJCHANGE: neighbor 172.16.2.106 Up
-R7(config-router)#neighbor 172.16.3.108 remote-as 3
-R7(config-router)#network 172.16.7.0 mask 255.255.255.0
-R7(config-router)#network 172.16.8.0 mask 255.255.255.0
-R7(config-router)#end
-```
-Em R7, foi configurado os vizinhos iBGP como sendo R6 (172.16.2.106) e R8 (172.16.3.108), depois publicada a rede 172.16.9.0/24 (LAN9). Note que já foi apresentada a mensagem que foi criada a vizinhança entre R7 e R6, bem como R7 e R8.
-
-* Roteador R8:
-```console
-R8#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-R8(config)#router bgp 3
-R8(config-router)#neighbor 172.16.1.106 remote-as 3
-R8(config-router)#neighbor 172.16. remote-as 3
-*May  9 23:54:27.522: %BGP-5-ADJCHANGE: neighbor 172.16.1.106 Up
-R8(config-router)#neighbor 172.16.3.107 remote-as 3
-R8(config-router)#
-*May  9 23:54:36.706: %BGP-5-ADJCHANGE: neighbor 172.16.3.107 Up
-R8(config-router)#network 172.16.9.0 mask 255.255.255.0
-```
-Por fim, nesta rede iBGP, foi realizada a configuração do R8, neste são criadas ligações iBGP com R6 e R7, e são publicadas via BGP as redes LAN7 E LAN8. Feito isso vamos ver agora as redes que R8 consegue ver via BGP:
-
-```console
-R8#show ip bgp
-...
-   Network          Next Hop            Metric LocPrf Weight Path
-* i10.1.1.0/24      172.16.0.103             0    100      0 1 i
-* i10.1.2.0/24      172.16.0.103             0    100      0 1 i
-*>i172.16.7.0/24    172.16.3.107             0    100      0 i
-*>i172.16.8.0/24    172.16.3.107             0    100      0 i
-*> 172.16.9.0/24    0.0.0.0                  0         32768 i
-```
-Visto que todas as redes do AS3 e conectadas ao R3 estão na tabela de roteamento, vamos testar a conectividade com todos os PCs do AS3 e os conectados ao R3, realizando um ``ping`` a partir do PC8. Veja só:
-
-```console
-PC8> ping  172.16.7.1 -c 1
-84 bytes from 172.16.7.1 icmp_seq=1 ttl=63 time=57.592 ms
-
-PC8> ping  172.16.9.1 -c 1
-172.16.9.1 icmp_seq=1 timeout
-
-PC8> ping  172.16.9.1 -c 1
-84 bytes from 172.16.9.1 icmp_seq=1 ttl=62 time=51.373 ms
-
-PC8> ping  10.1.1.1 -c 1
-10.1.1.1 icmp_seq=1 timeout
-
-PC8> ping  10.1.2.1 -c 1
-10.1.2.1 icmp_seq=1 timeout
-```
-
-Hum, perceba que nem tudo saiu como esperado! No teste do ``ping``, é possível perceber que o iBGP funcionou para publicar as redes do próprio AS3, ou seja, o PC8, conseguiu se comunicar com o PC7 e PC9. Todavia, ele não conseguiu se comunicar com nenhuma rede conectada ao R3, mesmo que essas redes estejam na tabela de roteamento dos roteadores do AS3, conseguidas via BGP.
-
-Para elucidar esse problema, note que R8 possui rotas para as redes obtidas via BGP do R3 (veja o trecho da saída  ``R8#show ip bgp``).
-
-```console
-...
-   Network          Next Hop            Metric LocPrf Weight Path
-* i10.1.1.0/24      172.16.0.103             0    100      0 1 i
-* i10.1.2.0/24      172.16.0.103             0    100      0 1 i
-...
-```
-No trecho da saída anterior, perceba que há um grande problema: As rotas 10.1.1.0/24 e 10.1.2.0/24 obtidas, têm como próximo salto (``Next Hop``), o roteador R3, que está na rede 172.16.0.0/24, e essa rede 172.16.0.0/24 não está dentre as redes conhecidas por R8 (execute o comando ``show ip route`` e veja isso melhor), ou seja, não tem como o PC8 alcançar os PCs 1 e 2.
-
-Bem, esse já é um problema conhecido do BGP, desta forma há um comando para tal resolução de problema. O comando em questão é o ``next-hop-self``, que deve ser executado de forma semelhante à criação da vizinhança, veja o que deve ser feito em todos os roteadores iBGP do AS3:
-* Roteador R6:
-```console
-R6#configure terminal
-R6(config)#router bgp 3
-R6(config-router)#neighbor 172.16.2.107 next-hop-self
-R6(config-router)#neighbor 172.16.1.108 next-hop-self
-```
-* Roteador R7:
-```console
-R7#configure terminal
-R7(config)#router bgp 3
-R7(config-router)#neighbor 172.16.2.106 next-hop-self
-R7(config-router)#neighbor 172.16.3.108 next-hop-self
-```
-* Roteador R8:
-```console
-R8#configure terminal
-R8(config)#router bgp 3
-R8(config-router)#neighbor 172.16.1.106 next-hop-self
-R8(config-router)#neighbor 172.16.3.107 next-hop-self
-```
-
-> É possível resolver esse problema apresentando anteriormente de outras formas, mas vamos tomar essa como a padrão.
-
-> O problema do exemplo em questão seria resolvido executando tal comando apenas em R6. Todavia, é recomendável fazer isso em todos os roteadores iBGP do cenário, para não gerar rotas inconsistentes, caso o cenário venha à mudar por alguma falha ou alteração nas configurações (adição de redes, por exemplo).
-
-Por exemplo, o comando ``neighbor 172.16.2.107 next-hop-self``, nada mais faz do que dizer para o vizinho 172.16.2.107 (R7), que todas as rotas que ele apreender com o vizinho R6 (onde o comando está sendo digitado), deve ter como roteador de próximo salto o próprio R6. Assim, após executar os devidos comandos, o resultado da tabela de roteamento BGP do R8, será a seguinte:
-
-```console
-R8#show ip bgp
-...
-   Network          Next Hop            Metric LocPrf Weight Path
-*>i10.1.1.0/24      172.16.1.106             0    100      0 1 i
-*>i10.1.2.0/24      172.16.1.106             0    100      0 1 i
-*>i172.16.7.0/24    172.16.3.107             0    100      0 i
-*>i172.16.8.0/24    172.16.3.107             0    100      0 i
-*> 172.16.9.0/24    0.0.0.0                  0         32768 i
-```
-A saída anterior mostra que agora o próximo salto para R8 enviar pacotes para a LAN1 e LAN2, é o R6 e não mais o R3, o que corrige o problema! ;-)
-
-> O teste de ``ping`` do PC8 para PC1 e PC2 agora deve funcionar..
-
-O leitor mais crítico, já deve estar a algum tempo se perguntando, quando é que os roteadores do AS1 vão propagar as redes BGP de todos os ASs para todos. Vamos fazer isso na sequência - deixamos para o final, pois o AS1 será o mais complexo do cenário do exemplo.
-
-### Configurando iBGP no AS 1
-
-Vamos configurar agora o AS1, que é um backbone, ou seja, ele conecta todas as redes do cenário. Bem, na verdade até agora o AS1 é uma rede bem desconexa, pois a maioria dos roteadores deste AS já sabem a respeito de outros ASs, mas eles não estão trocando informações entre os roteadores do próprio AS a respeito disso, logo a rede do cenário não se conecta por completo. Para resolver isso é necessário configurar iBGP entre esses roteadores, mas ainda assim haverá um problemas que veremos na sequência.
-
-Iniciamos configurando a vizinhança iBGP entre os roteadores R1, R2, R3 e R4, lembrando que é recomendável criar uma rede *full mesh* (todos conectados à todos) e utilizar o ``next-hop-self`` para evitar o problema já mencionado anteriormente. Assim, a configuração desses roteadores se dá como apresentado a seguir:
-* R1:
-```console
-R1#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-R1(config)#router bgp 1
-R1(config-router)#neighbor 10.1.100.102 remote-as 1
-R1(config-router)#neighbor 10.1.100.102 next-hop-self
-R1(config-router)#neighbor 10.1.103.103 remote-as 1
-R1(config-router)#neighbor 10.1.103.103 next-hop-self
-R1(config-router)#neighbor 10.1.101.104 remote-as 1
-R1(config-router)#neighbor 10.1.101.104 next-hop-self
-```
-* R2:
-```console
-R2#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-R2(config)#router bgp 1
-R2(config-router)#neighbor 10.1.100.101 remote-as 1
-R2(config-router)#neighbor 10.1.100.101 next-hop-self
-R2(config-router)#neighbor 10.1.100.101 next-hop-self
-R2(config-router)#neighbor 10.1.103.103 remote-as 1
-R2(config-router)#neighbor 10.1.103.103 next-hop-self
-R2(config-router)#neighbor 10.1.101.104 remote-as 1
-R2(config-router)#neighbor 10.1.101.104 next-hop-self
-```
-* R3:
-```console
-R3#configure terminal
-Enter configuration commands, one per line.  End with CNTL/Z.
-R3(config)#router bgp 1
-R3(config-router)#neighbor 10.1.103.101 remote-as 1
-R3(config-router)#neighbor 10.1.103.101 next-hop-self
-R3(config-router)#neighbor 10.1.102.104 remote-as 1
-R3(config-router)#neighbor 10.1.102.104 next-hop-self
-R3(config-router)#neighbor 10.1.101.102 remote-as 1
-R3(config-router)#neighbor 10.1.101.102 next-hop-self
-```
-* R4:
-```console
-R4(config)#router bgp 1
-R4(config-router)#neighbor 10.1.101.102 remote-as 1
-R4(config-router)#neighbor 10.1.101.102
-R4(config-router)#neighbor 10.1.101.102 next-hop-self
-R4(config-router)#neighbor 10.1.102.103 remote-as 1
-R4(config-router)#neighbor 10.1.102.103 next-hop-self
-R4(config-router)#neighbor 10.1.100.101 next
-R4(config-router)#neighbor 10.1.100.101 next-hop-self
-```
-Após executar tais comandos nos respectivos roteadores, vamos ver as tabelas de roteamento de R1, R4 e R8:
-* R1:
-```console
-R1#show ip bgp
-BGP table version is 13, local router ID is 10.2.0.101
-Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
-              r RIB-failure, S Stale
-Origin codes: i - IGP, e - EGP, ? - incomplete
-
-   Network          Next Hop            Metric LocPrf Weight Path
-*>i10.1.1.0/24      10.1.103.103             0    100      0 i
-*>i10.1.2.0/24      10.1.103.103             0    100      0 i
-*>i10.1.3.0/24      10.1.100.102             0    100      0 i
-*>i10.1.4.0/24      10.1.100.102             0    100      0 i
-*> 10.2.5.0/24      10.2.0.105               0             0 2 i
-*> 10.2.6.0/24      10.2.0.105               0             0 2 i
-*>i172.16.7.0/24    10.1.103.103             0    100      0 3 i
-*>i172.16.8.0/24    10.1.103.103             0    100      0 3 i
-*>i172.16.9.0/24    10.1.103.103             0    100      0 3 i
-*>i192.168.10.0     10.1.100.102             2    100      0 4 i
-*>i192.168.11.0     10.1.100.102             2    100      0 4 i
-*>i192.168.12.0     10.1.100.102             2    100      0 4 i
-```
-
-* R4
-```console
-R4#show ip bgp
-...
-   Network          Next Hop            Metric LocPrf Weight Path
-*>i10.1.1.0/24      10.1.102.103             0    100      0 i
-*>i10.1.2.0/24      10.1.102.103             0    100      0 i
-*>i10.1.3.0/24      10.1.101.102             0    100      0 i
-*>i10.1.4.0/24      10.1.101.102             0    100      0 i
-*>i172.16.7.0/24    10.1.102.103             0    100      0 3 i
-*>i172.16.8.0/24    10.1.102.103             0    100      0 3 i
-*>i172.16.9.0/24    10.1.102.103             0    100      0 3 i
-*>i192.168.10.0     10.1.101.102             2    100      0 4 i
-*>i192.168.11.0     10.1.101.102             2    100      0 4 i
-*>i192.168.12.0     10.1.101.102             2    100      0 4 i
-```
-
-* R8:
-```console
-R8#show ip bgp
-...
-   Network          Next Hop            Metric LocPrf Weight Path
-*>i10.1.1.0/24      172.16.1.106             0    100      0 1 i
-*>i10.1.2.0/24      172.16.1.106             0    100      0 1 i
-*>i10.2.5.0/24      172.16.1.106             0    100      0 1 2 i
-*>i10.2.6.0/24      172.16.1.106             0    100      0 1 2 i
-*>i172.16.7.0/24    172.16.3.107             0    100      0 i
-*>i172.16.8.0/24    172.16.3.107             0    100      0 i
-*> 172.16.9.0/24    0.0.0.0                  0         32768 i
-```
-Observando as rotas conhecidas, é possível notar que as tabelas de roteamento não estão completas, pois analisando as saídas do ``show ip bgp``, temos:
-* R1 sabe a rota de todas as LANs;
-* R4 não tem informações a respeito das LAN5 e 6;
-* R8 não tem rotas para as LANs 3, 4, 10, 11 e 12.
-Vamos analisar melhor as rotas de R4, note que ele não tem informações a respeito das redes que são informadas pelo R1 (roteador na diagonal). Então vamos executar o comando ``show ip bgp summary`` para verificar o que está acontecendo de errado:
-
-```console
-R4#show ip bgp summary
-BGP router identifier 10.1.102.104, local AS number 1
-...
-Neighbor        V          AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-10.1.100.101    4          1       7       8        0    0    0 00:01:10 Active
-10.1.101.102    4          1      39      35       27    0    0 00:32:29        5
-10.1.102.103    4          1      37      35       27    0    0 00:32:02        5
-```
-Com a saída anterior, é possível verificar que o estado da conexão BGP entre R4 e R1 (10.1.100.101) está no estado de ``Active``, ou seja, não está funcionando corretamente! Se o mesmo comando for executado em R8 o mesmo não será constatado, pois esse é um roteador iBGP do AS3, que recebe rotas do R3, então se for executado o ``show ip bgp summary`` será constado que o R3 não tem conexão BGP com R2.
-
-Desta forma, o problema é que os roteadores de AS1 não sabem chegar em todos os roteadores do próprio AS1. Bem, há várias formas de se resolver isso, vamos utilizar aqui um protocolo IGP para resolver tal problema, para esse exemplo utilizaremos o OSPF.
-
-> Aqui foi utilizado o OSPF, mas poderia ser utilizado qualquer outro protocolo de roteamento dinâmico e até mesmo roteamento estático.
-
-Então para resolver esse problema da falta de rotas para os roteadores do próprio AS1, vamos configurar o OSPF nos roteadores R1, R2, R3 e R4:
-* OSPF no R1:
-```console
-R1#configure terminal
-R1(config)#router ospf 1
-R1(config-router)#network 10.2.0.0 0.0.0.255 area 0
-R1(config-router)#network 10.1.100.0 0.0.0.255 area 0
-R1(config-router)#network 10.1.103.0 0.0.0.255 area 0
-R1(config-router)#passive-interface f0/0
-```
-
-* OSPF no R2:
-```console
-R2#configure terminal
-R2(config)#router ospf 1
-R2(config-router)#network 192.168.0.0 0.0.0.255 area 0
-R2(config-router)#network 10.1.100.0 0.0.0.255 area 0
-R2(config-router)#network 10.1.101.0 0.0.0.255 area 0
-R2(config-router)#network 10.1.3.0 0.0.0.255 area 0
-R2(config-router)#network 10.1.4.0 0.0.0.255 area 0
-R2(config-router)#passive-interface g2/0
-```
-
-* OSPF no R3:
-```console
-R3#configure terminal
-R3(config)#router ospf 1
-R3(config-router)#network 10.1.1.0 0.0.0.255 area 0
-R3(config-router)#network 10.1.2.0 0.0.0.255 area 0
-R3(config-router)#network 10.1.102.0 0.0.0.255 area 0
-R3(config-router)#network 10.1.103.0 0.0.0.255 area 0
-R3(config-router)#network 172.16.0.0 0.0.0.255 area 0
-R3(config-router)#passive-interface g4/0
-```
-
-* OSPF no R4:
-```console
-R4#configure terminal
-R4(config)#router ospf 1
-R4(config-router)#network 10.1.102.0 0.0.0.255 area 0
-R4(config-router)#network 10.1.101.0 0.0.0.255 area 0
-```
-Com o OSPF devidamente configurado nos roteadores do AS1, vamos verificar a conectividade dos roteadores, no exemplo a seguir vamos ver se mudou o status de R4 para R1:
-
-```console
-R4#show ip bgp summary
-...
-Neighbor        V          AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-10.1.100.101    4          1      13      13       37    0    0 00:01:30        2
-10.1.101.102    4          1      62      58       37    0    0 00:55:19        5
-10.1.102.103    4          1      60      58       37    0    0 00:54:52        5
-```
-Note que pela saída anterior, que agora o R1 (10.1.100.101) está no estado de Established (valor inteiro - ``2``), que indica que tudo deve estar certo, e provavelmente o mesmo ocorre com todas conexões iBGP do cenário.
-
-De qualquer forma vamos ver se a tabela de roteamento BGP do R4 agora está completa ou não:
-```console
-R4#show ip bgp
-...
-   Network          Next Hop            Metric LocPrf Weight Path
-r>i10.1.1.0/24      10.1.102.103             0    100      0 i
-r>i10.1.2.0/24      10.1.102.103             0    100      0 i
-r>i10.1.3.0/24      10.1.101.102             0    100      0 i
-r>i10.1.4.0/24      10.1.101.102             0    100      0 i
-*>i10.2.5.0/24      10.1.100.101             0    100      0 2 i
-*>i10.2.6.0/24      10.1.100.101             0    100      0 2 i
-*>i172.16.7.0/24    10.1.102.103             0    100      0 3 i
-*>i172.16.8.0/24    10.1.102.103             0    100      0 3 i
-*>i172.16.9.0/24    10.1.102.103             0    100      0 3 i
-*>i192.168.10.0     10.1.101.102             2    100      0 4 i
-*>i192.168.11.0     10.1.101.102             2    100      0 4 i
-*>i192.168.12.0     10.1.101.102             2    100      0 4 i
-```
-Na saída anterior, é possível observar o IP de rede, de todas as LANs agora no R4, o que ajuda a comprovar que o cenário deve estar funcional.
-
-## Teste de conectividade do cenário
-
-Para finalizar o teste vamos, executar o ``ping`` do PC9, conectado ao R8 para todos os outros PCs/redes do cenário proposto:
-
-```console
-PC9> ping 10.1.1.1 -c 1
-84 bytes from 10.1.1.1 icmp_seq=1 ttl=61 time=50.089 ms
-
-PC9> ping 10.1.2.1 -c 1
-84 bytes from 10.1.2.1 icmp_seq=1 ttl=61 time=49.221 ms
-
-PC9> ping 10.1.3.1 -c 1
-84 bytes from 10.1.3.1 icmp_seq=1 ttl=59 time=66.253 ms
-
-PC9> ping 10.1.4.1 -c 1
-84 bytes from 10.1.4.1 icmp_seq=1 ttl=59 time=99.879 ms
-
-PC9> ping 10.2.5.1 -c 1
-84 bytes from 10.2.5.1 icmp_seq=1 ttl=59 time=65.651 ms
-
-PC9> ping 10.2.6.1 -c 1
-84 bytes from 10.2.6.1 icmp_seq=1 ttl=59 time=81.450 ms
-
-PC9> ping 172.16.7.1 -c 1
-84 bytes from 172.16.7.1 icmp_seq=1 ttl=62 time=37.538 ms
-
-PC9> ping 172.16.8.1 -c 1
-84 bytes from 172.16.8.1 icmp_seq=1 ttl=62 time=32.068 ms
-
-PC9> ping 192.168.10.1 -c 1
-84 bytes from 192.168.10.1 icmp_seq=1 ttl=57 time=86.227 ms
-
-PC9> ping 192.168.11.1 -c 1
-84 bytes from 192.168.11.1 icmp_seq=1 ttl=57 time=98.143 ms
-
-PC9> ping 192.168.12.1 -c 1
-84 bytes from 192.168.12.1 icmp_seq=1 ttl=57 time=81.300 ms
-```
-
-Assim, as saídas dos "*pings*" realizadas, demonstram também que o cenário está totalmente funcional e conectado.
-
-Ainda temos que fazer os testes de conectividade, e acredite, ainda há problemas para serem resolvidos, mas vamos parar por aqui. E fica a conclusão...
-
-## Teste redundância
-
-# Teste do PC9 para PC11
-
-Neste teste vamos desligar as interfaces g2/0 de R8 e g2/0 de R3...
-
-
-# Solução adotada
-
-# Configurando interface de Loopback0 no R6
+Para o R6, vamos inciar configurando um **IP para a interface de _loopback_** da seguinte forma:
 ```console
 R6(config)#int lo0
-R6(config-if)#ip
 R6(config-if)#ip address 172.16.106.106 255.255.255.255
 R6(config-if)#exit
 ```
+Então na configuração anterior, colocamos o IP 172.16.106.106/32 (essa máscara é para identificar um *host*), na primeira interface de *loopback* (``lo0``).
 
-# Reconfigurando BGP no R6
+Agora configuraremos o BGP, neste caso o R6 vamos conectar o R6 à R7 (172.16.107.107), e ao R8 (172.16.108.108):
 ```console
 R6(config)#no router bgp 3
 R6(config)#router bgp 3
-R6(config-router)#neighbor 172.16.0.103 remote-as 1
 R6(config-router)#neighbor 172.16.107.107 remote-as 3
 R6(config-router)#neighbor 172.16.107.107 update-source lo0
 R6(config-router)#neighbor 172.16.107.107 next-hop-self
 R6(config-router)#neighbor 172.16.108.108 remote-as 3
 R6(config-router)#neighbor 172.16.108.108 update-source lo0
 R6(config-router)#neighbor 172.15.108.108 next-hop-self
+R6(config-router)#network 172.16.7.0 mask 255.255.255.0
+R6(config-router)#network 172.16.8.0 mask 255.255.255.0
+R6(config-router)#network 172.16.9.0 mask 255.255.255.0
 R6(config-router)#exit
 ```
-# Configurando RIP no R6
+   Observe que para cada IP, como por exemplo do 172.16.107.107 do R7, temos três linhas de comando, sendo o final dessas:
+* ``remote-as 3``, que indica o AS do vizinho, como é um iBGP, todos os vizinhos nessa configuração tem o mesmo número (``3``);
+* ``update-source lo0``, informa que uma interface de *loopback* pode ser utilizada para criar conexões BGP.
+* ``next-hop-self``, obriga o roteador iBGP repassar como sendo ele mesmo o roteador de próximo saldo de uma rota que ele aprendeu via eBGP, caso esse comando não seja utilizado, o roteador iBGP para como sendo o próximo salto, o roteador pelo qual ele aprendeu a rota, o que pode gerar (normalmente gera), inconsistências, já que muitas vezes o roteador não sabe chegar naquela rota.
+
+Também foram configuradas as redes a serem publicadas via BGP, tal como: ``network 172.16.7.0 mask 255.255.255.0``.
+
+Feitas as configurações anteriores, vamos configurar o RIP, para que esse propague as redes internas do AS3, principalmente os IPs que estamos utilizando nas interfaces de *loopback*, para que essas sejam conhecidas por todos os roteadores do AS3.
 ```console
 R6(config)#router rip
 R6(config-router)#version 2
@@ -737,13 +385,17 @@ R6(config-router)#network 172.16.2.0
 R6(config-router)#network 172.16.1.0
 R6(config-router)#network 172.16.106.106
 ```
+> Lembrando que sem o RIP ou algo similar, os roteadores da rede não conseguiriam estabelecer a conexão BGP, pois não saberiam como se conectar aos roteadores, principalmente por causa do IP de utilizado na interface de *loopback*.
+
+> Neste cenário só a título de ilustração estamos utilizando o RIP, mas poderia ser qualquer outro, como de preferência o OSPF e tal configuração também poderia ser feita via roteamento estático, já que a rede não é muito grande!
+
+Agora vamos basicamente repetir as mesmas configurações em R7 e R8, só alterando os IPs de vizinhos:
+* Roteador R7:
 
 ```console
 R7(config)#interface lo0
 R7(config-if)#ip address 172.16.107.107 255.255.255.255
 R7(config-if)#exit
-
-R7(config)#no router bgp 3
 
 R7(config)#router bgp 3
 R7(config-router)#neighbor 172.16.106.106 remote-as 3
@@ -752,8 +404,6 @@ R7(config-router)#neighbor 172.16.106.106 next-hop-self
 R7(config-router)#neighbor 172.16.108.108 remote-as 3
 R7(config-router)#neighbor 172.16.108.108 update-source lo0
 R7(config-router)#neighbor 172.16.108.108 next-hop-self
-R7(config-router)#network 172.16.7.0 mask 255.255.255.0
-R7(config-router)#network 172.16.8.0 mask 255.255.255.0
 R7(config-router)#exit
 
 R7(config)#router rip
@@ -763,6 +413,7 @@ R7(config-router)#network 172.16.3.0
 R7(config-router)#network 172.16.107.107
 R7(config-router)#exit
 ```
+* Roteador R8:
 
 ```console
 R8(config)#interface lo0
@@ -776,13 +427,10 @@ R8(config-router)#neighbor 172.16.106.106 next-hop-self
 R8(config-router)#neighbor 172.16.107.107 remote-as 3
 R8(config-router)#neighbor 172.16.107.107 update-source lo0
 R8(config-router)#neighbor 172.16.107.107 next-hop-self
-R8(config-router)#network 172.16.9.0 mask 255.255.255.0
 R8(config-router)#exit
 
 R8(config)#router rip
 R8(config-router)#version 2
-R8(config-router)#network 172.16.2.0
-R8(config-router)#no network 172.16.2.0
 R8(config-router)#network 172.16.1.0
 R8(config-router)#network 172.16.3.0
 R8(config-router)#network 172.16.108.108
@@ -790,26 +438,454 @@ R8(config-router)#exit
 R8(config)#end
 ```
 
-Nos teste, após desligar as interfaces g2/0 de R8 e R8, nesse teste demorou aproximadamente 3 minutos para a rede se auto reconfigurar novamente. Vejamos na saída a seguir a nova rota escolhida pelo BGP:
+Feita as devidas configurações em R6, R7 e R8, vejamos se há conexão BGP entre eles, vamos fazer isso em R6:
 
 ```console
-PC9> trace 192.168.11.1
-trace to 192.168.11.1, 8 hops max, press Ctrl+C to stop
- 1   172.16.9.108   5.483 ms  9.198 ms  9.620 ms
- 2   172.16.3.107   30.241 ms  19.333 ms  19.209 ms
- 3   172.16.2.106   40.211 ms  39.984 ms  40.646 ms
- 4   172.16.0.103   49.280 ms  39.338 ms  39.537 ms
- 5   10.1.103.101   59.539 ms  60.429 ms  60.108 ms
- 6   10.1.100.102   70.039 ms  70.121 ms  69.710 ms
- 7   192.168.0.109   80.060 ms  79.975 ms  80.104 ms
- 8   192.168.2.111   90.187 ms  90.723 ms  90.596 ms
+R6#show ip bgp summary
+BGP router identifier 172.16.106.106, local AS number 3
+...
+Neighbor        V          AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+172.16.0.103    4          1    1417    1415       58    0    0 00:02:50        2
+172.16.107.107  4          3    1363    1383       58    0    0 21:48:32        0
+172.16.108.108  4          3    1366    1397       58    0    0 21:43:21        0
+```
+Na saída anterior é possível verificar que há uma conexão eBGP entre R6->R3 (172.16.0.103) - isso já funcionava, mas principalmente há conexão estabelecida (números inteiros na última coluna) com os IPs 172.16.107.107 e 172.16.108.108, que são respectivamente os IPs atrelados as interfaces de *loopback* de R7 e R8. Ou seja, conseguimos estabelecer conexão com os vizinhos iBGP utilizando os IPs criados só para isso.
 
-PC9> ping 192.168.11.1 -c 1
+Agora vamos ver se as rotas estão sendo propagadas corretamente, vamos fazer isso em R8:
 
-84 bytes from 192.168.11.1 icmp_seq=1 ttl=56 time=98.331 ms
+```console
+R8#show ip bgp
+BGP table version is 116, local router ID is 172.16.108.108
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*>i10.1.1.0/24      172.16.106.106           0    100      0 1 i
+*>i10.1.2.0/24      172.16.106.106           0    100      0 1 i
+r>i172.16.7.0/24    172.16.106.106           1    100      0 i
+r>i172.16.8.0/24    172.16.106.106           1    100      0 i
+r>i172.16.9.0/24    172.16.106.106           1    100      0 i
 ```
 
-Então, agora a rota escolhida passa pelos roteadores R8, R7, R6, R3, R1, R2, R9 e R11.
+Segundo a saída anterior, com toda a configuração feita até agora, é possível acessar LAN1, LAN2, LAN7, LAN8 e LAN9. Sendo que LAN 1 e 2, são rotas fornecidas via eBGP, já LAN7, 8 e 9, são fornecidas via BGP, mas o R8 está utilizando o RIP para alcançar tais redes, essa informação é o ``r``, que está na frente das rotas para LAN 7, 8, e 9. O ``r`` significa *RIB-failure*, que diz que há uma rota com mais prioridade, que não é o BGP.
+
+> Se você quiser ver em detalhes execute o comando ``show ip route`` e você verá que a rota para essas redes é fornecida via RIP e não BGP - a rota do BGP está lá, mas ela perde em prioridade para o RIP/IGP, que perde para uma rota estática (caso houvesse alguma).
+
+Vamos realizar um teste do conectividade do PC9 para as redes que são alcançadas até o momento (redes do AS3 e do R3):
+
+```console
+PC9> ping 172.16.7.1 -c 1
+84 bytes from 172.16.7.1 icmp_seq=1 ttl=62 time=39.488 ms
+
+PC9> ping 172.16.8.1 -c 1
+84 bytes from 172.16.8.1 icmp_seq=1 ttl=62 time=33.870 ms
+
+PC9> ping 10.1.1.1 -c 1
+84 bytes from 10.1.1.1 icmp_seq=1 ttl=61 time=62.926 ms
+
+PC9> ping 10.1.2.1 -c 1
+84 bytes from 10.1.2.1 icmp_seq=1 ttl=61 time=69.650 ms
+```
+A saída mostra que todas as redes conectadas no AS3 e no R3, estão acessíveis com as técnicas/configurações que realizamos até agora. Entretanto, o leitor mais crítico, já deve estar a algum tempo se perguntando, quando é que os roteadores do AS1 vão propagar as redes BGP de todos os ASs para todos. Vamos fazer isso na sequência - deixamos para o final, pois o AS1 será o mais complexo do cenário do exemplo.
+
+## Configurando iBGP no AS 1
+
+Vamos configurar agora o AS1, que é um *backbone*, ou seja, ele conecta todas as redes do cenário. Bem, na verdade até agora o AS1 é uma rede bem desconexa, pois a maioria dos roteadores deste AS já sabem a respeito de outros ASs, mas eles não estão trocando informações entre os roteadores do próprio AS a respeito disso, logo a rede do cenário não se conecta por completo.
+
+Para o AS1, vamos utilizar ainda a abordagem do IP nas interfaces de *loopback*, para evitar que alguma interface física caia e o cenário fique parcialmente ou totalmente desconexo. Também, vamos utilizar a técnica de **Route Reflector** para trocar informações a respeito de rotas iBGP no AS1. Neste cenário utilizaremos o OSPF para propagar localmente as redes do AS1, bem como os IPs atribuídos nas interfaces de *loopback* dos roteadores de AS1.
+
+Assim vamos inciar a configuração pelo R1, que será nosso Route Reflector:
+* R1:
+
+```console
+R1#configure terminal
+R1(config)#interface lo0
+R1(config-if)#ip address 10.1.101.101 255.255.255.255
+R1(config-if)#exit
+
+R1(config)#router bgp 1
+R1(config-router)#neighbor 10.1.102.102 remote-as 1
+R1(config-router)#neighbor 10.1.102.102 update-source lo0
+R1(config-router)#neighbor 10.1.102.102 route-reflector-client
+R1(config-router)#neighbor 10.1.102.102 next-hop-self
+
+R1(config-router)#neighbor 10.1.255.103 remote-as 1
+R1(config-router)#neighbor 10.1.255.103 update-source lo0
+R1(config-router)#neighbor 10.1.255.103 route-reflector-client
+R1(config-router)#neighbor 10.1.255.103 next-hop-self
+
+
+R1(config-router)#neighbor 10.1.104.104 remote-as 1
+R1(config-router)#neighbor 10.1.104.104 update-source lo0
+R1(config-router)#neighbor 10.1.104.104 route-reflector-client
+R1(config-router)#neighbor 10.1.104.104 next-hop-self
+
+R1(config-router)#network 10.1.1.0 mask 255.255.255.0
+R1(config-router)#network 10.1.2.0 mask 255.255.255.0
+R1(config-router)#network 10.1.3.0 mask 255.255.255.0
+R1(config-router)#network 10.1.4.0 mask 255.255.255.0
+R1(config-router)#exit
+
+R1(config)#router ospf 1
+R1(config-router)#network 10.1.100.0 0.0.0.255 area 0
+R1(config-router)#network 10.1.103.0 0.0.0.255 area 0
+R1(config-router)#network 10.1.101.101 0.0.0.0 area 0
+R1(config-router)#passive-interface f0/0
+R1(config-router)#
+```
+* R2:
+
+```console
+R2#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#interface lo0
+R2(config-if)#ip address 10.1.102.102 255.255.255.255
+R2(config-if)#exit
+
+R2(config)#router bgp 1
+R2(config-router)#neighbor 10.1.101.101 remote-as 1
+R2(config-router)#neighbor 10.1.101.101 update-source lo0
+R2(config-router)#neighbor 10.1.101.101 next-hop-self
+R2(config-router)#exit
+
+R2(config)#router ospf 1
+R2(config-router)#network 10.1.3.0 0.0.0.255 area 0
+R2(config-router)#network 10.1.4.0 0.0.0.255 area 0
+R2(config-router)#network 10.1.100.0 0.0.0.255 area 0
+R2(config-router)#network 10.1.100.0 0.0.0.255 area 0
+R2(config-router)#network 10.1.101.0 0.0.0.255 area 0
+R2(config-router)#network 10.1.102.102 0.0.0.0 area 0
+R2(config-router)#passive-interface g2/0
+R2(config-router)#passive-interface g2/0
+R2(config-router)#passive-interface g1/0
+R2(config-router)#passive-interface f0/0
+```
+* R3:
+
+```console
+R3#configure terminal
+R3(config)#interface lo0
+R3(config-if)#ip address 10.1.255.103 255.255.255.255
+R3(config-if)#exit
+
+R3(config)#router bgp 1
+R3(config-router)#neighbor 10.1.101.101 remote-as 1
+R3(config-router)#neighbor 10.1.101.101 update-source lo0
+R3(config-router)#neighbor 10.1.101.101 next-hop-self
+R3(config-router)#exit
+
+R3(config)#router ospf 1
+R3(config-router)#network 10.1.103.0 0.0.0.255 area 0
+R3(config-router)#network 10.1.102.0 0.0.0.255 area 0
+R3(config-router)#network 10.1.1.0 0.0.0.255 area 0
+R3(config-router)#network 10.1.2.0 0.0.0.255 area 0
+R3(config-router)#network 10.1.255.103 0.0.0.0 area 0
+R3(config-router)#passive-interface f0/0
+R3(config-router)#passive-interface g1/0
+R3(config-router)#passive-interface g4/0
+```
+* R4:
+
+```console
+R4(config)#interface lo0
+R4(config-if)#ip address 10.
+R4(config-if)#ip address 10.1.104.104 255.255.255.255
+R4(config-if)#exit
+
+R4(config)#router bgp 1
+R4(config-router)#neighbor 10.1.101.101 remote-as 1
+R4(config-router)#neighbor 10.1.101.101 update-source lo0
+R4(config-router)#neighbor 10.1.101.101 next-hop-self
+R4(config-router)#exit
+
+R4(config)#router ospf 1
+R4(config-router)#network 10.1.101.0 0.0.0.255 area 0
+R4(config-router)#network 10.1.101.0 0.0.0.255 area 0
+R4(config-router)#network 10.1.102.0 0.0.0.255 area 0
+R4(config-router)#network 10.1.104.104 0.0.0.0 area 0
+```
+
+Após executar corretamente tais comandos em seus respectivos roteadores vamos verificar se há vizinhança entre eles, mais especificamente vemos observar se há vizinhança entre R4 e R1, pois sem o iBGP, loopback e o OSPF configurado corretamente, o R4 não se conectaria de forma alguma ao R1 (pois eles não são vizinhos físicos):
+
+```console
+R4#show ip bgp summary
+BGP router identifier 10.1.104.104, local AS number 1
+BGP table version is 23, main routing table version 23
+12 network entries using 1584 bytes of memory
+12 path entries using 624 bytes of memory
+5/4 BGP path/bestpath attribute entries using 840 bytes of memory
+2 BGP rrinfo entries using 48 bytes of memory
+3 BGP AS-PATH entries using 72 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 3168 total bytes of memory
+BGP activity 12/0 prefixes, 12/0 paths, scan interval 60 secs
+
+Neighbor        V          AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.1.101.101    4          1      20      15       23    0    0 00:12:59       12
+```
+
+Com a saída anterior, é possível contatar que foi estabelecida a conexão TCP/179, ou seja, BGP entre R4 e R1 (10.1.101.101), e tal conexão está no estado Established (última coluna com o número inteiro positivo). Ou seja, a configuração iBGP, o *loopback* e o OSPF foram configurados de acordo com o esperado.
+
+Visto isso, vamos verificar a tabela de roteamento do R4:
+
+```console
+R4#show ip bgp
+BGP table version is 23, local router ID is 10.1.104.104
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+r>i10.1.1.0/24      10.1.101.101             2    100      0 i
+r>i10.1.2.0/24      10.1.101.101             2    100      0 i
+r>i10.1.3.0/24      10.1.101.101             2    100      0 i
+r>i10.1.4.0/24      10.1.101.101             2    100      0 i
+*>i10.2.5.0/24      10.1.101.101             0    100      0 2 i
+*>i10.2.6.0/24      10.1.101.101             0    100      0 2 i
+*>i172.16.7.0/24    10.1.255.103             1    100      0 3 i
+*>i172.16.8.0/24    10.1.255.103             1    100      0 3 i
+*>i172.16.9.0/24    10.1.255.103             1    100      0 3 i
+*>i192.168.10.0     10.1.102.102             2    100      0 4 i
+*>i192.168.11.0     10.1.102.102             2    100      0 4 i
+*>i192.168.12.0     10.1.102.102             2    100      0 4 i
+```
+
+Como pode ser visto na saída anterior, o R4 tem rotas para todas as rotas BGP do cenário: LAN 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 E 12. Isso significa que há integração entre todos os ASs do cenário de rede, o que é ótimo! :-D
+
+Vamos verificar se essas rotas foram propagadas para o R8 do AS3, que é um iBGP deste cenário:
+
+```console
+R8#show ip bgp
+BGP table version is 123, local router ID is 172.16.108.108
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*>i10.1.1.0/24      172.16.106.106           0    100      0 1 i
+*>i10.1.2.0/24      172.16.106.106           0    100      0 1 i
+*>i10.1.3.0/24      172.16.106.106           0    100      0 1 i
+*>i10.1.4.0/24      172.16.106.106           0    100      0 1 i
+*>i10.2.5.0/24      172.16.106.106           0    100      0 1 2 i
+*>i10.2.6.0/24      172.16.106.106           0    100      0 1 2 i
+r>i172.16.7.0/24    172.16.106.106           1    100      0 i
+r>i172.16.8.0/24    172.16.106.106           1    100      0 i
+r>i172.16.9.0/24    172.16.106.106           1    100      0 i
+*>i192.168.10.0     172.16.106.106           0    100      0 1 4 i
+*>i192.168.11.0     172.16.106.106           0    100      0 1 4 i
+*>i192.168.12.0     172.16.106.106           0    100      0 1 4 i
+```
+
+Bem o resultado é o mesmo do obtido anteriormente, ou seja, o roteador possui rotas para todas as redes...
+
+Assim, vamos realizar testes de conectividade e redundância para ver o comportamento das configurações BGP.
+
+## Teste de conectividade do cenário
+
+Para finalizar o teste vamos, executar o ``ping`` do PC9, conectado ao R8 para todos os outros PCs/redes do cenário proposto:
+
+```console
+PC9> ping 10.1.1.1 -c 1
+84 bytes from 10.1.1.1 icmp_seq=1 ttl=61 time=34.343 ms
+
+PC9> ping 10.1.2.1 -c 1
+84 bytes from 10.1.2.1 icmp_seq=1 ttl=61 time=46.063 ms
+
+PC9> ping 10.1.3.1 -c 1
+84 bytes from 10.1.3.1 icmp_seq=1 ttl=59 time=72.621 ms
+
+PC9> ping 10.1.4.1 -c 1
+84 bytes from 10.1.4.1 icmp_seq=1 ttl=59 time=99.155 ms
+
+PC9> ping 10.2.5.1 -c 1
+84 bytes from 10.2.5.1 icmp_seq=1 ttl=59 time=62.595 ms
+
+PC9> ping 10.2.6.1 -c 1
+84 bytes from 10.2.6.1 icmp_seq=1 ttl=59 time=65.700 ms
+
+PC9> ping 172.16.7.1 -c 1
+84 bytes from 172.16.7.1 icmp_seq=1 ttl=62 time=33.468 ms
+
+PC9> ping 172.16.8.1 -c 1
+84 bytes from 172.16.8.1 icmp_seq=1 ttl=62 time=31.527 ms
+
+PC9> ping 192.168.10.1 -c 1
+84 bytes from 192.168.10.1 icmp_seq=1 ttl=57 time=97.777 ms
+
+PC9> ping 192.168.11.1 -c 1
+84 bytes from 192.168.11.1 icmp_seq=1 ttl=57 time=82.784 ms
+
+PC9> ping 192.168.12.1 -c 1
+84 bytes from 192.168.12.1 icmp_seq=1 ttl=57 time=91.569 ms
+```
+
+Assim, as saídas dos "*pings*" realizadas, demonstram também que o cenário está totalmente funcional e conectado.
+
+## Teste redundância
+
+Para o teste de redundância vamos verificar primeiro qual é o caminho percorrido para levar pacotes de rede do PC9 do AS3 para o PC10 do AS4:
+
+```console
+PC9> trace 192.168.10.1
+trace to 192.168.10.1, 8 hops max, press Ctrl+C to stop
+ 1   172.16.9.108   9.759 ms  9.260 ms  9.843 ms
+ 2   172.16.1.106   29.475 ms  29.890 ms  29.384 ms
+ 3   172.16.0.103   40.609 ms  40.308 ms  39.760 ms
+ 4   10.1.102.104   49.619 ms  49.643 ms  49.690 ms
+ 5   10.1.101.102   59.860 ms  60.223 ms  49.514 ms
+ 6   192.168.0.109   69.848 ms  70.064 ms  69.924 ms
+ 7   192.168.1.110   80.264 ms  80.449 ms  79.656 ms
+ 8   *192.168.10.1   100.543 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC9> ping 192.168.10.1
+
+84 bytes from 192.168.10.1 icmp_seq=1 ttl=57 time=90.143 ms
+```
+Para os pacotes saírem no PC9 para o PC10, eles passam pelos seguinte roteadores: R8, R6, R3, R4, R2, R9 e R10. Visto isso vamos desligar as conexões de rede (os *links*) entre R8-R6 e R3-R4, que são caminhos escolhidos pelo BGP para enviar os pacotes do PC9 para o PC10. Veja como fica o cenário na Figura 3 (veja os *links* em amarelo com um o sinal de "*pause*").
+
+| ![rede](imagens/BGP03-pause.png) |
+|:--:|
+| Figura 3 - Teste de redundância |
+
+No teste o R3, demorou quase 2 minutos para trocar a rota para o AS4 do R4 para o R1. Já o R8 demorou mais que 2 minutos para perceber a mudança. Todavia, as redes convergiram para um novo caminho que leve ao destino, veja a nova rota:
+
+```console
+PC9> trace 192.168.10.1
+trace to 192.168.10.1, 8 hops max, press Ctrl+C to stop
+ 1   172.16.9.108   9.152 ms  9.724 ms  9.226 ms
+ 2   172.16.3.107   19.728 ms  19.474 ms  19.323 ms
+ 3   172.16.2.106   39.356 ms  40.118 ms  39.730 ms
+ 4   172.16.0.103   60.384 ms  59.970 ms  50.196 ms
+ 5   10.1.103.101   80.017 ms  80.280 ms  69.667 ms
+ 6   10.1.100.102   90.016 ms  90.387 ms  89.740 ms
+ 7   192.168.0.109   110.100 ms  110.196 ms  109.826 ms
+ 8   192.168.1.110   129.752 ms  120.027 ms  120.573 ms
+
+PC9> ping 192.168.10.1
+
+84 bytes from 192.168.10.1 icmp_seq=1 ttl=56 time=95.506 ms
+```
+Agora a nova rota de PC9 para PC10 é: R8, R7, R6, R3, R1, R2, R9 e R10.
+
+É sempre bom realizar testes de redundância em uma rede BGP, pois uma configuração pode funcionar em um cenário de rede, que quando alterado, a rede inteira ou parte dela pode parar de funcionar. Então, após configurar uma rede BGP, desligue tente ligar/desligar todos os possíveis pontos da rede e verificar se ainda há conectividade.
+
+Lembrando que no AS1 há um grande ponto de falha, que é o R1, então caso esto roteador pare, a comunicação entre os ASs vão parar também, para que isso não ocorra seria possível alguma abordagem como um roteador *backup* ou um *cluster*.
+
+
+## agregação de rotas
+
+Nosso cenário de exemplo é grande, mas nem se compara com a Internet, mesmo assim note que a tabela de roteamento BGP já ficou relativamente grande, o que pode consumir muito processamento na análise de rotas, bem como memória para armazenar tais rotas, ou mesmo, pode tornar a análise pelos seres humanos mais confuso (ruim de analisar). Para resolver esse problema é possível agregar as rotas, ou seja, juntar em uma mesma rota, endereços IPs muito similares.
+
+No nosso exemplo de rede há pelo menos duas redes que podemos agregar, que são as redes do AS4 e AS3, mas também dá para agregar do AS2. Assim, vamos agregar as redes do AS3 e AS4 para ilustrar a técnica de agregação de rotas:
+* AS3 no R6:
+
+```console
+R6#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+R6(config)#router bgp 3
+R6(config-router)#aggregate-address 172.16.0.0 255.255.0.0 summary-only
+```
+
+O roteador R6, no AS3 é quem publica as rede, então executamos o comando ``aggregate-address`` dizendo para ao invés de anunciar as redes 172.16.7.0/24, 172.16.7.0/24 e 172.16.7.0/24, que essas fossem anunciadas como a rede 172.16.0.0/26. ou seja a ideia é que os roteadores vão ter agora apenas uma entrada em sua tabela de roteamento, que é para a rede 172.16.0.0/16, e quando alguém quiser alguma sub-rede ou *host* dessa rede, deve seguir para o AS3, e chegando ao R6, tal roteador consegue encaminhar corretamente os pacotes, por exemplo, os pacotes destinados a 172.16.7.0 deve ir para o R7 e os destinados à 172.16.9.0, devem ir para R8.
+
+Vamos ver como era a tabela de BGP do R1 antes e depois da agregação de endereços:
+* Tabela roteamento BGP antes:
+
+```console
+R1#show ip bgp
+BGP table version is 20, local router ID is 10.2.0.101
+   Network          Next Hop            Metric LocPrf Weight Path
+* i10.1.1.0/24      10.1.255.103             0    100      0 i
+*>                  10.1.103.103             2         32768 i
+* i10.1.2.0/24      10.1.255.103             0    100      0 i
+*>                  10.1.103.103             2         32768 i
+*> 10.1.3.0/24      10.1.100.102             2         32768 i
+* i                 10.1.102.102             0    100      0 i
+*> 10.1.4.0/24      10.1.100.102             2         32768 i
+* i                 10.1.102.102             0    100      0 i
+*> 10.2.5.0/24      10.2.0.105               0             0 2 i
+*> 10.2.6.0/24      10.2.0.105               0             0 2 i
+*>i172.16.7.0/24    10.1.255.103             1    100      0 3 i
+*>i172.16.8.0/24    10.1.255.103             1    100      0 3 i
+*>i172.16.9.0/24    10.1.255.103             1    100      0 3 i
+*>i192.168.10.0     10.1.102.102             2    100      0 4 i
+*>i192.168.11.0     10.1.102.102             2    100      0 4 i
+*>i192.168.12.0     10.1.102.102             2    100      0 4 i
+```
+
+* Tabela roteamento BGP depois:
+
+```console
+R1#show ip bgp
+   Network          Next Hop            Metric LocPrf Weight Path
+* i10.1.1.0/24      10.1.255.103             0    100      0 i
+*>                  10.1.103.103             2         32768 i
+* i10.1.2.0/24      10.1.255.103             0    100      0 i
+*>                  10.1.103.103             2         32768 i
+*> 10.1.3.0/24      10.1.100.102             2         32768 i
+* i                 10.1.102.102             0    100      0 i
+*> 10.1.4.0/24      10.1.100.102             2         32768 i
+* i                 10.1.102.102             0    100      0 i
+*> 10.2.5.0/24      10.2.0.105               0             0 2 i
+*> 10.2.6.0/24      10.2.0.105               0             0 2 i
+*>i172.16.0.0       10.1.255.103             0    100      0 3 i
+*>i192.168.10.0     10.1.102.102             2    100      0 4 i
+*>i192.168.11.0     10.1.102.102             2    100      0 4 i
+*>i192.168.12.0     10.1.102.102             2    100      0 4 i
+```
+
+Comparando as saídas anteriores, é possível notar que agora todas as redes do AS3 se resumem em: 172.16.0.0.
+
+Vamos realizar o mesmo processo no R9 do AS4 e no R5 do AS2:
+* R9
+
+```console
+R9(config)#router bgp 4
+R9(config-router)#aggregate-address 192.168.0.0 255.255.0.0 summary-only
+R9(config-router)#
+```
+
+* R5
+
+```console
+R5(config-router)#router bgp 2
+R5(config-router)#aggregate-address 10.2.0.0 255.255.0.0 summary-only
+```
+
+Feito isso, vamos ver como ficou a tabela de rotas BGP do R1:
+
+```console
+R1#show ip bgp
+BGP table version is 31, local router ID is 10.2.0.101
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+* i10.1.1.0/24      10.1.255.103             0    100      0 i
+*>                  10.1.103.103             2         32768 i
+* i10.1.2.0/24      10.1.255.103             0    100      0 i
+*>                  10.1.103.103             2         32768 i
+*> 10.1.3.0/24      10.1.100.102             2         32768 i
+* i                 10.1.102.102             0    100      0 i
+*> 10.1.4.0/24      10.1.100.102             2         32768 i
+* i                 10.1.102.102             0    100      0 i
+*> 10.2.0.0/16      10.2.0.105               0             0 2 i
+*>i172.16.0.0       10.1.255.103             0    100      0 3 i
+*>i192.168.0.0/16   10.1.102.102             0    100      0 4 i
+```
+
+Dada a saída anterior, se comparada com a primeira saída do R1 nesta seção, é possível constatar que ficaram menos entradas na tabela BGP. No caso, ficaram apenas entradas para as redes internas (LAN1, LAN 2, LAN3  e LAN4) e agregações que basicamente estão simbolizando tudo o que há dentro de cada AS, ou seja:
+* AS2 - 10.2.0.0/16
+* AS3 - 172.16.0.0/16
+* AS4 - 192.168.0.0/24
+
+Desta forma, nesta rede deduz-se que tudo que for 192.168. deve ir para o AS4, já se for 172.16. irá para o AS3, e se for 10.2. vai para o AS2.
+
+Tal exemplo, demonstra que o a agregação ajuda a melhorar a leitura e processamento das rotas em redes BGP. Isso ajuda muito no entendimento de redes gigantes como à Internet. É claro que para utilizar a agregação de rotas, é necessário antes projetar a rede para que essa permita agregar todas (além de fazer alguns cálculos de rede para ver quais redes é possível agregar).
+
 
 # Conclusão
 
@@ -818,4 +894,5 @@ O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a
 # Referências
 
 * <https://www.catchpoint.com/bgp-monitoring/bgp-route-reflector>
+
 * <https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13751-23.html>
