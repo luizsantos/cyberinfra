@@ -902,7 +902,7 @@ O BGP é o protocolo de roteamento que interconecta a cocha de retalhos que é a
 # Arquivos de configurações dos roteadores do cenário
 
 Todos os arquivos de configurações do cenário estão nos *links* a seguir:
-* [R1](confs/iBGP/R1.cfg), [R2](confs/iBGP/R2.cfg), [R3](confs/iBGP/R3.cfg), [R4](confs/iBGP/R4.cfg), [R5](confs/iBGP/R5.cfg), [R6](confs/iBGP/R6.cfg), [R7](confs/iBGP/R7.cfg), [R8](confs/iBGP/R8.cfg), [R9](confs/iBGP/R9.cfg), [R10](confs/iBGP/R10.cfg) e [R11](confs/iBGP/R11.cfg).
+* [R1](confs/iBGP/R1.cfg.txt), [R2](confs/iBGP/R2.cfg.txt), [R3](confs/iBGP/R3.cfg.txt), [R4](confs/iBGP/R4.cfg.txt), [R5](confs/iBGP/R5.cfg.txt), [R6](confs/iBGP/R6.cfg.txt), [R7](confs/iBGP/R7.cfg.txt), [R8](confs/iBGP/R8.cfg.txt), [R9](confs/iBGP/R9.cfg.txt), [R10](confs/iBGP/R10.cfg.txt) e [R11](confs/iBGP/R11.cfg.txt).
 
 # Referências
 
