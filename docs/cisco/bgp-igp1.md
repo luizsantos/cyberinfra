@@ -331,7 +331,7 @@ Ou seja, para criar uma rede *Full Mesh*, a formula é (3*(3-1))/2, só que para
 
 Pior, no exemplo dado anteriormente, criando a vizinhança entre R6->R7, escolhemos utilizar o IP 172.16.1.108, para chegar em R8, e 172.16.1.106 para chegar em R6 (linha amarela na Figura 2), mas e se essa rede 172.16.1.0/24 falhar - o cabo quebrar?
 
-Neste caso, é bem provável que iremos perder a vizinhança/conexão entre R6 e R8. Todavia, perceba que pela configuração de rede do exemplo, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7 (linha vermelha da Figura 2). Então, para que essa falha não ocorra, podemos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também, R8 indo para R6 por 172.16.2.106. Todavia, se fizemos essa redundância, o número de "vizinhos" vai dobrar e a quantidade de comandos necessário para os pares vai quadruplicar! Sem falar que ainda será necessário roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes internas no AS... :-p
+Neste caso, é bem provável que iremos perder a vizinhança/conexão entre R6 e R8. Todavia, perceba que pela configuração de rede do exemplo, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7 (linha vermelha da Figura 2). Então, para que essa falha não ocorra, podemos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também, R8 indo para R6 por 172.16.2.106. Todavia, se fizermos essa redundância, o número de "vizinhos" vai dobrar e a quantidade de comandos necessário para os pares vai quadruplicar! Sem falar que ainda será necessário roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes internas no AS... :-p
 
 | ![rede](imagens/BGP03-AS3.png) |
 |:--:|
@@ -373,7 +373,7 @@ R6(config-router)#exit
    Observe que para cada IP, como por exemplo do 172.16.107.107 do R7, temos três linhas de comando, sendo o final dessas:
 * ``remote-as 3``, que indica o AS do vizinho, como é um iBGP, todos os vizinhos nessa configuração tem o mesmo número (``3``);
 * ``update-source lo0``, informa que uma interface de *loopback* pode ser utilizada para criar conexões BGP.
-* ``next-hop-self``, obriga o roteador iBGP a repassar ele mesmo como sendo o roteador de próximo saldo de uma rota que ele aprendeu via BGP. Caso esse comando não seja utilizado, o roteador iBGP repassa, como sendo o próximo salto, o roteador pelo qual ele aprendeu a rota, o que normalmente gera inconsistências, já que muitas vezes o roteador não sabe chegar naquela rota de um roteador fora do AS, por exemplo.
+* ``next-hop-self``, obriga o roteador iBGP a repassar ele mesmo como sendo o roteador de próximo saldo de uma rota que ele aprendeu via BGP. Caso esse comando não seja utilizado, o roteador iBGP repassa, como sendo o próximo salto, o roteador pelo qual ele aprendeu a rota, o que normalmente gera inconsistências, já que muitas vezes o roteador não sabe chegar naquela rota de um roteador fora do AS.
 
 Também foram configuradas as redes a serem publicadas via BGP, tal como: ``network 172.16.7.0 mask 255.255.255.0``.
 
@@ -625,7 +625,7 @@ R4(config-router)#network 10.1.104.104 0.0.0.0 area 0
 
 As configurações de todos os clientes R2, R3 e R4 são muito similares, só trocando os IPs para se adequarem à cada roteador, a configuração em ordem é: que o roteador em questão é vizinho de R1, que vai utilizar a interface de *loopback* e a configuração do OSPF.
 
-> Foi executado o comando ``passive-interface`` no OSPF para garantir que não há comunicação BGP entre o AS1 e os demais, principalmente o AS4 que também utiliza OSPF.
+> Foi executado o comando ``passive-interface`` no OSPF para garantir que não há comunicação OSPF entre o AS1 e os demais, principalmente o AS4 que também utiliza OSPF.
 
 Após executar corretamente tais comandos em seus respectivos roteadores vamos verificar se há vizinhança entre eles, mais especificamente vamos observar se há vizinhança entre R4 e R1, pois sem o iBGP, *loopback* e o OSPF configurado corretamente, o R4 não se conectaria de forma alguma ao R1, pois eles não são vizinhos físicos:
 
@@ -731,7 +731,7 @@ PC9> ping 192.168.11.1 -c 1
 PC9> ping 192.168.12.1 -c 1
 84 bytes from 192.168.12.1 icmp_seq=1 ttl=57 time=91.569 ms
 ```
-> É comum perder o primeiro pacote em testes de ``ping``, então em caso de falhas, realiza mais "*pings*" antes de achar que a configuração está errado.
+> É comum perder o primeiro pacote em testes de ``ping``, então em caso de falhas, realize mais "*pings*" antes de achar que a configuração está errado.
 
 Assim, as saídas dos "*pings*" realizados, demonstram também que o cenário está totalmente conectado e funcional.
 
