@@ -414,7 +414,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 
 <p>Pior, no exemplo dado anteriormente, criando a vizinhança entre R6-&gt;R7, escolhemos utilizar o IP 172.16.1.108, para chegar em R8, e 172.16.1.106 para chegar em R6 (linha amarela na Figura 2), mas e se essa rede 172.16.1.0/24 falhar - o cabo quebrar?</p>
 
-<p>Neste caso, é bem provável que iremos perder a vizinhança/conexão entre R6 e R8. Todavia, perceba que pela configuração de rede do exemplo, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7 (linha vermelha da Figura 2). Então, para que essa falha não ocorra, podemos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também, R8 indo para R6 por 172.16.2.106. Todavia, se fizemos essa redundância, o número de “vizinhos” vai dobrar e a quantidade de comandos necessário para os pares vai quadruplicar! Sem falar que ainda será necessário roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes internas no AS… :-p</p>
+<p>Neste caso, é bem provável que iremos perder a vizinhança/conexão entre R6 e R8. Todavia, perceba que pela configuração de rede do exemplo, ainda haveria uma rota para R6 chegar em R8, que seria passando por R7 (linha vermelha da Figura 2). Então, para que essa falha não ocorra, podemos configurar como vizinhos R6 indo para R8 com o IP 172.16.3.108, e também, R8 indo para R6 por 172.16.2.106. Todavia, se fizermos essa redundância, o número de “vizinhos” vai dobrar e a quantidade de comandos necessário para os pares vai quadruplicar! Sem falar que ainda será necessário roteamento estático ou dinâmico via IGP (OSPF e RIP) para fazer os roteadores conhecerem todas as redes internas no AS… :-p</p>
 
 <table>
   <thead>
@@ -468,7 +468,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 <ul>
   <li><code class="language-plaintext highlighter-rouge">remote-as 3</code>, que indica o AS do vizinho, como é um iBGP, todos os vizinhos nessa configuração tem o mesmo número (<code class="language-plaintext highlighter-rouge">3</code>);</li>
   <li><code class="language-plaintext highlighter-rouge">update-source lo0</code>, informa que uma interface de <em>loopback</em> pode ser utilizada para criar conexões BGP.</li>
-  <li><code class="language-plaintext highlighter-rouge">next-hop-self</code>, obriga o roteador iBGP a repassar ele mesmo como sendo o roteador de próximo saldo de uma rota que ele aprendeu via BGP. Caso esse comando não seja utilizado, o roteador iBGP repassa, como sendo o próximo salto, o roteador pelo qual ele aprendeu a rota, o que normalmente gera inconsistências, já que muitas vezes o roteador não sabe chegar naquela rota de um roteador fora do AS, por exemplo.</li>
+  <li><code class="language-plaintext highlighter-rouge">next-hop-self</code>, obriga o roteador iBGP a repassar ele mesmo como sendo o roteador de próximo saldo de uma rota que ele aprendeu via BGP. Caso esse comando não seja utilizado, o roteador iBGP repassa, como sendo o próximo salto, o roteador pelo qual ele aprendeu a rota, o que normalmente gera inconsistências, já que muitas vezes o roteador não sabe chegar naquela rota de um roteador fora do AS.</li>
 </ul>
 
 <p>Também foram configuradas as redes a serem publicadas via BGP, tal como: <code class="language-plaintext highlighter-rouge">network 172.16.7.0 mask 255.255.255.0</code>.</p>
@@ -735,7 +735,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 <p>As configurações de todos os clientes R2, R3 e R4 são muito similares, só trocando os IPs para se adequarem à cada roteador, a configuração em ordem é: que o roteador em questão é vizinho de R1, que vai utilizar a interface de <em>loopback</em> e a configuração do OSPF.</p>
 
 <blockquote>
-  <p>Foi executado o comando <code class="language-plaintext highlighter-rouge">passive-interface</code> no OSPF para garantir que não há comunicação BGP entre o AS1 e os demais, principalmente o AS4 que também utiliza OSPF.</p>
+  <p>Foi executado o comando <code class="language-plaintext highlighter-rouge">passive-interface</code> no OSPF para garantir que não há comunicação OSPF entre o AS1 e os demais, principalmente o AS4 que também utiliza OSPF.</p>
 </blockquote>
 
 <p>Após executar corretamente tais comandos em seus respectivos roteadores vamos verificar se há vizinhança entre eles, mais especificamente vamos observar se há vizinhança entre R4 e R1, pois sem o iBGP, <em>loopback</em> e o OSPF configurado corretamente, o R4 não se conectaria de forma alguma ao R1, pois eles não são vizinhos físicos:</p>
@@ -839,7 +839,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 <span class="go">84 bytes from 192.168.12.1 icmp_seq=1 ttl=57 time=91.569 ms
 </span></code></pre></div></div>
 <blockquote>
-  <p>É comum perder o primeiro pacote em testes de <code class="language-plaintext highlighter-rouge">ping</code>, então em caso de falhas, realiza mais “<em>pings</em>” antes de achar que a configuração está errado.</p>
+  <p>É comum perder o primeiro pacote em testes de <code class="language-plaintext highlighter-rouge">ping</code>, então em caso de falhas, realize mais “<em>pings</em>” antes de achar que a configuração está errado.</p>
 </blockquote>
 
 <p>Assim, as saídas dos “<em>pings</em>” realizados, demonstram também que o cenário está totalmente conectado e funcional.</p>
