@@ -27,6 +27,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 * Configuração básica de rede:
 	* [Introdução](confBasicaRedes/introConfRedeHost)
 	* [Linux](confBasicaRedes/linux/linuxConfRedeHost)
+* IPv6:
+    * [Rede básica no Linux](ipv6/ipv6_redeBasica)
 * Servidores no OpenBSD:
 	* [DHCP](OpenBSDServers/dhcp)
     * [Apache HTTP](OpenBSDServers/HTTP)
