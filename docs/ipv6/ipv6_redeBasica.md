@@ -15,12 +15,12 @@ Para tanto, utilizaremos o cenário de rede apresentado a seguir (ver Figura 1),
 
 | ![rede](imagens/redeBasica1.png) |
 |:--:|
-| Figura 1 - Cenário de rede do Exemplo iBGP |
+| Figura 1 - Cenário de rede do Exemplo IPv6 |
 
 A rede da Figura 1 é composta basicamente por duas redes, um roteador e *hosts* clientes, sendo esses:
 * **LAN1**: que simboliza uma rede local privada, tal como uma casa ou pequena empresa;
 * **WAN1**: que representa uma rede pública que interconecta a LAN à Internet.
-* **RouterLinux-1**: este é um roteador Linux utilizado para Interconectar a LAN1 à WAN1 e consequentemente à Internet. Neste será configurado o NAT, e o servidor de configuração automática de configuração de rede dos clientes da rede IPv6.
+* **RouterLinux-1**: este é um roteador Linux utilizado para Interconectar a LAN1 à WAN1 e consequentemente à Internet. Neste será configurado o NAT, e o servidor de configuração automática de rede dos clientes IPv6.
 * **Hosts[1-3]**: Todos os *hosts* da rede são Linux (Debian 10). O Host-1 está na WAN1 e tem como roteador um computador que está dentro da nuvem (*cloud1*). Os demais *hosts*, estão na LAN1 que por sua vez está atrás do NAT que será configurado no RoteadorLinux-1.
 
 > Todo esse cenário de rede foi implementado no [GNS3](https://gns3.com/).
@@ -83,7 +83,7 @@ root@Host-1:/# ip -6 address
 
 Na saída do comando ``ip -6 address`` anterior, são apresentadas duas interfaces de rede: ``lo`` e ``eth0``. A primeira é a interface de *loopback* que tem o endereço IPv6 ``::1``. Já a outra é a primeira interface Ethernet, no caso a ``eth0``, tal interface possui os seguintes IPs:
 * ``fd1b:e114:982d::5f8``, ``fd1b:e114:982d:0:bf3:3344:47af:8cbe``, ``fd1b:e114:982d:0:ac81:f6ff:fee8:46c9``: Esses são endereços locais únicos (*Unique Local Address* - [ULA](https://www.ipv6.br/post/enderecamento/)). Tais endereços iniciam com *fd* se forem atribuídos localmente (ex. pelo próprio *host*). Já se iniciasse com *fc*, seriam atribuídos por uma organização (ex. o administrador de rede da empresa). Tanto *fd* quando *fc* representam os antigos endereços IPs privados, ou seja, não roteáveis na Internet (10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16);
-* ``fe80::ac81:f6ff:fee8:46c9``: Tal endereço é um *link local*, ou seja, esse endereço não é roteável entre redes. Tal endereço é atribuído automaticamente pelo próprio computador e se um roteador receber pacotes IPv6 com esse endereço, ele roteá-lo, passando de um enlace para outro.
+* ``fe80::ac81:f6ff:fee8:46c9``: Tal endereço é um *link local*, ou seja, esse endereço não é roteável entre redes. Tal endereço é atribuído automaticamente pelo próprio computador e se um roteador receber pacotes IPv6 com esse endereço, ele não deve roteá-lo.
 * ``2804:828:f230:5b25:96ae:4ff3:e9fd:cf62``: Esse é um endereço *unicast* global (*Global Unicast Address*), ou seja, é um endereço IP público, válido na Internet;
 
 Bem, como é possível ver, há vários endereços IPv6 atribuídos à uma única interface de rede, no exemplo a ``eth0``. Tentando resumir, no geral quando liga-se um computador Linux na rede IPv6 pode ocorrer o seguinte:
@@ -105,7 +105,7 @@ fd1b:e114:982d::/64 dev eth0 proto ra metric 208 mtu 1500 pref medium
 fe80::/64 dev eth0 proto kernel metric 256 pref medium
 default via fe80::1 dev eth0 proto ra metric 208 pref medium
 ```
-Na saída anterior do comando ``ip -6 route``, são apresentadas rodas para as redes ``2804:828:f230:5b25::/64``, ``fd1b:e114:982d::/64`` e ``fe80::/64``, que são redes referentes aos IPs que obtivemos de forma automática. Talvez a rota mais importante a ser notada é à ``default``, que permite que este computador se conecte à outras redes. Assim, o endereço fe80::1 deve ser um IP atribuído ao roteador que está dentro do *cloud*.
+Na saída anterior do comando ``ip -6 route``, são apresentadas rotas para as redes ``2804:828:f230:5b25::/64``, ``fd1b:e114:982d::/64`` e ``fe80::/64``, que são redes referentes aos IPs que obtivemos de forma automática. Talvez a rota mais importante a ser notada é à ``default``, que permite que este computador se conecte à outras redes. Assim, o endereço fe80::1 deve ser um IP atribuído ao roteador que está dentro do *cloud*.
 
 * Servidor de nomes (DNS):
 
@@ -467,7 +467,7 @@ Feita tais configurações, a partir de agora é possível conectar qualquer *ho
 
 ## Conclusão
 
-A configuração deste cenário de rede IPv6 básica, mostrou alguns conceitos do IPv6, mas principalmente práticas Linux no IPv6. Também demostra que já é possível utilizar em boa parte utilizando IPv6, pois por exemplo, a atualização de pacotes (``apt``) e os testes de ``ping`` foram realizados com sucesso apenas utilizando IPv6, ou seja, sem nada de IPv4. Assim, recomenda-se conhecer mais do IPv6 e treiná-lo, para que quando esse novo protocolo dominar a Internet, são sejamos pegos de surpresa! :-D
+A configuração deste cenário de rede IPv6 básica, mostrou alguns conceitos do IPv6, mas principalmente práticas Linux no IPv6. Também demostra que já é possível utilizar em boa parte a Internet através do  IPv6, pois por exemplo, a atualização de pacotes (``apt``) e os testes de ``ping`` foram realizados com sucesso apenas com IPv6, ou seja, sem nada de IPv4. Assim, recomenda-se conhecer mais do IPv6 e treiná-lo, para que quando esse novo protocolo dominar a Internet, são sejamos pegos de surpresa! :-D
 
 ## Referências
 

@@ -83,7 +83,7 @@
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: center">Figura 1 - Cenário de rede do Exemplo iBGP</td>
+      <td style="text-align: center">Figura 1 - Cenário de rede do Exemplo IPv6</td>
     </tr>
   </tbody>
 </table>
@@ -92,7 +92,7 @@
 <ul>
   <li><strong>LAN1</strong>: que simboliza uma rede local privada, tal como uma casa ou pequena empresa;</li>
   <li><strong>WAN1</strong>: que representa uma rede pública que interconecta a LAN à Internet.</li>
-  <li><strong>RouterLinux-1</strong>: este é um roteador Linux utilizado para Interconectar a LAN1 à WAN1 e consequentemente à Internet. Neste será configurado o NAT, e o servidor de configuração automática de configuração de rede dos clientes da rede IPv6.</li>
+  <li><strong>RouterLinux-1</strong>: este é um roteador Linux utilizado para Interconectar a LAN1 à WAN1 e consequentemente à Internet. Neste será configurado o NAT, e o servidor de configuração automática de rede dos clientes IPv6.</li>
   <li><strong>Hosts[1-3]</strong>: Todos os <em>hosts</em> da rede são Linux (Debian 10). O Host-1 está na WAN1 e tem como roteador um computador que está dentro da nuvem (<em>cloud1</em>). Os demais <em>hosts</em>, estão na LAN1 que por sua vez está atrás do NAT que será configurado no RoteadorLinux-1.</li>
 </ul>
 
@@ -159,7 +159,7 @@ forked to background, child pid 111
 <p>Na saída do comando <code class="language-plaintext highlighter-rouge">ip -6 address</code> anterior, são apresentadas duas interfaces de rede: <code class="language-plaintext highlighter-rouge">lo</code> e <code class="language-plaintext highlighter-rouge">eth0</code>. A primeira é a interface de <em>loopback</em> que tem o endereço IPv6 <code class="language-plaintext highlighter-rouge">::1</code>. Já a outra é a primeira interface Ethernet, no caso a <code class="language-plaintext highlighter-rouge">eth0</code>, tal interface possui os seguintes IPs:</p>
 <ul>
   <li><code class="language-plaintext highlighter-rouge">fd1b:e114:982d::5f8</code>, <code class="language-plaintext highlighter-rouge">fd1b:e114:982d:0:bf3:3344:47af:8cbe</code>, <code class="language-plaintext highlighter-rouge">fd1b:e114:982d:0:ac81:f6ff:fee8:46c9</code>: Esses são endereços locais únicos (<em>Unique Local Address</em> - <a href="https://www.ipv6.br/post/enderecamento/">ULA</a>). Tais endereços iniciam com <em>fd</em> se forem atribuídos localmente (ex. pelo próprio <em>host</em>). Já se iniciasse com <em>fc</em>, seriam atribuídos por uma organização (ex. o administrador de rede da empresa). Tanto <em>fd</em> quando <em>fc</em> representam os antigos endereços IPs privados, ou seja, não roteáveis na Internet (10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16);</li>
-  <li><code class="language-plaintext highlighter-rouge">fe80::ac81:f6ff:fee8:46c9</code>: Tal endereço é um <em>link local</em>, ou seja, esse endereço não é roteável entre redes. Tal endereço é atribuído automaticamente pelo próprio computador e se um roteador receber pacotes IPv6 com esse endereço, ele roteá-lo, passando de um enlace para outro.</li>
+  <li><code class="language-plaintext highlighter-rouge">fe80::ac81:f6ff:fee8:46c9</code>: Tal endereço é um <em>link local</em>, ou seja, esse endereço não é roteável entre redes. Tal endereço é atribuído automaticamente pelo próprio computador e se um roteador receber pacotes IPv6 com esse endereço, ele não deve roteá-lo.</li>
   <li><code class="language-plaintext highlighter-rouge">2804:828:f230:5b25:96ae:4ff3:e9fd:cf62</code>: Esse é um endereço <em>unicast</em> global (<em>Global Unicast Address</em>), ou seja, é um endereço IP público, válido na Internet;</li>
 </ul>
 
@@ -194,7 +194,7 @@ fd1b:e114:982d::/64 dev eth0 proto ra metric 208 mtu 1500 pref medium
 fe80::/64 dev eth0 proto kernel metric 256 pref medium
 default via fe80::1 dev eth0 proto ra metric 208 pref medium
 </span></code></pre></div></div>
-<p>Na saída anterior do comando <code class="language-plaintext highlighter-rouge">ip -6 route</code>, são apresentadas rodas para as redes <code class="language-plaintext highlighter-rouge">2804:828:f230:5b25::/64</code>, <code class="language-plaintext highlighter-rouge">fd1b:e114:982d::/64</code> e <code class="language-plaintext highlighter-rouge">fe80::/64</code>, que são redes referentes aos IPs que obtivemos de forma automática. Talvez a rota mais importante a ser notada é à <code class="language-plaintext highlighter-rouge">default</code>, que permite que este computador se conecte à outras redes. Assim, o endereço fe80::1 deve ser um IP atribuído ao roteador que está dentro do <em>cloud</em>.</p>
+<p>Na saída anterior do comando <code class="language-plaintext highlighter-rouge">ip -6 route</code>, são apresentadas rotas para as redes <code class="language-plaintext highlighter-rouge">2804:828:f230:5b25::/64</code>, <code class="language-plaintext highlighter-rouge">fd1b:e114:982d::/64</code> e <code class="language-plaintext highlighter-rouge">fe80::/64</code>, que são redes referentes aos IPs que obtivemos de forma automática. Talvez a rota mais importante a ser notada é à <code class="language-plaintext highlighter-rouge">default</code>, que permite que este computador se conecte à outras redes. Assim, o endereço fe80::1 deve ser um IP atribuído ao roteador que está dentro do <em>cloud</em>.</p>
 
 <ul>
   <li>Servidor de nomes (DNS):</li>
@@ -578,7 +578,7 @@ default via fe80::b095:e7ff:fea8:c169 dev eth0 proto ra metric 212 pref medium
 
 <h2 id="conclusão">Conclusão</h2>
 
-<p>A configuração deste cenário de rede IPv6 básica, mostrou alguns conceitos do IPv6, mas principalmente práticas Linux no IPv6. Também demostra que já é possível utilizar em boa parte utilizando IPv6, pois por exemplo, a atualização de pacotes (<code class="language-plaintext highlighter-rouge">apt</code>) e os testes de <code class="language-plaintext highlighter-rouge">ping</code> foram realizados com sucesso apenas utilizando IPv6, ou seja, sem nada de IPv4. Assim, recomenda-se conhecer mais do IPv6 e treiná-lo, para que quando esse novo protocolo dominar a Internet, são sejamos pegos de surpresa! :-D</p>
+<p>A configuração deste cenário de rede IPv6 básica, mostrou alguns conceitos do IPv6, mas principalmente práticas Linux no IPv6. Também demostra que já é possível utilizar em boa parte a Internet através do  IPv6, pois por exemplo, a atualização de pacotes (<code class="language-plaintext highlighter-rouge">apt</code>) e os testes de <code class="language-plaintext highlighter-rouge">ping</code> foram realizados com sucesso apenas com IPv6, ou seja, sem nada de IPv4. Assim, recomenda-se conhecer mais do IPv6 e treiná-lo, para que quando esse novo protocolo dominar a Internet, são sejamos pegos de surpresa! :-D</p>
 
 <h2 id="referências">Referências</h2>
 
