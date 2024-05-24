@@ -1,0 +1,141 @@
+!
+
+!
+upgrade fpd auto
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R4
+!
+boot-start-marker
+boot-end-marker
+!
+logging message-counter syslog
+!
+no aaa new-model
+ip source-route
+no ip icmp rate-limit unreachable
+ip cef
+!
+!
+!
+!
+no ip domain lookup
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ log config
+  hidekeys
+! 
+!
+!
+!
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+interface FastEthernet0/0
+ no ip address
+ shutdown
+ duplex half
+!
+interface GigabitEthernet1/0
+ no ip address
+ negotiation auto
+ ipv6 address FC00:30:0:1::40/64
+ ipv6 rip ola enable
+ ipv6 rip ola default-information originate
+!
+interface GigabitEthernet2/0
+ no ip address
+ negotiation auto
+ ipv6 address FC00:30:0:2::40/64
+ ipv6 rip ola enable
+ ipv6 rip ola default-information originate
+!
+interface GigabitEthernet3/0
+ no ip address
+ negotiation auto
+ ipv6 address FC00:20:2::40/64
+ ipv6 rip ola enable
+!
+interface GigabitEthernet4/0
+ no ip address
+ shutdown
+ negotiation auto
+!
+router bgp 30
+ bgp router-id 40.40.40.40
+ no bgp default ipv4-unicast
+ bgp log-neighbor-changes
+ neighbor FC00:20:2::70 remote-as 20
+ !
+ address-family ipv6
+  neighbor FC00:20:2::70 activate
+  network FC00:30:3::/64
+  network FC00:30:4::/64
+ exit-address-family
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+!
+!
+no cdp log mismatch duplex
+ipv6 router rip ola
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+gatekeeper
+ shutdown
+!
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ login
+!
+end

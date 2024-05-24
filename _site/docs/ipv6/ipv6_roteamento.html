@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/ipv6/ipv6_roteamento" />
+<meta property="og:url" content="http://localhost:4000/docs/ipv6/ipv6_roteamento" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"headline":"CyberInfra","@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"url":"http://localhost:4000/docs/ipv6/ipv6_roteamento","description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <p>Dado o exemplo básico de configuração de rede IPv6 do <a href="ipv6_redeBasica">Exemplo 1</a> (apresentada anteriormente). Vamos configurar agora um cenário de rede um pouco mais complexo, que é o ilustrado na Figura 1. Tal cenários terá roteamento: OSPF, RIP e BGP utilizando IPv6.</p>
+
+<blockquote>
+  <p>O objetivo aqui é apenas mostrar como configurar minimamente utiliza rede IPv6 com roteadores CISCO e Linux, bem como <em>hosts</em> Linux, ou seja, aqui não serão apresentadas em detalhes todas as possibilidades de configuração desses, nem as melhores práticas de configuração.</p>
+</blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="imagens/redeRoteadores.png" alt="rede" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Figura 1 - Cenário de rede IPv6 com roteadores</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>De forma mais detalhada o cenário de rede da Figura 1, que será apresentado aqui é composto de:</p>
+<ul>
+  <li>Três redes maiores, que chamaremos de AS10, AS20 e AS30, devido ao protocolo BGP, cada AS terá as seguintes configurações:
+    <ul>
+      <li><strong>AS10</strong>: é uma rede com três roteadores (R1, R2, e R3), que são roteadores CISCO, que utilizarão OSPF para sua conexão IGP;</li>
+      <li><strong>AS30</strong>: rede também com três roteadores (R4, R5 e R6), só que utilizam roteamento RIP como IGP, e também são roteadores CISCO;</li>
+      <li><strong>AS20</strong>: representa um <em>backbone</em> para interconectar AS10 e AS30. Possui apenas um único roteador, que é um Debian Linux, com o serviço de <a href="https://github.com/FRRouting/frr">FRR</a> para permitir que o Linux converse com R3 e R4 utilizando BGP.</li>
+    </ul>
+  </li>
+  <li>Todos os <em>hosts</em> clientes (Host-1, 2, 3 e 4) são Linux e representam redes locais.</li>
+</ul>
+
+<blockquote>
+  <p>Todo o cenário de rede é implementado no <a href="https://gns3.com/">GNS3</a>.</p>
+</blockquote>
+
+<p>Assim, para conectar todo esse cenário utilizando IPv6 são necessárias as seguintes configurações:</p>
+
+<h2 id="hosts-clientes"><em>Hosts</em> clientes</h2>
+
+<p>Vamos iniciar a configuração com os <em>hosts</em> clientes, que são Linux Debian 10, nesses vamos configurar em ordem: IP do <em>host</em>, rota padrão e servidor DNS à ser utilizado pelo cliente.</p>
+
+<p>A seguir são apresentadas as configurações realizadas em cada <em>host</em>:</p>
+
+<ul>
+  <li>Host-1</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ip address add fc00:10:1::1/64 dev eth0
+<span class="gp">root@Host-1:/#</span><span class="w"> </span>ip route add default via fc00:10:1::10
+<span class="gp">root@Host-1:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 2606:4700:4700::1111"</span> <span class="o">&gt;</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<ul>
+  <li>Host-2</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-2:/#</span><span class="w"> </span>ip address add fc00:10:2::1/64 dev eth0
+<span class="gp">root@Host-2:/#</span><span class="w"> </span>ip <span class="nt">-6</span> route add default via fc00:10:2::20
+<span class="gp">root@Host-2:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 2606:4700:4700::1111"</span> <span class="o">&gt;</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<ul>
+  <li>Host-3</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-3:/#</span><span class="w"> </span>ip address add fc00:30:3::1/64 dev eth0
+<span class="gp">root@Host-3:/#</span><span class="w"> </span>ip route add default via fc00:30:3::50
+<span class="gp">root@Host-3:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 2606:4700:4700::1111"</span> <span class="o">&gt;</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<ul>
+  <li>Host-4</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-4:/#</span><span class="w"> </span>ip address add fc00:30:4::1/64 dev eth0
+<span class="gp">root@Host-4:/#</span><span class="w"> </span>ip route add default via fc00:30:4::60
+<span class="gp">root@Host-4:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 2606:4700:4700::1111"</span> <span class="o">&gt;</span> /etc/resolv.conf
+</code></pre></div></div>
+
+<p>Resumindo o comando <code class="language-plaintext highlighter-rouge">ip address add</code> atribui o endereço IPv6 à cada interface de rede dos <em>hosts</em>, no caso todos os <em>hosts</em> clientes só possuem a primeira placa de rede Ethernet, ou seja, a <code class="language-plaintext highlighter-rouge">eth0</code>. Na sequência é utilizado o comando <code class="language-plaintext highlighter-rouge">ip route add default via</code>, seguido do IP de cada roteador conectado ao respectivo <em>host</em>, ou seja, é passado o roteador como rota padrão do <em>host</em>. Por fim, é realizada a configuração do servidor DNS que deve ser utilizado pelos <em>hosts</em> cliente, no exemplo todos utilizam o mesmo servidor de nomes que é o <code class="language-plaintext highlighter-rouge">nameserver :4700:4700::1111</code>, isso é armazenado no arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</p>
+
+<p>Desta forma os clientes estão configurado e aptos à utilizar a rede, entretanto isso ainda não é possível, já que é necessário primeiro configurar os roteadores.</p>
+
+<h2 id="configuração-dos-roteadores-do-as10---ospf-e-bgp">Configuração dos Roteadores do AS10 - OSPF e BGP</h2>
+
+<p>A rede do AS10, será interconectada pelo protocolo OSPF. Assim, todos os <em>hosts</em> deste cenário conseguirão se comunicar dentro do AS3 via IGP. Para isso também deve ser realizada a atribuição dos IPs das placas de rede de cada roteador, e por fim será realizada a configuração do BGP`no R3, que dará acesso aos outros ASs, bem como à Internet.</p>
+
+<p>A configuração do endereço IP e do OSPF nos roteadores da CISCO é um pouco diferente da feita no IPv4. Assim, vamos ver tal configuração em detalhes do R1.</p>
+
+<h3 id="configuração-do-r1---ospf">Configuração do R1 - OSPF:</h3>
+
+<p>A configuração do R1, inicia-se entrando no modo configuração (<code class="language-plaintext highlighter-rouge">enable</code> e <code class="language-plaintext highlighter-rouge">configure terminal</code>). Logo na sequência é habilitado o roteamento IPv6 no roteador CISCO, já que isso vem por padrão desabilitado. Em seguida inicia-se o processo do OSPF (<code class="language-plaintext highlighter-rouge">ipv6 router ospf 1</code>) e é atribuído uma identificação OSPF para o R1 (<code class="language-plaintext highlighter-rouge">router-id 10.10.10.10</code>). Veja os comandos a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R1&gt;</span><span class="nb">enable</span>
+<span class="gp">R1#</span>configure terminal
+<span class="gp">R1(config)#</span>ipv6 unicast-routing
+<span class="gp">R1(config)#</span>ipv6 router ospf 1
+<span class="gp">R1(config-rtr)#</span><span class="w">
+</span><span class="go">*May 23 13:43:03.819: %OSPFv3-4-NORTRID: OSPFv3 process 1 could not pick a router-id,
+please configure manually
+</span><span class="gp">R1(config-rtr)#</span>router-id 10.10.10.10
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note que na saída anterior, o OSPFv3 mostra uma saída pedindo para configurar manualmente o <code class="language-plaintext highlighter-rouge">router-id</code>, sem essa configuração manual, a conexão com os outros roteadores pode apresentar problemas!</p>
+</blockquote>
+
+<blockquote>
+  <p>Também é importante perceber que o router-id apesar de parecer um endereço IPv4, não influência na configuração IPv6 - não dá para colocar um endereço IPv6 para o <code class="language-plaintext highlighter-rouge">router-id</code>, pois esse é um número que lembra o IPv4, mas não é um IPv4!</p>
+</blockquote>
+
+<p>Os comandos dados anteriormente são muito similares ao que é feito na configuração OSPF no IPv4, mas as semelhanças ficam por ai, pois a configuração das redes é bem diferente. Por exemplo, no OSPFv3 com IPv6 não é necessário informar as redes que serão anunciadas e a configuração do OSPF é dada junto com a configuração da interface de rede. Veja a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R1(config-rtr)#</span>interface f0/0
+<span class="gp">R1(config-if)#</span>ipv6 address fc00:10:1::10/64
+<span class="gp">R1(config-if)#</span>ipv6 ospf 1 area 0
+<span class="gp">R1(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R1(config-if)#</span>interface g1/0
+<span class="gp">R1(config-if)#</span>ipv6 address fc00:10:0:1::10/64
+<span class="gp">R1(config-if)#</span>ipv6 ospf 1 area 0
+<span class="gp">R1(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R1(config-if)#</span>interface g2/0
+<span class="gp">R1(config-if)#</span>ipv6 address fc00:10:0:3::10/64
+<span class="gp">R1(config-if)#</span>ipv6 ospf 1 area 0
+<span class="gp">R1(config-if)#</span>no shutdown
+</code></pre></div></div>
+
+<p>A configuração do R1 apresentada anteriormente foi separada em blocos, sendo um bloco para cada placa de rede, de forma geral para o OSPF e IPv6 é necessário em cada placa de rede:</p>
+<ol>
+  <li>Escolher a placa de rede a ser configurada (ex. <code class="language-plaintext highlighter-rouge">interface f0/0</code>);</li>
+  <li>Atribuir um endereço IPv6 (ex. <code class="language-plaintext highlighter-rouge">ipv6 address</code>);</li>
+  <li>Dizer que tal interface faz parte do OSPF e sua área. No exemplo, foi realizado em todas interfaces o comando: <code class="language-plaintext highlighter-rouge">ipv6 ospf 1 area 0</code>, que diz que tal placa de rede, está no OSPF sendo executado pelo processo número <code class="language-plaintext highlighter-rouge">1</code> (PID) e tal placa, faz parte da área 0 do OSPF.</li>
+  <li>O último comando é para ligar a placa de rede, que vem desligada por padrão (<code class="language-plaintext highlighter-rouge">no shutdown</code>).</li>
+</ol>
+
+<p><strong>Note que não é preciso especificar a rede (<code class="language-plaintext highlighter-rouge">network</code>), nem a máscara coringa, o OSPFv3 com IPv6 fará essa relação com o IP dado na placa de rede em questão.</strong></p>
+
+<p>Vamos continuar com a configuração dos outros roteadores.</p>
+
+<h3 id="configuração-do-r2---ospf">Configuração do R2 - OSPF</h3>
+
+<p>A configuração do R2 é muito similar à configuração do R1:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R2#</span><span class="nb">enable</span>
+<span class="gp">R2#</span>configure terminal
+<span class="gp">R2(config)#</span>ipv6 unicast-routing
+<span class="gp">R2(config)#</span>ipv6 router ospf 1
+<span class="gp">R2(config-rtr)#</span>router-id 20.20.20.20
+<span class="go">
+</span><span class="gp">R2(config-rtr)#</span>interface f0/0
+<span class="gp">R2(config-if)#</span>ipv6 address fc00:10:2::20/64
+<span class="gp">R2(config-if)#</span>ipv6 ospf 1 area 0
+<span class="gp">R2(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R2(config-if)#</span>interface g1/0               
+<span class="gp">R2(config-if)#</span>ipv6 address fc00:10:0:2::20/64
+<span class="gp">R2(config-if)#</span>ipv6 ospf 1 area 0             
+<span class="gp">R2(config-if)#</span>no shutdown                    
+<span class="go">
+</span><span class="gp">R2(config-if)#</span>interface g2/0
+<span class="gp">R2(config-if)#</span>ipv6 address fc00:10:0:3::20/64
+<span class="gp">R2(config-if)#</span>ipv6 ospf 1 area 0             
+<span class="gp">R2(config-if)#</span>no shutdown                    
+<span class="go">*May 22 17:54:43.763: %OSPFv3-5-ADJCHG: Process 1, Nbr 10.10.10.10 on GigabitEthernet2/0 from LOADING to FULL, Loading Done
+</span></code></pre></div></div>
+
+<p>A explicação do R2 é a mesma feita em R1, mudando é claro os IPs de cada interface de rede utilizado.</p>
+
+<blockquote>
+  <p>Note que a última linha da saída apresentada anteriormente já mostra a adjacência OSPF criada entre R2 e R1.</p>
+</blockquote>
+
+<h3 id="configuração-do-r3---ospf-e-bgp">Configuração do R3 - OSPF e BGP</h3>
+
+<p>A configuração do R3, inicia de forma similar à realizada em R1 e R2, veja:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R3#</span><span class="nb">enable</span>
+<span class="gp">R3#</span>configure terminal
+<span class="gp">R3(config)#</span>ipv6 unicast-routing
+<span class="gp">R3(config)#</span>ipv6 router ospf 1
+<span class="gp">R3(config-rtr)#</span>router-id 30.30.30.30
+<span class="gp">R3(config-rtr)#</span>passive-interface g3/0
+<span class="gp">R3(config-rtr)#</span>default-information originate
+<span class="go">
+</span><span class="gp">R3(config-rtr)#</span>interface g1/0
+<span class="gp">R3(config-if)#</span>ipv6 address fc00:10:0:1::30/64
+<span class="gp">R3(config-if)#</span>ipv6 ospf 1 area 0
+<span class="gp">R3(config-if)#</span>no shutdown
+<span class="go">*May 22 17:56:09.867: %OSPFv3-5-ADJCHG: Process 1, Nbr 10.10.10.10 on GigabitEthernet1/0 from LOADING to FULL, Loading Done
+
+</span><span class="gp">R3(config-if)#</span>interface g2/0                 
+<span class="gp">R3(config-if)#</span>ipv6 address fc00:10:0:2::30/64
+<span class="gp">R3(config-if)#</span>ipv6 ospf 1 area 0             
+<span class="gp">R3(config-if)#</span>no shutdown                    
+<span class="go">*May 22 17:56:35.243: %OSPFv3-5-ADJCHG: Process 1, Nbr 20.20.20.20 on GigabitEthernet2/0 from LOADING to FULL, Loading Done
+
+</span><span class="gp">R3(config-if)#</span>interface g3/0                 
+<span class="gp">R3(config-if)#</span>ipv6 address fc00:20:1::30/64
+<span class="gp">R3(config-if)#</span>ipv6 ospf 1 area 0
+<span class="gp">R3(config-if)#</span>no shutdown                  
+</code></pre></div></div>
+<p>Nos comandos realizados anteriormente, em R3, há apenas duas grandes diferenças quanto as configurações feitas em R1 e R2, sendo essas:</p>
+<ul>
+  <li>No primeiro bloco de configuração, dentro da configuração do OSPF, foi dito que a interface g3/0 não deve enviar mensagens OSPF para fora do AS10, isso é feito com o comando <code class="language-plaintext highlighter-rouge">passive-interface g3/0</code>;</li>
+  <li>O primeiro bloco de comandos termina com <code class="language-plaintext highlighter-rouge">default-information originate</code>, isso diz ao OSPF para propagar a rota padrão para os demais roteadores da rede do AS3, que no caso são R1 e R2 - a rota não será propagada ainda, pois falta configurar a rota padrão e isso será feito apenas na configuração do AS20.</li>
+</ul>
+
+<p>O R3 também terá o protocolo BGP em execução, tal protocolo será configurado para estabelecer uma conexão eBGP com o roteador Linux RL7, para desta forma ter informações de rotas do AS20, AS30 e obter a rota padrão. Assim, a configuração BGP realizada em R3 é:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R3(config)#</span>router bgp 10
+<span class="go">*May 22 18:07:58.835: %BGP-4-NORTRID: BGP could not pick a router-id. Please configure manually.
+</span><span class="gp">R3(config-router)#</span>bgp router-id 30.30.30.30
+<span class="gp">R3(config-router)#</span>no bgp default ipv4-unicast
+<span class="gp">R3(config-router)#</span>neighbor fc00:20:1::70 remote-as 20
+<span class="go">
+</span><span class="gp">R3(config-router)#</span>address-family ipv6
+<span class="gp">R3(config-router-af)#</span>neighbor fc00:20:1::70 activate
+<span class="gp">R3(config-router-af)#</span>network fc00:10:1::/64
+<span class="gp">R3(config-router-af)#</span>network fc00:10:2::/64
+<span class="gp">R3(config-router-af)#</span>exit-address-family
+</code></pre></div></div>
+
+<p>Em, resumo os comandos a seguir tem as seguintes funções:</p>
+<ol>
+  <li>Identifica o R3 como sendo o roteador BGP do AS10 (<code class="language-plaintext highlighter-rouge">router bgp 10</code>);</li>
+  <li>Informa que será utilizado IPv6 não IPv4 (<code class="language-plaintext highlighter-rouge">no bgp default ipv4-unicast</code>);</li>
+  <li>Determina o vizinho, no caso RL7 no AS20 (<code class="language-plaintext highlighter-rouge">no bgp default ipv4-unicast</code>);</li>
+  <li>Depois disso vem um bloco IPv6 que:
+    <ul>
+      <li>Ativa a conexão com o vizinho (<code class="language-plaintext highlighter-rouge">neighbor fc00:20:1::70 activate</code>);</li>
+      <li>Declara as redes a serem publicadas (<code class="language-plaintext highlighter-rouge">network</code>).</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Feita toda a configuração do AS10, vamos configurar agora o AS30, por ultimo configuramos o AS20.</p>
+
+<h3 id="configuração-do-r4---rip-e-bgp">Configuração do R4 - RIP e BGP</h3>
+
+<p>Vamos iniciar a configuração do AS30, ou seja, dos roteadores R4, R5, R6 e R7. A diferença desses para o AS10, é que o AS30 utiliza o RIP ao invés do OSPF.</p>
+
+<p>Dito isso, iniciamos a configuração pelo R4, que terá RIP e BGP:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R4&gt;</span><span class="nb">enable</span>
+<span class="gp">R4#</span>configure terminal
+<span class="gp">R4(config)#</span>ipv6 unicast-routing
+<span class="go">
+</span><span class="gp">R4(config-if)#</span>interface g1/0                 
+<span class="gp">R4(config-if)#</span>ipv6 address fc00:30:0:1::40/64
+<span class="gp">R4(config-if)#</span>ipv6 rip ola <span class="nb">enable</span>
+<span class="gp">R4(config-if)#</span>ipv6 rip ola default-information originate
+<span class="gp">R4(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R4(config-if)#</span>interface g2/0                 
+<span class="gp">R4(config-if)#</span>ipv6 address fc00:30:0:2::40/64
+<span class="gp">R4(config-if)#</span>ipv6 rip ola <span class="nb">enable</span>
+<span class="gp">R4(config-if)#</span>ipv6 rip ola default-information originate
+<span class="gp">R4(config-if)#</span>no shutdown                    
+<span class="go">
+</span><span class="gp">R4(config-if)#</span>interface g3/0                 
+<span class="gp">R4(config-if)#</span>ipv6 address fc00:20:2::40/64  
+<span class="gp">R4(config-if)#</span>ipv6 rip ola <span class="nb">enable</span>
+<span class="gp">R4(config-if)#</span>no shutdown
+<span class="gp">R4(config-if)#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A configuração do RIP é similar à realizada com o OSPF anteriormente. Sendo assim os comandos são:</p>
+<ol>
+  <li>Habilitar o roteamento IPv6;</li>
+  <li>Entrar na configuração da placa de rede desejada;</li>
+  <li>Configurar o endereço IPv6 na interface;</li>
+  <li>Para o IP executar o comando: <code class="language-plaintext highlighter-rouge">ipv6 rip ola enable</code>, no qual <code class="language-plaintext highlighter-rouge">ola</code> é apenas um nome que identifica o processo. Tal como no OSPF, não é necessário declarar a rede, o próprio RIP identifica o endereço de rede da interface em que ele está sendo configurado e anuncia tal rede;</li>
+  <li>Nas interfaces <code class="language-plaintext highlighter-rouge">g1/0</code> e <code class="language-plaintext highlighter-rouge">g2/0</code>, foi realizada uma configuração extra, para publicar a rota padrão para para toda a rede RIP. A rota padrão será fornecida futuramente via BGP.</li>
+</ol>
+
+<p>Após o RIP estar em execução, vamos realizar a configuração BGP, para que o R4 se comunique com o RL7 no AS20 e obtenha rotas para todas as redes do cenário. Para isso foram executados os seguintes comandos:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R4(config)#</span>router bgp 30
+<span class="gp">R4(config-router)#</span>bgp router-id 40.40.40.40
+<span class="gp">R4(config-router)#</span>no bgp default ipv4-unicast
+<span class="gp">R4(config-router)#</span>neighbor fc00:20:2::70 remote-as 20
+<span class="go">
+</span><span class="gp">R4(config-router)#</span>address-family ipv6
+<span class="gp">R4(config-router-af)#</span>neighbor fc00:20:2::70 activate
+<span class="gp">R4(config-router-af)#</span>network fc00:30:3::/64
+<span class="gp">R4(config-router-af)#</span>network fc00:30:4::/64
+<span class="gp">R4(config-router-af)#</span>exit-address-family
+<span class="gp">R4(config-router)#</span>end
+</code></pre></div></div>
+
+<p>A configuração do BGP no R4, é extremamente similar ao que foi feito anteriormente no R3 do AS10. Então resumidamente cria-se a vizinhança entre R4 no AS30 com RL7 no AS20, e publica-se as redes <code class="language-plaintext highlighter-rouge">fc00:30:3::/64</code> e <code class="language-plaintext highlighter-rouge">network fc00:30:4::/64</code>.</p>
+
+<h3 id="configuração-do-r5---rip">Configuração do R5 - RIP</h3>
+
+<p>A configuração do R5 é similar a primeira parte da configuração do R4, ou seja, é habilitado o roteamento IPv6, e em cada interface de rede do cenário, é configurado endereço IPv6 e o RIP. Veja a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R5(config)#</span>ipv6 unicast-routing
+<span class="gp">R5(config)#</span>interface f0/0
+<span class="gp">R5(config-if)#</span>ipv6 address FC00:30:3::50/64
+<span class="gp">R5(config-if)#</span>ipv6 rip routing <span class="nb">enable</span>
+<span class="gp">R5(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R5(config-if)#</span>interface g1/0
+<span class="gp">R5(config-if)#</span>ipv6 address FC00:30:0:1::50/64
+<span class="gp">R5(config-if)#</span>ipv6 rip routing <span class="nb">enable</span>
+<span class="gp">R5(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R5(config-if)#</span>interface g2/0
+<span class="gp">R5(config-if)#</span>ipv6 address FC00:30:0:3::50/64
+<span class="gp">R5(config-if)#</span>ipv6 rip routing <span class="nb">enable</span>
+<span class="gp">R5(config-if)#</span>no shutdown
+<span class="gp">R5(config-if)#</span>end
+</code></pre></div></div>
+
+<h3 id="configuração-do-r6---rip">Configuração do R6 - RIP</h3>
+
+<p>A configuração do R6 é praticamente a mesma de R5, só mudando os endereços IPv6 de cada placa de rede:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R6(config)#</span>ipv6 unicast-routing
+<span class="gp">R6(config)#</span>interface f0/0
+<span class="gp">R6(config-if)#</span>ipv6 address FC00:30:4::60/64
+<span class="gp">R6(config-if)#</span>ipv6 rip routing <span class="nb">enable</span>
+<span class="gp">R6(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R6(config-if)#</span>interface g1/0
+<span class="gp">R6(config-if)#</span>ipv6 address FC00:30:0:2::60/64
+<span class="gp">R6(config-if)#</span>ipv6 rip routing <span class="nb">enable</span>
+<span class="gp">R6(config-if)#</span>no shutdown
+<span class="go">
+</span><span class="gp">R6(config-if)#</span>interface g2/0
+<span class="gp">R6(config-if)#</span>ipv6 address FC00:30:0:3::60/64
+<span class="gp">R6(config-if)#</span>ipv6 rip routing <span class="nb">enable</span>
+<span class="gp">R6(config-if)#</span>no shutdown
+<span class="gp">R6(config-if)#</span><span class="nb">exit</span>
+</code></pre></div></div>
+
+<h2 id="configurações-do-as20-e-do-rl7---bgp">Configurações do AS20 e do RL7 - BGP</h2>
+
+<p>A última fase deste cenário, é configurar o BGP no roteador Linux Debian chamado RL7, que está no AS20.</p>
+
+<p>Para executar o BGP, foi instalado o FRR, que fornece implementação dos principais protocolos de roteamento. Assim, iniciamos a configuração do RL7 configurando os endereços IPs das placas de rede:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@RL7:/#</span><span class="w"> </span>dhcpcd <span class="nt">-6</span> <span class="nt">-i</span> eth0
+<span class="go"> DUID 00:04:4c:4c:45:44:00:36:32:10:80:34:b3:c0:4f:35:34:32
+ eth0: IAID 26:68:5c:7e
+ eth0: adding address 2804:828:f230:5b25:71cb:30e1:aad3:9bc6/64
+ eth0: adding route to 2804:828:f230:5b25::/64
+
+</span><span class="gp">root@RL7:/#</span><span class="w"> </span>ip address add fc00:20:1::70/64 dev eth1
+<span class="gp">root@RL7:/#</span><span class="w"> </span>ip address add fc00:20:2::70/64 dev eth2
+<span class="go">
+</span></code></pre></div></div>
+<p>Na configuração anterior a placa de rede:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">eth0</code>: é configurada via DHCP, ou seja, essa utilizará a configuração de rede que será fornecida via DHCP pelo roteador que está escondido dentro do <em>Cloud</em> (ver figura). Isso fornece configuração DNS e rota padrão para a Internet;</li>
+  <li><code class="language-plaintext highlighter-rouge">eth1</code>: essa interface tem configurada manualmente o IPv6 <code class="language-plaintext highlighter-rouge">fc00:20:1::70/64</code>;</li>
+  <li><code class="language-plaintext highlighter-rouge">eth2</code>: idem à anterior com o IPv6 <code class="language-plaintext highlighter-rouge">fc00:20:2::70/64</code>.</li>
+</ul>
+
+<p>Na sequência foi habilitado o roteamento IPv6 (<code class="language-plaintext highlighter-rouge">forwarding</code>) e depois foi configurado o NAT (<code class="language-plaintext highlighter-rouge">ip6tables</code>), para permitir que os IPv6 ULA/privados possam navegar na Internet.</p>
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@RL7:/#</span><span class="w"> </span><span class="nb">echo </span>1 <span class="o">&gt;</span> /proc/sys/net/ipv6/conf/all/forwarding 
+<span class="gp">root@RL7:/#</span><span class="w"> </span>ip6tables <span class="nt">-t</span> nat <span class="nt">-A</span> POSTROUTING <span class="nt">-o</span> eth0 <span class="nt">-j</span> MASQUERADE
+</code></pre></div></div>
+
+<p>Agora vamos iniciar os serviços do FRR, no caso ligamos:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bgpd</code>: processo responsável pelo BGP;</li>
+  <li><code class="language-plaintext highlighter-rouge">zebra</code>: processo que permite realizar e ver as configurações, similar ao console CISCO;</li>
+  <li><code class="language-plaintext highlighter-rouge">staticd</code>: permite a configuração de rotas estáticas.</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@RL7:/#</span><span class="w"> </span>/usr/lib/frr/bgpd &amp;
+<span class="go">[1] 957
+</span><span class="gp">root@RL7:/#</span><span class="w"> </span>/usr/lib/frr/zebra &amp;
+<span class="go">[2] 972
+</span><span class="gp">root@RL7:/#</span><span class="w"> </span>/usr/lib/frr/staticd &amp;
+<span class="go">[3] 975
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>Todos os processos foram iniciados em <em>background</em> (<code class="language-plaintext highlighter-rouge">&amp;</code>).</p>
+</blockquote>
+
+<blockquote>
+  <p>O processo <code class="language-plaintext highlighter-rouge">staticd</code>, não é necessário a menos que você vá inserir rotas manualmente, tal como a rota padrão. Então no exemplo a seguir ele não será utilizado.</p>
+</blockquote>
+
+<blockquote>
+  <p>O <em>script</em> do FRR apresentou problemas de alocação de memória do Docker dentro do GNS3, pois isso os serviços foram iniciamos manualmente, arquivo por arquivo.</p>
+</blockquote>
+
+<p>Com os processos do FRR em execução é possível acessar uma interface de configuração similar ao CISCO dentro do Linux com o comando <code class="language-plaintext highlighter-rouge">vtysh</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@RL7:/#</span><span class="w"> </span>vtysh 
+<span class="go">
+Hello, this is FRRouting (version 7.5.1).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+</span><span class="gp">RL7#</span><span class="w"> </span>configure terminal
+<span class="gp">RL7(config)#</span><span class="w"> </span>router bgp 20
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>bgp router-id 70.70.70.70
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>no bgp default ipv4-unicast
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>neighbor fc00:20:1::30 remote-as 10
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>neighbor fc00:20:2::40 remote-as 30
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>route-map ALLOW-ALL permit 100
+<span class="go">
+</span><span class="gp">RL7(config-router)#</span><span class="w"> </span>address-family ipv6
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 activate
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 default-originate
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:2::40 activate
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:2::40 default-originate
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>exit-address-family
+<span class="go">
+</span><span class="gp">RL7(config-router)#</span><span class="w"> </span>address-family ipv6 unicast
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 route-map ALLOW-ALL <span class="k">in</span>
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 route-map ALLOW-ALL out
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 soft-reconfiguration inbound
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:2::40 route-map ALLOW-ALL <span class="k">in</span>
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:2::40 route-map ALLOW-ALL out
+<span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:2::40 soft-reconfiguration inbound
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>end
+</code></pre></div></div>
+
+<p>A configuração do BGP no RL7 inicia de forma similar à configuração BGP feita em R3 e R4. Todavia no final há uma configuração extra. Vejamos a seguir os comandos apresentados em blocos anteriormente:</p>
+<ul>
+  <li>Bloco 1:
+    <ol>
+      <li>Informamos o AS do RL7 (<code class="language-plaintext highlighter-rouge">router bgp 20</code>);</li>
+      <li>Atribuiu-se a identificação ao roteador no BGP (<code class="language-plaintext highlighter-rouge">bgp router-id 70.70.70.70</code>);</li>
+      <li>Foi determinado para utilizar-se o IPv6 ao invés de IPv4 (<code class="language-plaintext highlighter-rouge">no bgp default ipv4-unicast</code>);</li>
+      <li>Criou-se a relação de vizinhos BGP entre R3 e R4 (<code class="language-plaintext highlighter-rouge">neighbor</code>).</li>
+      <li>O comando <code class="language-plaintext highlighter-rouge">route-map ALLOW-ALL permit 100</code>, permite a comunicação BGP utilizada no bloco 3 (ver a seguir).</li>
+    </ol>
+  </li>
+  <li>Bloco 2:
+    <ol>
+      <li>Foi ativada a conexão TCP/IPv6 do BGP entre os vizinhos R3 e R4 (<code class="language-plaintext highlighter-rouge">activate</code>);</li>
+      <li>A ideia neste cenário, é que a rota padrão fosse repassada via BGP para o AS10 e AS30, então informamos ao BGP para passar o RL7 como rota padrão para cada vizinho através das linhas terminadas com (<code class="language-plaintext highlighter-rouge">default-originate</code>).</li>
+    </ol>
+  </li>
+  <li>Bloco 3:
+   O FRR no Linux, tem alguma política BGP padrão que impede a troca de rotas BGP com outros roteadores. Assim, se forem executados os passos apenas dos blocos 1 e 2, a conexão BGP entre os vizinhos CISCO não serão propriamente estabelecidas (aparecerá no estado da conexão a palavra <code class="language-plaintext highlighter-rouge">POLICY</code>). Para resolver esse “problema”, é necessária a execução desse terceiro bloco, que basicamente libera a entrada (<code class="language-plaintext highlighter-rouge">in</code>) e envio (<code class="language-plaintext highlighter-rouge">out</code>) de rotas BGP para o R3 e R4.</li>
+</ul>
+
+<p>Realizadas todas as configurações em todos os elementos de rede do cenário proposto na Figura 1, vamos passar para a parte de testes.</p>
+
+<blockquote>
+  <p>Na verdade na prática os testes devem ser realizados a cada configuração de segmento de rede, isso facilita a identificação de erros - já que no final o cenário fica muito mais complexo para se testar e identificar com mais precisão/rapidez a onde é que está o erro.</p>
+</blockquote>
+
+<h3 id="arquivos-de-configuração-dos-roteadores">Arquivos de configuração dos roteadores</h3>
+
+<p>Os <em>links</em> a seguir levam aos arquivos de configuração final de cada roteador, no momento em que toda a rede estava configurada e funcionando.</p>
+
+<blockquote>
+  <p>É importante observar esses arquivos, pois durante a construção de todo o texto anterior, pode ter sido esquecido algum comando, já que são muito e tais arquivos tem as configurações na integra.</p>
+</blockquote>
+
+<ul>
+  <li><a href="confs/R1.cfg.txt">R1</a>, <a href="confs/R2.cfg.txt">R2</a>, <a href="confs/R3.cfg.txt">R3</a>, <a href="confs/R4.cfg.txt">R4</a>, <a href="confs/R5.cfg.txt">R5</a>, <a href="confs/R6.cfg.txt">R6</a>, <a href="confs/RL7.cfg.txt">RL7</a></li>
+</ul>
+
+<h2 id="testes-de-conectividade-do-cenário">Testes de conectividade do cenário</h2>
+
+<h3 id="verificando-os-vizinhos-bgp">Verificando os vizinhos BGP:</h3>
+
+<p>Vamos utilizar o comando <code class="language-plaintext highlighter-rouge">show bgp ipv6 summary</code>, para verificar a conectividade dos vizinhos BGP:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">RL7#</span><span class="w"> </span>show bgp ipv6 summary
+<span class="go">
+IPv6 Unicast Summary:
+BGP router identifier 70.70.70.70, local AS number 20 vrf-id 0
+BGP table version 19
+RIB entries 7, using 1344 bytes of memory
+Peers 2, using 43 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+fc00:20:1::30   4         10       388       393        0    0    0 06:11:31            2        4
+fc00:20:2::40   4         30       367       382        0    0    0 06:04:23            2        4
+
+Total number of neighbors 2
+</span></code></pre></div></div>
+
+<p>A saída anterior mostra que há conectividade de RL7, com R3 e R4. Ou seja, todos os vizinhos BGP do cenário estão conectados. Visto isso vamos ver as todas presentes em R3:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R3#</span>show bgp ipv6
+<span class="go">BGP table version is 125, local router ID is 30.30.30.30
+</span><span class="gp">Status codes: s suppressed, d damped, h history, * valid, &gt;</span><span class="w"> </span>best, i - internal,
+<span class="go">              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+</span><span class="gp">*&gt;</span><span class="w"> </span>::/0             FC00:20:1::70                          0 20 i
+<span class="gp">*&gt;</span><span class="w"> </span>FC00:10:1::/64   ::                       2         32768 i
+<span class="gp">*&gt;</span><span class="w"> </span>FC00:10:2::/64   ::                       2         32768 i
+<span class="gp">*&gt;</span><span class="w"> </span>FC00:30:3::/64   FC00:20:1::70                          0 20 30 i
+<span class="gp">*&gt;</span><span class="w"> </span>FC00:30:4::/64   FC00:20:1::70                          0 20 30 i
+<span class="go">% NOTE: This command is deprecated. Please use 'show bgp ipv6 unicast'
+</span></code></pre></div></div>
+
+<p>A saída do comando <code class="language-plaintext highlighter-rouge">show bgp ipv6</code> em R3, demostra que todas as redes estão presentes declaradas via BGP neste roteador, ou seja:</p>
+<ul>
+  <li>FC00:10:1::/64;</li>
+  <li>FC00:10:2::/64;</li>
+  <li>FC00:30:3::/64;</li>
+  <li>FC00:30:4::/64.</li>
+</ul>
+
+<p>Vamos verificar todas as rotas de R3 (não só as BGP):</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R3#</span>show ipv6 route
+<span class="go">IPv6 Routing Table - Default - 13 entries
+Codes: C - Connected, L - Local, S - Static, U - Per-user Static route
+       B - BGP, M - MIPv6, R - RIP, I1 - ISIS L1
+       I2 - ISIS L2, IA - ISIS interarea, IS - ISIS summary, D - EIGRP
+       EX - EIGRP external
+       O - OSPF Intra, OI - OSPF Inter, OE1 - OSPF ext 1, OE2 - OSPF ext 2
+       ON1 - OSPF NSSA ext 1, ON2 - OSPF NSSA ext 2
+B   ::/0 [20/0]
+     via FE80::4086:94FF:FE54:1F2B, GigabitEthernet3/0
+C   FC00:10:0:1::/64 [0/0]
+     via GigabitEthernet1/0, directly connected
+L   FC00:10:0:1::30/128 [0/0]
+     via GigabitEthernet1/0, receive
+C   FC00:10:0:2::/64 [0/0]
+     via GigabitEthernet2/0, directly connected
+L   FC00:10:0:2::30/128 [0/0]
+     via GigabitEthernet2/0, receive
+O   FC00:10:0:3::/64 [110/2]
+     via FE80::C802:80FF:FE8D:1C, GigabitEthernet2/0
+     via FE80::C801:25FF:FE99:1C, GigabitEthernet1/0
+O   FC00:10:1::/64 [110/2]
+     via FE80::C801:25FF:FE99:1C, GigabitEthernet1/0
+O   FC00:10:2::/64 [110/2]
+     via FE80::C802:80FF:FE8D:1C, GigabitEthernet2/0
+C   FC00:20:1::/64 [0/0]
+     via GigabitEthernet3/0, directly connected
+L   FC00:20:1::30/128 [0/0]
+     via GigabitEthernet3/0, receive
+B   FC00:30:3::/64 [20/0]
+     via FE80::4086:94FF:FE54:1F2B, GigabitEthernet3/0
+B   FC00:30:4::/64 [20/0]
+     via FE80::4086:94FF:FE54:1F2B, GigabitEthernet3/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+</span></code></pre></div></div>
+
+<p>Note que já rotas para todas as redes declaradas via BGP (<code class="language-plaintext highlighter-rouge">B</code> - como visto anteriormente), mas agora também temos as rotas das redes locais (<code class="language-plaintext highlighter-rouge">L</code>) e obtidas via OSPF (<code class="language-plaintext highlighter-rouge">O</code>). Observe também que a rota padrão foi fornecida via BGP (<code class="language-plaintext highlighter-rouge">B   ::/0 [20/0]</code>), também há rotas com IPs que não cadastramos manualmente, tais como as iniciadas com <code class="language-plaintext highlighter-rouge">FE80:</code>, tais rotas são criadas a partir a atribuição automática de endereços IPv6, feitas pelo próprio roteador - o que é uma característica do IPv6 (o IPv4 não fazia isso por padrão).</p>
+
+<p>Vamos verificar também as rotas de R4, para ver se o RIP está fazendo o trabalho dele:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R4#</span>show ipv6 route
+<span class="c">...
+</span><span class="go">B   ::/0 [20/0]
+     via FE80::453:3EFF:FEC2:DF48, GigabitEthernet3/0
+B   FC00:10:1::/64 [20/0]
+     via FE80::453:3EFF:FEC2:DF48, GigabitEthernet3/0
+B   FC00:10:2::/64 [20/0]
+     via FE80::453:3EFF:FEC2:DF48, GigabitEthernet3/0
+C   FC00:20:2::/64 [0/0]
+     via GigabitEthernet3/0, directly connected
+L   FC00:20:2::40/128 [0/0]
+     via GigabitEthernet3/0, receive
+C   FC00:30:0:1::/64 [0/0]
+     via GigabitEthernet1/0, directly connected
+L   FC00:30:0:1::40/128 [0/0]
+     via GigabitEthernet1/0, receive
+C   FC00:30:0:2::/64 [0/0]
+     via GigabitEthernet2/0, directly connected
+L   FC00:30:0:2::40/128 [0/0]
+     via GigabitEthernet2/0, receive
+R   FC00:30:0:3::/64 [120/2]
+     via FE80::C805:70FF:FE8D:1C, GigabitEthernet1/0
+     via FE80::C806:70FF:FED9:1C, GigabitEthernet2/0
+R   FC00:30:3::/64 [120/2]
+     via FE80::C805:70FF:FE8D:1C, GigabitEthernet1/0
+R   FC00:30:4::/64 [120/2]
+     via FE80::C806:70FF:FED9:1C, GigabitEthernet2/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+</span></code></pre></div></div>
+
+<p>Com a saída do comando anterior em R4, vemos que há rotas BGP (<code class="language-plaintext highlighter-rouge">B</code>) e principalmente as rotas obtidas via RIP (<code class="language-plaintext highlighter-rouge">R</code>). Também nota-se que a rota padrão foi fornecida via BGP, tal como aconteceu em R3.</p>
+
+<p>Por fim, vamos verificar as rotas de R5 e R1, para ver se esses possuem as respectivas rotas obtidas via RIP e OSPF dentro de seus ASs:</p>
+<ul>
+  <li>R5 - RIP:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R5#</span>show ipv6 route
+<span class="c">...
+</span><span class="go">R   ::/0 [120/2]
+     via FE80::C804:70FF:FE48:1C, GigabitEthernet1/0
+R   FC00:20:2::/64 [120/2]
+     via FE80::C804:70FF:FE48:1C, GigabitEthernet1/0
+C   FC00:30:0:1::/64 [0/0]
+     via GigabitEthernet1/0, directly connected
+L   FC00:30:0:1::50/128 [0/0]
+     via GigabitEthernet1/0, receive
+R   FC00:30:0:2::/64 [120/2]
+     via FE80::C806:70FF:FED9:38, GigabitEthernet2/0
+     via FE80::C804:70FF:FE48:1C, GigabitEthernet1/0
+C   FC00:30:0:3::/64 [0/0]
+     via GigabitEthernet2/0, directly connected
+L   FC00:30:0:3::50/128 [0/0]
+     via GigabitEthernet2/0, receive
+C   FC00:30:3::/64 [0/0]
+     via FastEthernet0/0, directly connected
+L   FC00:30:3::50/128 [0/0]
+     via FastEthernet0/0, receive
+R   FC00:30:4::/64 [120/2]
+     via FE80::C806:70FF:FED9:38, GigabitEthernet2/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+</span></code></pre></div></div>
+
+<ul>
+  <li>R1 - OSPF:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">R1#</span>show ipv6 route
+<span class="c">....
+</span><span class="go">OE2 ::/0 [110/1], tag 1
+     via FE80::C803:80FF:FEA9:1C, GigabitEthernet1/0
+C   FC00:10:0:1::/64 [0/0]
+     via GigabitEthernet1/0, directly connected
+L   FC00:10:0:1::10/128 [0/0]
+     via GigabitEthernet1/0, receive
+O   FC00:10:0:2::/64 [110/2]
+     via FE80::C803:80FF:FEA9:1C, GigabitEthernet1/0
+     via FE80::C802:80FF:FE8D:38, GigabitEthernet2/0
+C   FC00:10:0:3::/64 [0/0]
+     via GigabitEthernet2/0, directly connected
+L   FC00:10:0:3::10/128 [0/0]
+     via GigabitEthernet2/0, receive
+C   FC00:10:1::/64 [0/0]
+     via FastEthernet0/0, directly connected
+L   FC00:10:1::10/128 [0/0]
+     via FastEthernet0/0, receive
+O   FC00:10:2::/64 [110/2]
+     via FE80::C802:80FF:FE8D:38, GigabitEthernet2/0
+O   FC00:20:1::/64 [110/2]
+     via FE80::C803:80FF:FEA9:1C, GigabitEthernet1/0
+L   FF00::/8 [0/0]
+     via Null0, receive
+</span></code></pre></div></div>
+
+<p>Nas saída de R5 observa-se as rotas <code class="language-plaintext highlighter-rouge">R</code>, ou seja obtidas via RIP. Já em R1, temos as rotas <code class="language-plaintext highlighter-rouge">O</code>, pois foram obtidas via OSPF, que são os respectivos protocolos IGP de cada cenário. É importante perceber que esses roteadores que não estão executando BGP dentro de cada AS, não possuem rotas para os outros ASs, a conexão desses com os outros ASs é feita via rota padrão, que neste caso está sendo distribuída via protocolo IGP, ou seja:</p>
+<ul>
+  <li>Em R1 temos a rota padrão <code class="language-plaintext highlighter-rouge">R   ::/0 [120/2]</code>, obtida via RIP.</li>
+  <li>Já em R5, tem-se a rota padrão <code class="language-plaintext highlighter-rouge">OE2 ::/0 [110/1], tag 1</code>, obtida via OSPF.</li>
+</ul>
+
+<p>Dado os status dos roteadores do cenário, vamos realizar testes de <code class="language-plaintext highlighter-rouge">ping</code> a partir do Host-1, para os outros <em>hosts</em> do cenário, bem como um teste de acesso à Internet:</p>
+
+<ul>
+  <li>Ping do Host-1 para o Host-2:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping fc00:10:2::1 <span class="nt">-c</span> 2
+<span class="go">PING fc00:10:2::1(fc00:10:2::1) 56 data bytes
+64 bytes from fc00:10:2::1: icmp_seq=1 ttl=62 time=22.6 ms
+64 bytes from fc00:10:2::1: icmp_seq=2 ttl=62 time=29.7 ms
+
+--- fc00:10:2::1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 22.589/26.149/29.710/3.560 ms
+</span></code></pre></div></div>
+
+<ul>
+  <li>Ping do Host-1 para o Host-3:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping fc00:30:3::1 <span class="nt">-c</span> 2
+<span class="go">PING fc00:30:3::1(fc00:30:3::1) 56 data bytes
+64 bytes from fc00:30:3::1: icmp_seq=1 ttl=59 time=50.1 ms
+64 bytes from fc00:30:3::1: icmp_seq=2 ttl=59 time=52.4 ms
+
+--- fc00:30:3::1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 50.069/51.210/52.351/1.141 ms
+</span></code></pre></div></div>
+
+<ul>
+  <li>Ping do Host-1 para o Host-4:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping fc00:30:4::1 <span class="nt">-c</span> 2
+<span class="go">PING fc00:30:4::1(fc00:30:4::1) 56 data bytes
+64 bytes from fc00:30:4::1: icmp_seq=1 ttl=59 time=77.0 ms
+64 bytes from fc00:30:4::1: icmp_seq=2 ttl=59 time=41.7 ms
+
+--- fc00:30:4::1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 41.711/59.373/77.036/17.662 ms
+</span></code></pre></div></div>
+
+<ul>
+  <li>Ping do Host-1 para o www.google.com.br:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@Host-1:/#</span><span class="w"> </span>ping www.google.com.br
+<span class="go">PING www.google.com.br(2800:3f0:4001:81f::2003 (2800:3f0:4001:81f::2003)) 56 data bytes
+64 bytes from 2800:3f0:4001:81f::2003 (2800:3f0:4001:81f::2003): icmp_seq=1 ttl=115 time=40.3 ms
+64 bytes from 2800:3f0:4001:81f::2003 (2800:3f0:4001:81f::2003): icmp_seq=2 ttl=115 time=31.0 ms
+^C
+--- www.google.com.br ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+rtt min/avg/max/mdev = 30.954/36.944/40.258/4.243 ms
+</span></code></pre></div></div>
+
+<p>Os testes de <code class="language-plaintext highlighter-rouge">ping</code> realizados anteriormente, mostram que o cenário está funcional, pois conseguiu-se comunicação com todos os <em>hosts</em> do cenário, e principalmente foi possível pingar um endereço da Internet (o Google).</p>
+
+<h2 id="conclusão">Conclusão</h2>
+
+<p>Aqui foi apresentado como configurar roteadores CISCO e Linux para utilizarem IPv6. Para tanto foram configurados apenas com IPv6 redes com OSPF, RIP e BGP e todas funcionaram perfeitamente, mostrando que os equipamentos de rede estão preparados para a troca do IPv4 pelo IPv6. Também foram configurados <em>hosts</em> Linux, simbolizando clientes dessas redes e todos os testes realizados com esses, incluindo acesso à Internet, foram feitos com sucesso, o que mostra que o IPv6 já está pronto para ser utilizado na infraestrutura das redes e nos clientes.</p>
+
+<h2 id="referências">Referências</h2>
+
+<ul>
+  <li>
+    <p><a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_basic/configuration/15-mt/ip6b-15-mt-book/ip6-uni-routing.html">https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_basic/configuration/15-mt/ip6b-15-mt-book/ip6-uni-routing.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://networklessons.com/cisco/ccna-routing-switching-icnd2-200-105/ipv6-ospfv3-default-route">https://networklessons.com/cisco/ccna-routing-switching-icnd2-200-105/ipv6-ospfv3-default-route</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cisco.com/c/en/us/support/docs/ip/ip-version-6-ipv6/112100-ospfv3-config-guide.html">https://www.cisco.com/c/en/us/support/docs/ip/ip-version-6-ipv6/112100-ospfv3-config-guide.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cisco.com/c/pt_br/support/docs/ip/ip-version-6-ipv6/112135-ipv6-bgp-00.html">https://www.cisco.com/c/pt_br/support/docs/ip/ip-version-6-ipv6/112135-ipv6-bgp-00.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_bgp/configuration/xe-16/irg-xe-16-book/ipv-routing-multiprotocol-bgp-link-local-address-peering.html">https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_bgp/configuration/xe-16/irg-xe-16-book/ipv-routing-multiprotocol-bgp-link-local-address-peering.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cisco.com/c/pt_br/support/docs/ip/ip-routed-protocols/112228-bgp2isp-00.html">https://www.cisco.com/c/pt_br/support/docs/ip/ip-routed-protocols/112228-bgp2isp-00.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.reddit.com/r/networking/comments/hfmnun/frr_bgp_not_advertising_routes/">https://www.reddit.com/r/networking/comments/hfmnun/frr_bgp_not_advertising_routes/</a></p>
+  </li>
+  <li>
+    <p><a href="https://learningnetwork.cisco.com/s/question/0D53i00000Kt6hpCAB/ripng-defaultinfo-originate">https://learningnetwork.cisco.com/s/question/0D53i00000Kt6hpCAB/ripng-defaultinfo-originate</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_rip/configuration/xe-3s/asr1000/ip6-rip-xe.html">https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_rip/configuration/xe-3s/asr1000/ip6-rip-xe.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.geeksforgeeks.org/configuring-rip-for-ipv6-ripng-in-cisco/">https://www.geeksforgeeks.org/configuring-rip-for-ipv6-ripng-in-cisco/</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cisco.com/c/pt_br/support/docs/ip/ip-version-6-ipv6/113598-redis-ipv6-default-route-00.pdf">https://www.cisco.com/c/pt_br/support/docs/ip/ip-version-6-ipv6/113598-redis-ipv6-default-route-00.pdf</a></p>
+  </li>
+  <li>
+    <p><a href="https://docencia.ac.upc.edu/FIB/PIAM/IPv6HowTo.pdf">https://docencia.ac.upc.edu/FIB/PIAM/IPv6HowTo.pdf</a></p>
+  </li>
+  <li>
+    <p><a href="https://mirrors.deepspace6.net/howtos/Linux+IPv6-HOWTO.pt_BR.pdf">https://mirrors.deepspace6.net/howtos/Linux+IPv6-HOWTO.pt_BR.pdf</a></p>
+  </li>
+  <li>
+    <p><a href="https://ftp.unpad.ac.id/orari/library/library-sw-hw/linux-howto/ipv6/sa_ripv6.pdf">https://ftp.unpad.ac.id/orari/library/library-sw-hw/linux-howto/ipv6/sa_ripv6.pdf</a></p>
+  </li>
+</ul>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2024</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>
