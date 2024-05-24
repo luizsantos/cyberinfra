@@ -470,7 +470,8 @@ Copyright 1996-2005 Kunihiro Ishiguro, et al.
 <span class="gp">RL7(config-router)#</span><span class="w"> </span>neighbor fc00:20:2::40 remote-as 30
 <span class="gp">RL7(config-router)#</span><span class="w"> </span>route-map ALLOW-ALL permit 100
 <span class="go">
-</span><span class="gp">RL7(config-router)#</span><span class="w"> </span>address-family ipv6
+</span><span class="gp">RL7(config-route-map)#</span><span class="w"> </span>router bgp 20
+<span class="gp">RL7(config-router)#</span><span class="w"> </span>address-family ipv6
 <span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 activate
 <span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:1::30 default-originate
 <span class="gp">RL7(config-router-af)#</span><span class="w"> </span>neighbor fc00:20:2::40 activate
@@ -507,6 +508,42 @@ Copyright 1996-2005 Kunihiro Ishiguro, et al.
   <li>Bloco 3:
    O FRR no Linux, tem alguma política BGP padrão que impede a troca de rotas BGP com outros roteadores. Assim, se forem executados os passos apenas dos blocos 1 e 2, a conexão BGP entre os vizinhos CISCO não serão propriamente estabelecidas (aparecerá no estado da conexão a palavra <code class="language-plaintext highlighter-rouge">POLICY</code>). Para resolver esse “problema”, é necessária a execução desse terceiro bloco, que basicamente libera a entrada (<code class="language-plaintext highlighter-rouge">in</code>) e envio (<code class="language-plaintext highlighter-rouge">out</code>) de rotas BGP para o R3 e R4.</li>
 </ul>
+
+<p>O problema citado no Bloco 3 (texto anterior) é apresentado na saída a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">RL7(config-router)#</span><span class="w"> </span><span class="k">do </span>show bgp summary
+<span class="go">
+IPv6 Unicast Summary:
+BGP router identifier 70.70.70.70, local AS number 20 vrf-id 0
+BGP table version 0
+RIB entries 0, using 0 bytes of memory
+Peers 2, using 43 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+fc00:20:1::30   4         10         4         3        0    0    0 00:00:33     (Policy) (Policy)
+fc00:20:2::40   4         30         4         3        0    0    0 00:00:23     (Policy) (Policy)
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><strong>Atenção, caso você faça os passos do Bloco 3, você NÃO irá ver o problema da saída anterior!</strong> (Só estou colocando essa saída aqui, pois não encontrei muito material a respeito disso na Internet - e provavelmente quem estiver procurando como resolver isso, vai procurar por essa saída.</p>
+</blockquote>
+
+<p>Após executar os comandos do Bloco 3 (texto anterior), a saída de conexão de vizinhos BGP deve ser algo como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">RL7#</span><span class="w"> </span>show bgp summary
+<span class="go">
+IPv6 Unicast Summary:
+BGP router identifier 70.70.70.70, local AS number 20 vrf-id 0
+BGP table version 2
+RIB entries 3, using 576 bytes of memory
+Peers 2, using 43 KiB of memory
+
+Neighbor        V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt
+fc00:20:1::30   4         10         7         9        0    0    0 00:02:44            1        2
+fc00:20:2::40   4         30         6         9        0    0    0 00:02:34            1        2
+</span></code></pre></div></div>
+
+<p>Os números inteiros positivos nas duas últimas colunas mostram que a conexão BGP foi estabelecida com sucesso entre roteador Linux e os CISCO.</p>
 
 <p>Realizadas todas as configurações em todos os elementos de rede do cenário proposto na Figura 1, vamos passar para a parte de testes.</p>
 
