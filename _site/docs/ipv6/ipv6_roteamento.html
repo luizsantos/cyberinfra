@@ -751,7 +751,7 @@ L   FF00::/8 [0/0]
 <p>Nas saída de R5 observa-se as rotas <code class="language-plaintext highlighter-rouge">R</code>, ou seja obtidas via RIP. Já em R1, temos as rotas <code class="language-plaintext highlighter-rouge">O</code>, pois foram obtidas via OSPF, que são os respectivos protocolos IGP de cada cenário. É importante perceber que esses roteadores que não estão executando BGP dentro de cada AS, não possuem rotas para os outros ASs, a conexão desses com os outros ASs é feita via rota padrão, que neste caso está sendo distribuída via protocolo IGP, ou seja:</p>
 <ul>
   <li>Em R1 temos a rota padrão <code class="language-plaintext highlighter-rouge">R   ::/0 [120/2]</code>, obtida via RIP.</li>
-  <li>Já em R5, tem-se a rota padrão <code class="language-plaintext highlighter-rouge">OE2 ::/0 [110/1], tag 1</code>, obtida via OSPF.</li>
+  <li>Já em R5, tem-se a rota padrão <code class="language-plaintext highlighter-rouge">OE2 ::/0 [110/1]</code>, obtida via OSPF.</li>
 </ul>
 
 <p>Dado os status dos roteadores do cenário, vamos realizar testes de <code class="language-plaintext highlighter-rouge">ping</code> a partir do Host-1, para os outros <em>hosts</em> do cenário, bem como um teste de acesso à Internet:</p>
