@@ -2,7 +2,7 @@
 layout: page
 ---
 
-Dado o exemplo básico de configuração de rede IPv6 do [Exemplo 1](ipv6_redeBasica) (apresentada anteriormente). Vamos configurar agora um cenário de rede um pouco mais complexo, que é o ilustrado na Figura 1. Tal cenários terá roteamento: OSPF, RIP e BGP utilizando IPv6.
+Dado o exemplo básico de configuração de rede IPv6 do [Exemplo 1](ipv6_redeBasica) (apresentada anteriormente). Vamos configurar agora um cenário de rede um pouco mais complexo, que é o ilustrado na Figura 1. Tal cenário terá roteamento: OSPF, RIP e BGP utilizando IPv6.
 
 > O objetivo aqui é apenas mostrar como configurar minimamente utiliza rede IPv6 com roteadores CISCO e Linux, bem como *hosts* Linux, ou seja, aqui não serão apresentadas em detalhes todas as possibilidades de configuração desses, nem as melhores práticas de configuração.
 
@@ -59,13 +59,13 @@ root@Host-4:/# ip route add default via fc00:30:4::60
 root@Host-4:/# echo "nameserver 2606:4700:4700::1111" > /etc/resolv.conf
 ```
 
-Resumindo o comando ``ip address add`` atribui o endereço IPv6 à cada interface de rede dos *hosts*, no caso todos os *hosts* clientes só possuem a primeira placa de rede Ethernet, ou seja, a ``eth0``. Na sequência é utilizado o comando ``ip route add default via``, seguido do IP de cada roteador conectado ao respectivo *host*, ou seja, é passado o roteador como rota padrão do *host*. Por fim, é realizada a configuração do servidor DNS que deve ser utilizado pelos *hosts* cliente, no exemplo todos utilizam o mesmo servidor de nomes que é o ``nameserver :4700:4700::1111``, isso é armazenado no arquivo ``/etc/resolv.conf``.
+Resumindo o comando ``ip address add`` atribui o endereço IPv6 à cada interface de rede dos *hosts*, no caso todos os *hosts* clientes só possuem a primeira placa de rede Ethernet, ou seja, a ``eth0``. Na sequência é utilizado o comando ``ip route add default via``, seguido do IP de cada roteador conectado ao respectivo *host*, ou seja, é passado o roteador como rota padrão do *host*. Por fim, é realizada a configuração do servidor DNS que deve ser utilizado pelos *hosts* cliente, no exemplo todos utilizam o mesmo servidor de nomes que é o ``nameserver 2606:4700:4700::1111``, isso é armazenado no arquivo ``/etc/resolv.conf``.
 
 Desta forma os clientes estão configurado e aptos à utilizar a rede, entretanto isso ainda não é possível, já que é necessário primeiro configurar os roteadores.
 
 ## Configuração dos Roteadores do AS10 - OSPF e BGP
 
-A rede do AS10, será interconectada pelo protocolo OSPF. Assim, todos os *hosts* deste cenário conseguirão se comunicar dentro do AS3 via IGP. Para isso também deve ser realizada a atribuição dos IPs das placas de rede de cada roteador, e por fim será realizada a configuração do BGP`no R3, que dará acesso aos outros ASs, bem como à Internet.
+A rede do AS10, será interconectada pelo protocolo OSPF. Assim, todos os *hosts* deste cenário conseguirão se comunicar dentro do AS3 via IGP. Para isso também deve ser realizada a atribuição dos IPs das placas de rede de cada roteador, e por fim será realizada a configuração do BGP no R3, que dará acesso aos outros ASs, bem como à Internet.
 
 A configuração do endereço IP e do OSPF nos roteadores da CISCO é um pouco diferente da feita no IPv4. Assim, vamos ver tal configuração em detalhes do R1.
 
@@ -422,7 +422,7 @@ fc00:20:1::30   4         10         4         3        0    0    0 00:00:33    
 fc00:20:2::40   4         30         4         3        0    0    0 00:00:23     (Policy) (Policy)
 ```
 
-> **Atenção, caso você faça os passos do Bloco 3, você NÃO irá ver o problema da saída anterior!** (Só estou colocando essa saída aqui, pois não encontrei muito material a respeito disso na Internet - e provavelmente quem estiver procurando como resolver isso, vai procurar por essa saída.
+> **Atenção, caso você faça os passos do Bloco 3, você NÃO vera o problema da saída anterior!** (Só estou colocando essa saída aqui, pois não encontrei muito material a respeito disso na Internet - e provavelmente quem estiver procurando como resolver isso, vai procurar por essa saída.
 
 Após executar os comandos do Bloco 3 (texto anterior), a saída de conexão de vizinhos BGP deve ser algo como:
 
@@ -642,7 +642,7 @@ L   FF00::/8 [0/0]
 
 Nas saída de R5 observa-se as rotas ``R``, ou seja obtidas via RIP. Já em R1, temos as rotas ``O``, pois foram obtidas via OSPF, que são os respectivos protocolos IGP de cada cenário. É importante perceber que esses roteadores que não estão executando BGP dentro de cada AS, não possuem rotas para os outros ASs, a conexão desses com os outros ASs é feita via rota padrão, que neste caso está sendo distribuída via protocolo IGP, ou seja:
 * Em R1 temos a rota padrão ``R   ::/0 [120/2]``, obtida via RIP.
-* Já em R5, tem-se a rota padrão ``OE2 ::/0 [110/1], tag 1``, obtida via OSPF.
+* Já em R5, tem-se a rota padrão ``OE2 ::/0 [110/1]``, obtida via OSPF.
 
 Dado os status dos roteadores do cenário, vamos realizar testes de ``ping`` a partir do Host-1, para os outros *hosts* do cenário, bem como um teste de acesso à Internet:
 

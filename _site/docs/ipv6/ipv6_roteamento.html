@@ -62,7 +62,7 @@
     <div class="container">
       <section id="main_content">
         <article>
-  <p>Dado o exemplo básico de configuração de rede IPv6 do <a href="ipv6_redeBasica">Exemplo 1</a> (apresentada anteriormente). Vamos configurar agora um cenário de rede um pouco mais complexo, que é o ilustrado na Figura 1. Tal cenários terá roteamento: OSPF, RIP e BGP utilizando IPv6.</p>
+  <p>Dado o exemplo básico de configuração de rede IPv6 do <a href="ipv6_redeBasica">Exemplo 1</a> (apresentada anteriormente). Vamos configurar agora um cenário de rede um pouco mais complexo, que é o ilustrado na Figura 1. Tal cenário terá roteamento: OSPF, RIP e BGP utilizando IPv6.</p>
 
 <blockquote>
   <p>O objetivo aqui é apenas mostrar como configurar minimamente utiliza rede IPv6 com roteadores CISCO e Linux, bem como <em>hosts</em> Linux, ou seja, aqui não serão apresentadas em detalhes todas as possibilidades de configuração desses, nem as melhores práticas de configuração.</p>
@@ -141,13 +141,13 @@
 <span class="gp">root@Host-4:/#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"nameserver 2606:4700:4700::1111"</span> <span class="o">&gt;</span> /etc/resolv.conf
 </code></pre></div></div>
 
-<p>Resumindo o comando <code class="language-plaintext highlighter-rouge">ip address add</code> atribui o endereço IPv6 à cada interface de rede dos <em>hosts</em>, no caso todos os <em>hosts</em> clientes só possuem a primeira placa de rede Ethernet, ou seja, a <code class="language-plaintext highlighter-rouge">eth0</code>. Na sequência é utilizado o comando <code class="language-plaintext highlighter-rouge">ip route add default via</code>, seguido do IP de cada roteador conectado ao respectivo <em>host</em>, ou seja, é passado o roteador como rota padrão do <em>host</em>. Por fim, é realizada a configuração do servidor DNS que deve ser utilizado pelos <em>hosts</em> cliente, no exemplo todos utilizam o mesmo servidor de nomes que é o <code class="language-plaintext highlighter-rouge">nameserver :4700:4700::1111</code>, isso é armazenado no arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</p>
+<p>Resumindo o comando <code class="language-plaintext highlighter-rouge">ip address add</code> atribui o endereço IPv6 à cada interface de rede dos <em>hosts</em>, no caso todos os <em>hosts</em> clientes só possuem a primeira placa de rede Ethernet, ou seja, a <code class="language-plaintext highlighter-rouge">eth0</code>. Na sequência é utilizado o comando <code class="language-plaintext highlighter-rouge">ip route add default via</code>, seguido do IP de cada roteador conectado ao respectivo <em>host</em>, ou seja, é passado o roteador como rota padrão do <em>host</em>. Por fim, é realizada a configuração do servidor DNS que deve ser utilizado pelos <em>hosts</em> cliente, no exemplo todos utilizam o mesmo servidor de nomes que é o <code class="language-plaintext highlighter-rouge">nameserver 2606:4700:4700::1111</code>, isso é armazenado no arquivo <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>.</p>
 
 <p>Desta forma os clientes estão configurado e aptos à utilizar a rede, entretanto isso ainda não é possível, já que é necessário primeiro configurar os roteadores.</p>
 
 <h2 id="configuração-dos-roteadores-do-as10---ospf-e-bgp">Configuração dos Roteadores do AS10 - OSPF e BGP</h2>
 
-<p>A rede do AS10, será interconectada pelo protocolo OSPF. Assim, todos os <em>hosts</em> deste cenário conseguirão se comunicar dentro do AS3 via IGP. Para isso também deve ser realizada a atribuição dos IPs das placas de rede de cada roteador, e por fim será realizada a configuração do BGP`no R3, que dará acesso aos outros ASs, bem como à Internet.</p>
+<p>A rede do AS10, será interconectada pelo protocolo OSPF. Assim, todos os <em>hosts</em> deste cenário conseguirão se comunicar dentro do AS3 via IGP. Para isso também deve ser realizada a atribuição dos IPs das placas de rede de cada roteador, e por fim será realizada a configuração do BGP no R3, que dará acesso aos outros ASs, bem como à Internet.</p>
 
 <p>A configuração do endereço IP e do OSPF nos roteadores da CISCO é um pouco diferente da feita no IPv4. Assim, vamos ver tal configuração em detalhes do R1.</p>
 
@@ -525,7 +525,7 @@ fc00:20:2::40   4         30         4         3        0    0    0 00:00:23    
 </span></code></pre></div></div>
 
 <blockquote>
-  <p><strong>Atenção, caso você faça os passos do Bloco 3, você NÃO irá ver o problema da saída anterior!</strong> (Só estou colocando essa saída aqui, pois não encontrei muito material a respeito disso na Internet - e provavelmente quem estiver procurando como resolver isso, vai procurar por essa saída.</p>
+  <p><strong>Atenção, caso você faça os passos do Bloco 3, você NÃO vera o problema da saída anterior!</strong> (Só estou colocando essa saída aqui, pois não encontrei muito material a respeito disso na Internet - e provavelmente quem estiver procurando como resolver isso, vai procurar por essa saída.</p>
 </blockquote>
 
 <p>Após executar os comandos do Bloco 3 (texto anterior), a saída de conexão de vizinhos BGP deve ser algo como:</p>
