@@ -4,7 +4,7 @@ layout: page
 
 # IPv6 no Linux - Configuração de Clientes, NAT e endereço *stateless*
 
-Parece que o IPv6 está cada vez mais próximo de tomar o seu lugar na Internet, ou seja, o IPv6 está ganhando forças para substituir o IPv4 e assim resolver o grande problema da falta de endereços IPv4 válidos na Internet. Neste contexto, fica cada vez mais importante dominar o mínimo a respeito de teoria e prática a respeito de IPv6. Desta forma, neste material, explica como:
+Parece que o IPv6 está cada vez mais próximo de tomar o seu lugar na Internet, ou seja, o IPv6 está ganhando forças para substituir o IPv4 e assim resolver o grande problema da falta de endereços IPv4 válidos na Internet. Neste contexto, fica cada vez mais importante dominar o mínimo a respeito da teoria e prática do IPv6. Desta forma, neste material, explica como:
 1. Configurar endereços, rotas e DNS em *hosts* Linux, de forma manual e automática;
 2. Configurar um roteador Linux com NAT para IPv6;
 3. Instalar e configurar um servidor que fornece configuração IPv6 de forma automática e sem controle de estado aos clientes da rede.
