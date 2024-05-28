@@ -57,6 +57,8 @@ O comando ``dhcpcd -6 -i eth0`` foi utilizado para obter apenas configurações 
 Já a saída do comando anterior, mostra que o pedido ao servidor DHCP, foi atendido com sucesso, já que por exemplo, foram fornecidos alguns endereços IPs, tais como:
 ``eth0: adding address 2804:828:f230:5b25:96ae:4ff3:e9fd:cf62/64``.
 
+> Neste exemplo estamos utilizando o comando ``dhcpcd``, mas talvez o comando mais comum no Linux atualmente é o ``dhclient``. Já, principalmente no ambiente gráfico do Linux, será utilizado provavelmente o [Network Manager](https://pt.wikipedia.org/wiki/NetworkManager). Então a escolha do programa DHCP cliente, fica à sua escolha ou da distribuição Linux que você está utilizando. ;-)
+
 Vamos verificar quais foram as configurações de rede obtidas via IPv6:
 
 ```console
