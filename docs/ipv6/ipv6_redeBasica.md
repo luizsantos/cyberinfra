@@ -7,7 +7,7 @@ layout: page
 Parece que o IPv6 está cada vez mais próximo de tomar o seu lugar na Internet, ou seja, o IPv6 está ganhando forças para substituir o IPv4 e assim resolver o grande problema da falta de endereços IPv4 válidos na Internet. Neste contexto, fica cada vez mais importante dominar o mínimo a respeito da teoria e prática do IPv6. Desta forma, neste material, explica como:
 1. Configurar endereços, rotas e DNS em *hosts* Linux, de forma manual e automática;
 2. Configurar um roteador Linux com NAT para IPv6;
-3. Instalar e configurar um servidor que fornece configuração IPv6 de forma automática e sem controle de estado aos clientes da rede.
+3. Instalar e configurar um servidor que fornece configuração IPv6 de forma automática e sem controle de estado aos clientes da rede (Stateless address auto-configuration - [SLAAC](https://www.networkacademy.io/ccna/ipv6/stateless-dhcpv6)).
 
 Para tanto, utilizaremos o cenário de rede apresentado a seguir (ver Figura 1), como exemplo:
 
@@ -339,7 +339,7 @@ Ou seja, não foi possível obter as configurações de forma automática. Entã
 
 ### Configurando o RADVD
 
-Para instalar o *Route Advertisement Daemon* (RADVD) para IPv6, vamos fazer o seguinte no RouterLinux-1, com o seu Debian:
+Para instalar o *Route Advertisement Daemon* (RADVD) para IPv6 e assim configurar endereços IPv6 de forma [SLAAC]https://www.networkacademy.io/ccna/ipv6/stateless-dhcpv6) (*Stateless address auto-configuration*), vamos fazer o seguinte no RouterLinux-1, com o seu Debian:
 
 * Atualizar a base de pacotes:
 
@@ -492,4 +492,6 @@ A configuração deste cenário de rede IPv6 básica, mostrou alguns conceitos d
 * <https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_radvd_daemon_for_ipv6_routers>
 
 * <https://necromuralist.github.io/posts/the-linux-ipv6-router-advertisement-daemon-radvd/>
+
+* <https://www.networkacademy.io/ccna/ipv6/stateless-dhcpv6>
  
