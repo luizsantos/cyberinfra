@@ -21,21 +21,17 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [MacOS acessando o ambiente gráfico do Linux via SSH](VMs/configurarVMMac)
 	* [Virtualização Nested](VMs/configurarNestedVM)
 
-<!--
 * Virtualização
     * [Introdução à virtualização](virtualization/virtualization)
--->
 
 # Redes de Computadores
 * Configuração básica de rede:
 	* [Introdução](confBasicaRedes/introConfRedeHost)
 	* [Linux](confBasicaRedes/linux/linuxConfRedeHost)
 
-<!--
 * IPv6:
     * [Rede básica no Linux](ipv6/ipv6_redeBasica)
     * [Rede OSPF, RIP e BGP](ipv6/ipv6_roteamento)
--->
 
 * Servidores no OpenBSD:
 	* [DHCP](OpenBSDServers/dhcp)
@@ -45,9 +41,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [NFS](OpenBSDServers/nfsd)
 	* [NAT](OpenBSDServers/nat)
 
-<!--
 	* [QoS](QoS/QoS)
--->
 
 * CISCO
 	* [VLAN](cisco/vlan)
@@ -57,20 +51,16 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [DHCP](cisco/dhcp-cisco)
 	* [NAT](cisco/exemploNAT)
 
-<!--
 	* BGP
 		* [eBGP](cisco/bgp-egp1)
 		* [iBGP](cisco/bgp-igp1)
--->
 
 * Juniper
 	* [Configuração básica dos roteadores](juniper/router)
 
-<!--
 # Cibersegurança
 * [PenTesting](penTest/pentest)
 	* [Escaneamento com Nmap](penTest/nmap)
 	* [Ganhando Acesso com Metasploit](penTest/metaexploit)
 		* [SQL Injection](penTest/sqli)
 		* [Quebrando senhas](penTest/passwordCracking)
--->
