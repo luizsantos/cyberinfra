@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/docker/docker-container" />
+<meta property="og:url" content="http://localhost:4000/docs/docker/docker-container" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","headline":"CyberInfra","url":"http://localhost:4000/docs/docker/docker-container","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2></h2>
+  <time datetime="" class="by-line"></time>
+  <h1 id="containers">Containers</h1>
+
+<h2 id="verificando-se-o-docker-está-instalado">Verificando se o Docker está instalado</h2>
+
+<p>Para iniciar os trabalhos com o Docker, é bom primeiro verificar se o
+mesmo está devidamente instalado.</p>
+
+<p>Isso pode ser feito de várias formas, mas vamos fazer verificando a
+versão do Docker instalado, com o seguinte comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker <span class="nt">--version</span>
+<span class="go">Docker version 27.0.3, build 7d4bcd863a
+</span></code></pre></div></div>
+
+<p>Caso o comando não exista, será necessário instalar o Docker em seu
+sistema. Nenhuma instalação será abordada aqui neste material,
+recomenda-se buscar informações a respeito de como proceder tal
+instalação no sítio oficial do
+<a href="https://docs.docker.com/engine/install/">Docker</a>, já que a instalação
+pode variar de sistema para sistema.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>No caso do Linux veja como instalar em <a href="https://docs.docker.com/desktop/install/linux-install/" class="uri">https://docs.docker.com/desktop/install/linux-install/</a>.</p></div></div>
+
+<p>Além do comando <code class="language-plaintext highlighter-rouge">docker --version</code>, é comum executar os comandos:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">docker version</code>, que apresenta mais informações do que o comando
+que foi digitado anteriormente;</li>
+  <li><code class="language-plaintext highlighter-rouge">docker info</code>, que traz mais informações ainda, informações a
+respeito do cliente, servidor, etc.</li>
+</ul>
+
+<p>Para ver se o servidor está em execução em sistemas Linux, é possível
+utilizar o comando <code class="language-plaintext highlighter-rouge">ps</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>ps ax | <span class="nb">grep </span>dockerd
+<span class="go">    791 ?        Ssl    0:00 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+   8748 pts/0    S+     0:00 grep dockerd
+</span></code></pre></div></div>
+
+<p>Neste exemplo são retornados dois processos com o termo <code class="language-plaintext highlighter-rouge">dockerd</code>, sendo
+esses:</p>
+
+<ul>
+  <li>8748, é do <code class="language-plaintext highlighter-rouge">grep</code>, utilizado para filtrar as saídas no comando <code class="language-plaintext highlighter-rouge">ps</code>
+(esse não interessa).</li>
+  <li>791, é o processo em execução do Docker (<code class="language-plaintext highlighter-rouge">/usr/bin/dockerd</code>), ou
+seja, era o que estávamos procurando e se ele não estivesse ai, algo
+estaria errado com a execução do Docker neste sistema.</li>
+</ul>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Lembrando que os números dos processos provavelmente vão mudar em
+cada sistema, já que são aleatórios.</p></div></div>
+
+<p>Bem, mas só executamos esses comandos para ter certeza que o Docker está
+instalado - isso não é obrigatório. Agora vamos para o próximo passo,
+que é realmente utilizar o Docker para fazer alguma coisa.</p>
+
+<h2 id="executando-containers-run">Executando containers (<code class="language-plaintext highlighter-rouge">run</code>)</h2>
+
+<p>Vamos executar um container Docker simples para efetivamente verificar
+se tudo está funcionando no Docker.</p>
+
+<p>Para isso, vamos utilizar o comando <code class="language-plaintext highlighter-rouge">docker run</code>. Nesta primeira
+execução será iniciada uma imagem do Ubuntu Linux, com interação de um
+<em>shell</em>, para este sistema. Para tanto vamos executar o seguinte
+comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">-i</span> <span class="nt">-t</span> ubuntu /bin/bash
+<span class="go">Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+9c704ecd0c69: Pull complete
+Digest: sha256:2e863c44b718727c860746568e1d54afd13b2fa71b160f5cd9058fc436217b30
+Status: Downloaded newer image for ubuntu:latest
+</span><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w">
+</span></code></pre></div></div>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Pode ser necessário utilizar o comando <code>sudo</code> para
+executar o <code>docker</code>. Como exemplo, o comando anterior ficaria
+<code>sudo docker run -i -t ubuntu /bin/bash</code>.</p></div></div>
+
+<p>O comando anterior, bem como sua saída, apresentam várias “coisas”
+interessantes do Docker. Assim, vamos dissecar primeiro o comando
+executado (docker run -i -t ubuntu /bin/bash), vendo as seguintes opções
+e parâmetros:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-i</code>, mantém a saída padrão (STDIN) do container no console do
+hospedeiro, ou seja, todas as saídas geradas pelo container serão
+apresentadas na tela na qual o comando foi digitado;</li>
+  <li><code class="language-plaintext highlighter-rouge">-t</code>, informa para o Docker associar um console virtual
+(<em>pseudo-tty</em>) para o container criado. Isso vai permitir interagir
+como container, através da execução de comandos;</li>
+  <li><code class="language-plaintext highlighter-rouge">ubuntu</code>, é o nome da imagem utilizada para criar o container.
+Outras imagens poderiam ser utilizadas, essas podem estar disponível
+localmente ou na Internet, por exemplo no <a href="https://hub.docker.com/">Docker
+Hub</a>. Depois, em <a href="docker/docker-imagens">Imagens</a>, vamos ver
+melhor como listar e utilizar essas imagens.</li>
+  <li><code class="language-plaintext highlighter-rouge">/bin/bash</code>, esse é o comando a ser executado no container que está
+sendo criado. Mais especificamente, neste exemplo, estamos pedindo
+para o container executar o <code class="language-plaintext highlighter-rouge">bash</code>, que é normalmente o <em>shell</em>
+padrão de ambientes Linux. Neste caso, como esperamos interagir com
+o container, via comandos (dadas as opções <code class="language-plaintext highlighter-rouge">-i</code> e <code class="language-plaintext highlighter-rouge">-t</code>), vamos fazer
+isso via console. Ou seja, isso vai permitir interagir com o
+container através de um console texto, no qual será possível digitar
+comandos no container.</li>
+</ul>
+
+<h3 id="interagindo-com-o-bash-do-container">Interagindo com o <code class="language-plaintext highlighter-rouge">bash</code> do container</h3>
+
+<p>Bem, com o resultado do comando anterior, estamos dentro de um
+container, pronto para interagir com ele através do <em>prompt</em> de comando.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Os comandos apresentados a seguir podem variar de container para
+container dependendo da distribuição e da versão da mesma, bem como das
+configurações já realizadas em um container pré-configurado. Tais
+comandos são do Linux e não do Docker.</p></div></div>
+
+<p>Então vamos por exemplo executar alguns comandos Linux neste container.</p>
+
+<h4 id="verificando-o-nome-do-container">Verificando o nome do container:</h4>
+
+<p>Podemos utilizar o comando <code class="language-plaintext highlighter-rouge">hostname</code> do Linux, para ver o nome do
+<em>host</em>/container.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span><span class="nb">hostname</span>
+<span class="go">ebfc7d73bf3a
+</span></code></pre></div></div>
+
+<p>A saída anterior, mostra que o nome do <em>host</em> é ebfc7d73bf3a.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Neste exemplo o nome ebfc7d73bf3a é o ID do container, ou seja, é um
+valor que identifica o container de forma única dentro do Docker.</p></div></div>
+
+<h4 id="verificando-detalhes-de-redes-do-container">Verificando detalhes de redes do container:</h4>
+
+<p>Atualmente, para verificar as configurações de rede do Linux é comum
+utilizar o comando <code class="language-plaintext highlighter-rouge">ip</code>. Todavia se tentarmos utilizar o comando <code class="language-plaintext highlighter-rouge">ip</code>
+neste container, o resultado será o seguinte:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span>ip
+<span class="go">bash: ip: command not found
+</span></code></pre></div></div>
+
+<p>Ou seja, o comando <code class="language-plaintext highlighter-rouge">ip</code> não está instalado por padrão neste container,
+mas é possível instalar pacotes neste container, conforme é abordado a
+seguir.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Neste caso, seria possível ver o IP do container sem instalar o
+comando <code>ip</code>, isso pode ser feito com o comando
+<code>hostname -I</code>.</p></div></div>
+
+<h4 id="atualizando-o-ubuntu-do-container">Atualizando o Ubuntu do container:</h4>
+
+<p>Para atualizar o Ubuntu do container basta fazer um <code class="language-plaintext highlighter-rouge">atp update</code>, tal
+como seria em um computador normal (sem container):</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span>apt update
+<span class="go">Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+</span><span class="c">...
+</span><span class="go">Reading state information... Done
+2 packages can be upgraded. Run 'apt list --upgradable' to see them.
+</span></code></pre></div></div>
+
+<h4 id="instalando-pacotes-do-ubuntu-do-container">Instalando pacotes do Ubuntu do container:</h4>
+
+<p>Agora com o <code class="language-plaintext highlighter-rouge">apt</code> atualizado, é possível instalar o comando <code class="language-plaintext highlighter-rouge">ip</code>, no
+caso ele é disponibilizado através do pacotes <code class="language-plaintext highlighter-rouge">iproute2</code>, então vamos
+instalar esse:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span>apt <span class="nb">install </span>iproute2
+<span class="go">Reading package lists... Done
+</span><span class="c">...
+</span><span class="go">Do you want to continue? [Y/n]
+Get:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libelf1t64 amd64 0.190-1.1build4 [57.6 kB]
+</span><span class="c">...
+</span><span class="go">Processing triggers for libc-bin (2.39-0ubuntu8.2) ...
+</span></code></pre></div></div>
+
+<p>A saída anterior mostra que o <code class="language-plaintext highlighter-rouge">iproute2</code> foi instalado com sucesso.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Se o container não for derivado do Debian, como é o caso do Ubuntu,
+pode ser que o comando <code>apt</code> não exista, ai será necessário
+utilizar outras formas para instalar pacotes - isso pode variar de
+distribuição para distribuição.</p></div></div>
+
+<h4 id="verificando-as-configurações-de-rede-com-o-comando-ip">Verificando as configurações de rede com o comando <code class="language-plaintext highlighter-rouge">ip</code>:</h4>
+
+<p>Com o pacote <code class="language-plaintext highlighter-rouge">iproute2</code> instalado, agora é possível utilizar o comando
+<code class="language-plaintext highlighter-rouge">ip</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span>ip a
+<span class="gp">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+<span class="go">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+</span><span class="gp">6: eth0@if7: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;</span><span class="w"> </span>mtu 1500 qdisc noqueue state UP group default
+<span class="go">    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+</span></code></pre></div></div>
+
+<p>A saída anterior, mostra que no container existem as seguintes
+interfaces de rede:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">lo</code>, com o IP 127.0.0.1/8;</li>
+  <li><code class="language-plaintext highlighter-rouge">eth0</code>, com o IP 172.17.0.2/16.</li>
+</ul>
+
+<p>Daria para explorar mais informações, tal como a rota padrão através do
+comando <code class="language-plaintext highlighter-rouge">ip route</code>.</p>
+
+<h4 id="verificando-os-processos-em-execução-no-container">Verificando os processos em execução no container:</h4>
+
+<p>Para verificar os processos em execução no container, podemos utilizar o
+comando <code class="language-plaintext highlighter-rouge">ps</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span>ps ax
+<span class="go">    PID TTY      STAT   TIME COMMAND
+      1 pts/0    Ss     0:00 /bin/bash
+    339 pts/0    R+     0:00 ps ax
+</span></code></pre></div></div>
+
+<p>A saída do comando anterior mostra que há dois processos no container em
+questão. Sendo esses representados pelos seguintes PIDs:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1</code>, para o processo <code class="language-plaintext highlighter-rouge">bash</code>, que é o <em>shell</em> que pedimos para
+executar no comando que criou o container;</li>
+  <li><code class="language-plaintext highlighter-rouge">339</code>, para o processo <code class="language-plaintext highlighter-rouge">ps</code>, que é o último comando que foi
+executado.</li>
+</ul>
+
+<p>Daria para ficar interagindo com o container, tal como em um sistema
+normal, mas vamos parar por aqui.</p>
+
+<h3 id="saindo-do-console-do-container-exit">Saindo do console do container (<code class="language-plaintext highlighter-rouge">exit</code>)</h3>
+
+<p>Para sair do console do container, basta digitar <code class="language-plaintext highlighter-rouge">exit</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">root@ebfc7d73bf3a:/#</span><span class="w"> </span><span class="nb">exit</span>
+<span class="go">exit
+</span><span class="gp">$</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Conforme a saída do comando anterior, veja que saímos do container
+<code class="language-plaintext highlighter-rouge">ebfc7d73bf3a</code>, no qual estávamos com o usuário <code class="language-plaintext highlighter-rouge">root</code>, e no exemplo,
+voltamos para o <em>host</em> <code class="language-plaintext highlighter-rouge">fielDell</code>, com o usuário <code class="language-plaintext highlighter-rouge">luiz</code>.</p>
+
+<p>Bem, mas o que aconteceu com o container que estava em execução? A
+resposta é: ele parou de ser executado! Isso acontece, pois o Docker
+iniciou o container para executar o comando <code class="language-plaintext highlighter-rouge">/bin/bash</code>, e quando
+digitamos <code class="language-plaintext highlighter-rouge">exit</code>, o comando <code class="language-plaintext highlighter-rouge">/bin/bash</code> para de ser executado e assim o
+container inteiro para.</p>
+
+<h2 id="listando-containers">Listando containers</h2>
+
+<p>Uma tarefa extremamente comum é listar os containers que estão em
+execução, bem como os que estão parados. Veja como fazer isso a seguir.</p>
+
+<h3 id="listar-containers-parados-ps--a">Listar containers parados (<code class="language-plaintext highlighter-rouge">ps -a</code>)</h3>
+
+<p>Para ver os containers parados, execute o comando <code class="language-plaintext highlighter-rouge">docker ps -a</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps <span class="nt">-a</span>
+<span class="go">CONTAINER ID   IMAGE                               COMMAND                  CREATED             STATUS                        PORTS     NAMES
+ebfc7d73bf3a   ubuntu                              "/bin/bash"              About an hour ago   Exited (0) 47 minutes ago               strange_jang
+06d326091537   luizarthur/cyberinfra:hostDeb11     "/gns3/init.sh bash"     6 weeks ago         Exited (137) 6 weeks ago                admiring_burnell
+</span></code></pre></div></div>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>A saída infelizmente pode extrapolar o tamanho da página, e por isso
+as colunas ficam em posições ruins de mostrar o resultado - isso também
+pode acontecer em um terminal de computador.</p></div></div>
+
+<p>No exemplo da saída anterior temos dois containers parados, sendo esses:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ebfc7d73bf3a</code>, que tem o nome <code class="language-plaintext highlighter-rouge">strange_jang</code>, derivado de uma
+imagem chamada <code class="language-plaintext highlighter-rouge">ubuntu</code>, sendo esse o container deste exemplo.</li>
+  <li><code class="language-plaintext highlighter-rouge">06d326091537</code>, com o nome <code class="language-plaintext highlighter-rouge">admiring_burnell</code>, criado da imagem
+<code class="language-plaintext highlighter-rouge">luizarthur/cyberinfra:hostDeb11</code>.</li>
+</ul>
+
+<p>Note ainda na saída anterior, que dá para ver os comandos de iniciação
+desses containers (<code class="language-plaintext highlighter-rouge">COMMAND</code>), bem como algumas informações de tempo
+(<code class="language-plaintext highlighter-rouge">CREATED</code>), estado do container (<code class="language-plaintext highlighter-rouge">STATUS</code>), etc.</p>
+
+<p>A princípio o nome do container é gerado automaticamente, mas é possível
+informar um nome para o container utilizando a opção <code class="language-plaintext highlighter-rouge">--name</code>. Os nomes
+devem ser únicos. Assim, na hora de criar o container, informe o nome
+deste container, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> meuContainer <span class="nt">-i</span> <span class="nt">-t</span> ubuntu /bin/bash
+</code></pre></div></div>
+
+<p>No exemplo anterior seria criado um container chamado <code class="language-plaintext highlighter-rouge">meuContainer</code>.</p>
+
+<h3 id="listar-containers-em-execução-ps">Listar containers em execução (<code class="language-plaintext highlighter-rouge">ps</code>)</h3>
+
+<p>Para listar containers em execução, basta executar o comando
+<code class="language-plaintext highlighter-rouge">docker ps</code>, ou seja, é apenas tirar o <code class="language-plaintext highlighter-rouge">-a</code> do comando anterior. Veja o
+exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+</span></code></pre></div></div>
+
+<p>No exemplo da saída anterior, não há nenhum container em execução.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Note que o comando <code>ps</code> dentro de sistemas Unix-Like,
+apresentam os processos em execução. Já o <code>ps</code> passado como
+parâmetro para o comando <code>docker</code>, apresenta containers em
+execução ou parados. Ou seja, eles não são equivalentes.</p></div></div>
+
+<p>Para listagens, há duas opções úteis:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-n</code> seguida de um número inteiro, mostrará os últimos <em>x</em>
+containers (não importa o estado do container - em execução ou
+parado), sendo que <em>x</em> é o número digitado na frente de <code class="language-plaintext highlighter-rouge">-n</code>;</li>
+  <li><code class="language-plaintext highlighter-rouge">-l</code>, mostrará apenas o último container (não importa o estado).</li>
+</ul>
+
+<p>As opções <code class="language-plaintext highlighter-rouge">-n</code> e <code class="language-plaintext highlighter-rouge">-l</code> são importantes, pois podem haver vários
+containers na lista retornada pelo comando <code class="language-plaintext highlighter-rouge">ps</code>. Assim tais opções vão
+filtrar e mostrar os mais recentes, que normalmente são os que estamos
+trabalhando no momento.</p>
+
+<h2 id="iniciando-containers-parados-start">Iniciando containers parados (<code class="language-plaintext highlighter-rouge">start</code>)</h2>
+
+<p>É possível iniciar um container que está parado, isso é feito com o
+comando <code class="language-plaintext highlighter-rouge">docker start</code> seguido do ID do container ou nome.</p>
+
+<p>Então vamos iniciar o container que criamos anteriormente, através de
+seu ID (visto na listagem dos containers parados):</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker start ebfc7d73bf3a
+<span class="go">ebfc7d73bf3a
+</span></code></pre></div></div>
+
+<p>Feito isso, agora se listarmos os containers em execução, teremos o
+seguinte resultado:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE     COMMAND       CREATED       STATUS         PORTS     NAMES
+ebfc7d73bf3a   ubuntu    "/bin/bash"   2 hours ago   Up 3 seconds             strange_jang
+</span></code></pre></div></div>
+
+<p>Ou seja, o container ebfc7d73bf3a, saiu de parado para em execução
+(<code class="language-plaintext highlighter-rouge">Up</code>).</p>
+
+<h2 id="acessando-containers-em-execução-attach">Acessando containers em execução (<code class="language-plaintext highlighter-rouge">attach</code>)</h2>
+
+<p>Bem, mas e agora? Como interagir com o console deste container que
+acabamos de ligar novamente, no exemplo anterior? Para isso é possível
+utilizar a opção <code class="language-plaintext highlighter-rouge">attach</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker attach ebfc7d73bf3a
+<span class="gp">root@ebfc7d73bf3a:/#</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Assim estamos novamente no console do container que voltou à execução
+pela opção <code class="language-plaintext highlighter-rouge">start</code>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Atenção, para sair de um console de um container, sem parar o
+processo, é possível pressionando as teclas <code>Ctrl+p</code> seguido
+de <code>Ctrl+q</code>. Então, pressione a tecla <code>ctrl</code> e a
+tecla <code>p</code>. Depois, sem soltar o <code>ctrl</code>, solte o
+<code>p</code> e pressione <code>q</code>.</p></div></div>
+
+<h2 id="parando-containers-em-execução-stop">Parando containers em execução (<code class="language-plaintext highlighter-rouge">stop</code>)</h2>
+
+<p>Para parar um container que está em execução podemos utilizar a opção
+<code class="language-plaintext highlighter-rouge">stop</code>. Então, normalmente você vai listar os containers em execução com
+o comando <code class="language-plaintext highlighter-rouge">docker ps</code>, vai pegar o ID ou nome deste e executar o comando
+<code class="language-plaintext highlighter-rouge">docker</code>, com a opção <code class="language-plaintext highlighter-rouge">stop</code>, tal como:</p>
+
+<ul>
+  <li>Verificando os containers em execução:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE     COMMAND       CREATED       STATUS         PORTS     NAMES
+ebfc7d73bf3a   ubuntu    "/bin/bash"   2 hours ago   Up 3 seconds             strange_jang
+</span></code></pre></div></div>
+
+<p>Neste caso vamos utilizar ID ebfc7d73bf3a.</p>
+
+<ul>
+  <li>Parando o container:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker stop ebfc7d73bf3a
+<span class="go">ebfc7d73bf3a
+</span></code></pre></div></div>
+
+<ul>
+  <li>Verificando se realmente o container parou:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+</span></code></pre></div></div>
+
+<p>Como observa-se na última saída, o container <code class="language-plaintext highlighter-rouge">ebfc7d73bf3a</code> não está
+mais em execução. É claro que os passos de verificação apresentados
+aqui, não são obrigatórios, mas é comum executá-los no dia a dia, para
+ter certeza do que estamos fazendo.</p>
+
+<p>A opção <code class="language-plaintext highlighter-rouge">stop</code> do Docker, envia um sinal SIGTERM para o container.
+Todavia é possível enviar o sinal SIGKILL, com a opção <strong><code class="language-plaintext highlighter-rouge">kill</code></strong>.</p>
+
+<p>Desta forma, com o <code class="language-plaintext highlighter-rouge">stop</code>, o container é fechado de forma elegante,
+encerrando o processo corretamente. Já com o <code class="language-plaintext highlighter-rouge">kill</code>, o processo do
+container é fechado abruptamente, por exemplo, sem salvar conteúdos em
+disco - se for o caso. Então, o <code class="language-plaintext highlighter-rouge">kill</code> só deve ser utilizado em casos
+extremos, nos quais o container pode comprometer a integridade do
+sistema como um todo, ou por estar travado (não responde de forma
+alguma).</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>As opções <code>stop</code> e <code>kill</code> do Docker fazem mais
+sentido para containers que rodam processos em plano de fundo, no estilo
+<em>daemon</em> (veremos esse a seguir). Se o container for executado de
+forma interativa, utilizando por exemplo o <code>/bin/bash</code>, é
+possível pará-lo com o <code>exit</code>, via console.</p></div></div>
+
+<h2 id="criando-containers-no-estilo-daemon--d">Criando containers no estilo <em>daemon</em> (<code class="language-plaintext highlighter-rouge">-d</code>)</h2>
+
+<p>Da forma que utilizamos container até o momento, eles ficam bastante
+parecidos com VMs completas, utilizados no VirtualBox ou VMWare.
+Entretanto, na prática, não se espera que os containers funcionem assim,
+de forma interativa - mesmo que eles possam ser utilizados desta forma.</p>
+
+<p>Atualmente, esperá-se que os containers executem pequenas partes de um
+serviço maior, no estilo microsserviço. Por exemplo, um container pode
+executar um servidor de banco de dados, outro executa um serviço Web,
+tal como JavaScript, outro PHP e assim por diante. Lembre-se que o
+Docker, ao contrário das VMs completas, compartilham recursos do
+computador hospedeiro, então os containers não consomem recursos em
+demasia se comparados às VMs completas e por isso, são uma boa opção
+para segmentar serviços, isolando ambientes diferentes e assim
+fornecendo mais segurança, escalabilidade, etc.</p>
+
+<p>Dito isso, é comum executar containers sem interagir diretamente com
+eles. Desta forma, o administrador basicamente vai configurar qual
+serviço ou serviços o container deve executar quando for iniciado, e
+depois, só vai interagir com os serviços providos pelo container - não
+vai ficar interagindo com o container via <em>shell</em>. Então, normalmente
+será necessário “daemonizar” os serviços que o container vai executar,
+ou seja, é necessário deixar os processos executados pelo container
+rodando em plano de fundo (<em>backgroud</em>), já que simplesmente não haverá
+uma tela por padrão esperando a interação do usuário. Em outras
+palavras, a ideia é colocar serviço/processo, bem como o container como
+<em>daemon</em>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Normalmente serviços de rede são executados em servidores como
+<em>daemons</em>, tais como: HTTP, SSH, SMB, NFS, etc.</p></div></div>
+
+<p>Para iniciar processos em <em>backgroud</em> no Docker, utiliza-se a opção
+<strong><code class="language-plaintext highlighter-rouge">-d</code></strong>. Uma curiosidade é que o <code class="language-plaintext highlighter-rouge">-d</code> significa <em>detach</em> e não
+<em>daemon</em>, mas ela serve para deixar o processo como se fosse um
+<em>daemon</em>. Desta forma, com a opção <em>detach</em>, espera-se que não exista um
+console acoplado para interação, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> cont1 <span class="nt">-d</span> ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"while true; do echo Olá mundo; date; sleep 10; done"</span>
+<span class="go">7b4b0a3be0b58fdfa7f8e0e4674bc38a400c564ec969a853ae6ee0add9796010
+</span></code></pre></div></div>
+
+<p>No comando anterior, estamos basicamente informando o seguinte para o
+Docker:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">run</code>: inicie o container;</li>
+  <li><code class="language-plaintext highlighter-rouge">--name cont1</code>: atribuir o nome cont1 ao container;</li>
+  <li><code class="language-plaintext highlighter-rouge">-d</code>: ele vai ser executado em plano de fundo (no estilo <em>daemon</em>);</li>
+  <li><code class="language-plaintext highlighter-rouge">ubuntu</code>: utiliza a imagem do Ubuntu;</li>
+  <li><code class="language-plaintext highlighter-rouge">/bin/sh</code>: vai executar um <em>script</em>.</li>
+</ul>
+
+<p>Em resumo, iniciamos um container para executar um <em>shell script</em> que
+fica apresentando na saída do container o seguinte: texto “Olá mundo”,
+seguido da data/hora do container, repedindo isso a cada 10 segundos.
+Tudo isso foi feito através dos comandos que estão na frente de
+<code class="language-plaintext highlighter-rouge">/bin/sh -c</code>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Note que o comando passado para esse container é o
+<code>/bin/sh</code>, tudo que vêm após tal comando
+(<code>-c "while true; do echo Olá...</code>), são opções e parâmetros
+do <code>sh</code> e não do comando <code>docker</code>.</p></div></div>
+
+<p>Se tudo correr bem, após iniciar o container utilizando a opção <code class="language-plaintext highlighter-rouge">-d</code>,
+não haverá nenhuma saída do container na tela do computador hospedeiro.
+Desta forma, para ver o status do container é possível utilizar o <code class="language-plaintext highlighter-rouge">ps</code>,
+tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+7b4b0a3be0b5   ubuntu    "/bin/sh -c 'while t…"   9 seconds ago   Up 9 seconds             cont1
+</span></code></pre></div></div>
+
+<p>O comando anterior, mostra pelo status, que o container está em
+execução, à 9 segundos (<code class="language-plaintext highlighter-rouge">Up 9 seconds</code>). Todavia, o status não mostra o
+que está acontecendo dentro do container, para ter mais detalhes vamos
+ver o comando <code class="language-plaintext highlighter-rouge">logs</code> na seção a seguir.</p>
+
+<h2 id="verificando-as-saídas-dos-containers-logs">Verificando as saídas dos containers (<code class="language-plaintext highlighter-rouge">logs</code>)</h2>
+
+<p>Com o container sendo executado tal como um <em>daemon</em>, ou seja, em plano
+de fundo, o resultado da execução do container não aparecerá por padrão
+na tela do hospedeiro.</p>
+
+<p>Todavia, é possível utilizar o comando <code class="language-plaintext highlighter-rouge">docker logs</code> para ver a saída de
+containers Docker que estão sendo executados como <em>daemons</em>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>O <code>docker logs</code> apenas apresenta a saída do container, ele
+não permite a interação com o mesmo (ex. digitar comandos no
+container).</p></div></div>
+
+<p>Desta forma, para ver o que está acontecendo no terminal do container do
+exemplo anterior, que está em <em>background</em>, podemos executar o seguinte
+comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker logs cont1
+<span class="go">Olá mundo
+Tue Jul 16 18:56:51 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:01 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:11 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:21 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:31 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:41 UTC 2024
+</span></code></pre></div></div>
+
+<p>A saída anterior mostra que o <em>script</em> executado no container do exemplo
+anterior, está funcionando corretamente, pois está apresentando na tela
+o texto “Olá mundo”, seguido da data/hora do container, a cada 10
+segundos, tal como programado no <em>script</em>.</p>
+
+<p>O comando <code class="language-plaintext highlighter-rouge">docker logs</code>, sem nenhuma opção, vai apresentar uma prévia da
+saída do container e parar. Caso seja necessário monitorar as saídas do
+container de forma continua, dá para utilizar a opção <strong><code class="language-plaintext highlighter-rouge">-f</code></strong>. Desta
+forma, as saídas do container ficam aparecendo na tela do hospedeiro,
+até o administrador pressionar <code class="language-plaintext highlighter-rouge">Ctrl+c</code>, para sair. Então para ter esse
+resultado o comando anterior ficaria da seguinte forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker logs <span class="nt">-f</span> cont1
+<span class="go">Olá mundo
+Tue Jul 16 18:56:51 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:01 UTC 2024
+Olá mundo
+Tue Jul 16 18:57:11 UTC 2024
+</span><span class="c">...
+</span></code></pre></div></div>
+
+<p>O comando <code class="language-plaintext highlighter-rouge">docker logs -f</code> é muito utilizado no dia a dia, pois permite
+o monitoramento continuo do container que está sendo executado no estilo
+<em>daemon</em>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>A opção <code>docker logs -f</code> é similar ao comando
+<code>tail -f</code>, utilizada para monitorar arquivos de <em>log</em>
+de sistemas Unix-Like. Lembre que é utilizado o <code>Ctrl+c</code> para
+sair desses comandos.</p></div></div>
+
+<h2 id="reiniciando-automaticamente-containers---restart">Reiniciando automaticamente containers (<code class="language-plaintext highlighter-rouge">--restart</code>)</h2>
+
+<p>Os containers podem parar de funcionar por causa de algum erro
+inesperado e se ele tiver sendo executado em plano de fundo, você
+provavelmente não verá tal problema.</p>
+
+<p>Então é possível iniciar o container informando, por exemplo, que se
+algo der errado, ele deve se auto reiniciar e isso é feito com a opção
+<strong><code class="language-plaintext highlighter-rouge">--restart</code></strong>. Desta forma, caso o programa executado pelo container
+termine normalmente ou termine devido à algum erro, o container vai
+reiniciar sozinho.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>É importante perceber que o container sai do status de “em execução”
+para “parado”, devido à basicamente duas situações:</p>
+<ul>
+<li>O programa que ele executa simplesmente terminou normalmente;</li>
+<li>Houve algum erro com o programa e por isso ele foi abortado.</li>
+</ul></div></div>
+
+<p>Exitem algumas opções para o reinicio automático para containers Docker,
+sendo as mais comuns:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">always</code>: com esta opção, o container sempre será reinicializado,
+não importa o motivo (terminou normalmente ou por erro). Mesmo se o
+computador hospedeiro for reinicializado, o Docker vai iniciar
+novamente o container.</li>
+  <li><code class="language-plaintext highlighter-rouge">unless-stopped</code>: similar ao <code class="language-plaintext highlighter-rouge">always</code>, mas neste caso o container
+não é reinicializado se estiver no estado de “parado” (ex. alguém
+parou o container com <code class="language-plaintext highlighter-rouge">docker stop</code>). Todavia, se o processo do
+Docker for reinicializado (ex. reinicializaram o computador
+hospedeiro), o container será religado.</li>
+  <li><code class="language-plaintext highlighter-rouge">on-failure</code>: com esta opção, o container é reinicializado apenas se
+tiver um erro (<code class="language-plaintext highlighter-rouge">exit</code> diferente de zero). Nesta opção ainda dá para
+determinar o número de vezes que o container vai tentar religar,
+caso essa quantidade seja atingida ele desiste de religar.</li>
+</ul>
+
+<p>Para exemplificar o uso dessas funções do <code class="language-plaintext highlighter-rouge">restart</code>, vamos alterar um
+pouco o <em>script</em> utilizado no <code class="language-plaintext highlighter-rouge">cont1</code> (exemplo anterior). Vamos criar um
+novo container chamado <code class="language-plaintext highlighter-rouge">cont2</code>, que basicamente tem o mesmo <em>script</em> do
+<code class="language-plaintext highlighter-rouge">cont1</code>, só que adicionado um <code class="language-plaintext highlighter-rouge">exit 1</code>, após o “Olá mundo” e o resto
+continua como era antes. O objetivo aqui é simular um erro no <em>script</em>,
+já que quando o código chegar a linha do <code class="language-plaintext highlighter-rouge">exit 1</code>, ele determina que o
+<em>script</em> deve ser interrompido, e é retornado um 1 para o sistema (que
+representa um erro). Desta forma, o <em>script</em> nunca vai mostrar a
+data/hora, tal como fazia antes, já que o <code class="language-plaintext highlighter-rouge">exit</code> é executado antes.</p>
+
+<p>A seguir são apresentados exemplos de opções para o uso do <code class="language-plaintext highlighter-rouge">restart</code> com
+esse novo <em>script</em> alterado:</p>
+
+<h3 id="opção-always">Opção <code class="language-plaintext highlighter-rouge">always</code></h3>
+
+<p>No exemplo a seguir é utilizada a opção <code class="language-plaintext highlighter-rouge">always</code> do <code class="language-plaintext highlighter-rouge">restart</code>, de forma
+que o container seja reinicializada toda vez que ele for encerrado (por
+erro ou porque o programa terminou normalmente):</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--restart</span><span class="o">=</span>always <span class="nt">--name</span> cont2 <span class="nt">-d</span> ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"while true; do echo Olá mundo; exit 1; date; sleep 10; done"</span>
+<span class="go">6a17852229690344c0931d3fdcdd44775a17a79902d53bb70805b2ba43b7bd69
+</span></code></pre></div></div>
+
+<p>O comando anterior, mostra como utilizar a opção <code class="language-plaintext highlighter-rouge">--restart=always</code>. No
+comando também determinamos que o nome do container é <code class="language-plaintext highlighter-rouge">cont2</code>, que este
+deve ser executado em plano de fundo (<code class="language-plaintext highlighter-rouge">-d</code>), é criado a partir da imagem
+<code class="language-plaintext highlighter-rouge">ubuntu</code>, e principalmente está com o <em>script</em> alterado, que é abortado
+ao chegar no <code class="language-plaintext highlighter-rouge">exit</code>.</p>
+
+<p>Assim, vamos utilizar a opção <code class="language-plaintext highlighter-rouge">log</code>, para ver a saída deste exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker logs <span class="nt">-f</span> cont2
+<span class="go">Olá mundo
+Olá mundo
+Olá mundo
+Olá mundo
+Olá mundo
+Olá mundo
+Olá mundo
+</span></code></pre></div></div>
+
+<p>Dada a saída anterior, observa-se que o container <code class="language-plaintext highlighter-rouge">cont2</code> apresenta o
+texto “Olá mundo”, várias vezes, mas nunca a data/hora do sistema. Isso
+significa que o <em>script</em> é executado até o <code class="language-plaintext highlighter-rouge">echo Olá mundo</code> e é
+abortado. Desta forma, sem a opção <code class="language-plaintext highlighter-rouge">restart</code> o container seria
+encerrado, mas como estamos utilizando a opção <code class="language-plaintext highlighter-rouge">--restart=always</code>, o
+container é reiniciado toda vez que o <em>script</em> é finalizado pelo <code class="language-plaintext highlighter-rouge">exit</code>,
+esse comportamento vai se repetir indefinidamente.</p>
+
+<h3 id="opção-on-failure">Opção <code class="language-plaintext highlighter-rouge">on-failure</code></h3>
+
+<p>O exemplo a seguir mostra como é utilizada a opção <code class="language-plaintext highlighter-rouge">on-failure</code> do
+<code class="language-plaintext highlighter-rouge">restart</code>. Tal opção só reinicializa o container se o processo for
+finalizado com um <code class="language-plaintext highlighter-rouge">exit</code> maior que zero, ou seja, se o container for
+finalizado por causa de erros do programa sendo executado. Desta forma,
+se o programa terminar normalmente, o container não será reinicializado.</p>
+
+<p>Para esse exemplo, foi criado um container chamado <code class="language-plaintext highlighter-rouge">cont3</code>, que fora o
+nome do container, a única diferença do exemplo anterior (<code class="language-plaintext highlighter-rouge">cont2</code>) é que
+foi utilizado a opção <code class="language-plaintext highlighter-rouge">--restart=on-failure:3</code>. Sendo que esse <code class="language-plaintext highlighter-rouge">:3</code>, na
+frente da opção, significa que ele só será reinicializado três vezes. Se
+for utilizado apenas o <code class="language-plaintext highlighter-rouge">--restart=on-failure</code>, sem nada na frente (ex.
+<code class="language-plaintext highlighter-rouge">:3</code>), ele será reinicializado de forma indefinida.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--restart</span><span class="o">=</span>on-failure:3 <span class="nt">--name</span> cont3 <span class="nt">-d</span> ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"while true; do echo Olá mundo; exit 1; date; sleep 10; done"</span>
+<span class="go">857022977d13473202ce0ac1988a124ff76375dfc1326ff7c5eb4f50b24949c4
+</span></code></pre></div></div>
+
+<p>Depois de executar o comando para criar o container chamado <code class="language-plaintext highlighter-rouge">cont3</code>,
+vamos ver sua saída com o <code class="language-plaintext highlighter-rouge">logs</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker logs <span class="nt">-f</span> cont3
+<span class="go">Olá mundo
+Olá mundo
+Olá mundo
+Olá mundo
+</span></code></pre></div></div>
+
+<p>Dada a saída anterior, note que há quatro vezes o texto “Olá mundo”,
+então o container foi executado pela primeira vez, ai saiu com um
+<code class="language-plaintext highlighter-rouge">exit 1</code>, depois isso aconteceu mais três vezes e o container foi
+abortado (ficou no estado de parado).</p>
+
+<p>Vamos executar os comandos para verificar o status dos containers
+criados até aqui, primeiro vamos ver os containers ativos:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS                          PORTS     NAMES
+6a1785222969   ubuntu    "/bin/sh -c 'while t…"   About a minute ago   Restarting (1) 48 seconds ago             cont2
+7b4b0a3be0b5   ubuntu    "/bin/sh -c 'while t…"   40 hours ago         Up 27 hours                               cont1
+</span></code></pre></div></div>
+
+<p>Note que estão ativos os containers <code class="language-plaintext highlighter-rouge">cont1</code> e <code class="language-plaintext highlighter-rouge">cont2</code>, ou seja, o
+<code class="language-plaintext highlighter-rouge">cont2</code> está em execução, mesmo que o seu processo esteja retornando
+erro em toda execução. Perceba que não há o container <code class="language-plaintext highlighter-rouge">cont3</code> na saída
+anterior, então vamos ver se esse se encontra parado com o comando
+<code class="language-plaintext highlighter-rouge">docker ps -l</code>, já que este foi o último container que trabalhamos:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps <span class="nt">-l</span>
+<span class="go">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+857022977d13   ubuntu    "/bin/sh -c 'while t…"   58 seconds ago   Exited (1) 56 seconds ago             cont3
+</span></code></pre></div></div>
+
+<p>A saída anterior, demonstra mais uma vez que a opção
+<code class="language-plaintext highlighter-rouge">--restart=on-failure:3</code> foi executada com sucesso, já que o <code class="language-plaintext highlighter-rouge">cont3</code> foi
+abortado/parado, depois de algumas execuções.</p>
+
+<div style="display: block; align-items: center; margin: 0 auto; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>No comando anterior utilizamos <code>docker ps -l</code> para ver
+apenas o último container que foi abortado pelo Docker, pois como não há
+outros containers sabíamos que provavelmente o <code>cont3</code> era o
+último container que foi abortado.</p></div></div>
+
+<h2 id="deletando-containers-rm">Deletando containers (<code class="language-plaintext highlighter-rouge">rm</code>)</h2>
+
+<p>Como descrito até aqui, uma vez que você execute um container, ele vai
+estar na lista de containers ativos ou parados, tal como pode ser visto
+a seguir, com os container que trabalhamos neste material:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps <span class="nt">-a</span>
+<span class="go">CONTAINER ID   IMAGE                               COMMAND                  CREATED        STATUS                          PORTS     NAMES
+857022977d13   ubuntu                              "/bin/sh -c 'while t…"   6 hours ago    Exited (1) 6 hours ago                    cont3
+6a1785222969   ubuntu                              "/bin/sh -c 'while t…"   6 hours ago    Restarting (1) 55 seconds ago             cont2
+7b4b0a3be0b5   ubuntu                              "/bin/sh -c 'while t…"   46 hours ago   Up 33 hours                               cont1
+ebfc7d73bf3a   ubuntu                              "/bin/bash"              2 days ago     Exited (137) 47 hours ago                 strange_jang
+06d326091537   luizarthur/cyberinfra:hostDeb11     "/gns3/init.sh bash"     7 weeks ago    Exited (137) 6 weeks ago                  admiring_burnell
+</span></code></pre></div></div>
+
+<p>Todavia, em alguns momentos vão haver containers que não vamos mais
+utilizar, como por exemplo containers de testes ou defasados. Assim, é
+possível remover esses containers utilizando o comando <code class="language-plaintext highlighter-rouge">rm</code> do Docker.</p>
+
+<p>Por exemplo, vamos remover o container chamado <code class="language-plaintext highlighter-rouge">cont3</code>, para isso
+podemos utilizar o seguinte comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker <span class="nb">rm </span>cont3
+<span class="go">cont3
+</span></code></pre></div></div>
+
+<p>O resultado do comando será apenas uma saída com o nome do container,
+neste caso foi <code class="language-plaintext highlighter-rouge">cont3</code>. Neste exemplo anterior, utilizamos o nome do
+container para removê-lo, mas é possível utilizar o ID, vamos remover o
+primeiro container que criamos utilizando o ID dele, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker <span class="nb">rm </span>ebfc7d73bf3a
+<span class="go">ebfc7d73bf3a
+</span></code></pre></div></div>
+
+<p>Depois de remover o <code class="language-plaintext highlighter-rouge">cont3</code>, vamos tentar remover o <code class="language-plaintext highlighter-rouge">cont2</code>, entretanto
+o resultado para essa deleção será o seguinte:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker <span class="nb">rm </span>cont2
+<span class="go">Error response from daemon: cannot remove container "/cont2": container is restarting: stop the container before removing or force remove
+</span></code></pre></div></div>
+
+<p>A saída anterior informa que o <code class="language-plaintext highlighter-rouge">cont2</code> está configurado para reiniciar,
+assim é necessário primeiro pará-lo e depois removê-lo, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker stop cont2
+<span class="go">cont2
+</span><span class="gp">$</span><span class="w"> </span>docker <span class="nb">rm </span>cont2
+<span class="go">cont2
+</span></code></pre></div></div>
+
+<p>Agora que os containers foram removidos, é possível constatar tal tarefa
+utilizando o comando <code class="language-plaintext highlighter-rouge">docker ps -a</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps <span class="nt">-a</span>
+<span class="go">CONTAINER ID   IMAGE                               COMMAND                  CREATED        STATUS                     PORTS     NAMES
+7b4b0a3be0b5   ubuntu                              "/bin/sh -c 'while t…"   47 hours ago   Up 33 hours                          cont1
+06d326091537   luizarthur/cyberinfra:hostDeb11     "/gns3/init.sh bash"     7 weeks ago    Exited (137) 6 weeks ago             admiring_burnell
+</span></code></pre></div></div>
+
+<p>A saída anterior mostra que foram removidos: o primeiro container que
+criamos; <code class="language-plaintext highlighter-rouge">cont2</code> e <code class="language-plaintext highlighter-rouge">cont3</code>, ou seja, chegamos no resultado que queríamos
+para esses exemplos de remoção de containers.</p>
+
+<p>Em alguns casos especiais é necessário <strong>remover todos os containers</strong>,
+mas não há um comando específico do Docker para tal tarefa. Assim, é
+possível combinar comandos, no estilo <em>shell script</em> para conseguir tal
+resultado, neste caso um possível comando no Linux seria:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker <span class="nb">rm</span> <span class="nt">-f</span> <span class="si">$(</span>docker ps <span class="nt">-aq</span><span class="si">)</span>
+</code></pre></div></div>
+
+<p>No comando anterior, foram combinados os comandos <code class="language-plaintext highlighter-rouge">docker ps -aq</code>, que
+gera uma lista de ID (<code class="language-plaintext highlighter-rouge">-q</code>) de containers do Docker, depois cada item
+desta lista é executada pelo comando <code class="language-plaintext highlighter-rouge">docker rm</code>, é claro que esse
+comando deve ser utilizado com cautela, pois apaga todos os containers
+do sistema.</p>
+
+<p>Também dá para iniciar um container com a opção <strong><code class="language-plaintext highlighter-rouge">--rm</code></strong>, desta forma
+o container é executado uma única vez, e quando o programa que ele está
+executando terminar, o container é imediatamente removido do sistema. Um
+exemplo de comando utilizando o <code class="language-plaintext highlighter-rouge">--rm</code> é:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> cont5 <span class="nt">-d</span> ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"echo Olá mundo"</span>
+<span class="go">060e1626cd5e460ff6a9270da00ab350b9fbaea5d73841d5c50bfc6a5067fc09
+</span></code></pre></div></div>
+
+<p>Utilize o comando <code class="language-plaintext highlighter-rouge">docker ps -l</code> e você notará que o container <code class="language-plaintext highlighter-rouge">cont5</code>,
+criando anteriormente, não aparecerá na listagem de containers do
+sistema.</p>
+
+<p>A opção <code class="language-plaintext highlighter-rouge">--rm</code> é muito útil durante a criação de containers de teste,
+pois assim que o container for encerrado o mesmo será removido e não vai
+ficar ocupando recursos dentro do sistema hospedeiro.</p>
+
+<h2 id="rótulos-nos-containers--l">Rótulos nos containers (<code class="language-plaintext highlighter-rouge">-l</code>)</h2>
+
+<p>Como uma das ideias principais de containers é utilizar vários desses,
+cada um provendo determinados serviços, é natural que exista algum tipo
+de recurso mínimo para ajudar à organizar os containers.</p>
+
+<p>Bem, um desses recursos são os rótulos (<em>labels</em>), que servem como
+metadados que podem ajudar a identificar os containers, por exemplo,
+quais containers são de uma dada organização, ou quais containers estão
+relacionados a um dado serviço. Então para utilizar os <em>labels</em> no
+Docker basta utilizar a opção <strong><code class="language-plaintext highlighter-rouge">-l</code></strong>. Veja o exemplo a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">-l</span> teste <span class="nt">-d</span> ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"while true; do echo Olá mundo; date; sleep 10; done"</span>
+<span class="go">937619dfdf891ef84a98ac94c3d60d1edae2cd0cc596ba8459b2afeaaa815d8b
+
+</span><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">-l</span> teste <span class="nt">-d</span> ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"while true; do echo Olá mundo; date; sleep 10; done"</span>
+</code></pre></div></div>
+
+<p>Anteriormente são criados dois containers, esses basicamente executam o
+primeiro <em>script</em> que utilizamos de exemplo, não foram passados nomes
+para esses, utilizam a opção <code class="language-plaintext highlighter-rouge">--rm</code> para serem removidos quando forem
+desligados e principalmente para estes exemplo, utilizam uma <em>label</em>
+chamada “teste” (<code class="language-plaintext highlighter-rouge">-l teste</code>).</p>
+
+<p>Desta forma, agora é possível utilizar tal <em>label</em> para localizar os
+containers, tal como:</p>
+
+<pre><code class="language-container">$ docker ps -a -f label=teste
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS              PORTS     NAMES
+496d3dc5d3dd   ubuntu    "/bin/sh -c 'while t…"   57 seconds ago       Up 56 seconds                 cranky_hodgkin
+937619dfdf89   ubuntu    "/bin/sh -c 'while t…"   About a minute ago   Up About a minute             goofy_agnesi
+</code></pre>
+
+<p>Graças a esse rótulo, também é possível criar comandos mais complexos,
+tal como desligar todas os containers que tenham a <em>label</em> “teste”. O
+comando a seguir realiza essa tarefa:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker stop <span class="si">$(</span>docker ps <span class="nt">-q</span> <span class="nt">--filter</span> <span class="s2">"label=teste"</span><span class="si">)</span>
+<span class="go">496d3dc5d3dd
+937619dfdf89
+</span></code></pre></div></div>
+
+<p>Como foi utilizada a opção <code class="language-plaintext highlighter-rouge">--rm</code>, esses container também foram
+removidos da lista de containers do sistema.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>É comum utilizar <em>labels</em> com mais de uma palavra separada por
+<code>=</code>, tal como <code>desenvolvimento=maria</code>.</p></div></div>
+
+<h2 id="criando-containers-create">Criando Containers (<code class="language-plaintext highlighter-rouge">create</code>)</h2>
+
+<p>Para criar um container é possível utilizar o comando <code class="language-plaintext highlighter-rouge">run</code>, tal como já
+fizemos no início deste texto, ou utilizar o comando <code class="language-plaintext highlighter-rouge">create</code>.</p>
+
+<p>A grande diferença é que o <code class="language-plaintext highlighter-rouge">create</code> só cria o container e não coloca ele
+em execução. Então, após criar tal container é bem provável que o
+administrador execute o comando <code class="language-plaintext highlighter-rouge">start</code>. Desta forma, ao executar o
+comando <code class="language-plaintext highlighter-rouge">run</code>, ele internamente está executando um <code class="language-plaintext highlighter-rouge">create</code> seguido do
+<code class="language-plaintext highlighter-rouge">start</code>.</p>
+
+<p>O comando a seguir é um exemplo do uso do comando <code class="language-plaintext highlighter-rouge">create</code> para criar um
+container chamado <code class="language-plaintext highlighter-rouge">cont6</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker create <span class="nt">--name</span> cont6 ubuntu /bin/sh <span class="nt">-c</span> <span class="s2">"while true; do echo Olá mundo; date; sleep 10; done"</span>
+</code></pre></div></div>
+
+<p>Após executar o comando anterior, o status do container será de criado
+(<code class="language-plaintext highlighter-rouge">Created</code>), veja:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps <span class="nt">-l</span>
+<span class="go">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS    PORTS     NAMES
+931b22bca56f   ubuntu    "/bin/sh -c 'while t…"   10 seconds ago   Created             cont6
+</span></code></pre></div></div>
+
+<p>Todavia, o container do exemplo anterior, foi criado mas não está em
+execução, ou seja, está parado. Assim, para mudar o seu estado para em
+execução, é necessário executar um <code class="language-plaintext highlighter-rouge">start</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker start cont6
+<span class="go">cont6
+</span></code></pre></div></div>
+
+<p>Desta forma o container irá para o estado de “executando” (<code class="language-plaintext highlighter-rouge">Up</code>), tal
+como apresentado na saída a seguir do comando <code class="language-plaintext highlighter-rouge">docker ps -l</code>, deste
+exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps <span class="nt">-l</span>
+<span class="go">CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+931b22bca56f   ubuntu    "/bin/sh -c 'while t…"   2 minutes ago   Up 5 seconds             cont6
+</span></code></pre></div></div>
+
+<p>É possível utilizar o <code class="language-plaintext highlighter-rouge">create</code> e <code class="language-plaintext highlighter-rouge">start</code> do Docker para criar
+containers, entretanto se for para criar o container e imediatamente
+colocá-lo em execução, é mais fácil/prático utilizar o comando <code class="language-plaintext highlighter-rouge">run</code>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Após criar um container com o comando <code>create</code> do Docker,
+não é possível utilizar o comando <code>run</code>, para executar um
+container com o mesmo nome do container criado. Neste caso, será
+reportado um erro dizendo que o container já existe.</p></div></div>
+
+<h2 id="informações-dos-containers-inspect">Informações dos containers (<code class="language-plaintext highlighter-rouge">inspect</code>)</h2>
+
+<p>Comando <code class="language-plaintext highlighter-rouge">inspect</code> do Docker, permite verificar a configuração completa
+do container. O <code class="language-plaintext highlighter-rouge">inspect</code>, mostrará as mais diversas informações do
+container, tal como: nome, configurações de rede, armazenamento, estado,
+imagem, comando, etc. Isso pode ser muito útil, por exemplo, para a
+depuração de erros, identificação ou criação de containers similares.</p>
+
+<p>Para inspecionar um container utilizando o <code class="language-plaintext highlighter-rouge">inspect</code> é necessário apenas
+executar <code class="language-plaintext highlighter-rouge">docker inspect</code> seguido do nome ou ID do container, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect cont6
+<span class="go">[
+    {
+        "Id": "931b22bca56f04add7b383e12a862cd3cd9ef1c582cb8136e5b5afb0a8f4b935",
+        "Created": "2024-07-19T14:56:22.519662813Z",
+        "Path": "/bin/sh",
+        "Args": [
+            "-c",
+</span><span class="gp">            "while true;</span><span class="w"> </span><span class="k">do </span><span class="nb">echo </span>Olá mundo<span class="p">;</span> <span class="nb">date</span><span class="p">;</span> <span class="nb">sleep </span>10<span class="p">;</span> <span class="k">done</span><span class="s2">"
+</span><span class="go">        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+</span><span class="c">            ...
+</span><span class="go">        },
+        "Image": "sha256:35a88802559dd2077e584394471ddaa1a2c5bfd16893b829ea57619301eb3908",
+        "ResolvConfPath": "/var/lib/docker/containers/931b22bca56f04add7b383e12a862cd3cd9ef1c582cb8136e5b5afb0a8f4b935/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/931b22bca56f04add7b383e12a862cd3cd9ef1c582cb8136e5b5afb0a8f4b935/hostname",
+</span><span class="c">        ...
+</span><span class="go">        "Name": "/cont6",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+</span><span class="c">        ...
+</span><span class="go">            "NetworkMode": "bridge",
+            "PortBindings": {},
+</span><span class="c">           ...
+</span><span class="go">        "Config": {
+            "Hostname": "931b22bca56f",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+</span><span class="gp">                "while true;</span><span class="w"> </span><span class="k">do </span><span class="nb">echo </span>Olá mundo<span class="p">;</span> <span class="nb">date</span><span class="p">;</span> <span class="nb">sleep </span>10<span class="p">;</span> <span class="k">done</span><span class="s2">"
+</span><span class="go">            ],
+            "Image": "ubuntu",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+</span><span class="c">            ...
+</span><span class="go">            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.4",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:04",
+</span><span class="c">            ...
+</span><span class="go">            }
+        }
+    }
+]
+</span></code></pre></div></div>
+
+<p>Como é possível ver na saída anterior, que inclusive teve partes
+omitidas, o <code class="language-plaintext highlighter-rouge">inspect</code> traz muitas informações a respeito do container.
+Neste exemplo, verificamos as informações do <code class="language-plaintext highlighter-rouge">cont6</code>, que foi criando na
+seção anterior. Por exemplo, no final da saída, é possível ver muitas
+configurações de rede do container, tais como: IP, <em>gateway</em> padrão,
+endereço MAC, etc.</p>
+
+<p>Todas as informações do <code class="language-plaintext highlighter-rouge">inspect</code> são apresentadas no formato JSON, o
+que facilita a automação de extração dessas informações, inclusive
+utilizando-se <em>scripts</em>. Na verdade o próprio Docker fornece meios para
+filtrar as informações que podem ser obtidas do <code class="language-plaintext highlighter-rouge">inspect</code> (a quantidade
+de informações pode atrapalhar a visão e análise em determinadas
+tarefas). Por exemplo, para obter o endereço IP do container, é possível
+executar o seguinte comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect <span class="nt">--format</span> <span class="s1">''</span> cont6
+<span class="go">172.17.0.4
+</span></code></pre></div></div>
+
+<p>Isso mostra que o <code class="language-plaintext highlighter-rouge">cont6</code> tem o IP 172.17.0.4. Com o comando anterior,
+note que foi utilizado <code class="language-plaintext highlighter-rouge">docker inspect</code>, com a opção <code class="language-plaintext highlighter-rouge">--format</code>, seguido
+da estrutura JSON que armazena a informação que estamos querendo, e no
+final o nome ou ID do container. Para encontrar essa estrutura você deve
+dar realizar o <code class="language-plaintext highlighter-rouge">inspect</code> e analisar a hierarquia do JSON, no exemplo
+anterior o <code class="language-plaintext highlighter-rouge">IPAddress</code> está sob <code class="language-plaintext highlighter-rouge">NetworkSettings</code>, assim ficou
+<code class="language-plaintext highlighter-rouge">.NetworkSettings.IPAddress</code>.</p>
+
+<p>Vamos obter do container <code class="language-plaintext highlighter-rouge">cont6</code> qual é o comando que ele está
+executando, tal informação está em <code class="language-plaintext highlighter-rouge">Path</code> (ver primeira saída que
+geramos do <code class="language-plaintext highlighter-rouge">inspect</code>). Assim a busca por tal informação seria o seguinte
+comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect <span class="nt">--format</span> <span class="s1">''</span> cont6
+<span class="go">/bin/sh
+</span></code></pre></div></div>
+
+<p>Repare na saída do <code class="language-plaintext highlighter-rouge">inspect</code> apresentada no início da seção, que
+basicamente a mesma informação a respeito do comando executado, também
+está em <code class="language-plaintext highlighter-rouge">Cmd</code>, que está dentro de <code class="language-plaintext highlighter-rouge">Config</code>, ai a busca seria com o
+seguinte comando:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect <span class="nt">--format</span> <span class="s1">''</span> cont6
+<span class="gp">[/bin/sh -c while true;</span><span class="w"> </span><span class="k">do </span><span class="nb">echo </span>Olá mundo<span class="p">;</span> <span class="nb">date</span><span class="p">;</span> <span class="nb">sleep </span>10<span class="p">;</span> <span class="k">done</span><span class="o">]</span>
+</code></pre></div></div>
+
+<p>Também é possível pedir para o <code class="language-plaintext highlighter-rouge">inspect</code> retornar mais de uma informação
+na consulta, bem como fazer isso para mais de um container, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect <span class="nt">--format</span> <span class="s1">'  '</span> cont1 cont4
+<span class="go">/cont1 exited ubuntu
+/cont4 exited ubuntu
+</span></code></pre></div></div>
+
+<p>Na saída anterior, o <code class="language-plaintext highlighter-rouge">inspect</code> foi instruído para buscar nos containers
+<code class="language-plaintext highlighter-rouge">cont1</code> e <code class="language-plaintext highlighter-rouge">cont4</code>, as seguintes informações:</p>
+
+<ul>
+  <li>Nome do container (``);</li>
+  <li>Estado (``);</li>
+  <li>Imagem que está sendo utilizada (``).</li>
+</ul>
+
+<p>Novamente, este tipo de busca por informações específicas a respeito de
+containers, pode ser extremamente útil no dia a dia do administrador de
+sistemas, em processos como a criação de telas que mostram o status dos
+sistemas para identificação de falhas, etc. Então, entender o <code class="language-plaintext highlighter-rouge">inspect</code>
+e como utilizar seus filtros é muito importante, principalmente em
+ambientes com diversos containers.</p>
+
+<h2 id="conclusão">Conclusão</h2>
+
+<p>Neste texto foram apresentados os comandos básicos para a criação e
+gerenciamento de containers Docker. Então, este texto abordou como
+realizar tarefas simples, como: criar containers, listar,
+parar/executar, remover, inspecionar, etc. Lembrando que apesar dessas
+tarefas serem rotineiras, conhecer bem como realizá-las é fundamental
+para o bom funcionamento do sistema.</p>
+
+<p>Todavia ainda não aprendemos como trabalhar com as imagens Dockers, que
+são a base para a criação dos containers, isso será feito em no texto de <a href="docker/docker-imagens">Imagens</a>.</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2024</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>

@@ -101,7 +101,9 @@ header h3 {
   -webkit-font-smoothing: antialiased;
 }
 section img {
-  max-width: 100%
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -180,6 +182,10 @@ code.highlighter-rouge {
   */
   color: #FFD700;
   border-radius: 2px;
+}
+
+code {
+  color: #FFD700;
 }
 
 table {

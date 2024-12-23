@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="generator" content="Jekyll">
+
+  <title>CyberInfra</title>
+
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CyberInfra | Sistemas Operacionais, Redes de Computadores, Cibersegurança…</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="CyberInfra" />
+<meta name="author" content="Luiz Arthur Feitosa dos Santos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<meta property="og:description" content="Sistemas Operacionais, Redes de Computadores, Cibersegurança…" />
+<link rel="canonical" href="http://localhost:4000/docs/docker/docker-tarefas" />
+<meta property="og:url" content="http://localhost:4000/docs/docker/docker-tarefas" />
+<meta property="og:site_name" content="CyberInfra" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CyberInfra" />
+<script type="application/ld+json">
+{"@type":"WebPage","author":{"@type":"Person","name":"Luiz Arthur Feitosa dos Santos"},"description":"Sistemas Operacionais, Redes de Computadores, Cibersegurança…","headline":"CyberInfra","url":"http://localhost:4000/docs/docker/docker-tarefas","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPJ7DKEWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WJPJ7DKEWG');
+</script>
+
+  
+<body>
+  <div id="wrapper">
+    <header>
+  <div>
+    <a href="/">
+    
+    <h1>luiz@CyberInfra:~#</h1>
+    </a>
+    <h3>Sistemas Operacionais, Redes de Computadores, Cibersegurança...</h3>
+    <div class="header-links">
+      <a href="/docs"><h2 class="header-link">Documentos</h2></a>
+<a href="/videos"><h2 class="header-link">Videos</h2></a>
+<a href="/archive"><h2 class="header-link">Postagens</h2></a>
+<a href="/about"><h2 class="header-link">Sobre</h2></a>
+<!-- <a href="/atom.xml"><h2 class="header-link">RSS</h2></a> -->
+
+    </div>
+  </div>
+</header>
+
+    <div class="container">
+      <section id="main_content">
+        <article>
+  <h2></h2>
+  <time datetime="" class="by-line"></time>
+  <h1 id="tarefas-comuns-em-imagens-e-containers-dockers">Tarefas comuns em imagens e containers Dockers</h1>
+
+<p>A seguir são apresentados alguns exemplos de imagens e criação de
+containers. A ideia é apresentar mais em detalhes algumas opções
+normalmente utilizadas do mundo Docker, bem como em que tipo de
+situações elas podem serem aplicadas.</p>
+
+<h2 id="determinando-o-que-será-executado-por-padrão-na-imagemcontainer">Determinando o que será executado por padrão na imagem/container</h2>
+
+<p>No Docker, existem duas maneiras de definir o comando principal que será
+executado na inicialização do container. Esse comando geralmente
+representa a função central do container, ou seja, o propósito para o
+qual ele foi criado. Caso esse comando seja interrompido, é provável que
+o container também seja finalizado, já que sua função principal não
+estará mais em execução.</p>
+
+<p>Na criação de imagens Docker, há duas formas de se determinar qual e
+como o comando principal será executado, sendo essas identificadas pelas
+instruções: <code class="language-plaintext highlighter-rouge">CMD</code> e <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. A seguir veremos a diferença entre
+essas instruções.</p>
+
+<h3 id="cmd"><code class="language-plaintext highlighter-rouge">CMD</code></h3>
+
+<p>Utilizando o <code class="language-plaintext highlighter-rouge">CMD</code> no Dockerfile, é possível determinar o comando que
+será executado quando o container for criando, com isso não é necessário
+indicar o comando que deve ser executado pelo container quando se
+executa o <code class="language-plaintext highlighter-rouge">docker run</code>. Tal prática facilita a vida de quem for executar
+o container, pois a pessoal não precisa digitar tal comando na frente do
+<code class="language-plaintext highlighter-rouge">docker run</code>, o que naturalmente também evita erros.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Se forem passadas mais de uma linha <code>CMD</code> no Dockerfile,
+será executada apenas a última linha.</p></div></div>
+
+<p>A seguir é apresentado um exemplo de um Dockerfile, que cria uma imagem
+baseada no Fedora Linux, para executar um servidor Apache HTTTP. Então a
+principal função desse container é executar o servidor HTTP, desta forma
+o comando <code class="language-plaintext highlighter-rouge">CMD</code>, do Dockerfile, é utilizado justamente para indicar que
+deve-se iniciar o processo <code class="language-plaintext highlighter-rouge">/usr/sbin/httpd</code>, que é responsável pelo
+servidor HTTP.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>Version 0.1
+<span class="go">FROM fedora
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install httpd net-tools -y
+</span><span class="gp">RUN echo "Olá com &lt;b&gt;</span><span class="w"> </span>build<span class="s2">" &gt; /var/www/html/index.html''
+</span><span class="go">CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
+</span></code></pre></div></div>
+
+<p>Após criar/editar o Dockerfile, é necessário gerar a imagem. Feito isso
+é possível criar containers a partir dessa imagem, tal como:</p>
+
+<ol>
+  <li>Gerar a imagem:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker build <span class="nt">-t</span><span class="o">=</span><span class="s2">"servidor/build_fedora_apache"</span> <span class="nb">.</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Criar container a partir da imagem gerada:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache3 <span class="nt">-d</span> servidor/build_fedora_apache
+</code></pre></div></div>
+
+<ol>
+  <li>Verificar se o container está em execução (opcional):</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE                          COMMAND                  CREATED         STATUS         PORTS     NAMES
+76b72b9eeb8f   servidor/build_fedora_apache   "/usr/sbin/httpd -DF…"   7 seconds ago   Up 7 seconds             servidorFedApache3
+</span></code></pre></div></div>
+
+<p>É importante saber que o comando a ser executado pela instrução <code class="language-plaintext highlighter-rouge">CMD</code>
+pode ser sobreposto no momento da criação do container, ou seja via
+linha de comando, por exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache3 <span class="nt">-d</span> servidor/build_fedora_apache /bin/bash
+</code></pre></div></div>
+
+<p>No comando anterior, o container gerado pela a imagem criada
+anteriormente executa o comando inicial <code class="language-plaintext highlighter-rouge">/bin/bash</code> (note que também foi
+incluído o <code class="language-plaintext highlighter-rouge">-it</code>, para esse exemplo, só para poder acessar o terminal do
+container). Ou seja, neste caso não será executado o <code class="language-plaintext highlighter-rouge">/usr/sbin/httpd</code>,
+mas sim o <code class="language-plaintext highlighter-rouge">/bin/bash</code>, já que isso foi determinado via linha de comando.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Se você tentar acessar o servidor HTTP no container anterior, você
+verá que esse não está em execução, já que foi executado o
+<code>bash</code> ao invés do <code>httpd</code>.</p></div></div>
+
+<h3 id="entrypoint"><code class="language-plaintext highlighter-rouge">ENTRYPOINT</code></h3>
+
+<p>O comportamento de mudar o comando principal na linha de execução do
+Docker, tal como faz o <code class="language-plaintext highlighter-rouge">CMD</code>, pode ser desejado em alguns casos.
+Todavia, quando isso não for desejável é possível utilizar o
+<code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Ou seja, o <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> não permite que o comando
+principal seja alterado facilmente no <code class="language-plaintext highlighter-rouge">docker run</code>. Para isto basta
+trocar o <code class="language-plaintext highlighter-rouge">CMD</code> por <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>Version 0.1
+<span class="go">FROM fedora
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install httpd net-tools -y
+</span><span class="gp">RUN echo "Olá com &lt;b&gt;</span><span class="w"> </span>build<span class="s2">" &gt; /var/www/html/index.html''
+</span><span class="go">ENTRYPOINT ["/usr/sbin/httpd", "-DFOREGROUND"]
+</span></code></pre></div></div>
+
+<p>Agora vamos gerar a imagem:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker build <span class="nt">-t</span><span class="o">=</span><span class="s2">"servidor/build_fedora_apache"</span> <span class="nb">.</span>
+<span class="c">...
+</span><span class="go">Step 6/6 : ENTRYPOINT ["/usr/sbin/httpd", "-DFOREGROUND"]
+</span><span class="gp"> ---&gt;</span><span class="w"> </span>Using cache
+<span class="gp"> ---&gt;</span><span class="w"> </span>06181e2db3ad
+<span class="c">...
+</span></code></pre></div></div>
+
+<p>Com a imagem pronta vamos tentar executar o container passando um
+comando via <code class="language-plaintext highlighter-rouge">docker run</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">-it</span> <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache3.1 <span class="nt">-d</span> servidor/httpd /bin/bash
+<span class="go">7840c93ed7ec50a79764f7ecb0c8ccdf07cf638d340ac4ede1f8368b4382ffbc
+</span></code></pre></div></div>
+
+<p>Agora, com o <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>, ao tentar verificar os containers em
+execução, não será possível encontrar o container
+<code class="language-plaintext highlighter-rouge">servidorFedApache3.1</code>, pois a instrução <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>, não permitiu
+executá-lo com o <code class="language-plaintext highlighter-rouge">bash</code>. Todavia se não for passada nenhum comando no
+<code class="language-plaintext highlighter-rouge">docker run</code> ele será executado com o processo <code class="language-plaintext highlighter-rouge">httpd</code>.</p>
+
+<h3 id="juntando-entrypoint-e-cmd">Juntando <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> e <code class="language-plaintext highlighter-rouge">CMD</code></h3>
+
+<p>É possível utilizar em conjunto o <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> com o <code class="language-plaintext highlighter-rouge">CMD</code>, neste caso
+primeiro deve ser determinado via <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> o comando que
+obrigatoriamente deve ser utilizado ao se criar o container, e o que for
+passado via <code class="language-plaintext highlighter-rouge">CMD</code>, serão as opções do comando no <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Desta
+forma, se não for passada nenhum comando/opção no <code class="language-plaintext highlighter-rouge">docker run</code> será
+executado o comando do <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> com as opções passadas do <code class="language-plaintext highlighter-rouge">CMD</code>.
+Caso for passado algum comando via <code class="language-plaintext highlighter-rouge">CMD</code>, esse ou esses, serão na
+verdade opções para o comando do `<code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>. Ou seja, o comando não
+pode ser alterado, mas as opções/parâmetros sim. Vamos ver o exemplo a
+seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>Version 0.1
+<span class="go">FROM fedora
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install httpd net-tools -y
+</span><span class="gp">RUN echo "Olá com &lt;b&gt;</span><span class="w"> </span>build<span class="s2">" &gt; /var/www/html/index.html''
+</span><span class="go">ENTRYPOINT ["/usr/sbin/httpd"]
+CMD ["-DFOREGROUND"]
+</span></code></pre></div></div>
+
+<p>Exemplos de criação de containers utilizando essa imagem:</p>
+
+<ol>
+  <li>Sem nenhum comando/parâmetros:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> servidorFedApache3.3 <span class="nt">-d</span> servidor/httpd
+</code></pre></div></div>
+
+<p>Vai executar <code class="language-plaintext highlighter-rouge">/usr/sbin/httpd -DFOREGROUND</code>.</p>
+
+<ol>
+  <li>Passando parâmetros:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> servidorFedApache3.3 <span class="nt">-d</span> servidor/httpd <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>Vai executar Vai executar <code class="language-plaintext highlighter-rouge">/usr/sbin/httpd -v</code>. Neste exemplo o servidor
+HTTP, vai mostrar a versão do servidor (não vai executar tal servidor),
+isso poderá ser visto com o `<code class="language-plaintext highlighter-rouge">log</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker logs  servidorFedApache3.3
+<span class="go">Server version: Apache/2.4.62 (Fedora Linux)
+Server built:   Aug  1 2024 00:00:00
+</span></code></pre></div></div>
+
+<ol>
+  <li>Tentando executar o comando <code class="language-plaintext highlighter-rouge">echo</code>:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> servidorFedApache3.3 <span class="nt">-d</span> servidor/httpd <span class="nb">echo</span> <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p>Devido ao <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code> não será executado o <code class="language-plaintext highlighter-rouge">echo</code>, mas sim o <code class="language-plaintext highlighter-rouge">echo</code>
+será passado como um parâmetro para o <code class="language-plaintext highlighter-rouge">httpd</code>, como tal parâmetro não
+existe no <code class="language-plaintext highlighter-rouge">httpd</code> será retornado um erro, que pode ser visto no <code class="language-plaintext highlighter-rouge">log</code>.</p>
+
+<p>Por fim, é possível substituir o <code class="language-plaintext highlighter-rouge">ENTRYPOINT</code>, no <code class="language-plaintext highlighter-rouge">docker run</code>, mas para
+isso é necessário utilizar a opção <code class="language-plaintext highlighter-rouge">--entrypoint</code>, ou seja, é necessário
+explicitar a intenção de trocar o comando principal. Exemplo:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> servidorFedApache3.3 <span class="nt">--entrypoint</span> /bin/bash <span class="nt">-d</span> servidor/httpd
+</code></pre></div></div>
+
+<h2 id="copiando-arquivos-do-host-para-a-a-imagem">Copiando arquivos do <em>host</em> para a a imagem</h2>
+
+<p>Outra tarefa corriqueira no mundo dos containers é copiar arquivos para
+dentro da imagem, isso permite personalizar as imagens e pode facilitar
+a tarefa de configuração ou customização. No Docker há duas instruções
+que permitem copiar arquivos para a imagem, sendo essas: <code class="language-plaintext highlighter-rouge">COPY</code> e <code class="language-plaintext highlighter-rouge">ADD</code>.</p>
+
+<p>Assim, para entender melhor como funciona esse processo de cópia para a
+imagem e o motivo de seu uso, vamos criar outro Dockerfile/imagem. Neste
+Dockerfile, utilizaremos:</p>
+
+<ul>
+  <li>A imagem <code class="language-plaintext highlighter-rouge">servidor/build_fedora_apache</code> feita no exemplo anterior;</li>
+  <li>Em seguida será instalado os pacotes <code class="language-plaintext highlighter-rouge">php</code> e o <code class="language-plaintext highlighter-rouge">procps</code> (o <code class="language-plaintext highlighter-rouge">procps</code>
+não é necessário para o servidor, mas pode ser útil para testes,
+caso algo dê errado, pois esse fornece o comando <code class="language-plaintext highlighter-rouge">ps</code>);</li>
+  <li>Depois de instalar o PHP, vamos criar um <em>script</em> para iniciar o PHP
+e o Apache;</li>
+  <li>Por fim, vamos criar uma página PHP para testar o servidor.</li>
+</ul>
+
+<p>Para efetivar na prática os passos citados anteriormente, da seguinte
+forma:</p>
+
+<ol>
+  <li>Iniciamos criando o arquivo Dockerfile e para esse exemplo <strong>não
+vamos utilizar o nome padrão</strong> (<code class="language-plaintext highlighter-rouge">Dockerfile</code>):</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">vi Dockerfile-php
+</span></code></pre></div></div>
+
+<ol>
+  <li>Editamos o conteúdo para atender o que foi determinado
+anteriormente:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">FROM servidor/build_fedora_apache
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install -y php procps
+RUN mkdir /run/php-fpm/
+RUN mkdir -p /var/www/html/php
+</span><span class="gp">RUN echo -e "#</span><span class="o">!</span>/bin/bash <span class="se">\n</span>/sbin/php-fpm &amp;<span class="se">\n</span>/sbin/httpd <span class="nt">-DFOREGROUND</span> <span class="se">\n</span>/bin/read<span class="s2">"  &gt; /sbin/startServer.sh
+</span><span class="go">RUN chmod a+x /sbin/startServer.sh
+</span><span class="gp">RUN echo "&lt;?php phpinfo();</span><span class="w"> </span>?&gt;<span class="s2">" &gt; /var/www/html/php/teste.php
+</span><span class="go">CMD ["/sbin/startServer.sh"]
+</span></code></pre></div></div>
+
+<p>Neste caso, tal arquivo tem basicamente seguintes instruções
+(resumidas):</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">FROM ...</code>: para indicar que vamos utilizar a imagem com o servidor
+HTTP criando anteriormente;</li>
+  <li><code class="language-plaintext highlighter-rouge">RUN dnf ...</code>: para realizar uma atualização do sistema e então
+atualizar e instalar os pacotes necessários (PHP e procps);</li>
+  <li><code class="language-plaintext highlighter-rouge">RUN mkdir ...</code>: cria diretórios necessários para o PHP;</li>
+  <li><code class="language-plaintext highlighter-rouge">RUN echo ... startServer.sh</code>: que está criando um <em>script</em> para
+iniciar o PHP e depois o Apache;</li>
+  <li><code class="language-plaintext highlighter-rouge">RUN chmod ...</code>: dá permissão de execução ao <em>script</em>;</li>
+  <li><code class="language-plaintext highlighter-rouge">RUN echo ... teste.php</code>: cria um arquivo com uma página PHP básica,
+só para testar se o PHP está funcionando;</li>
+  <li><code class="language-plaintext highlighter-rouge">CMD ...</code>: comando que vai ser executado quando o container for
+criado.</li>
+</ul>
+
+<ol>
+  <li>Criamos a imagem, apontando para o arquivo Dockerfile:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker build <span class="nt">-f</span> Dockerfile-php <span class="nt">-t</span><span class="o">=</span><span class="s2">"servidor/build_fedora_apache_php"</span> <span class="nb">.</span>
+</code></pre></div></div>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Tem que utilizar o <code>-f</code>, já que não foi utilizado o nome
+padrão de arquivo Dockerfile.</p></div></div>
+
+<ol>
+  <li>Agora é possível criar um container utilizando a imagem nova:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache_PHP <span class="nt">-d</span> servidor/build_fedora_apache_php
+</code></pre></div></div>
+
+<ol>
+  <li>Depois desses passos, o container criado deve aparecer na listagem
+do comando <code class="language-plaintext highlighter-rouge">docker ps</code>. Bem como, será possível acessar a página PHP
+no servidor sendo executado no container, tal como mostra a
+Figura 9.</li>
+</ol>
+
+<p><img src="imagens/navegador3.png" alt="Figura 9: Navegador acessando PHP do container criado a partir do
+Dockerfile-php" /></p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Para acessar a página PHP, você deve descobrir o IP do container (tal
+como fizemos anteriormente) e acessar o
+<code>http://ip_container/php/teste.php</code> - que é o caminho que
+configuramos, onde está a página PHP.</p></div></div>
+
+<p>Uma <strong>importante observação</strong> deve ser feitas aqui: Para a criação desta
+imagem, <strong>utilizamos o <code class="language-plaintext highlighter-rouge">RUN</code> para criar o <em>script</em></strong>, isso foi feito com
+a seguinte instrução:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">RUN echo -e "#</span><span class="o">!</span>/bin/bash <span class="se">\n</span>/sbin/php-fpm &amp;<span class="se">\n</span>/sbin/httpd <span class="nt">-DFOREGROUND</span> <span class="se">\n</span>/bin/read<span class="s2">"  &gt; /sbin/startServer.sh
+</span></code></pre></div></div>
+
+<p>Então é possível utilizar o <code class="language-plaintext highlighter-rouge">RUN</code> para criar o <em>script</em>, mas <strong>isso pode
+deixar o entendimento confuso</strong> (muito coisa em uma linha só), então há
+grandes chances de erro. Outra questão ainda relacionada à isso é: “e se
+o administrador precisar criar um <em>script</em> ainda maior e mais
+complexo?”. Bem uma possível solução é apresentada a seguir com o <code class="language-plaintext highlighter-rouge">COPY</code>
+e o <code class="language-plaintext highlighter-rouge">ADD</code>.</p>
+
+<h3 id="copiando-arquivos-para-imagem-com-o-copy">Copiando arquivos para imagem com o <code class="language-plaintext highlighter-rouge">COPY</code></h3>
+
+<p>Desta forma, para melhorar o Dockerfile anterior, é possível utilizar a
+instrução <code class="language-plaintext highlighter-rouge">COPY</code>, para copiar um <em>script</em> do <em>host</em> para a imagem que
+está sendo criada. Assim, é possível utilizar um editor de textos para
+criar mais facilmente o <em>script</em> e depois o <code class="language-plaintext highlighter-rouge">COPY</code> vai copia-lo para a
+imagem.</p>
+
+<p>Então vamos alterar o Dockerfile anterior, para que este utilize o
+<code class="language-plaintext highlighter-rouge">COPY</code>, tal como:</p>
+
+<ol>
+  <li>Editamos o arquivo Dockerfile e adicionamos a instrução <code class="language-plaintext highlighter-rouge">COPY</code>, tal
+como a seguir:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi Dockerfile-php
+<span class="go">
+FROM servidor/build_fedora_apache
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install -y php procps
+RUN mkdir /run/php-fpm/
+RUN mkdir -p /var/www/html/php
+COPY startServer.sh /sbin/startServer.sh
+RUN chmod a+x /sbin/startServer.sh
+</span><span class="gp">RUN echo "&lt;?php phpinfo();</span><span class="w"> </span>?&gt;<span class="s2">" &gt; /var/www/html/php/teste.php
+</span><span class="go">CMD ["/sbin/startServer.sh"]
+</span></code></pre></div></div>
+
+<ol>
+  <li>Após isso, criamos o arquivo <code class="language-plaintext highlighter-rouge">startServer.sh</code> no <em>host</em> hospedeiro,
+tal arquivo será copiado para a imagem:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi startServer.sh
+<span class="go">
+</span><span class="gp">#</span><span class="o">!</span>/bin/bash
+<span class="go">/sbin/php-fpm &amp;
+/sbin/httpd -DFOREGROUND
+/bin/read
+sleep infinity
+</span></code></pre></div></div>
+
+<p>Alguns pontos importantes devem ser destacados aqui:</p>
+
+<ul>
+  <li>
+    <p>No arquivo Dockerfile foi utilizado o <strong>caminho relativo</strong> do
+arquivo <code class="language-plaintext highlighter-rouge">startServer.sh</code>. Desta forma, esperá-se que tal arquivo
+esteja no mesmo diretório do arquivo Dockerfile. Todavia, pode ser
+recomendável utilizar o caminho absoluto, principalmente se o
+arquivo não estiver no mesmo local que o Dockerfile.</p>
+  </li>
+  <li>
+    <p>É muito importante que no inicio do Bash <em>script</em> tenha o
+<strong><em>shebang</em></strong> (<code class="language-plaintext highlighter-rouge">#!/bin/bash</code>), para informar quem vai executar os
+comandos, caso contrário o <em>script</em> não será executado no inicio do
+container e tudo vai falhar;</p>
+  </li>
+  <li>
+    <p>No final do <em>script</em> criando aqui, foram inseridas duas formas de
+<strong>impedir que o <em>script</em> execute e depois termine</strong>, sendo essas
+formas: <code class="language-plaintext highlighter-rouge">/bin/read</code> e o <code class="language-plaintext highlighter-rouge">sleep infinity</code>. Contudo isso seria
+desnecessário, já que teoricamente o comando
+<code class="language-plaintext highlighter-rouge">/sbin/httpd -DFOREGROUND</code>, fica executando indefinidamente.
+Entretanto é preciso ter em mente que é necessário que o <em>script</em>
+deve ficar em execução, pois caso contrário o container vai parar -
+dependendo o caso dá a impressão que ele nem foi executado.</p>
+  </li>
+  <li>
+    <p>Em caso de problemas na hora de executar o container lembre-se de
+utilizar o <strong><code class="language-plaintext highlighter-rouge">log</code></strong> ou entrar no container utilizando o <code class="language-plaintext highlighter-rouge">bash</code>,
+para verificar o que está causando o problema (qual o motivo do
+container não ficar em execução?);</p>
+  </li>
+</ul>
+
+<ol>
+  <li>Geramos a imagem:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker build <span class="nt">-f</span> Dockerfile-php <span class="nt">-t</span><span class="o">=</span><span class="s2">"servidor/build_fedora_apache_php"</span> <span class="nb">.</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Criamos um container baseada nessa imagem:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache_PHP2 <span class="nt">-d</span> servidor/build_fedora_apache_php
+</code></pre></div></div>
+
+<ol>
+  <li>Agora é só verificar se está tudo correto, tal como:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS          PORTS     NAMES
+9fde9bf8d3dd   servidor/build_fedora_apache_php   "/sbin/startServer.sh"   10 minutes ago   Up 10 minutes             servidorFedApache_PHP2
+aff8a1b1d139   05fe3484d188                       "/sbin/startServer.sh"   44 minutes ago   Up 44 minutes             servidorFedApache_PHP
+</span></code></pre></div></div>
+
+<p>Assim, utilizamos o <code class="language-plaintext highlighter-rouge">COPY</code> para facilitar o processo de criação de
+arquivos dentro da imagem Docker. A seguir é apresentado como fazer o
+mesmo, mas utilizando o <code class="language-plaintext highlighter-rouge">ADD</code> em contextos um pouco diferentes.</p>
+
+<h3 id="utilizando-o-add">Utilizando o ADD</h3>
+
+<p>O ADD é similar ao <code class="language-plaintext highlighter-rouge">COPY</code>, todavia ele permite copiar arquivos de URL
+(ex. Internet) e descompactar arquivos que estão no <em>host</em> hospedeiro
+para a imagem.</p>
+
+<p>Para ver a diferença, vamos pegar o exemplo anterior e substituir o
+<code class="language-plaintext highlighter-rouge">COPY</code> por <code class="language-plaintext highlighter-rouge">ADD</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi Dockerfile-php
+<span class="go">
+FROM servidor/build_fedora_apache
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install -y php procps
+RUN mkdir /run/php-fpm/
+RUN mkdir -p /var/www/html/php
+ADD https://raw.githubusercontent.com/luizsantos/aulasDocker/main/startServer.sh /sbin/startServer.sh
+RUN chmod a+x /sbin/startServer.sh
+ADD php.tar.gz /var/www/html/php/
+CMD ["/sbin/startServer.sh"]
+</span></code></pre></div></div>
+
+<p>Neste novo Dockerfile, note que agora temos duas instruções <code class="language-plaintext highlighter-rouge">ADD</code>, sendo
+a função dessas em ordem:</p>
+
+<ul>
+  <li>Copiar o <em>script</em> <code class="language-plaintext highlighter-rouge">startServer.sh</code> do GitHub, pela URL:
+<a href="https://raw.githubusercontent.com/luizsantos/aulasDocker/main/startServer.sh">https://raw.githubusercontent.com/luizsantos/aulasDocker/main/startServer.sh</a>
+para o <code class="language-plaintext highlighter-rouge">/sbin/startServer.sh</code> da imagem;</li>
+  <li>Extrair o <a href="https://github.com/luizsantos/aulasDocker/raw/main/testePHP.tar.gz">arquivo
+<code class="language-plaintext highlighter-rouge">php.tar.gz</code></a>
+do <em>host</em> hospedeiro para o diretório <code class="language-plaintext highlighter-rouge">/var/www/html/php/</code> do
+container.</li>
+</ul>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Não serão apresentados os procedimentos para gerar a imagem e
+container utilizando o <code>ADD</code>, mas basicamente é só repetir o
+que foi feito anteriormente.</p></div></div>
+
+<p>Bem, o funcionamento é similar ao <code class="language-plaintext highlighter-rouge">COPY</code>, mas o <code class="language-plaintext highlighter-rouge">ADD</code> dá mais
+possibilidades, já que permite copiar de <em>links</em> e extrair arquivos.
+Todavia, a literatura em geral, não recomenda utilizar o <code class="language-plaintext highlighter-rouge">ADD</code> como se
+fosse o <code class="language-plaintext highlighter-rouge">COPY</code>, ou seja, <strong>só utilize o <code class="language-plaintext highlighter-rouge">ADD</code> se você estiver copiando
+de URL ou extraindo arquivos, caso contrário recomenda-se utilizar o
+<code class="language-plaintext highlighter-rouge">COPY</code></strong>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Durante os testes para a confecção deste material, observou-se que o
+<code>ADD</code> não descompacta arquivos provindos de URLs, ou seja,
+para utilizar sua função de descompactar arquivos, tal arquivo deve
+estar localmente no <em>host</em> hospedeiro. Também, alguns sítios Web
+e Fóruns relatam problemas em descompactar arquivos <code>.zip</code>,
+neste caso sugere-se baixar o arquivo na imagem e depois descompactar
+utilizando algum programa a ser executado com o <code>RUN</code>.</p></div></div>
+
+<h2 id="compartilhando-dados-entre-hostcontainers">Compartilhando dados entre <em>host</em>/containers</h2>
+
+<p>O compartilhamento de arquivos é uma tarefa geralmente necessária entre
+computadores e o mesmo ocorre com os containers. Assim, o Docker fornece
+formas de se compartilhar dados entre:</p>
+
+<ul>
+  <li><em>Host</em> hospedeiro e containers;</li>
+  <li>Entre os containers.</li>
+</ul>
+
+<p>Veremos tais técnicas a seguir.</p>
+
+<h3 id="opção-volume-do-dockerfile">Opção VOLUME do Dockerfile</h3>
+
+<p>A opção <code class="language-plaintext highlighter-rouge">VOLUME</code> permite criar um ponto de montagem compartilhado entre
+o container e o <code class="language-plaintext highlighter-rouge">host</code>. Isso facilita o compartilhamento de informações
+entre ambos, bem como permite que os dados do container seja
+<strong>persistidos</strong> (ou seja, não se apaguem quando o container for
+removido).</p>
+
+<p>Então, continuando o exemplo do servidor PHP anterior, vamos deixar o
+conteúdo PHP compartilhado entre container e <em>host</em>. Assim por exemplo,
+seria mais fácil criar/alterar o conteúdo dos sítios PHP mantidos nos
+containers. Então vamos alterar o arquivo Dockerbuild em questão, tal
+como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">#</span><span class="w"> </span>Version 0.1
+<span class="go">FROM servidor/build_fedora_apache
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install -y php procps
+RUN mkdir /run/php-fpm/
+RUN mkdir -p /var/www/html/php
+COPY startServer.sh /sbin/startServer.sh
+RUN chmod a+x /sbin/startServer.sh
+VOLUME /var/www/html/php/
+CMD ["/sbin/startServer.sh"]
+</span></code></pre></div></div>
+
+<p>No exemplo anterior, estamos informando através da instrução <code class="language-plaintext highlighter-rouge">VOLUME</code>,
+que iremos criar dentro do container um ponto de montagem no diretório
+<code class="language-plaintext highlighter-rouge">/var/www/html/php/</code>, que poderá ser acessado a partir do <code class="language-plaintext highlighter-rouge">host</code>
+hospedeiro do container.</p>
+
+<p>Feito isso vamos criar um container a partir dessa imagem:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache_PHP2 <span class="nt">-d</span> servidor/build_fedora_apache_php
+<span class="go">24961fed96566b522ae6a3a9f91c5a4b99768b7eea7d246365dbafbf33b4003a
+</span></code></pre></div></div>
+
+<p>Agora, para acessar o compartilhamento no container Docker, basta
+acessar o diretório <code class="language-plaintext highlighter-rouge">/var/www/html/php/</code>. Já para acessar tal
+compartilhamento no <code class="language-plaintext highlighter-rouge">host</code>, é necessário descobrir em qual diretório o
+Docker relacionou esse compartilhamento no <code class="language-plaintext highlighter-rouge">host</code>, para isso podemos,
+por exemplo, utilizar a opção <code class="language-plaintext highlighter-rouge">inspect</code> e procurar por <code class="language-plaintext highlighter-rouge">Mounts</code>, tal
+como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect servidorFedApache_PHP2
+<span class="c">...
+</span><span class="go">        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "51f493146da5b7db6d6f766e476bc1ecd2e6912e29 f51fd3c3534f433318aaf2",
+                "Source": "/var/lib/docker/volumes/51f493146da5b7db 6d6f766e476bc1ecd2e6912e29f51fd3c3534f433318aaf2/_data",
+                "Destination": "/var/www/html/php",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+</span><span class="c">...
+</span></code></pre></div></div>
+
+<p>Dada a saída anterior, é possível verificar que o compartilhamento do
+<code class="language-plaintext highlighter-rouge">servidorFedApache_PHP2</code> pode ser acessado no <em>host</em> hospedeiro no
+diretório
+<code class="language-plaintext highlighter-rouge">/var/lib/docker/volumes/51f493146da5b7db6d6f766e476bc1ecd2e6912e29f51fd3c3534f433318aaf2/_data</code>.
+Ou seja, é o <code class="language-plaintext highlighter-rouge">Source</code> que determina o ponto de montagem/compartilhamento
+no <em>host</em>.</p>
+
+<p>Sabendo o diretório compartilhando entre container e <em>host</em>, podemos
+criar/alterar o seu conteúdo e isso será refletido imediatamente no
+container e vice-versa. Por exemplo vamos criar uma página PHP no
+diretório
+<code class="language-plaintext highlighter-rouge">/var/lib/docker/volumes/51f493146da5b7db6d6f766e476bc1ec d2e6912e29f51fd3c3534f433318aaf2/_data</code>
+do <em>host</em> e ver o resultado desta no container <code class="language-plaintext highlighter-rouge">servidorFedApache_PHP2</code>.
+Tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">sudo</span> <span class="nt">-i</span>
+<span class="gp">#</span><span class="w"> </span>vi /var/lib/docker/volumes/51f493146da5b7db6d6f766e476bc1ecd2e6912e29f51fd3c3534f433318aaf2/_data/index.php
+<span class="go">
+</span><span class="gp">&lt;!DOCTYPE html&gt;</span><span class="w">
+</span><span class="gp">&lt;html&gt;</span><span class="w">
+</span><span class="gp">    &lt;head&gt;</span><span class="w">
+</span><span class="gp">        &lt;title&gt;</span>Teste PHP&lt;/title&gt;
+<span class="gp">    &lt;/head&gt;</span><span class="w">
+</span><span class="gp">    &lt;body&gt;</span><span class="w">
+</span><span class="gp">        &lt;?php echo '&lt;p&gt;</span>Olá PHP no container!&lt;/p&gt;<span class="s1">'; ?&gt;
+</span><span class="gp">    &lt;/body&gt;</span><span class="w">
+</span><span class="gp">&lt;/html&gt;</span><span class="w">
+</span></code></pre></div></div>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Observe que utilizamos o <code>sudo</code>, pois os usuários comuns
+não têm acesso aos compartilhamentos no <code>host</code>. Então criando
+compartilhamentos/volumes desta forma, pode ser necessário configurar
+permissões no <em>host</em> ou no container para que determinados
+usuários consigam manipular e criar arquivos e diretórios desses
+compartilhamentos.</p></div></div>
+
+<p>Agora podemos acessar a nova página PHP no container, tal como apresenta
+a Figura 10.</p>
+
+<p><img src="imagens/navegador4.png" alt="Figura 10: Navegador acessando PHP utilizando
+VOLUME" /></p>
+
+<h3 id="opção--v-do-run">Opção <code class="language-plaintext highlighter-rouge">-v</code> do <code class="language-plaintext highlighter-rouge">run</code>.</h3>
+
+<p>Desta forma, tudo que for feito no diretório do <em>host</em> aparecerá no
+diretório do container, o que pode facilitar muito a vida do
+administrador. Entretanto há outra maneira de trabalhar com volumes, que
+não utilizando o Dockerfile. É possível compartilhar volumes via linha
+de comando, na hora de criar o container, e na verdade faz mais sentido
+criar os volumes desta forma, já que assim é possível informar qual é o
+diretório específico que vai aparecer o conteúdo do container dentro do
+<em>host</em>, com isso, por exemplo podemos utilizar um diretório no <em>host</em>
+que permita a gravação de um dado usuário e evitamos utilizar, por
+exemplo o comando <code class="language-plaintext highlighter-rouge">sudo</code>, tal como foi feito anteriormente.</p>
+
+<p>Dito isso vamos ver um exemplo de como criar volumes via linha de
+comando, para isso vamos:</p>
+
+<ol>
+  <li>Criar o diretório que será compartilhado do <em>host</em> hospedeiro com o
+container:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">mkdir</span> /tmp/site
+<span class="gp">echo "&lt;?php phpinfo();</span><span class="w"> </span>?&gt;<span class="s2">" &gt; /tmp/site/teste.php
+</span></code></pre></div></div>
+
+<p>Junto com a criação do diretório também foi criando um conteúdo PHP, no
+caso o arquivo <code class="language-plaintext highlighter-rouge">/tmp/site/teste.php</code>.</p>
+
+<ol>
+  <li>Agora vamos criar o container, com a opção <code class="language-plaintext highlighter-rouge">-v</code>:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> servidorFedApache_PHP3 <span class="nt">-v</span> /tmp/site:/var/www/html/php <span class="nt">-d</span> servidor/build_fedora_apache_php
+<span class="go">7a7578cda0fb18d2d4addd30362296fea04898689dbebb954e063cf125f729c1
+</span></code></pre></div></div>
+
+<p>No exemplo anterior, estamos criando o container
+<code class="language-plaintext highlighter-rouge">servidorFedApache_PHP3</code>, que compartilha o diretório <code class="language-plaintext highlighter-rouge">/tmp/site</code> no
+<em>host</em>, com o diretório <code class="language-plaintext highlighter-rouge">/var/www/html/php</code> do container. Assim, fica
+bem claro quais são os diretórios compartilhados entre ambas máquinas, o
+que não acontecia utilizando-se apenas a opção <code class="language-plaintext highlighter-rouge">VOLUME</code> do Dockerfile.</p>
+
+<p>Outra forma de ver tal compartilhamento seria:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect <span class="nt">-f</span>  servidorFedApache_PHP3
+<span class="go">[{bind  /tmp/site /var/www/html/php   true rprivate}]
+</span></code></pre></div></div>
+
+<p>O comando anterior mostra primeiro o compartilhamento no <em>host</em>
+(<code class="language-plaintext highlighter-rouge">/tmp/site</code>) e do container (<code class="language-plaintext highlighter-rouge">/var/www/html/php</code>).</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Na verdade faz mais sentido criar o volume compartilhado via linha de
+comando e não via Dockerfile.</p></div></div>
+
+<h3 id="compartilhando-dados-entre-containers">Compartilhando dados entre containers</h3>
+
+<p>Também é possível utilizar os volumes para compartilhar dados entre os
+container, bem como o <em>host</em>. O compartilhamento de volume entre os
+containers é feita através da opção <code class="language-plaintext highlighter-rouge">--volumes-from</code>.</p>
+
+<p>Para uma melhor explicação vamos criar um compartilhamento entre o
+<em>host</em> hospedeiro e um container, depois vamos compartilhar esse mesmo
+volume do container com outro container, tal como:</p>
+
+<ol>
+  <li>No <em>host</em>, primeiro criamos um diretório, que será compartilhado com
+um container:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">mkdir</span> /tmp/share
+</code></pre></div></div>
+
+<ol>
+  <li>Ainda no <em>host</em> criamos um Dockerfile (vamos usar uma mais simples):</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi Dockerfile
+<span class="go">
+</span><span class="gp">#</span><span class="w"> </span>Version 0.1
+<span class="go">FROM fedora
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+CMD /bin/bash
+</span></code></pre></div></div>
+
+<ol>
+  <li>Geramos a imagem nova:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker build <span class="nt">-t</span><span class="o">=</span><span class="s2">"fedora/data"</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Agora vamos criar um container e relacioná-lo com o diretório
+<code class="language-plaintext highlighter-rouge">/tmp/share</code> do *host:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">-ti</span> <span class="nt">--name</span> container1 <span class="nt">-v</span> /tmp/share:/comp <span class="nt">-d</span> fedora/data
+</code></pre></div></div>
+
+<ol>
+  <li>Com o primeiro container criado, vamos criar outro container, que
+será relacionado com o compartilhamento do primeiro container, tal
+como:</li>
+</ol>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">-ti</span> <span class="nt">--name</span> container2 <span class="nt">--volumes-from</span> container1 <span class="nt">-d</span> fedora/data
+</code></pre></div></div>
+
+<p>Feito isso temos um diretório compartilhado entre o <em>host</em>, <code class="language-plaintext highlighter-rouge">container1</code>
+e <code class="language-plaintext highlighter-rouge">container2</code>, desta forma tudo que for feito no diretório <code class="language-plaintext highlighter-rouge">/comp</code> dos
+containers será refletido para os outros containers e para o diretório
+<code class="language-plaintext highlighter-rouge">/tmp/share</code> do <em>host</em>, veja só:</p>
+
+<ul>
+  <li>Agora podemos conectar ao <code class="language-plaintext highlighter-rouge">container2</code>, criar um arquivo, tal como
+<code class="language-plaintext highlighter-rouge">echo "ola do container2" &gt; /comp/container2.txt</code>, tal como:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker attach container2
+<span class="gp">[root@648f9a9d64e0 /]#</span><span class="w"> </span><span class="nb">echo</span> <span class="s2">"ola do container2"</span> <span class="o">&gt;</span> /comp/container2.txt
+</code></pre></div></div>
+
+<ul>
+  <li>Vamos agora verificar se tal arquivo está no <code class="language-plaintext highlighter-rouge">container1</code> e também
+vamos criar um arquivo lá:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker attach container1
+<span class="gp">[root@22d1729f5c88 /]#</span><span class="w"> </span><span class="nb">cat</span> /comp/container2.txt
+<span class="go">ola do container2
+</span><span class="gp">[root@22d1729f5c88 /]#</span><span class="w"> </span>vi /comp/teste.txt
+<span class="gp">[root@22d1729f5c88 /]#</span><span class="w"> </span><span class="nb">cat</span> /etc/hostname <span class="o">&gt;</span> /comp/container1.txt
+</code></pre></div></div>
+
+<ul>
+  <li>Por fim, vamos acessar tais arquivos a partir do <em>host</em> hospedeiro:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span><span class="nb">cat</span> /tmp/share/container1.txt
+<span class="go">22d1729f5c88
+</span><span class="gp">$</span><span class="w"> </span><span class="nb">cat</span> /tmp/share/container2.txt
+<span class="go">ola do container2
+</span></code></pre></div></div>
+
+<p>É possível verificar os volumes sendo compartilhados com o comando
+<code class="language-plaintext highlighter-rouge">docker volume ls</code>, bem como verificar os detalhes de um volume com o
+comando <code class="language-plaintext highlighter-rouge">docker volume inspect</code> seguido da identificação do volumes
+(descoberta com o comando anterior). Há outras opções, que podem ser
+vistas na documentação do Docker.</p>
+
+<p>Então, o Docker através do <code class="language-plaintext highlighter-rouge">VOLUME</code>, <code class="language-plaintext highlighter-rouge">-v</code> e <code class="language-plaintext highlighter-rouge">--volumes-from</code>, cria uma
+forma bem fácil de compartilhar diretórios entre containers e <em>host</em>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+ <div>
+    <p>Outra forma de compartilhar dados entre containers e <em>host</em>
+seria via rede, mas isso normalmente é bem mais trabalhoso do que
+utilizar essa técnica de VOLUME utilizada pelo Docker.</p></div></div>
+
+<h2 id="relacionando-portas-de-container-com-o-host-hospedeiro">Relacionando portas de container com o <em>host</em> hospedeiro</h2>
+
+<p>Normalmente ao criar-se um container, esse é ligado à uma rede privada
+relacionada ao Docker. Tal rede normalmente fica trás de um NAT (Network
+Address Translation), significando que os serviços de rede executados
+pelo container não podem ser acessados por outros computadores externos
+à rede Docker.</p>
+
+<p>Por exemplo, na Figura 11, a rede 172.17.0.0/24 é uma rede privada que
+somente o <em>host</em> hospedeiro e os containers deste <em>host</em> podem acessar.
+Assim, outros <em>hosts</em> tal como o Host A, não conseguem acessar por
+padrão tal rede dos containers.</p>
+
+<p><img src="imagens/redeDocker1.svg" alt="Figura 11: Rede Docker -
+172.17.0.0/24" /></p>
+
+<p>Todavia, existem casos em que é necessário expor para fora da rede
+Docker, os serviços de rede de alguns containers Docker. Sendo assim, há
+algumas formas de fazer isso, mas talvez a forma mais prática e fácil, é
+a fornecida pelo próprio Docker, que permite relacionar a porta do
+container com alguma porta do <em>host</em> hospedeiro. Desta forma, ao se
+tentar acessar tal porta relacionada do hospedeiro, será na verdade
+acessado o container.</p>
+
+<p>No Docker, essa tarefa de acessar o container através do IP do <em>host</em>
+hospedeiro é chamada de “expor” (<strong><em>expose</em></strong>) ou publicar (<strong>publish</strong>)
+a porta do container. Assim, para expor/publicar a porta de um
+container, ou melhor para relacionar a porta do container com alguma
+porta do <em>host</em> hospedeiro, é possível utilizar no <code class="language-plaintext highlighter-rouge">docker run</code>, uma das
+seguintes opções:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">-P</code></strong> ou <strong><code class="language-plaintext highlighter-rouge">--publish-all</code></strong>: expõem todas as portas declaradas
+no Dockerfile pela instrução <strong><code class="language-plaintext highlighter-rouge">EXPOSE</code></strong>;</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">-p</code></strong> ou <strong><code class="language-plaintext highlighter-rouge">--publish</code></strong>: expõem apenas uma porta de um dado
+protocolo do container.</li>
+</ul>
+
+<p>Então, ao se utilizar o <code class="language-plaintext highlighter-rouge">-P</code> (menos “P” maiúsculo), é necessário dizer
+de forma explicita via Dockerfile, quais serviços de rede estão
+disponíveis do container e a relação porta do hospedeiro, com a porta do
+container, será feita de forma automática. Já com a opção <code class="language-plaintext highlighter-rouge">-p</code> (menos
+“p” minúsculo), é necessário indicar qual porta do container será
+exposta, todavia neste caso, não é necessário que esta esteja declarada
+no Dockerfile via <code class="language-plaintext highlighter-rouge">EXPOSE</code>.</p>
+
+<p>A seguir são apresentadas alguns exemplos de uso dessas opções, bem como
+do uso prático da técnica de <em>expose</em>/<em>publish</em> do Docker.</p>
+
+<h3 id="expondo-as-portas-do-container-via--p-e-expose">Expondo as portas do container via <code class="language-plaintext highlighter-rouge">-P</code> e <code class="language-plaintext highlighter-rouge">EXPOSE</code></h3>
+
+<p>Para entender como funciona o <code class="language-plaintext highlighter-rouge">-P</code>, vamos criar uma imagem via
+Dockerfile, sendo que essa imagem terá os servidores HTTP e SSH. Assim,
+será possível acessar tal container via HTTP e gerenciá-lo via SSH. Tal
+arquivo Dockerfile fica da seguintes forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi Dockerfile
+<span class="go">
+FROM servidor/build_fedora_apache
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install -y openssh-server
+RUN mkdir /run/php-fpm/
+RUN mkdir -p /var/www/html/php
+</span><span class="gp">RUN echo -e "#</span><span class="o">!</span>/bin/bash <span class="se">\n</span>/sbin/sshd &amp; <span class="se">\n</span>/sbin/httpd <span class="nt">-DFOREGROUND</span> <span class="se">\n</span>/bin/read<span class="s2">"  &gt; /sbin/startServer.sh
+</span><span class="go">RUN chmod a+x /sbin/startServer.sh
+RUN ssh-keygen -A
+RUN adduser -ms /bin/bash admin
+RUN echo "admin:123mudar" | chpasswd
+EXPOSE 22 80
+CMD ["/sbin/startServer.sh"]
+</span></code></pre></div></div>
+
+<p>O arquivo Dockerfile anterior, é bem similar ao servidor HTTP que já
+havíamos criado anteriormente (utiliza a imagem base
+<code class="language-plaintext highlighter-rouge">servidor/build_fedora_apache</code>), mas neste agora foi:</p>
+
+<ul>
+  <li>Instalado o SSH (<code class="language-plaintext highlighter-rouge">RUN dnf install -y openssh-server</code>);</li>
+  <li>O <em>script</em> foi alterado para iniciar o servidor SSH
+(<code class="language-plaintext highlighter-rouge">.../sbin/sshd...</code>);</li>
+  <li>Gerada a chave criptográfica utilizada pelo SSH
+(<code class="language-plaintext highlighter-rouge">RUN ssh-keygen -A</code>);</li>
+  <li>Criado um usuário chamado <code class="language-plaintext highlighter-rouge">admin</code> (<code class="language-plaintext highlighter-rouge">adduser -ms /bin/bash admin</code>);</li>
+  <li>Foi definida a senha do <code class="language-plaintext highlighter-rouge">admin</code>, como sendo <code class="language-plaintext highlighter-rouge">123mudar</code>
+(<code class="language-plaintext highlighter-rouge">echo "admin:123mudar" | chpasswd</code>);</li>
+  <li>Por fim, foi informado ao Docker para expor as portas do SSH
+(TCP/22) e HTTP (TCP/80).</li>
+</ul>
+
+<p>Com o Dockerfile anterior, geramos a imagem do servidor em questão:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker build <span class="nt">-t</span><span class="o">=</span><span class="s2">"servidor/http"</span> <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Criamos um container a partir da imagem gerada:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> container1 <span class="nt">-P</span> <span class="nt">-d</span> servidor/http
+</code></pre></div></div>
+
+<p>Note que no comando anterior, foi utilizada a opção <code class="language-plaintext highlighter-rouge">-P</code>, que cria uma
+relação com as portas do <code class="language-plaintext highlighter-rouge">EXPOSE</code> do container, com portas do <em>host</em>
+hospedeiro. Tal relação pode ser vista com o comando <code class="language-plaintext highlighter-rouge">docker ps</code> (ver a
+seguir) ou via comando <code class="language-plaintext highlighter-rouge">iptables</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                                                              NAMES
+</span><span class="gp">fb0673258719   servidor/http   "/sbin/startServer.sh"   7 seconds ago   Up 6 seconds   0.0.0.0:32770-&gt;</span>22/tcp, :::32770-&gt;22/tcp, 0.0.0.0:32771-&gt;80/tcp, :::32771-&gt;80/tcp   container1
+</code></pre></div></div>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>As portas relacionadas com o <code>-P</code> no <em>host</em>
+hospedeiros são normalmente altas e aleatórias, tal como a 32770 do
+exemplo anterior. Também aparecem na listagem IPv4 e IPv6.</p></div></div>
+
+<p>Assim, feita a relação entre portas do container chamado <code class="language-plaintext highlighter-rouge">container1</code> e
+o <em>host</em>, podemos agora acessar, por exemplo o servidor SSH do
+container, através do IP de <em>localhost</em> do próprio <em>host</em> hospedeiro,
+tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">[luiz@fielDell expose]$</span><span class="w"> </span>ssh admin@127.0.0.1 <span class="nt">-p</span> 32770
+<span class="c">...
+</span><span class="go">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[127.0.0.1]:32770' (ED25519) to the list of known hosts.
+admin@127.0.0.1's password:
+</span><span class="gp">[admin@fb0673258719 ~]$</span><span class="w"> </span><span class="nb">cat</span> /etc/hosts
+<span class="go">127.0.0.1   localhost
+</span><span class="c">...
+</span><span class="go">172.17.0.2  fb0673258719
+</span></code></pre></div></div>
+
+<p>O teste anterior foi feito a partir do próprio <em>host</em> hospedeiro, mas já
+seria possível acessar o container a partir do <em>host</em> hospedeiro
+utilizando o IP da rede Docker (sem usar a técnica de expor portas, ou
+seja acessando por exemplo o IP 172.17.0.2 do container). Todavia o
+leitor tem que ter em mente que isso não seria possível de <em>hosts</em>
+externos, mas agora utilizando a prática de expor portas do Docker, é
+possível acessar o container através do IP do <em>host</em> hospedeiro.</p>
+
+<p>Por exemplo, imagine que o <em>host</em> hospedeiro tem o IP 200.0.0.1
+(disponível na Internet). Qualquer <em>host</em> da Internet que executar o
+comando <code class="language-plaintext highlighter-rouge">ssh admin@200.0.0.1 -p 32770</code>, estará na verdade acessando o
+container <code class="language-plaintext highlighter-rouge">container1</code> e não o <em>host</em> hospedeiro, tal como é ilustrado
+na Figura 11.</p>
+
+<h3 id="expondo-as-portas-do-container-via--p">Expondo as portas do container via <code class="language-plaintext highlighter-rouge">-p</code></h3>
+
+<p>Como visto anteriormente, a opção <code class="language-plaintext highlighter-rouge">-P</code> precisa da instrução <code class="language-plaintext highlighter-rouge">EXPOSE</code> da
+imagem Docker, mas é possível expor uma porta do container, sem utilizar
+o <code class="language-plaintext highlighter-rouge">EXPOSE</code> da imagem. Isso é feito com a opção <code class="language-plaintext highlighter-rouge">-p</code>, assim basta criar
+um container com <code class="language-plaintext highlighter-rouge">docker run</code> passando como parâmetro o <code class="language-plaintext highlighter-rouge">-p</code>, seguido da
+porta que será exposta (é claro que o container tem que fornecer algum
+serviço de rede na porta em questão). Tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">[luiz@fielDell expose]$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> container2 <span class="nt">-p</span> 80 <span class="nt">-d</span> servidor/http
+<span class="go">d37c43975129a683e32430910140bf8e07b3f30b8864d9988246c2b05d10ca29
+</span></code></pre></div></div>
+
+<p>O comando anterior cria um container chamado <code class="language-plaintext highlighter-rouge">container2</code>, e expõem a
+porta 80/TCP, tal como pode ser visto da saída a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">[luiz@fielDell expose]$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS          PORTS                                                                              NAMES
+</span><span class="gp">d37c43975129   servidor/http   "/sbin/startServer.sh"   41 seconds ago   Up 40 seconds   22/tcp, 0.0.0.0:32775-&gt;</span>80/tcp, :::32775-&gt;80/tcp                                    container2
+<span class="gp">013b8cb020ca   servidor/http   "/sbin/startServer.sh"   46 seconds ago   Up 45 seconds   0.0.0.0:32773-&gt;</span>22/tcp, :::32773-&gt;22/tcp, 0.0.0.0:32774-&gt;80/tcp, :::32774-&gt;80/tcp   container1
+</code></pre></div></div>
+
+<p>Conforme a saída anterior, a porta 80/TCP do <code class="language-plaintext highlighter-rouge">container2</code>, ficou
+disponível na porta 32775 do <em>host</em> hospedeiro. É importante notar que
+devido ao <code class="language-plaintext highlighter-rouge">EXPOSE</code> do Dockerfile dessa imagem, a porta 22/TCP também
+aparece na listagem, mas ela não está acessível via <em>host</em> hospedeiro.</p>
+
+<p>Como visto no exemplo anterior com o <code class="language-plaintext highlighter-rouge">-P</code> e aqui com o <code class="language-plaintext highlighter-rouge">-p</code>, a porta
+relacionada com o <em>host</em> hospedeiro é alta e aleatória, todavia com o
+<code class="language-plaintext highlighter-rouge">-p</code> é possível determinar qual é a porta que será utilizada no <em>host</em>
+hospedeiro, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">[luiz@fielDell expose]$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> container3 <span class="nt">-p</span> 80:80 <span class="nt">-d</span> servidor/http
+<span class="go">487bafe91e7567e91c79bf6c69039d468486ed0695e6c3169f559fac85d291ef
+</span></code></pre></div></div>
+
+<p>O comando anterior informa na opção <code class="language-plaintext highlighter-rouge">-p</code> a
+<code class="language-plaintext highlighter-rouge">&lt;porta do host&gt;:&lt;porta do container&gt;</code>, isso pode ser visto com o
+<code class="language-plaintext highlighter-rouge">docker ps</code>, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">[luiz@fielDell expose]$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                                                              NAMES
+</span><span class="gp">487bafe91e75   servidor/http   "/sbin/startServer.sh"   5 seconds ago   Up 5 seconds   22/tcp, 0.0.0.0:80-&gt;</span>80/tcp, :::80-&gt;80/tcp                                          container3
+<span class="gp">d37c43975129   servidor/http   "/sbin/startServer.sh"   7 minutes ago   Up 7 minutes   22/tcp, 0.0.0.0:32775-&gt;</span>80/tcp, :::32775-&gt;80/tcp                                    container2
+</code></pre></div></div>
+
+<p>Desta forma, agora quem tentar acessar a porta 80/TCP do <em>host</em>
+hospedeiro, na verdade vai acessar o HTTP do <code class="language-plaintext highlighter-rouge">container3</code>.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>Poder relacionar a porta do container com uma porta específica do
+<em>host</em> hospedeiro é muito importante na prática, pois é possível
+deixar um serviço em execução em um Docker responder como se fosse o
+<em>host</em> hospedeiro, sem muitas complicações.</p></div></div>
+
+<p>Ainda é possível fazer outras combinações de parâmetros para expor
+portas no Docker, tais como:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">docker run -p 53/udp &lt;imagem&gt;</code>: expõem a porta 53/UDP - ou seja, é
+possível expor portas TCP (que são o padrão caso não se especifique
+o protocolo e UDP, sendo que essas devem ser declaradas
+explicitamente com o <code class="language-plaintext highlighter-rouge">&lt;porta&gt;/udp</code>;</li>
+  <li><code class="language-plaintext highlighter-rouge">docker run -p 22/tcp -p 53/udp &lt;imagem&gt;</code>: É possível passar mais de
+uma porta para ser exposta via <code class="language-plaintext highlighter-rouge">-p</code>;</li>
+  <li><code class="language-plaintext highlighter-rouge">docker run -p 192.168.0.1:722:22/tcp &lt;imagem&gt;</code>: Caso o <em>host</em> tenha
+vários IPs, é possível informar qual desses IPs vai servir a porta
+exposta do container. Note que caso não seja passado o IP, o Docker
+vai assumir que o serviço responde por qualquer IP do <em>host</em>
+hospedeiro (0.0.0.0 - IP <em>this host</em>). Determinar o IP pode ser útil
+para garantir a segurança de alguns serviços, por exemplo, o SSH
+pode ser acessível por um IP local, mas não para IPs da Internet;</li>
+  <li><code class="language-plaintext highlighter-rouge">EXPOSE 53/UDP</code>: Também é possível expor uma porta UDP via
+Dockerfile, e depois publicá-la via <code class="language-plaintext highlighter-rouge">-P</code>.</li>
+</ul>
+
+<h2 id="utilizando-variáveis-para-fazer-configurações-mais-dinâmicas">Utilizando variáveis para fazer configurações mais dinâmicas</h2>
+
+<p>O Dockerfile permite inserir variáveis dentro da imagem e container
+sendo criados, isso é feito com a instrução <code class="language-plaintext highlighter-rouge">ENV</code>. Desta forma, é
+possível criar imagens com configurações mais dinâmicas.</p>
+
+<p>Por exemplo, vamos incrementar o Dockerfile da seção anterior, para que
+esse permita alterar a porta do servidor Apache HTTP, isso pode ser
+feito da seguinte forma:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>vi Dockerfile
+<span class="go">
+FROM servidor/build_fedora_apache
+MAINTAINER Luiz Arthur "luizsantos@utfpr.edu.br"
+RUN dnf update -y
+RUN dnf install -y openssh-server
+RUN mkdir -p /var/www/html/php
+</span><span class="gp">RUN echo -e "#</span><span class="o">!</span>/bin/bash <span class="se">\n</span>/sbin/sshd &amp;<span class="se">\n</span>/sbin/httpd <span class="nt">-DFOREGROUND</span> <span class="se">\n</span>/bin/read<span class="s2">"  &gt; /sbin/startServer.sh
+</span><span class="go">ENV HTTP_PORT 81
+COPY httpd.conf /etc/httpd/conf/httpd.conf
+RUN chmod a+x /sbin/startServer.sh
+RUN ssh-keygen -A
+RUN adduser -ms /bin/bash admin
+RUN echo "admin:123mudar" | chpasswd
+CMD ["/sbin/startServer.sh"]
+</span></code></pre></div></div>
+
+<p>Neste novo Dockerfile foram incluídas as seguintes instruções/linhas:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ENV HTTP_PORT 81</code>, que será uma variável utilizada para determinar
+a porta do servidor HTTP;</li>
+  <li><code class="language-plaintext highlighter-rouge">COPY httpd.conf /etc/httpd/conf/httpd.conf</code>, está copiando o
+arquivo de configuração do servidor HTTP alterado. A alteração
+consistem apenas em trocar <code class="language-plaintext highlighter-rouge">Listen 80</code> por <code class="language-plaintext highlighter-rouge">Listen ${HTTP_PORT}</code>,
+sendo que<code class="language-plaintext highlighter-rouge">${HTTP_PORT}</code> será substituído pelo conteúdo da variável
+<code class="language-plaintext highlighter-rouge">HTTP_PORT</code> determinado pela instrução <code class="language-plaintext highlighter-rouge">ENV</code> anterior (para obter o
+arquivo <code class="language-plaintext highlighter-rouge">httpd.conf</code> foi feito um <code class="language-plaintext highlighter-rouge">scp</code> para um container desta
+imagem).</li>
+</ul>
+
+<p>Agora ao se criar um container a partir dessa imagem, o servidor HTTP
+estará por padrão na porta 81, tal como:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--name</span> server1 <span class="nt">-p</span> 81:81 <span class="nt">-d</span> servidor/http
+<span class="go">eeec6fb36a47ecb80f52d601e82fa3c34837a657f5951276bab4b8a1460b0c5b
+
+</span><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                               NAMES
+</span><span class="gp">eeec6fb36a47   servidor/http   "/sbin/startServer.sh"   7 seconds ago   Up 6 seconds   0.0.0.0:81-&gt;</span>81/tcp, :::81-&gt;81/tcp   server1
+</code></pre></div></div>
+
+<p>Também é possível alterar essas variáveis na execução do <code class="language-plaintext highlighter-rouge">docker run</code>,
+com a opção <code class="language-plaintext highlighter-rouge">-e</code> ou <code class="language-plaintext highlighter-rouge">--env</code>, veja o exemplo a seguir:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> <span class="nt">--name</span> server2 <span class="nt">-e</span> <span class="nv">HTTP_PORT</span><span class="o">=</span>8080 <span class="nt">-p</span> 82:8080 <span class="nt">-d</span> servidor/http
+<span class="go">bd9e590d78834d35ad85f5eb68dc5c803fa402d527ccc26adaf56c2e1507d861
+
+</span><span class="gp">$</span><span class="w"> </span>docker ps
+<span class="go">CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+</span><span class="gp">bd9e590d7883   servidor/http   "/sbin/startServer.sh"   6 seconds ago    Up 5 seconds    0.0.0.0:82-&gt;</span>8080/tcp, :::82-&gt;8080/tcp   server2
+<span class="gp">eeec6fb36a47   servidor/http   "/sbin/startServer.sh"   48 seconds ago   Up 47 seconds   0.0.0.0:81-&gt;</span>81/tcp, :::81-&gt;81/tcp       server1
+</code></pre></div></div>
+
+<p>No exemplo anterior o container foi criando com o servidor HTTP sendo
+executado na porta 8080 (<code class="language-plaintext highlighter-rouge">-e HTTP_PORT=8080</code>) e foi exposta no <em>host</em>
+hospedeiro na porta 82 (<code class="language-plaintext highlighter-rouge">-p 82:8080</code>).</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
+    <div>
+    <p>É possível alterar variáveis com o <code>-e</code>, sem que a
+variável exista no Dockerfile pela instrução <code>ENV</code>.</p></div></div>
+
+<p>Ainda quanto as variáveis, é possível passar as variáveis através de um
+arquivo chamado <code class="language-plaintext highlighter-rouge">.env</code> utilizando a opção <code class="language-plaintext highlighter-rouge">--env-file</code>. Também é
+possível passar mais de uma variável no <code class="language-plaintext highlighter-rouge">docker run</code> para isso basta
+utilizar mais de uma vez o <code class="language-plaintext highlighter-rouge">-e</code>.</p>
+
+<h3 id="verificando-as-variáveis-do-container">Verificando as variáveis do container</h3>
+
+<p>Para verificar quais variáveis temos em um container, é possível
+executar os seguintes comandos:</p>
+
+<ul>
+  <li>Inspecionando os eventos de um container em execução:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker inspect server1 <span class="nt">--format</span><span class="o">=</span><span class="s1">''</span>
+<span class="go">["HTTP_PORT=8080","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin","DISTTAG=f40container","FGC=f40","FBR=f40"]
+</span></code></pre></div></div>
+
+<ul>
+  <li>Executando o comando <code class="language-plaintext highlighter-rouge">printenv</code> em um container em execução:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker <span class="nb">exec </span>server1 <span class="nb">printenv</span>
+<span class="go">PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=dd0de51f4289
+HTTP_PORT=8080
+DISTTAG=f40container
+FGC=f40
+FBR=f40
+HOME=/root
+</span></code></pre></div></div>
+
+<ul>
+  <li>Criando um container para executar o <code class="language-plaintext highlighter-rouge">printenv</code> e deletando ele na
+sequência, lembrando que aqui ele provavelmente só vai executar o
+<code class="language-plaintext highlighter-rouge">printenv</code>, vai parar e por consequência será deletado pela opção
+<code class="language-plaintext highlighter-rouge">--rm</code>:</li>
+</ul>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>docker run <span class="nt">--rm</span> servidor/http <span class="nb">printenv</span>
+<span class="go">PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=08929852c21d
+DISTTAG=f40container
+FGC=f40
+FBR=f40
+HTTP_PORT=81
+HOME=/root
+</span></code></pre></div></div>
+
+<p>As variáveis podem ser muito úteis para criar configurações mais
+dinâmicas e personalizadas.</p>
+
+<p>O texto <a href="docker/docker-rede">Rede</a> apresenta as principais características das redes Docker.</p>
+
+</article>
+      </section>
+    </div>
+  </div>
+
+   <footer>
+  <a href="https://creativecommons.org/licenses/by-nc/3.0/deed.en_US">
+    <span>
+        <b>Luiz Arthur Feitosa dos Santos</b>
+    </span>
+    
+    <span>© 2024</span>
+  </a>
+</footer>
+
+
+</body>
+
+</html>

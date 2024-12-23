@@ -23,6 +23,11 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 * Virtualização
     * [Introdução à virtualização](virtualization/virtualization)
+    * Introdução à Docker
+		* [Container](docker/docker-container)
+		* [Imagens](docker/docker-imagens)
+		* [Tarefas](docker/docker-tarefas)
+		* [Rede](docker/docker-rede)
 
 # Redes de Computadores
 * Configuração básica de rede:
