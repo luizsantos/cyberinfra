@@ -2,8 +2,6 @@
 layout: post
 ---
 
-# Tarefas comuns em imagens e containers Dockers
-
 A seguir são apresentados alguns exemplos de imagens e criação de
 containers. A ideia é apresentar mais em detalhes algumas opções
 normalmente utilizadas do mundo Docker, bem como em que tipo de

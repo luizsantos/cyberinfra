@@ -2,8 +2,6 @@
 layout: post
 ---
 
-# Containers 
-
 ## Verificando se o Docker está instalado
 
 Para iniciar os trabalhos com o Docker, é bom primeiro verificar se o
