@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: page
 ---
 
-# Rede Docker
+# Rede
 
 O modelo de rede utilizado pelo Docker parece inicialmente mágica, pois
 é só ligar um container, que este vai estar conectado à rede e

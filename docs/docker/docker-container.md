@@ -1,6 +1,8 @@
 ---
-layout: post
+layout: page
 ---
+
+# Container
 
 ## Verificando se o Docker está instalado
 

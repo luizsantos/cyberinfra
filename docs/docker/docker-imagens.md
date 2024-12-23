@@ -1,8 +1,8 @@
 ---
-layout: post
+layout: page
 ---
 
-# Imagens 
+# Imagens
 
 No texto a respeido de [Container](docker-container), foi apresentado o conceito de container, que é
 onde os aplicativos/serviços que estão sendo providos via Docker
