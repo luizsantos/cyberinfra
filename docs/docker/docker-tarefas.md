@@ -1092,4 +1092,4 @@ HOME=/root
 As variáveis podem ser muito úteis para criar configurações mais
 dinâmicas e personalizadas.
 
-O texto [Rede](docker/docker-rede) apresenta as principais características das redes Docker.
+O texto [Rede](docker-rede) apresenta as principais características das redes Docker.

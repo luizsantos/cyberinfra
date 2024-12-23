@@ -929,4 +929,4 @@ As instruções apresentadas anteriormente são as mais comuns, a seguir
 são apresentados exemplos de uso dessas instruções para a criação de
 imagens com o Dockerfile.
 
-O texto a seguir mostra como realizar algumas tarefas utilizando Docker - [Tarefas](docker/docker-tarefas).
+O texto a seguir mostra como realizar algumas tarefas utilizando Docker - [Tarefas](docker-tarefas).

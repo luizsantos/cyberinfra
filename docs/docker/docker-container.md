@@ -24,7 +24,7 @@ instalação no sítio oficial do
 [Docker](https://docs.docker.com/engine/install/), já que a instalação
 pode variar de sistema para sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
  <div>
     <p>No caso do Linux veja como instalar em <a
 href="https://docs.docker.com/desktop/install/linux-install/"
@@ -1144,4 +1144,4 @@ tarefas serem rotineiras, conhecer bem como realizá-las é fundamental
 para o bom funcionamento do sistema.
 
 Todavia ainda não aprendemos como trabalhar com as imagens Dockers, que
-são a base para a criação dos containers, isso será feito em no texto de [Imagens](docker/docker-imagens).
+são a base para a criação dos containers, isso será feito em no texto de [Imagens](docker-imagens).
