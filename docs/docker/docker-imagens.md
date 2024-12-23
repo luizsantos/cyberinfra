@@ -102,11 +102,10 @@ vazio) antes da montagem. Já a Figura 3-b, mostra o diretório
 diretório apresenta conteúdo da partição do HD, que são os arquivos
 `Texto.txt` e `video.mp4`.
 
-```{=html}
 <!--
 ![(a) Antes de montar partição do HD (b) Depois de montar partição do HD](imagens/mount1.png)
 -->
-```
+
 É muito importante saber, que se já houvesse algum conteúdo dentro de
 `/mnt/meuTeste`, antes da montagem, tal conteúdo ficaria oculto,
 indisponível e intocável durante todo o tempo que tal diretório
@@ -124,11 +123,10 @@ enquanto o *pendrive* permanecer montado. Todavia, quando o conteúdo da
 partição do HD volta a aparecer no diretório `/mnt/meuTeste`, asim que o
 *pendrive* for desmontado, como se nada houvesse acontecido.
 
-```{=html}
 <!--
 ![(a) Pendrive montado (b) Arquivos da partição do HD ficam indisponíveis](imagens/mount2.png)
 -->
-```
+
 A diferença do *union mount* para o *mount* tradicional, é que o *union
 mount* permite montar vários sistemas de arquivos em um ponto de
 montagem (diretório), deixando o conteúdo de todos esses sistemas de
@@ -144,9 +142,11 @@ apresenta esse comportamento do *union mount*. É importante entender
 aqui, que caso exista arquivos com o mesmo *path*, por exemplo
 `/texto.txt` na partição do HD e um arquivo `/texto.txt` no pendrive,
 ficará acessível apenas o arquivo do dispositivo que foi montado por
-último. `<!--
+último. 
+
+<!--
 ![Com *union mount* arquivos de HD e pendrive ficam disponíveis simultaneamente](imagens/mount3.png)
--->`{=html}
+-->
 
 ![Figura 3: (a) Antes de montar partição do HD (b) Depois de montar
 partição do HD (c) Pendrive montado (d) Arquivos do HD ficam
