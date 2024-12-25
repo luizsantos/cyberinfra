@@ -757,8 +757,8 @@ A saída anterior, demonstra mais uma vez que a opção
 `--restart=on-failure:3` foi executada com sucesso, já que o `cont3` foi
 abortado/parado, depois de algumas execuções.
 
-<div style="display: block; align-items: center; margin: 0 auto; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
- <div class="note">
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>No comando anterior utilizamos <code>docker ps -l</code> para ver
 apenas o último container que foi abortado pelo Docker, pois como não há
 outros containers sabíamos que provavelmente o <code>cont3</code> era o
