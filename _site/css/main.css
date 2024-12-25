@@ -154,6 +154,10 @@ header h3 {
   text-align: center;
 }
 
+.note {
+  font-size: 12px;
+}
+
 /* Main Content
 */
 #main_content {

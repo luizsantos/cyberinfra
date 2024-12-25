@@ -8,8 +8,8 @@ O modelo de rede utilizado pelo Docker parece inicialmente mágica, pois
 é só ligar um container, que este vai estar conectado à rede e
 provavelmente à Internet.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>A rede padrão Docker vai dar acesso à qualquer rede que o
 <em>host</em> hospedeiro estiver conectado, inclusive à Internet.
 Todavia, é importante perceber que o container não vai acessar, por
@@ -139,8 +139,8 @@ configurações de redes e chegar no IP, tal como:
 
 `$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' server1 172.17.0.2`
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Estamos utilizando os containers criados na seção anterior.</p></div></div>
 
 ### Utilizando o `exec`
@@ -241,12 +241,12 @@ $ sudo nsenter -t 18522 --net ip address
        valid_lft forever preferred_lft forever
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     </div></div>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>O <code>nsenter</code> permite executar comando que estão no
 <em>host</em> hospedeiro e não estão no container. Por exemplo, o
 comando <code>ip</code> não está instalado no container, mas está
@@ -491,8 +491,8 @@ Observe que na listagem anterior, temos os seguintes nomes de redes:
 -   **`none`**: Utilizado para configurar um container sem rede, tal
     como já foi feito com a opção `--net=none`;
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Observe também os <em>drivers</em> da listagem anterior, eles
 refletem a função de cada rede. Também é possível instalar e utilizar
 outros <em>drivers</em> e obter redes diferentes, por exemplo.</p></div></div>
@@ -536,8 +536,8 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 79 packets transmitted, 0 received, 100% packet loss, time 79037ms
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Note que foi necessário instalar o <code>iputlis</code> para utilizar
 o comando <code>ping</code>, através do pacote <code>iputils</code>.</p></div></div>
 

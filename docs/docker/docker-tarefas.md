@@ -32,8 +32,8 @@ executa o `docker run`. Tal prática facilita a vida de quem for executar
 o container, pois a pessoal não precisa digitar tal comando na frente do
 `docker run`, o que naturalmente também evita erros.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Se forem passadas mais de uma linha <code>CMD</code> no Dockerfile,
 será executada apenas a última linha.</p></div></div>
 
@@ -91,8 +91,8 @@ incluído o `-it`, para esse exemplo, só para poder acessar o terminal do
 container). Ou seja, neste caso não será executado o `/usr/sbin/httpd`,
 mas sim o `/bin/bash`, já que isso foi determinado via linha de comando.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Se você tentar acessar o servidor HTTP no container anterior, você
 verá que esse não está em execução, já que foi executado o
 <code>bash</code> ao invés do <code>httpd</code>.</p></div></div>
@@ -276,8 +276,8 @@ Neste caso, tal arquivo tem basicamente seguintes instruções
 $ docker build -f Dockerfile-php -t="servidor/build_fedora_apache_php" .
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Tem que utilizar o <code>-f</code>, já que não foi utilizado o nome
 padrão de arquivo Dockerfile.</p></div></div>
 
@@ -295,8 +295,8 @@ $ docker run --rm --name servidorFedApache_PHP -d servidor/build_fedora_apache_p
 ![Figura 9: Navegador acessando PHP do container criado a partir do
 Dockerfile-php](imagens/navegador3.png)
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Para acessar a página PHP, você deve descobrir o IP do container (tal
 como fizemos anteriormente) e acessar o
 <code>http://ip_container/php/teste.php</code> - que é o caminho que
@@ -446,8 +446,8 @@ a função dessas em ordem:
     do *host* hospedeiro para o diretório `/var/www/html/php/` do
     container.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Não serão apresentados os procedimentos para gerar a imagem e
 container utilizando o <code>ADD</code>, mas basicamente é só repetir o
 que foi feito anteriormente.</p></div></div>
@@ -459,8 +459,8 @@ fosse o `COPY`, ou seja, **só utilize o `ADD` se você estiver copiando
 de URL ou extraindo arquivos, caso contrário recomenda-se utilizar o
 `COPY`**.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Durante os testes para a confecção deste material, observou-se que o
 <code>ADD</code> não descompacta arquivos provindos de URLs, ou seja,
 para utilizar sua função de descompactar arquivos, tal arquivo deve
@@ -575,8 +575,8 @@ $ sudo -i
 </html>
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Observe que utilizamos o <code>sudo</code>, pois os usuários comuns
 não têm acesso aos compartilhamentos no <code>host</code>. Então criando
 compartilhamentos/volumes desta forma, pode ser necessário configurar
@@ -640,8 +640,8 @@ $ docker inspect -f {{.Mounts}} servidorFedApache_PHP3
 O comando anterior mostra primeiro o compartilhamento no *host*
 (`/tmp/site`) e do container (`/var/www/html/php`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Na verdade faz mais sentido criar o volume compartilhado via linha de
 comando e não via Dockerfile.</p></div></div>
 
@@ -737,8 +737,8 @@ vistas na documentação do Docker.
 Então, o Docker através do `VOLUME`, `-v` e `--volumes-from`, cria uma
 forma bem fácil de compartilhar diretórios entre containers e *host*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Outra forma de compartilhar dados entre containers e <em>host</em>
 seria via rede, mas isso normalmente é bem mais trabalhoso do que
 utilizar essa técnica de VOLUME utilizada pelo Docker.</p></div></div>
@@ -853,8 +853,8 @@ CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS  
 fb0673258719   servidor/http   "/sbin/startServer.sh"   7 seconds ago   Up 6 seconds   0.0.0.0:32770->22/tcp, :::32770->22/tcp, 0.0.0.0:32771->80/tcp, :::32771->80/tcp   container1
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>As portas relacionadas com o <code>-P</code> no <em>host</em>
 hospedeiros são normalmente altas e aleatórias, tal como a 32770 do
 exemplo anterior. Também aparecem na listagem IPv4 e IPv6.</p></div></div>
@@ -943,8 +943,8 @@ d37c43975129   servidor/http   "/sbin/startServer.sh"   7 minutes ago   Up 7 min
 Desta forma, agora quem tentar acessar a porta 80/TCP do *host*
 hospedeiro, na verdade vai acessar o HTTP do `container3`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Poder relacionar a porta do container com uma porta específica do
 <em>host</em> hospedeiro é muito importante na prática, pois é possível
 deixar um serviço em execução em um Docker responder como se fosse o
@@ -1038,8 +1038,8 @@ No exemplo anterior o container foi criando com o servidor HTTP sendo
 executado na porta 8080 (`-e HTTP_PORT=8080`) e foi exposta no *host*
 hospedeiro na porta 82 (`-p 82:8080`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>É possível alterar variáveis com o <code>-e</code>, sem que a
 variável exista no Dockerfile pela instrução <code>ENV</code>.</p></div></div>
 

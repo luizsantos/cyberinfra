@@ -24,8 +24,8 @@ instalação no sítio oficial do
 [Docker](https://docs.docker.com/engine/install/), já que a instalação
 pode variar de sistema para sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>No caso do Linux veja como instalar em <a
 href="https://docs.docker.com/desktop/install/linux-install/"
 class="uri">https://docs.docker.com/desktop/install/linux-install/</a>.</p></div></div>
@@ -55,8 +55,8 @@ esses:
     seja, era o que estávamos procurando e se ele não estivesse ai, algo
     estaria errado com a execução do Docker neste sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Lembrando que os números dos processos provavelmente vão mudar em
 cada sistema, já que são aleatórios.</p></div></div>
 
@@ -84,8 +84,8 @@ Status: Downloaded newer image for ubuntu:latest
 root@ebfc7d73bf3a:/#
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Pode ser necessário utilizar o comando <code>sudo</code> para
 executar o <code>docker</code>. Como exemplo, o comando anterior ficaria
 <code>sudo docker run -i -t ubuntu /bin/bash</code>.</p></div></div>
@@ -120,8 +120,8 @@ e parâmetros:
 Bem, com o resultado do comando anterior, estamos dentro de um
 container, pronto para interagir com ele através do *prompt* de comando.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Os comandos apresentados a seguir podem variar de container para
 container dependendo da distribuição e da versão da mesma, bem como das
 configurações já realizadas em um container pré-configurado. Tais
@@ -141,8 +141,8 @@ ebfc7d73bf3a
 
 A saída anterior, mostra que o nome do *host* é ebfc7d73bf3a.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Neste exemplo o nome ebfc7d73bf3a é o ID do container, ou seja, é um
 valor que identifica o container de forma única dentro do Docker.</p></div></div>
 
@@ -161,8 +161,8 @@ Ou seja, o comando `ip` não está instalado por padrão neste container,
 mas é possível instalar pacotes neste container, conforme é abordado a
 seguir.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Neste caso, seria possível ver o IP do container sem instalar o
 comando <code>ip</code>, isso pode ser feito com o comando
 <code>hostname -I</code>.</p></div></div>
@@ -198,8 +198,8 @@ Processing triggers for libc-bin (2.39-0ubuntu8.2) ...
 
 A saída anterior mostra que o `iproute2` foi instalado com sucesso.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Se o container não for derivado do Debian, como é o caso do Ubuntu,
 pode ser que o comando <code>apt</code> não exista, ai será necessário
 utilizar outras formas para instalar pacotes - isso pode variar de
@@ -292,8 +292,8 @@ ebfc7d73bf3a   ubuntu                              "/bin/bash"              Abou
 06d326091537   luizarthur/cyberinfra:hostDeb11     "/gns3/init.sh bash"     6 weeks ago         Exited (137) 6 weeks ago                admiring_burnell
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>A saída infelizmente pode extrapolar o tamanho da página, e por isso
 as colunas ficam em posições ruins de mostrar o resultado - isso também
 pode acontecer em um terminal de computador.</p></div></div>
@@ -333,8 +333,8 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 No exemplo da saída anterior, não há nenhum container em execução.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Note que o comando <code>ps</code> dentro de sistemas Unix-Like,
 apresentam os processos em execução. Já o <code>ps</code> passado como
 parâmetro para o comando <code>docker</code>, apresenta containers em
@@ -391,8 +391,8 @@ root@ebfc7d73bf3a:/#
 Assim estamos novamente no console do container que voltou à execução
 pela opção `start`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Atenção, para sair de um console de um container, sem parar o
 processo, é possível pressionando as teclas <code>Ctrl+p</code> seguido
 de <code>Ctrl+q</code>. Então, pressione a tecla <code>ctrl</code> e a
@@ -446,8 +446,8 @@ extremos, nos quais o container pode comprometer a integridade do
 sistema como um todo, ou por estar travado (não responde de forma
 alguma).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>As opções <code>stop</code> e <code>kill</code> do Docker fazem mais
 sentido para containers que rodam processos em plano de fundo, no estilo
 <em>daemon</em> (veremos esse a seguir). Se o container for executado de
@@ -483,8 +483,8 @@ uma tela por padrão esperando a interação do usuário. Em outras
 palavras, a ideia é colocar serviço/processo, bem como o container como
 *daemon*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Normalmente serviços de rede são executados em servidores como
 <em>daemons</em>, tais como: HTTP, SSH, SMB, NFS, etc.</p></div></div>
 
@@ -514,8 +514,8 @@ seguido da data/hora do container, repedindo isso a cada 10 segundos.
 Tudo isso foi feito através dos comandos que estão na frente de
 `/bin/sh -c`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Note que o comando passado para esse container é o
 <code>/bin/sh</code>, tudo que vêm após tal comando
 (<code>-c "while true; do echo Olá...</code>), são opções e parâmetros
@@ -546,8 +546,8 @@ na tela do hospedeiro.
 Todavia, é possível utilizar o comando `docker logs` para ver a saída de
 containers Docker que estão sendo executados como *daemons*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>O <code>docker logs</code> apenas apresenta a saída do container, ele
 não permite a interação com o mesmo (ex. digitar comandos no
 container).</p></div></div>
@@ -599,8 +599,8 @@ O comando `docker logs -f` é muito utilizado no dia a dia, pois permite
 o monitoramento continuo do container que está sendo executado no estilo
 *daemon*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>A opção <code>docker logs -f</code> é similar ao comando
 <code>tail -f</code>, utilizada para monitorar arquivos de <em>log</em>
 de sistemas Unix-Like. Lembre que é utilizado o <code>Ctrl+c</code> para
@@ -618,8 +618,8 @@ algo der errado, ele deve se auto reiniciar e isso é feito com a opção
 termine normalmente ou termine devido à algum erro, o container vai
 reiniciar sozinho.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>É importante perceber que o container sai do status de “em execução”
 para “parado”, devido à basicamente duas situações:</p>
 <ul>
@@ -757,8 +757,8 @@ A saída anterior, demonstra mais uma vez que a opção
 `--restart=on-failure:3` foi executada com sucesso, já que o `cont3` foi
 abortado/parado, depois de algumas execuções.
 
-<div style="display: block; align-items: center; margin: 0 auto; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: block; align-items: center; margin: 0 auto; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>No comando anterior utilizamos <code>docker ps -l</code> para ver
 apenas o último container que foi abortado pelo Docker, pois como não há
 outros containers sabíamos que provavelmente o <code>cont3</code> era o
@@ -915,8 +915,8 @@ $ docker stop $(docker ps -q --filter "label=teste")
 Como foi utilizada a opção `--rm`, esses container também foram
 removidos da lista de containers do sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>É comum utilizar <em>labels</em> com mais de uma palavra separada por
 <code>=</code>, tal como <code>desenvolvimento=maria</code>.</p></div></div>
 
@@ -970,8 +970,8 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS        
 containers, entretanto se for para criar o container e imediatamente
 colocá-lo em execução, é mais fácil/prático utilizar o comando `run`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Após criar um container com o comando <code>create</code> do Docker,
 não é possível utilizar o comando <code>run</code>, para executar um
 container com o mesmo nome do container criado. Neste caso, será

@@ -48,8 +48,8 @@ completo e isolado, não importa se isso veio de uma cópia/clone de outra
 VM, a nova VM será um sistema único ocupando os recursos do hospedeiro
 de forma completa e exclusiva.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Os espaços citados no exemplo para :Arch Linux, MariaDB e Apache
 HTTP, são meramente ilustrativos, ou seja, não correspondem ao mundo
 real.</p></div></div>
@@ -153,8 +153,8 @@ partição do HD (c) Pendrive montado (d) Arquivos do HD ficam
 indisponíveis no diretório (e) *union
 mount*](imagens/mount0.svg)
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Para realizar um <em>union mount</em> no Linux, é possível utilizar,
 por exemplo, o <code>unionfs</code>, tal como:</p>
 <pre class="console"><code># unionfs -o cow teste1/=RW:teste2/=RO testeTodos/</code></pre>
@@ -243,8 +243,8 @@ alterado que agora está na imagem com permissão de leitura e gravação. O
 CoW trabalha em conjunto com a técnica de *union mount*, explicada
 anteriormente.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>O <em>union mount</em> permite montar várias imagens de forma que
 todas fiquem acessíveis simultaneamente em um mesmo ponto de montagem
 (diretório), só que normalmente apenas a última imagem é que terá
@@ -342,8 +342,8 @@ drwx------ 5 root root 4096 Jun 21  2021 layerdb
 A princípio, tais arquivos não devem ser editados manualmente, pois são
 mantidos de forma automática pelo próprio Docker.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Os arquivos dos containers ficam normalmente no diretório
 <code>/var/lib/docker/containers/</code>.</p></div></div>
 
@@ -398,8 +398,8 @@ tentar executá-lo. É claro que na prática, o objetivo do GitHub e do
 Docker Hub são diferentes (eles não competem entre-si), na verdade um
 complementa o outro.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Há outros repositórios similares ao Docker Hub, tais como: <a
 href="https://quay.io/">Quay</a>, <a
 href="https://cloud.google.com/artifact-registry?hl=pt-br">Google
@@ -553,8 +553,8 @@ realizamos uma atualização do sistema e em seguida instalamos os pacotes
 e alguns comandos de rede (`ifconfig`, `netstat`, etc). Por fim,
 iniciamos o `httpd` que acabamos de instalar.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Não precisaria instalar o <code>net-tools</code> para o Apache
 funcionar, isso só foi feito para poder ver o IP do container e se o
 Apache está em execução com o <code>netstat</code>.</p>
@@ -599,8 +599,8 @@ Então o comando anterior, executa um container chamado
 criamos via `commit`) e executa o servidor HTTP
 (`/usr/sbin/httpd -DFOREGROUND`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Note que foi necessário utilizar a opção <code>-DFOREGROUND</code>,
 para o container não terminar devido ao Apache executar em plano de
 fundo.</p></div></div>
@@ -629,8 +629,8 @@ apresentado na Figura 7.
 ![Figura 7: Navegador acessando o Apache do
 container](imagens/navegador1.png)
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>É importante observar que durante o <code>commit</code> o container
 que serve de base estava em execução.</p></div></div>
 
@@ -686,8 +686,8 @@ este tipo de procedimento) e por fim, neste exemplo, criamos um
 `index.html` para diferenciar essa imagem da anterior (criada com o
 `commit`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Lembrando que principalmente nesta imagem não precisaria instalar o
 <code>net-tools</code>, isso foi feito aqui só para manter
 compatibilidade entre os exemplos.</p></div></div>

@@ -108,8 +108,8 @@ completo e isolado, não importa se isso veio de uma cópia/clone de outra
 VM, a nova VM será um sistema único ocupando os recursos do hospedeiro
 de forma completa e exclusiva.</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>Os espaços citados no exemplo para :Arch Linux, MariaDB e Apache
 HTTP, são meramente ilustrativos, ou seja, não correspondem ao mundo
 real.</p></div></div>
@@ -162,10 +162,10 @@ vazio) antes da montagem. Já a Figura 3-b, mostra o diretório
 diretório apresenta conteúdo da partição do HD, que são os arquivos
 <code class="language-plaintext highlighter-rouge">Texto.txt</code> e <code class="language-plaintext highlighter-rouge">video.mp4</code>.</p>
 
-<pre><code class="language-{=html}">&lt;!--
+<!--
 ![(a) Antes de montar partição do HD (b) Depois de montar partição do HD](imagens/mount1.png)
---&gt;
-</code></pre>
+-->
+
 <p>É muito importante saber, que se já houvesse algum conteúdo dentro de
 <code class="language-plaintext highlighter-rouge">/mnt/meuTeste</code>, antes da montagem, tal conteúdo ficaria oculto,
 indisponível e intocável durante todo o tempo que tal diretório
@@ -183,10 +183,10 @@ enquanto o <em>pendrive</em> permanecer montado. Todavia, quando o conteúdo da
 partição do HD volta a aparecer no diretório <code class="language-plaintext highlighter-rouge">/mnt/meuTeste</code>, asim que o
 <em>pendrive</em> for desmontado, como se nada houvesse acontecido.</p>
 
-<pre><code class="language-{=html}">&lt;!--
+<!--
 ![(a) Pendrive montado (b) Arquivos da partição do HD ficam indisponíveis](imagens/mount2.png)
---&gt;
-</code></pre>
+-->
+
 <p>A diferença do <em>union mount</em> para o <em>mount</em> tradicional, é que o <em>union
 mount</em> permite montar vários sistemas de arquivos em um ponto de
 montagem (diretório), deixando o conteúdo de todos esses sistemas de
@@ -202,17 +202,19 @@ apresenta esse comportamento do <em>union mount</em>. É importante entender
 aqui, que caso exista arquivos com o mesmo <em>path</em>, por exemplo
 <code class="language-plaintext highlighter-rouge">/texto.txt</code> na partição do HD e um arquivo <code class="language-plaintext highlighter-rouge">/texto.txt</code> no pendrive,
 ficará acessível apenas o arquivo do dispositivo que foi montado por
-último. <code class="language-plaintext highlighter-rouge">&lt;!--
+último.</p>
+
+<!--
 ![Com *union mount* arquivos de HD e pendrive ficam disponíveis simultaneamente](imagens/mount3.png)
---&gt;</code>{=html}</p>
+-->
 
 <p><img src="imagens/mount0.svg" alt="Figura 3: (a) Antes de montar partição do HD (b) Depois de montar
 partição do HD (c) Pendrive montado (d) Arquivos do HD ficam
 indisponíveis no diretório (e) *union
 mount*" /></p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>Para realizar um <em>union mount</em> no Linux, é possível utilizar,
 por exemplo, o <code>unionfs</code>, tal como:</p>
 <pre class="console"><code># unionfs -o cow teste1/=RW:teste2/=RO testeTodos/</code></pre>
@@ -302,8 +304,8 @@ alterado que agora está na imagem com permissão de leitura e gravação. O
 CoW trabalha em conjunto com a técnica de <em>union mount</em>, explicada
 anteriormente.</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+    <div class="note">
     <p>O <em>union mount</em> permite montar várias imagens de forma que
 todas fiquem acessíveis simultaneamente em um mesmo ponto de montagem
 (diretório), só que normalmente apenas a última imagem é que terá
@@ -399,8 +401,8 @@ drwx------ 5 root root 4096 Jun 21  2021 layerdb
 <p>A princípio, tais arquivos não devem ser editados manualmente, pois são
 mantidos de forma automática pelo próprio Docker.</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>Os arquivos dos containers ficam normalmente no diretório
 <code>/var/lib/docker/containers/</code>.</p></div></div>
 
@@ -460,8 +462,8 @@ tentar executá-lo. É claro que na prática, o objetivo do GitHub e do
 Docker Hub são diferentes (eles não competem entre-si), na verdade um
 complementa o outro.</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>Há outros repositórios similares ao Docker Hub, tais como: <a href="https://quay.io/">Quay</a>, <a href="https://cloud.google.com/artifact-registry?hl=pt-br">Google
 Container Registry - GCR</a>, <a href="https://aws.amazon.com/pt/ecr/">Amazon Elastic Container Registry
 - ECR</a>, <a href="https://azure.microsoft.com/en-us/products/container-registry/">Azure
@@ -607,8 +609,8 @@ realizamos uma atualização do sistema e em seguida instalamos os pacotes
 e alguns comandos de rede (<code class="language-plaintext highlighter-rouge">ifconfig</code>, <code class="language-plaintext highlighter-rouge">netstat</code>, etc). Por fim,
 iniciamos o <code class="language-plaintext highlighter-rouge">httpd</code> que acabamos de instalar.</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>Não precisaria instalar o <code>net-tools</code> para o Apache
 funcionar, isso só foi feito para poder ver o IP do container e se o
 Apache está em execução com o <code>netstat</code>.</p>
@@ -650,8 +652,8 @@ um servidor Apache em execução, tal como:</p>
 criamos via <code class="language-plaintext highlighter-rouge">commit</code>) e executa o servidor HTTP
 (<code class="language-plaintext highlighter-rouge">/usr/sbin/httpd -DFOREGROUND</code>).</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+    <div class="note">
     <p>Note que foi necessário utilizar a opção <code>-DFOREGROUND</code>,
 para o container não terminar devido ao Apache executar em plano de
 fundo.</p></div></div>
@@ -678,8 +680,8 @@ apresentado na Figura 7.</p>
 <p><img src="imagens/navegador1.png" alt="Figura 7: Navegador acessando o Apache do
 container" /></p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>É importante observar que durante o <code>commit</code> o container
 que serve de base estava em execução.</p></div></div>
 
@@ -735,8 +737,8 @@ este tipo de procedimento) e por fim, neste exemplo, criamos um
 <code class="language-plaintext highlighter-rouge">index.html</code> para diferenciar essa imagem da anterior (criada com o
 <code class="language-plaintext highlighter-rouge">commit</code>).</p>
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;" /></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
     <p>Lembrando que principalmente nesta imagem não precisaria instalar o
 <code>net-tools</code>, isso foi feito aqui só para manter
 compatibilidade entre os exemplos.</p></div></div>
