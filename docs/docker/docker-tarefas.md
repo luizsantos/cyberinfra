@@ -756,8 +756,7 @@ somente o *host* hospedeiro e os containers deste *host* podem acessar.
 Assim, outros *hosts* tal como o Host A, não conseguem acessar por
 padrão tal rede dos containers.
 
-![Figura 11: Rede Docker -
-172.17.0.0/24](imagens/redeDocker1.svg)
+![Figura 11: Rede Docker - 172.17.0.0/24](imagens/redeDocker1.svg)
 
 Todavia, existem casos em que é necessário expor para fora da rede
 Docker, os serviços de rede de alguns containers Docker. Sendo assim, há

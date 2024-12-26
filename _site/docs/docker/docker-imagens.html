@@ -776,11 +776,11 @@ identificar possíveis erros, principalmente nos comandos executados pelo
 <code class="language-plaintext highlighter-rouge">RUN</code>. Caso erros aconteçam serão retornados códigos diferentes de zero,
 na saída.</p>
 
-<p>::: tip
-Se houverem erros, uma boa prática é executar o container com o <code class="language-plaintext highlighter-rouge">bash</code> e
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
+    <p>Se houverem erros, uma boa prática é executar o container com o `bash` e
 ir digitando os comandos lá dentro e copiando e colando para o
-Dockerfile.
-:::</p>
+Dockerfile.</p></div></div>
 
 <p>Na saída anterior, que não apresentou erros, veja que o comando
 <code class="language-plaintext highlighter-rouge">docker build</code> é seguida de <code class="language-plaintext highlighter-rouge">-t</code>, que indica o rótulo que vai
@@ -915,12 +915,12 @@ RUN dnf install httpd net-tools -y
 </span><span class="gp">RUN echo "Olá com &lt;b&gt;</span><span class="w"> </span>build<span class="s2">" &gt; /var/www/html/index.html''
 </span></code></pre></div></div>
 
-<p>::: tip
-A princípio se alterar o valor que está na frente do <code class="language-plaintext highlighter-rouge">ENV REFRESHED_AT</code>,
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+ <div class="note">
+    <p>A princípio se alterar o valor que está na frente do `ENV REFRESHED_AT`,
 o Docker já vai executar os passos novamente. Tal como:
-<code class="language-plaintext highlighter-rouge">ENV REFRESHED_AT 2024-08-30 2</code>, fazendo menção a uma versão 2 para o
-mesmo dia.
-:::</p>
+`ENV REFRESHED_AT 2024-08-30 2`, fazendo menção a uma versão 2 para o
+mesmo dia.</p></div></div>
 
 <h3 id="instruções-do-dockerfile">Instruções do Dockerfile</h3>
 

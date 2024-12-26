@@ -726,11 +726,12 @@ identificar possíveis erros, principalmente nos comandos executados pelo
 `RUN`. Caso erros aconteçam serão retornados códigos diferentes de zero,
 na saída.
 
-::: tip
-Se houverem erros, uma boa prática é executar o container com o `bash` e
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Se houverem erros, uma boa prática é executar o container com o `bash` e
 ir digitando os comandos lá dentro e copiando e colando para o
-Dockerfile.
-:::
+Dockerfile.</p></div></div>
+
 
 Na saída anterior, que não apresentou erros, veja que o comando
 `docker build` é seguida de `-t`, que indica o rótulo que vai
@@ -872,12 +873,12 @@ RUN dnf install httpd net-tools -y
 RUN echo "Olá com <b> build" > /var/www/html/index.html''
 ```
 
-::: tip
-A princípio se alterar o valor que está na frente do `ENV REFRESHED_AT`,
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>A princípio se alterar o valor que está na frente do `ENV REFRESHED_AT`,
 o Docker já vai executar os passos novamente. Tal como:
 `ENV REFRESHED_AT 2024-08-30 2`, fazendo menção a uma versão 2 para o
-mesmo dia.
-:::
+mesmo dia.</p></div></div>
 
 ### Instruções do Dockerfile
 
