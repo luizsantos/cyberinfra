@@ -26,8 +26,8 @@ instalação no sítio oficial do
 [Docker](https://docs.docker.com/engine/install/), já que a instalação
 pode variar de sistema para sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>No caso do Linux veja como instalar em <a
 href="https://docs.docker.com/desktop/install/linux-install/"
 class="uri">https://docs.docker.com/desktop/install/linux-install/</a>.</p></div></div>
@@ -57,8 +57,8 @@ esses:
     seja, era o que estávamos procurando e se ele não estivesse ai, algo
     estaria errado com a execução do Docker neste sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Lembrando que os números dos processos provavelmente vão mudar em
 cada sistema, já que são aleatórios.</p></div></div>
 
@@ -86,8 +86,8 @@ Status: Downloaded newer image for ubuntu:latest
 root@ebfc7d73bf3a:/#
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Pode ser necessário utilizar o comando <code>sudo</code> para
 executar o <code>docker</code>. Como exemplo, o comando anterior ficaria
 <code>sudo docker run -i -t ubuntu /bin/bash</code>.</p></div></div>
@@ -122,8 +122,8 @@ e parâmetros:
 Bem, com o resultado do comando anterior, estamos dentro de um
 container, pronto para interagir com ele através do *prompt* de comando.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Os comandos apresentados a seguir podem variar de container para
 container dependendo da distribuição e da versão da mesma, bem como das
 configurações já realizadas em um container pré-configurado. Tais
@@ -143,8 +143,8 @@ ebfc7d73bf3a
 
 A saída anterior, mostra que o nome do *host* é ebfc7d73bf3a.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Neste exemplo o nome ebfc7d73bf3a é o ID do container, ou seja, é um
 valor que identifica o container de forma única dentro do Docker.</p></div></div>
 
@@ -163,8 +163,8 @@ Ou seja, o comando `ip` não está instalado por padrão neste container,
 mas é possível instalar pacotes neste container, conforme é abordado a
 seguir.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Neste caso, seria possível ver o IP do container sem instalar o
 comando <code>ip</code>, isso pode ser feito com o comando
 <code>hostname -I</code>.</p></div></div>
@@ -200,8 +200,8 @@ Processing triggers for libc-bin (2.39-0ubuntu8.2) ...
 
 A saída anterior mostra que o `iproute2` foi instalado com sucesso.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Se o container não for derivado do Debian, como é o caso do Ubuntu,
 pode ser que o comando <code>apt</code> não exista, ai será necessário
 utilizar outras formas para instalar pacotes - isso pode variar de
@@ -294,8 +294,8 @@ ebfc7d73bf3a   ubuntu                              "/bin/bash"              Abou
 06d326091537   luizarthur/cyberinfra:hostDeb11     "/gns3/init.sh bash"     6 weeks ago         Exited (137) 6 weeks ago                admiring_burnell
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>A saída infelizmente pode extrapolar o tamanho da página, e por isso
 as colunas ficam em posições ruins de mostrar o resultado - isso também
 pode acontecer em um terminal de computador.</p></div></div>
@@ -335,8 +335,8 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 No exemplo da saída anterior, não há nenhum container em execução.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Note que o comando <code>ps</code> dentro de sistemas Unix-Like,
 apresentam os processos em execução. Já o <code>ps</code> passado como
 parâmetro para o comando <code>docker</code>, apresenta containers em
@@ -393,8 +393,8 @@ root@ebfc7d73bf3a:/#
 Assim estamos novamente no console do container que voltou à execução
 pela opção `start`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Atenção, para sair de um console de um container, sem parar o
 processo, é possível pressionando as teclas <code>Ctrl+p</code> seguido
 de <code>Ctrl+q</code>. Então, pressione a tecla <code>ctrl</code> e a
@@ -448,8 +448,8 @@ extremos, nos quais o container pode comprometer a integridade do
 sistema como um todo, ou por estar travado (não responde de forma
 alguma).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>As opções <code>stop</code> e <code>kill</code> do Docker fazem mais
 sentido para containers que rodam processos em plano de fundo, no estilo
 <em>daemon</em> (veremos esse a seguir). Se o container for executado de
@@ -485,8 +485,8 @@ uma tela por padrão esperando a interação do usuário. Em outras
 palavras, a ideia é colocar serviço/processo, bem como o container como
 *daemon*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Normalmente serviços de rede são executados em servidores como
 <em>daemons</em>, tais como: HTTP, SSH, SMB, NFS, etc.</p></div></div>
 
@@ -516,8 +516,8 @@ seguido da data/hora do container, repedindo isso a cada 10 segundos.
 Tudo isso foi feito através dos comandos que estão na frente de
 `/bin/sh -c`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Note que o comando passado para esse container é o
 <code>/bin/sh</code>, tudo que vêm após tal comando
 (<code>-c "while true; do echo Olá...</code>), são opções e parâmetros
@@ -548,8 +548,8 @@ na tela do hospedeiro.
 Todavia, é possível utilizar o comando `docker logs` para ver a saída de
 containers Docker que estão sendo executados como *daemons*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>O <code>docker logs</code> apenas apresenta a saída do container, ele
 não permite a interação com o mesmo (ex. digitar comandos no
 container).</p></div></div>
@@ -601,8 +601,8 @@ O comando `docker logs -f` é muito utilizado no dia a dia, pois permite
 o monitoramento continuo do container que está sendo executado no estilo
 *daemon*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>A opção <code>docker logs -f</code> é similar ao comando
 <code>tail -f</code>, utilizada para monitorar arquivos de <em>log</em>
 de sistemas Unix-Like. Lembre que é utilizado o <code>Ctrl+c</code> para
@@ -620,8 +620,8 @@ algo der errado, ele deve se auto reiniciar e isso é feito com a opção
 termine normalmente ou termine devido à algum erro, o container vai
 reiniciar sozinho.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>É importante perceber que o container sai do status de “em execução”
 para “parado”, devido à basicamente duas situações:</p>
 <ul>
@@ -759,8 +759,8 @@ A saída anterior, demonstra mais uma vez que a opção
 `--restart=on-failure:3` foi executada com sucesso, já que o `cont3` foi
 abortado/parado, depois de algumas execuções.
 
-<div style="display: block; align-items: center; margin: 0 auto; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>No comando anterior utilizamos <code>docker ps -l</code> para ver
 apenas o último container que foi abortado pelo Docker, pois como não há
 outros containers sabíamos que provavelmente o <code>cont3</code> era o
@@ -917,8 +917,8 @@ $ docker stop $(docker ps -q --filter "label=teste")
 Como foi utilizada a opção `--rm`, esses container também foram
 removidos da lista de containers do sistema.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>É comum utilizar <em>labels</em> com mais de uma palavra separada por
 <code>=</code>, tal como <code>desenvolvimento=maria</code>.</p></div></div>
 
@@ -972,8 +972,8 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS        
 containers, entretanto se for para criar o container e imediatamente
 colocá-lo em execução, é mais fácil/prático utilizar o comando `run`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Após criar um container com o comando <code>create</code> do Docker,
 não é possível utilizar o comando <code>run</code>, para executar um
 container com o mesmo nome do container criado. Neste caso, será
@@ -1147,8 +1147,9 @@ para o bom funcionamento do sistema.
 
 Todavia ainda não aprendemos como trabalhar com as imagens Dockers, que
 são a base para a criação dos containers, isso será feito no Capítulo 3.
-Depois disso o Capítulo **¿sec:confAvancadas?**, abordará configurações
-e gerenciamento de containers para tarefas mais avançadas.
+`<!--
+Depois disso o [Capítulo @sec:confAvancadas], abordará configurações e gerenciamento de containers para tarefas mais avançadas.
+-->`{=html}
 
 # Imagens 
 
@@ -1196,13 +1197,14 @@ completo e isolado, não importa se isso veio de uma cópia/clone de outra
 VM, a nova VM será um sistema único ocupando os recursos do hospedeiro
 de forma completa e exclusiva.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Os espaços citados no exemplo para :Arch Linux, MariaDB e Apache
 HTTP, são meramente ilustrativos, ou seja, não correspondem ao mundo
 real.</p></div></div>
 
-![Figura 1: Virtualização completa com VirtualBox e HDs virtuais](imagens/virtualBox.png)
+![Figura 1: Virtualização completa com VirtualBox e HDs
+virtuais](imagens/virtualBox.png)
 
 Todavia, o conceito de imagem utilizada no Docker é ligeiramente
 diferente do utilizado normalmente em sistemas de virtualização
@@ -1301,8 +1303,8 @@ partição do HD (c) Pendrive montado (d) Arquivos do HD ficam
 indisponíveis no diretório (e) *union
 mount*](imagens/mount0.svg)
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Para realizar um <em>union mount</em> no Linux, é possível utilizar,
 por exemplo, o <code>unionfs</code>, tal como:</p>
 <pre class="console"><code># unionfs -o cow teste1/=RW:teste2/=RO testeTodos/</code></pre>
@@ -1391,8 +1393,8 @@ alterado que agora está na imagem com permissão de leitura e gravação. O
 CoW trabalha em conjunto com a técnica de *union mount*, explicada
 anteriormente.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>O <em>union mount</em> permite montar várias imagens de forma que
 todas fiquem acessíveis simultaneamente em um mesmo ponto de montagem
 (diretório), só que normalmente apenas a última imagem é que terá
@@ -1490,8 +1492,8 @@ drwx------ 5 root root 4096 Jun 21  2021 layerdb
 A princípio, tais arquivos não devem ser editados manualmente, pois são
 mantidos de forma automática pelo próprio Docker.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Os arquivos dos containers ficam normalmente no diretório
 <code>/var/lib/docker/containers/</code>.</p></div></div>
 
@@ -1546,8 +1548,8 @@ tentar executá-lo. É claro que na prática, o objetivo do GitHub e do
 Docker Hub são diferentes (eles não competem entre-si), na verdade um
 complementa o outro.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Há outros repositórios similares ao Docker Hub, tais como: <a
 href="https://quay.io/">Quay</a>, <a
 href="https://cloud.google.com/artifact-registry?hl=pt-br">Google
@@ -1701,8 +1703,8 @@ realizamos uma atualização do sistema e em seguida instalamos os pacotes
 e alguns comandos de rede (`ifconfig`, `netstat`, etc). Por fim,
 iniciamos o `httpd` que acabamos de instalar.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Não precisaria instalar o <code>net-tools</code> para o Apache
 funcionar, isso só foi feito para poder ver o IP do container e se o
 Apache está em execução com o <code>netstat</code>.</p>
@@ -1747,8 +1749,8 @@ Então o comando anterior, executa um container chamado
 criamos via `commit`) e executa o servidor HTTP
 (`/usr/sbin/httpd -DFOREGROUND`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Note que foi necessário utilizar a opção <code>-DFOREGROUND</code>,
 para o container não terminar devido ao Apache executar em plano de
 fundo.</p></div></div>
@@ -1777,8 +1779,8 @@ apresentado na Figura 7.
 ![Figura 7: Navegador acessando o Apache do
 container](imagens/navegador1.png)
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>É importante observar que durante o <code>commit</code> o container
 que serve de base estava em execução.</p></div></div>
 
@@ -1834,8 +1836,8 @@ este tipo de procedimento) e por fim, neste exemplo, criamos um
 `index.html` para diferenciar essa imagem da anterior (criada com o
 `commit`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Lembrando que principalmente nesta imagem não precisaria instalar o
 <code>net-tools</code>, isso foi feito aqui só para manter
 compatibilidade entre os exemplos.</p></div></div>
@@ -2101,19 +2103,19 @@ essas instruções.
 ### `CMD`
 
 Utilizando o `CMD` no Dockerfile, é possível determinar o comando que
-será executado quando o container for criando, com isso não é necessário
+será executado quando o container for criado, com isso não é necessário
 indicar o comando que deve ser executado pelo container quando se
 executa o `docker run`. Tal prática facilita a vida de quem for executar
 o container, pois a pessoal não precisa digitar tal comando na frente do
 `docker run`, o que naturalmente também evita erros.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Se forem passadas mais de uma linha <code>CMD</code> no Dockerfile,
 será executada apenas a última linha.</p></div></div>
 
 A seguir é apresentado um exemplo de um Dockerfile, que cria uma imagem
-baseada no Fedora Linux, para executar um servidor Apache HTTTP. Então a
+baseada no Fedora Linux, para executar um servidor Apache HTTP. Então a
 principal função desse container é executar o servidor HTTP, desta forma
 o comando `CMD`, do Dockerfile, é utilizado justamente para indicar que
 deve-se iniciar o processo `/usr/sbin/httpd`, que é responsável pelo
@@ -2160,14 +2162,14 @@ linha de comando, por exemplo:
 $ docker run -it --rm --name servidorFedApache3 -d servidor/build_fedora_apache /bin/bash
 ```
 
-No comando anterior, o container gerado pela a imagem criada
-anteriormente executa o comando inicial `/bin/bash` (note que também foi
-incluído o `-it`, para esse exemplo, só para poder acessar o terminal do
-container). Ou seja, neste caso não será executado o `/usr/sbin/httpd`,
-mas sim o `/bin/bash`, já que isso foi determinado via linha de comando.
+No comando anterior, o container gerado pela a imagem criada executa o
+comando inicial `/bin/bash` (note que também foi incluído o `-it`, para
+esse exemplo, só para poder acessar o terminal do container). Ou seja,
+neste caso não será executado o `/usr/sbin/httpd`, mas sim o
+`/bin/bash`, já que isso foi determinado via linha de comando.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Se você tentar acessar o servidor HTTP no container anterior, você
 verá que esse não está em execução, já que foi executado o
 <code>bash</code> ao invés do <code>httpd</code>.</p></div></div>
@@ -2258,7 +2260,7 @@ $ docker run --name servidorFedApache3.3 -d servidor/httpd -v
 
 Vai executar Vai executar `/usr/sbin/httpd -v`. Neste exemplo o servidor
 HTTP, vai mostrar a versão do servidor (não vai executar tal servidor),
-isso poderá ser visto com o \``log`, tal como:
+isso poderá ser visto com o `log`, tal como:
 
 ``` console
 $ docker logs  servidorFedApache3.3
@@ -2351,8 +2353,8 @@ Neste caso, tal arquivo tem basicamente seguintes instruções
 $ docker build -f Dockerfile-php -t="servidor/build_fedora_apache_php" .
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Tem que utilizar o <code>-f</code>, já que não foi utilizado o nome
 padrão de arquivo Dockerfile.</p></div></div>
 
@@ -2370,14 +2372,14 @@ $ docker run --rm --name servidorFedApache_PHP -d servidor/build_fedora_apache_p
 ![Figura 9: Navegador acessando PHP do container criado a partir do
 Dockerfile-php](imagens/navegador3.png)
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Para acessar a página PHP, você deve descobrir o IP do container (tal
 como fizemos anteriormente) e acessar o
 <code>http://ip_container/php/teste.php</code> - que é o caminho que
 configuramos, onde está a página PHP.</p></div></div>
 
-Uma **importante observação** deve ser feitas aqui: Para a criação desta
+Uma **importante observação** deve ser feita aqui: Para a criação desta
 imagem, **utilizamos o `RUN` para criar o *script***, isso foi feito com
 a seguinte instrução:
 
@@ -2386,7 +2388,7 @@ RUN echo -e "#!/bin/bash \n/sbin/php-fpm &\n/sbin/httpd -DFOREGROUND \n/bin/read
 ```
 
 Então é possível utilizar o `RUN` para criar o *script*, mas **isso pode
-deixar o entendimento confuso** (muito coisa em uma linha só), então há
+deixar o entendimento confuso** (muita coisa em uma linha só), então há
 grandes chances de erro. Outra questão ainda relacionada à isso é: "e se
 o administrador precisar criar um *script* ainda maior e mais
 complexo?". Bem uma possível solução é apresentada a seguir com o `COPY`
@@ -2397,7 +2399,7 @@ e o `ADD`.
 Desta forma, para melhorar o Dockerfile anterior, é possível utilizar a
 instrução `COPY`, para copiar um *script* do *host* para a imagem que
 está sendo criada. Assim, é possível utilizar um editor de textos para
-criar mais facilmente o *script* e depois o `COPY` vai copia-lo para a
+criar mais facilmente o *script* e depois o `COPY` vai copiá-lo para a
 imagem.
 
 Então vamos alterar o Dockerfile anterior, para que este utilize o
@@ -2447,7 +2449,7 @@ Alguns pontos importantes devem ser destacados aqui:
     comandos, caso contrário o *script* não será executado no inicio do
     container e tudo vai falhar;
 
--   No final do *script* criando aqui, foram inseridas duas formas de
+-   No final do *script* criado aqui, foram inseridas duas formas de
     **impedir que o *script* execute e depois termine**, sendo essas
     formas: `/bin/read` e o `sleep infinity`. Contudo isso seria
     desnecessário, já que teoricamente o comando
@@ -2521,8 +2523,8 @@ a função dessas em ordem:
     do *host* hospedeiro para o diretório `/var/www/html/php/` do
     container.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Não serão apresentados os procedimentos para gerar a imagem e
 container utilizando o <code>ADD</code>, mas basicamente é só repetir o
 que foi feito anteriormente.</p></div></div>
@@ -2534,8 +2536,8 @@ fosse o `COPY`, ou seja, **só utilize o `ADD` se você estiver copiando
 de URL ou extraindo arquivos, caso contrário recomenda-se utilizar o
 `COPY`**.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Durante os testes para a confecção deste material, observou-se que o
 <code>ADD</code> não descompacta arquivos provindos de URLs, ou seja,
 para utilizar sua função de descompactar arquivos, tal arquivo deve
@@ -2559,7 +2561,7 @@ Veremos tais técnicas a seguir.
 
 A opção `VOLUME` permite criar um ponto de montagem compartilhado entre
 o container e o `host`. Isso facilita o compartilhamento de informações
-entre ambos, bem como permite que os dados do container seja
+entre ambos, bem como permite que os dados do container sejam
 **persistidos** (ou seja, não se apaguem quando o container for
 removido).
 
@@ -2650,8 +2652,8 @@ $ sudo -i
 </html>
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Observe que utilizamos o <code>sudo</code>, pois os usuários comuns
 não têm acesso aos compartilhamentos no <code>host</code>. Então criando
 compartilhamentos/volumes desta forma, pode ser necessário configurar
@@ -2689,7 +2691,7 @@ $ mkdir /tmp/site
 echo "<?php phpinfo(); ?>" > /tmp/site/teste.php
 ```
 
-Junto com a criação do diretório também foi criando um conteúdo PHP, no
+Junto com a criação do diretório também foi criado um conteúdo PHP, no
 caso o arquivo `/tmp/site/teste.php`.
 
 2.  Agora vamos criar o container, com a opção `-v`:
@@ -2715,8 +2717,8 @@ $ docker inspect -f {{.Mounts}} servidorFedApache_PHP3
 O comando anterior mostra primeiro o compartilhamento no *host*
 (`/tmp/site`) e do container (`/var/www/html/php`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Na verdade faz mais sentido criar o volume compartilhado via linha de
 comando e não via Dockerfile.</p></div></div>
 
@@ -2756,7 +2758,7 @@ $ docker build -t="fedora/data"
 ```
 
 4.  Agora vamos criar um container e relacioná-lo com o diretório
-    `/tmp/share` do \*host:
+    `/tmp/share` do *host*:
 
 ``` console
 $ docker run -ti --name container1 -v /tmp/share:/comp -d fedora/data
@@ -2812,8 +2814,8 @@ vistas na documentação do Docker.
 Então, o Docker através do `VOLUME`, `-v` e `--volumes-from`, cria uma
 forma bem fácil de compartilhar diretórios entre containers e *host*.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Outra forma de compartilhar dados entre containers e <em>host</em>
 seria via rede, mas isso normalmente é bem mais trabalhoso do que
 utilizar essa técnica de VOLUME utilizada pelo Docker.</p></div></div>
@@ -2843,11 +2845,11 @@ tentar acessar tal porta relacionada do hospedeiro, será na verdade
 acessado o container.
 
 No Docker, essa tarefa de acessar o container através do IP do *host*
-hospedeiro é chamada de "expor" (***expose***) ou publicar (**publish**)
-a porta do container. Assim, para expor/publicar a porta de um
-container, ou melhor para relacionar a porta do container com alguma
-porta do *host* hospedeiro, é possível utilizar no `docker run`, uma das
-seguintes opções:
+hospedeiro é chamada de "expor" (***expose***) ou publicar
+(***publish***) a porta do container. Assim, para expor/publicar a porta
+de um container, ou melhor para relacionar a porta do container com
+alguma porta do *host* hospedeiro, é possível utilizar no `docker run`,
+uma das seguintes opções:
 
 -   **`-P`** ou **`--publish-all`**: expõem todas as portas declaradas
     no Dockerfile pela instrução **`EXPOSE`**;
@@ -2928,8 +2930,8 @@ CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS  
 fb0673258719   servidor/http   "/sbin/startServer.sh"   7 seconds ago   Up 6 seconds   0.0.0.0:32770->22/tcp, :::32770->22/tcp, 0.0.0.0:32771->80/tcp, :::32771->80/tcp   container1
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>As portas relacionadas com o <code>-P</code> no <em>host</em>
 hospedeiros são normalmente altas e aleatórias, tal como a 32770 do
 exemplo anterior. Também aparecem na listagem IPv4 e IPv6.</p></div></div>
@@ -3018,8 +3020,8 @@ d37c43975129   servidor/http   "/sbin/startServer.sh"   7 minutes ago   Up 7 min
 Desta forma, agora quem tentar acessar a porta 80/TCP do *host*
 hospedeiro, na verdade vai acessar o HTTP do `container3`.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>Poder relacionar a porta do container com uma porta específica do
 <em>host</em> hospedeiro é muito importante na prática, pois é possível
 deixar um serviço em execução em um Docker responder como se fosse o
@@ -3030,8 +3032,8 @@ portas no Docker, tais como:
 
 -   `docker run -p 53/udp <imagem>`: expõem a porta 53/UDP - ou seja, é
     possível expor portas TCP (que são o padrão caso não se especifique
-    o protocolo e UDP, sendo que essas devem ser declaradas
-    explicitamente com o `<porta>/udp`;
+    o protocolo UDP, sendo que essas devem ser declaradas explicitamente
+    com o `<porta>/udp`;
 -   `docker run -p 22/tcp -p 53/udp <imagem>`: É possível passar mais de
     uma porta para ser exposta via `-p`;
 -   `docker run -p 192.168.0.1:722:22/tcp <imagem>`: Caso o *host* tenha
@@ -3113,8 +3115,8 @@ No exemplo anterior o container foi criando com o servidor HTTP sendo
 executado na porta 8080 (`-e HTTP_PORT=8080`) e foi exposta no *host*
 hospedeiro na porta 82 (`-p 82:8080`).
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>É possível alterar variáveis com o <code>-e</code>, sem que a
 variável exista no Dockerfile pela instrução <code>ENV</code>.</p></div></div>
 
@@ -3167,14 +3169,554 @@ HOME=/root
 As variáveis podem ser muito úteis para criar configurações mais
 dinâmicas e personalizadas.
 
-# Rede Docker
+## Utilizando o `supervisor`
+
+Como observado anteriormente, pode ser uma tarefa relativamente complexa
+executar vários serviços simultaneamente em um único container. Assim,
+uma forma de facilitar tal tarefa é utilizando o
+[`supervisor`](https://supervisord.org/).
+
+```{=html}
+<!--
+O ``supervisor``, na verdade pode orquestrar e gerenciar múltiplos containers utilizando um arquivo de configuração (``docker-compose.yml``), no qual são definidos serviços e outras configurações de containers. Todavia, mesmo que não seja muito recomendável, 
+-->
+```
+O `supervisord` tem como objetivo controlar múltiplos processos em
+sistemas UNIX-like, então ele pode ser utilizado para iniciar e
+monitorar processos dentro de containers Docker.
+
+Desta forma, neste exemplo vamos ver o uso do `supervisor` para
+controlar serviços. Para isso vamos utilizar como base os exemplos
+apresentados no livro [Docker
+Cookbook](https://www.amazon.com.br/Docker-Cookbook-S-Goasguen/dp/149191971X).
+Então, para este exemplo serão colocados em um único container os
+seguintes serviços: HTTP, PHP e MYSQL, tudo isso para disponibilizar o
+[WordPress](https://wordpress.org/), que é um sistema Open Source de
+gerenciamento de conteúdo no estilo *blog*.
+
+Desta forma, iniciamos o exemplo criando o arquivo Dockerfile:
+
+``` console
+FROM ubuntu:22.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get -y install \
+    apache2 \
+    php \
+    php-mysql \
+    supervisor \
+    wget
+
+RUN echo 'mysql-server mysql-server/root_password password root' | \
+    debconf-set-selections && \
+    echo 'mysql-server mysql-server/root_password_again password root' | \
+    debconf-set-selections
+
+RUN apt-get install -qqy mysql-server
+
+RUN wget https://wordpress.org/wordpress-6.7.1.tar.gz && \
+    tar vzxf  wordpress-6.7.1.tar.gz && \
+    cp -R ./wordpress/* /var/www/html && rm /var/www/html/index.html
+
+RUN (/usr/bin/mysqld_safe &); sleep 5; mysqladmin -u root -proot create wordpress
+
+COPY wp-config.php /var/www/html/wp-config.php
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 80
+
+CMD ["/usr/bin/supervisord"]
+```
+
+Este arquivo Dockerfile basicamente:
+
+-   Utiliza a imagem do Ubuntu 22.02 (`FROM`);
+-   Instala os seguintes serviços (`apt`):
+    -   Apache 2 - será o servidor HTTP;
+    -   PHP - fornece suporte PHP ao servidor HTTP e também instalar o
+        módulo Mysql do PHP;
+    -   Supervisor - vai ditar quais serviços iniciar com o container;
+    -   Wget - será utilizado para fazer download do código fonte do
+        Wordpress.
+-   Configura o Mysql (`mysql-server` passa/configura previamente as
+    entradas pedidas pelo `apt` para a instalação do Mysql);
+-   Instala do Mysql (`apt`);
+-   Faz o download do Wordpress (`wget`);
+-   Cria o banco de dados que será utilizado pelo Wordpress (`wget`);
+-   Copia o arquivo de configuração do Wordpress (`wp-config.php`);
+-   Copia o arquivo de configuração do `supervisor`
+    (`supervisord.conf`);
+-   Exporta a porta TCP/80 (`EXPOSE`);
+-   Executa o `supervisor` quando o container for inicializado (`CMD`).
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>O arquivo anterior foi alterado para ser executado com o Wordpress e
+Ubuntu mais atual, em relação ao exemplo do livro - o fonte do Wordpress
+não funcionava mais com o exemplo do livro.</p></div></div>
+
+O arquivo `wp-config.php` que será copiado via comando `COPY`, terá o
+seguinte conteúdo:
+
+``` console
+<?php
+
+
+define( 'DB_NAME', 'wordpress' );
+
+define( 'DB_USER', 'root' );
+
+define( 'DB_PASSWORD', 'root' );
+
+define( 'DB_HOST', '127.0.0.1' );
+
+define( 'DB_CHARSET', 'utf8mb4' );
+
+define( 'DB_COLLATE', '' );
+
+define( 'AUTH_KEY',         '={cp+g1h:|a/?S34nA<u70MoZHW_eJYO-QI3]Vk[)^/Mln' );
+define( 'SECURE_AUTH_KEY',  '<[c|C{xsGt<g2GbMw[-.}IYq9>$b{(`kIZ}QH8#+vIr?J/6h a5<yn];Jkr4a>UE' );
+define( 'LOGGED_IN_KEY',    '6Lr|- P}N`qq>*~)Xq3/Z4;z{2:=E^D2dq*%/}Fi^BK(4i!^uq* : x-KFmif~Ry' );
+define( 'NONCE_KEY',        'C2BCz43k]0O3DEVfc;MOHSX]kkb&B%_~1bnmOTxr,szJ<c.L@eeKUtk7FPD.tzBc' );
+define( 'AUTH_SALT',        '|OZ=2OLNW|h3gl2B9(kVi1/JDZNfGH;O6H!Di$}sH$*II<1G*XU&+$]XoW~= qxb' );
+define( 'SECURE_AUTH_SALT', 'C!j`J!MxEGE6JoITB4*to{lYuoR_]jgBl/FdK/ktSF/Wg6-SsfJvjHQ,C_cFGht7' );
+define( 'LOGGED_IN_SALT',   'q]-<g{SKHHuvYL!i220z^:$R@Um8O6(:jseem]0Lg$[PN0CR12eu_i2_FSos9)x}' );
+define( 'NONCE_SALT',       'uU/I`_vljJoKFWjL ]1G@ry<^DeaJgyoy,.:`G!leF*wUh.j-sBR}xr{N@N8i<=?' );
+
+
+$table_prefix = 'wp_';
+
+define( 'WP_DEBUG', false );
+
+if ( ! defined( 'ABSPATH' ) ) {
+    define( 'ABSPATH', __DIR__ . '/' );
+}
+
+require_once ABSPATH . 'wp-settings.php';
+```
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Essa parte do arquivo <code>wp-config.php</code>, pode ser opcional.
+Se não for feito o <code>COPY</code> do arquivo
+<code>wp-config.php</code>, o container vai pedir essa configuração ao
+ser iniciado via interface Web.</p></div></div>
+
+Já o arquivo `supervisord.conf` terá o seguinte conteúdo:
+
+``` console
+[supervisord]
+nodaemon=true
+
+[program:mysqld]
+command=/usr/bin/mysqld_safe
+autostart=true
+autorestart=true
+user=root
+
+[program:httpd]
+command=/bin/bash -c "rm -rf /run/httpd/* && /usr/sbin/apachectl -D FOREGROUND"
+```
+
+O arquivo `supervisord.conf` inicia com a configuração do próprio
+`supervisor`, que por padrão inicia como *daemon*, ou seja, em plano de
+fundo. Então, para que o `supervisor` cumpra seu papel no container, é
+passada a opção `nodaemon=true`, que impede que o processo vá para
+*background*, o que evita que o container pare de ser executado logo de
+inicio - já que não haveria processo para "prender" a execução do
+container.
+
+Ainda no arquivo `supervisord.conf` temos a configuração dos
+processos/serviços que ele vai iniciar e monitorar, esses são feitos
+pelos blocos:
+
+-   `[program:mysqld]`;
+-   `[program:httpd]`;
+
+Note que no bloco `[program:mysqld]` são passadas as seguintes opções
+respectivamente:
+
+-   `command` - comando que será executado para iniciar o serviço;
+-   `autostart` - ligar o serviço ao iniciar o container;
+-   `autorestart` - reiniciar o serviço caso ele venha parar;
+-   `user` - nome do usuário que vai executar tal serviço.
+
+O bloco `[program:httpd]`, só possui a opção `command`, que informa qual
+comando deve ser executado.
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Para mais informações a respeito das opções do
+<code>supervisor</code> acesse: <a
+href="https://supervisord.org/introduction.html"
+class="uri">https://supervisord.org/introduction.html</a></p></div></div>
+
+Após essas configurações é possível cria a imagem:
+
+``` console
+$ docker build -t wordpress .
+
+Sending build context to Docker daemon   7.68kB
+Step 1/11 : FROM ubuntu:22.04
+...
+Step 3/11 : RUN apt-get update && apt-get -y install     apache2     php     php-mysql     supervisor     wget
+...
+Step 8/11 : COPY wp-config.php /var/www/html/wp-config.php
+Step 11/11 : CMD ["/usr/bin/supervisord"]
+...
+```
+
+Depois é possível utilizar tal imagem para criar um container:
+
+``` console
+$ docker run --name wp1 -d -p 80:80 wordpress
+```
+
+Com o container em execução, é possível acessar o Wordpress que estará
+disponível na porta 80 do próprio hospedeiro (<http://127.0.0.1>), tal
+como pode ser visto na Figura 12.
+
+![Figura 12: WordPress em execução no container
+criado](imagens/wordpress1.png)
+
+Isso mostra como colocar em execução vários serviços de forma simultânea
+em um mesmo container. Todavia, uma das filosofias em torno do uso de
+container é utilizar os serviços de forma isolada, utilizando-se o
+conceito de microsserviços.
+
+## Linkando container
+
+Neste método vamos realizar a mesma tarefa feita anteriormente, ou seja,
+deixar em execução o serviço do WordPress, só que agora vamos utilizar
+dois containers, sendo esses:
+
+1.  Um exclusivo para o banco de dados, que no caso será o MYSQL;
+2.  Outro para o servidor Web, com Apache HTTP e PHP, para executar o
+    WordPress.
+
+Isso de isolar serviços diferentes em containers distintos caracteriza
+mais a ideia de microsserviço. Tal prática por exemplo, dá uma maior
+segurança aos serviços e aos dados armazenados nos containers, pois caso
+um invasor comprometa o container do WordPress, não terá necessariamente
+acesso ao container do MySQL.
+
+Para isso vamos utilizar as últimas imagens Dockers do
+[WordPress](https://hub.docker.com/_/wordpress) e do
+[MySQL](https://hub.docker.com/_/mysql), disponíveis no Docker Hub:
+
+-   Obtendo a imagem do WordPress:
+
+``` console
+$ docker pull wordpress:latest
+
+latest: Pulling from library/wordpress
+fd674058ff8f: Pulling fs layer 
+...
+Status: Downloaded newer image for wordpress:latest
+docker.io/library/wordpress:latest
+```
+
+-   Obtendo a imagem do MySQL:
+
+``` console
+$ docker pull mysql:latest
+
+latest: Pulling from library/mysql
+...
+Status: Downloaded newer image for mysql:latest
+docker.io/library/mysql:latest
+```
+
+Com as imagens já baixadas, vamos gerar os containers:
+
+-   Gerando o container para o banco de dados:
+
+``` console
+$ docker run --name my1 -e MYSQL_ROOT_PASSWORD=123mudar -e MYSQL_DATABASE=wordpress -d mysql
+```
+
+Para essa imagem são passadas duas variáveis:
+
+-   **`MYSQL_ROOT_PASSWORD=123mudar`** - essa que informa a senha para
+    para acessar o banco de dados. Neste caso o usuário é o `root` e a
+    senha é `123mudar`.
+-   **`MYSQL_DATABASE=wordpress`** - essa variável cria um banco de
+    dados chamado `wordpress`, que será justamente o banco de dados
+    utilizado pelo outro container.
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>As variáveis da Imagem Docker do MySQL podem ser vistas em: <a
+href="https://hub.docker.com/_/mysql"
+class="uri">https://hub.docker.com/_/mysql</a>.</p></div></div>
+
+É importante notar aqui que o nome deste container é `my1`, isso será
+necessário no passo a seguir.
+
+-   Gerando um container com o WordPress:
+
+``` console
+$ docker run -ti --rm --name wp1 --link my1 -p 80:80 -d wordpress
+```
+
+No exemplo anterior é gerado um container chamado `wp1`, que compartilha
+a porta 80 com o *host* hospedeiro. Principalmente para essa tarefa,
+utiliza-se a opção **`--link`** que relaciona o IP obtido
+automaticamente, via DHCP do Docker, com o nome `my1`. Assim, utilizando
+a opção `--link` é criada automaticamente, dentro do container, uma
+relação entre o nome do container e o IP obtido - isso fica armazenado
+no arquivo `/etc/hosts` do container.
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
+    <p>Nesta tarefa é importante perceber que é necessário primeiro criar o
+container do banco de dados para só depois criar a do WordPress, já que
+o último mantém uma relação/dependência com o primeiro.</p></div></div>
+
+Agora com os dois containers em execução, é possível acessar a interface
+Web fornecida pelo WordPress e terminar a configuração do WordPress com
+o banco de dados. Neste exemplo as informações necessárias podem ser
+vistas na Figura 13 (é claro que elas também estão presentes nos
+comandos anteriores).
+
+![Figura 13: Criando conexão para o banco de dados via
+WordPress](imagens/wordpress2.png)
+
+Como pode ser visto na Figura 13, o Wordpress foi configurado para
+acessar um banco de dados chamado `wordpress`, o nome do usuário do
+banco de dados é `root`, a senha é `123mudar` e o nome do
+computador/servidor/container que mantém o banco de dados é `my1`. Feito
+isso basta submeter essas informações ao WordPress, que ele vai ser
+conectar ao banco de dados e apresentar o *dashboard* para iniciar os
+trabalhos no WordPress.
+
+## Utilizando a network ao invés de linkar containers
+
+Anteriormente utilizamos a opção `--link`, para relacionar os containers
+que compartilham um mesmo serviço, mas isso é atualmente considerado
+obsoleto. Atualmente o mais recomendável é criar uma rede isolada para
+os containers que compartilham serviços. Assim, por exemplo, se alguém
+comprometer um container de uma rede não vai chegar facilmente aos
+containers de outra rede. Também o uso de rede, reduz a quantidade de
+comandos digitados via linha de comando para se criar um container, o
+que pode evitar erros. Também nesta técnica é utilizado um DNS interno
+do Docker para manter os nomes dos containers e seus respectivos IPs,
+isso ajuda também a manter a escalabilidade com ferramentas como Docker
+Compose e Docker Swarm.
+
+Então para utilizar essa nova técnica que é mais recomendável, é
+possível iniciar criando-se uma rede no Docker, tal como:
+
+``` console
+$ docker network create rede1
+```
+
+No exemplo anterior, foi criada uma rede chamada `rede1`. Agora vamos
+relacionar os containers com essa rede, tal como:
+
+``` console
+$ docker run --name my2 --network rede1 -e MYSQL_ROOT_PASSWORD=123mudar -e MYSQL_DATABASE=wordpress -d mysql
+
+$ docker run -ti --rm --name wp2 --network rede1 -p 81:80 -d wordpress
+```
+
+Nas linhas anteriores foram, criados respectivamente um container para o
+MySQL e outro para o WordPress e eles conseguem se acessar via nome.
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
+    <p>É importante notar que no exemplo com <code>--link</code> o container
+do MySQL não conseguiria acessar por nome o container do WordPress (não
+havia esse relacionamento). Também agora se for criado um terceiro
+container, na rede <code>rede1</code>, ele saberá acessar esses dois
+containers pelo nome e o contrário também.</p></div></div>
+
+A Figura 14 apresenta como fica a configuração do WordPress para acessar
+o banco de dados nesta nova configuração, utilizando o `network`.
+
+![Figura 14: Conexão do WordPress com o banco de dados utilizando
+network](imagens/wordpress3.png)
+
+Como pode-ser ver na Figura 14, para o WordPress basicamente não há
+diferença entre acessar via `--link` ou via `--network`, mas os
+benefícios do segundo método são reais e portanto esse método deve ser
+priorizado.
+
+O Capítulo 5 apresenta mais informações a respeito da rede Docker.
+
+## Utilizando Docker Compose
+
+Até agora fizemos todas as configurações via linha de comando, mas há
+ferramentas que auxiliam na criação e gerenciamento dos containers, uma
+delas é o [Docker Compose](https://docs.docker.com/compose/).
+
+O Docker Compose é uma ferramenta que permite definir, criar e gerenciar
+múltiplos containers Docker. Para isso o Docker Compose utiliza um
+arquivo de configuração chamado `docker-compose.yml`, para determinar os
+serviços, redes, armazenamento, variáveis, etc. Ou seja, o arquivo
+declara tudo que é necessário para compor o container ou múltiplos
+containers, o que pode facilitar a manutenção e automação,
+principalmente em ambientes complexos.
+
+Para utilizar o Docker Compose, é necessário primeiramente instalá-lo,
+tal como:
+
+``` console
+$ yay -S docker-compose
+Sync Explicit (1): docker-compose-2.32.1-1
+...
+Tamanho total download:   12,71 MiB
+Tamanho total instalado:  54,71 MiB
+...
+```
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Anteriormente foi utilizado o exemplo de instalação do Arch Linux,
+mas isso pode ser feito com outro gerenciador de pacote, tal como
+<code>apt</code>, se a distribuição Linux for outra.</p></div></div>
+
+Para entender o básico do Docker Compose, vamos continuar com o exemplo
+anterior do WordPress, só que agora gerenciando tal ambiente via Docker
+Compose. Então para isso começamos criando o arquivo
+`docker-compose.yml`, com o seguinte conteúdo:
+
+``` console
+services:
+  app:
+    image: wordpress
+    networks:
+      - rede2
+    ports:
+      - "82:80"
+  db:
+    image: mysql
+    networks:
+      - rede2
+    environment:
+      MYSQL_ROOT_PASSWORD: 123mudar
+      MYSQL_DATABASE: wordpress
+
+networks:
+  rede2:
+```
+
+A ideia do arquivo YAML é que ele seja intuitivo, mas de forma geral tal
+arquivo do Docker Compose é composto das seguintes seções:
+
+-   **`services`** - Define os containers que compõem a aplicação, sendo
+    que cada serviço/container pode ter várias configurações, tais como:
+    -   `image` - Imagem Docker que será utilizada;
+    -   `build` - Caminho para construir uma imagem Docker
+        personalizada;
+    -   `ports` - Mapeia portas entre os container e o hospedeiro;
+    -   `environment` - Define variáveis de ambiente para o container;
+    -   `volumes` - Monta volumes para persistência de dados;
+    -   `networks` - Conecta o container a uma ou mais redes;
+    -   `depends_on` - Define dependências de outros serviços;
+    -   `command` - Substitui o comando padrão executado no container.
+-   **`networks`** - Define as redes para os containers;
+-   **`configs`** - É opcional e permite gerenciar configurações
+    especiais, como arquivos ou informações sensíveis;
+-   **`secrets`** - É opcional e dados que devem ser mantidos sob
+    segredo, tais como senhas.
+
+Há mais opções para o Docker Compose, mas não é intenção deste material
+contemplar todas essas, para isso busque materiais como livros ou acesse
+<https://docs.docker.com/compose/>.
+
+Apresentadas as opções mais comuns de um arquivo Docker Compose, é
+possível notar que o arquivo `docker-compose.yml` anterior tem dois
+containers, sendo um chamado `app` e outro chamado `db`, também há uma
+rede chamada `rede2`. Os containers estão configurados da seguintes
+forma:
+
+-   O container `app`, tem como imagem o WordPress, está conectado à
+    rede `rede2` e compartilha a porta 80 com o hospedeiro;
+-   O container `db`, tem como imagem o MySQL, também está conectado à
+    `rede2` e utiliza de variáveis para configurar a senha do `root` e
+    cria um banco de dados chamado `wordpress`.
+
+Com o arquivo `docker-container.yml` pronto, agora basta iniciar
+ambiente com o Docker Compose, tal como:
+
+``` console
+$ docker-compose up
+
+[+] Running 3/3
+ * Network dockercompose_rede2    Created                                                                                         0.1s 
+ * Container dockercompose-db-1   Created                                                                                         0.1s 
+ * Container dockercompose-app-1  Created
+ ...
+ app-1  | 172.19.0.1 - - [06/Jan/2025:23:00:06 +0000] "GET /wp-admin/load-scripts.php?c=0&load%5Bchunk_0%5D=clipboard,jquery-core,jquery-migrate,zxcvbn-async,wp-hooks&ver=6.7.1 HTTP/1.1" 200 39121 "http://127.0.0.1:82/wp-login.php" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+app-1  | 172.19.0.1 - - [06/Jan/2025:23:00:10 +0000] "POST /wp-login.php HTTP/1.1" 200 2391 "http://127.0.0.1:82/wp-login.php" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+app-1  | 127.0.0.1 - - [06/Jan/2025:23:00:18 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.62 (Debian) PHP/8.2.27 (internal dummy connection)"
+```
+
+Então, tal como apresentado anteriormente, o comando `docker-compose up`
+é utilizado para iniciar o ambiente configurado no arquivo Docker
+Compose. Note na saída anterior, que ele apresenta a criação dos
+componentes do ambiente (containers e rede) e depois ele continua
+apresentando as saídas/*logs* dos containers criados, inclusive por
+padrão o Docker Compose deixará o terminal preso com a sua execução.
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Se for necessário parar o Docker Compose, basta pressionar
+<code>Ctrl+C</code>.</p></div></div>
+
+Como dito anteriormente não intenção desse material cobrir tudo que há a
+respeito do Docker Compose, mas as principais opções desse são:
+
+-   **`up`** - Inicia todos os serviços definidos no arquivo
+    `docker-compose.yml`. Neste, no modo padrão exibe o os *logs* dos
+    containers no terminal do hospedeiro. Utilizando a opção `-d`
+    (*detached*), executa em segundo plano;
+-   **`down`** - Encerra todos os serviços e remove os containers,
+    redes, etc criados pelo `up`;
+-   **`start`** - Inicia container previamente criados e que estejam
+    parados (apenas reinicia, sem criá-los);
+-   **`stop`** - Para temporariamente os containers em execução, mas sem
+    removê-los, depois é possível reiniciá-los com o `start`;
+-   **`restart`** - Reinicia os containers;
+-   **`ps`** - Exibe o status dos containers;
+-   **`logs`** - Exibe os *logs* dos serviços gerenciados pelo Docker
+    Compose, por exemplo, `docker-compose logs db`, mostrá os *logs* do
+    container chamado `db`;
+-   **`exec`** - Executa um comando em um container que já está ativo.
+    Exemplo: `docker-compose exec db bash`, neste caso executa um `bash`
+    no container chamado `db`;
+-   **`config`** - Valida e exibe o conteúdo do arquivo
+    `docker-compose.yml`;
+-   **`build`** - Constrói as imagens Docker para os serviços definidos
+    com a diretiva `build`. Recria imagens quando o código-fonte ou
+    Dockerfile é alterado;
+-   **`rm`** - Remove containers parados, a ideia é remover containers
+    antigos sem afetar os volumes de armazenamento ou redes.
+
+Bem, com o ambiente em execução via Docker Compose, agora é possível
+acessar o WordPress via hospedeiro através da porta 82 e configurar a
+conexão como banco de dados, tal como mostra a Figura 15.
+
+![Figura 15: Conexão do WordPress com o banco de dados utilizando Docker
+Compose](imagens/wordpress4.png)
+
+O Docker Compose é muito mais poderoso do que foi apresentado aqui, a
+ideia deste texto é apenas mostrar o seu funcionamento básico. Todavia,
+quem for gerenciar ambientes complexos deve ir mais a fundo neste tipo
+de ferramenta, pois isso pode trazer benefícios tais como a redução da
+complexidade em manter múltiplos serviços utilizando-se vários
+containers.
+
+# Rede Docker 
 
 O modelo de rede utilizado pelo Docker parece inicialmente mágica, pois
 é só ligar um container, que este vai estar conectado à rede e
 provavelmente à Internet.
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>A rede padrão Docker vai dar acesso à qualquer rede que o
 <em>host</em> hospedeiro estiver conectado, inclusive à Internet.
 Todavia, é importante perceber que o container não vai acessar, por
@@ -3184,26 +3726,28 @@ mesma.</p></div></div>
 No geral, a maioria das pessoas não vão precisar alterar as
 configurações padrão das redes Docker, mas para o administrador é bom
 saber como funciona a rede Docker, pois existem casos em que será
-necessário alterar tal rede para atender os requisitos do cliente.
+necessário alterar tal rede, para atender os requisitos do cliente.
 
-Normalmente a rede Docker funciona através de uma placa rede virtual no
-modo *bridge* (Linux network *bridge*), tal placa virtual é geralmente
-identificada no *host* hospedeiro como sendo a placa de rede chamada de
-`docker0`. Tal placa de rede normalmente estará provavelmente com uma
-faixa de rede como: 172.17.0.0/16, ou alguma rede privada similar. A
-Figura 12 mostra mais ou menos como é a arquitetura de uma rede Docker.
+Geralmente a rede Docker funciona através de uma placa de rede virtual
+no modo *bridge* (Linux network *bridge*), tal placa virtual é
+normalmente identificada no *host* hospedeiro como sendo a placa de rede
+chamada de `docker0`. Tal placa de rede comumente estará provavelmente
+com uma faixa de rede como: 172.17.0.0/16, ou alguma rede privada
+similar. A Figura 16 mostra mais ou menos como é a arquitetura de uma
+rede Docker.
 
-![Figura 12: Arquitetura da rede
+![Figura 16: Arquitetura da rede
 Docker](imagens/redeDockerArquitetura.svg)
 
-Analisando a Figura 12, observe que o *host* hospedeiro possui uma placa
+Analisando a Figura 16, observe que o *host* hospedeiro possui uma placa
 de rede que lhe conecta ao mundo externo, neste caso ela é representada
 pelo `eth0` com o IP 200.0.0.1, mas poderiam haver mais placas de redes
 no hospedeiro. Interligada à essa placa de rede física, temos a *bridge*
 Docker, chamada de `docker0`. Tal *bridge* está conectada às placas de
 rede Ethernets virtuais, chamadas de `veth`, que por sua vez estão
-ligadas às placas de redes `eth0`, que estão dentro do container. No
-cenário da Figura 12, a rede Docker tem o IP de rede 172.17.0.0/16,
+ligadas às placas de redes `eth0`, que estão dentro do container.
+
+No cenário da Figura 16, a rede Docker tem o IP de rede 172.17.0.0/16,
 dentro dessa faixa, cada placa de rede do container receberá um IP, tal
 como: `docker0` - 172.17.0.1, `eth0` do container A 172.17.0.2, `eth0`
 do container B 172.17.0.3.
@@ -3252,12 +3796,12 @@ vetha7892f9: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ```
 
 Na saída do *host* anterior, no lugar da `eth0` temos a `wlp3s0`, que é
-a placa física que dá acesso a outras redes, tai como a Internet. A
+a placa física que dá acesso a outras redes, tais como a Internet. A
 placa de rede `docker0` com o IP 172.17.0.1, que simboliza a *bridge*
 Docker. Também temos duas placas `veth`, que são: `veth2252825` e
 `vetha7892f9`, tais placas não possuem IPs, pois os IPs são atribuídos
 às placas de rede que estão dentro do container (neste caso temos dois
-containers em execução), similar à Figura 12.
+containers em execução), similar à Figura 16.
 
 As placas de rede `veth` e sua relação com a `docker0` podem ser melhor
 vistas com o comando `brctl`, tal como:
@@ -3269,12 +3813,13 @@ docker0      8000.0242ad356161  no           veth2252825
                                              vetha7892f9
 ```
 
-Assim, quando um container é criando, o Docker cria uma placa `veth` e
+Assim, quando um container é criado, o Docker cria uma placa `veth` e
 relaciona essa com a `docker0`, feito isso é dado ao container um IP
 dentro da faixa de rede utilizada pela rede Docker, bem como é inserido
 no container o IP do *gateway* padrão e do servidor DNS. Ao fim, o
-container terá capacidade de acessar outras redes - é claro se o *host*
-hospedeiro tiver acesso a outras redes, tal como a Internet.
+container terá capacidade de acessar outras redes - é claro que tal
+acesso só será possível, se o *host* hospedeiro tiver acesso a outras
+redes, tal como a Internet.
 
 É importante saber, que para um container acessar outras redes, o *host*
 hospedeiro deve funcionar como um roteador, ou seja o arquivo
@@ -3302,10 +3847,13 @@ apresentadas nas subseções a seguir.
 Com o `inspect` do Docker é possível procurar no JSON pelas
 configurações de redes e chegar no IP, tal como:
 
-`$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' server1 172.17.0.2`
+``` console
+$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' server1
+172.17.0.2
+```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Estamos utilizando os containers criados na seção anterior.</p></div></div>
 
 ### Utilizando o `exec`
@@ -3373,6 +3921,14 @@ $ docker exec server1 cat /etc/resolv.conf
 nameserver 192.168.1.1
 ```
 
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
+    <p>É importante perceber que para utilizar comandos como
+<code>ifconfig</code>, <code>route</code> ou <code>ip</code> é
+necessário que tal comando esteja presente dentro do container, e é bem
+comum que o container não tenha por padrão tais comandos. Então, neste
+caso pode ser necessário instalar esses comandos.</p></div></div>
+
 ### Utilizando o `nsenter`
 
 Outra ferramenta bem útil para ver IPs dos containers, bem como realizar
@@ -3406,19 +3962,15 @@ $ sudo nsenter -t 18522 --net ip address
        valid_lft forever preferred_lft forever
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
-    </div></div>
-
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/important.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
-    <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
     <p>O <code>nsenter</code> permite executar comando que estão no
 <em>host</em> hospedeiro e não estão no container. Por exemplo, o
 comando <code>ip</code> não está instalado no container, mas está
 instalado no <em>host</em> hospedeiro, então esse será executado do
 hospedeiro no <em>namespace</em> do container, e por isso o comando
-funcionará. Por isso, é bem interessante que o administrador pesquise e
-saiba como utilizar o <code>nsenter</code>.</p></div></div>
+funcionará. Desta forma, é bem interessante que o administrador pesquise
+e saiba como utilizar o <code>nsenter</code>.</p></div></div>
 
 ## Descobrindo portas publicadas ou abertas nos containers
 
@@ -3433,6 +3985,11 @@ CONTAINER ID   IMAGE           COMMAND                  CREATED        STATUS   
 dd0de51f4289   servidor/http   "/sbin/startServer.sh"   12 hours ago   Up 12 hours   0.0.0.0:82->8080/tcp, :::82->8080/tcp   server1
 ```
 
+A opção `ps` do próprio Docker apresenta as portas expostas, no exemplo
+anterior, temos a porta TCP/8080 do container sendo exposta através da
+porta TCP/82 do *host* hospedeiro, tanto via IPv4, quanto IPv6
+(`0.0.0.0:82->8080/tcp, :::82->8080/tcp`).
+
 -   Executando `iptables` no *host* hospedeiro:
 
 ``` console
@@ -3444,6 +4001,12 @@ RETURN     0    --  0.0.0.0/0            0.0.0.0/0
 DNAT       6    --  0.0.0.0/0            0.0.0.0/0            tcp dpt:82 to:172.17.0.2:8080
 ```
 
+Na verdade é o `iptables` que realmente relaciona a porta do container
+com o *host* hospedeiro, isso é feito através da função NAT do
+`iptables`, mais especificamente através do DNAT (Destination NAT - que
+é responsável pelo redirecionamento no `iptables`) tal como pode ser
+vista na última linha da saída anterior.
+
 -   Procurando com o comando `ps` no *host* hospedeiro:
 
 ``` console
@@ -3453,12 +4016,24 @@ root       18481     773  0 Sep17 ?        00:00:00 /usr/bin/docker-proxy -proto
 luiz       20905    5325  0 11:25 pts/1    00:00:00 grep docker-proxy
 ```
 
+Também é possível verificar as portas utilizando o comando `ps -ef` no
+próprio *host* hospedeiro, tal busca fica mais fácil procurando pela
+palavra `docker-proxy`. Como pode ser visto na saída anterior, é
+possível identificar a relação da porta 8080 do container com a porta 82
+do *host*.
+
 -   Inspecionando:
 
 ``` console
 $ docker inspect --format '{{ .HostConfig.PortBindings }}' server1
 map[8080/tcp:[{ 82}]]
 ```
+
+Tal relação de porta de rede container/*host*, também pode ser obtida
+via objeto JSON utilizando o `docker inspect`, isso pode ser bem útil se
+tal informação precisar ser processada por um programa, por exemplo,
+pois é mais fácil navegar via programa em objetos tipo JSON do que
+analisando saídas de comandos não tão estruturados.
 
 -   Verificando os serviços de rede disponíveis no container com o
     `netstat` ou `ss`:
@@ -3472,12 +4047,23 @@ tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      
 tcp6       0      0 :::22                   :::*                    LISTEN      9/sshd: /sbin/sshd
 ```
 
+Outra possibilidade de verificar as portas expostas, é utilizando o
+comando `netstat` ou `ss` no próprio container, isso pode ser feito, por
+exemplo com a opção `docker exec`. Note que para isso é necessário ter
+tais comandos (`netstat` ou `ss`) instalado no container.
+
+Desta forma há várias opções disponíveis para ver a relação entre portas
+expostas do container com o *host* hospedeira, escolher uma delas pode
+ser mais uma questão de gosto, a não ser que tal informação precise ser
+processada por um programa, ai talvez a melhor escolha seja o
+`docker inspect` que retorna um objeto JSON.
+
 ## Testando a conectividade entre containers
 
-Há várias formas para se testar a conectividade. Po exemplo, dá para
-utilizar o `exec` para executar comandos como o `ping`, mas a seguir
-vamos executar um `bash`, instalar o `ping` e realizar o teste de dentro
-do container:
+Há várias formas para testar a conectividade dos containers com as
+redes. Por exemplo, dá para utilizar o `exec` para executar comandos
+como o `ping`. A seguir vamos executar um `bash`, instalar o `ping` e
+realizar o teste de dentro do container:
 
 ``` console
 [luiz@fielDell env]$ docker exec -ti server2 bash
@@ -3498,8 +4084,19 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 64 bytes from 172.17.0.2: icmp_seq=5 ttl=64 time=0.056 ms
 ```
 
-Também seria possível utilizar o `telnet` para analisar várias portas,
-dentre outros softwares.
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Lembrando que o comando <code>ping</code> não está presente em muitos
+containers, então pode ser necessário instalá-lo. Também é possível
+utilizar o <code>--network</code> para poder “pingar” os containers via
+nome, o que seria mais fácil.</p></div></div>
+
+Outra técnica aqui seria "pingar" do *host* hospedeiro para os
+containers. Também é possível fazer uso do `nmap -sP` passando o IP da
+rede ou *hosts* para identificar os containers ativos na rede.
+
+Também seria possível utilizar o `telnet` ou melhor ainda o `nmap` para
+analisar várias portas/softwares de rede.
 
 ## Criando container sem interface de rede
 
@@ -3588,7 +4185,7 @@ Entretanto podem existir momentos em que é necessário uma nova rede,
 para por exemplo por motivo de segurança isolar um conjunto de
 containers de outros, etc.
 
-Para criar uma rede docker, podemos utilizar o `docker network create`
+Para criar uma rede Docker, podemos utilizar o `docker network create`
 seguido do nome da nova rede, tal como:
 
 ``` console
@@ -3633,7 +4230,7 @@ $ docker network inspect redeDocker
 ]
 ```
 
-Na saída anterior, observe que essa rede tem o IP 172.18.0.0/26 e o
+Na saída anterior, observe que essa rede tem o IP 172.18.0.0/16 e o
 *gateway*, que o *host* hospedeiro, tem o IP 172.18.0.1. Também é
 possível ver essa nova rede com o comando `docker network ls`, veja a
 seguir:
@@ -3656,8 +4253,8 @@ Observe que na listagem anterior, temos os seguintes nomes de redes:
 -   **`none`**: Utilizado para configurar um container sem rede, tal
     como já foi feito com a opção `--net=none`;
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
     <p>Observe também os <em>drivers</em> da listagem anterior, eles
 refletem a função de cada rede. Também é possível instalar e utilizar
 outros <em>drivers</em> e obter redes diferentes, por exemplo.</p></div></div>
@@ -3701,9 +4298,9 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 79 packets transmitted, 0 received, 100% packet loss, time 79037ms
 ```
 
-<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/img/note.svg" alt="Atenção" style="width: 50px; height: 50px;"></div>
- <div>
-    <p>Note que foi necessário instalar o <code>iputlis</code> para utilizar
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Note que foi necessário instalar o <code>iputils</code> para utilizar
 o comando <code>ping</code>, através do pacote <code>iputils</code>.</p></div></div>
 
 A saída anterior, mostra que não há conectividade entre o container da
@@ -3788,3 +4385,6 @@ que uma rede Docker.
 
 TURBULL, James. **The Docker Book: Containerization is the New
 Virtualization**. \[s.l.\]: James Turnbull, 2014.
+
+Goasguen, S. **Docker Cookbook: Solutions and Examples for Building
+Distributed Applications**. O'Reilly Media, 2015.

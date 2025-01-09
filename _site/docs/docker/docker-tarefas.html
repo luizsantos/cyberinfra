@@ -1177,7 +1177,23 @@ HOME=/root
 <p>As variáveis podem ser muito úteis para criar configurações mais
 dinâmicas e personalizadas.</p>
 
+<h2 id="utilizando-o-supervisor">Utilizando o <code class="language-plaintext highlighter-rouge">supervisor</code></h2>
+
+<p>Como pode ser observado anteriormente, pode ser uma tarefa relativamente complicada colocar vários serviços em execução simultaneamente em um container. Assim, uma forma de facilitar e isso é utilizando-se o <code class="language-plaintext highlighter-rouge">supervisor</code>.</p>
+
+<p>O <code class="language-plaintext highlighter-rouge">supervisor</code>, na verdade permite orquestrar e gerenciar múltiplos containers utilizando um arquivo de configuração (<code class="language-plaintext highlighter-rouge">docker-compose.yml</code>), no qual são definidos serviços e outras configurações de containers. Todavia, mesmo que não seja muito recomendável, o <code class="language-plaintext highlighter-rouge">supervisord</code>, pode ser utilizado para iniciar e monitorar processos dentro de containers.</p>
+
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;" /></div>
+    <div class="note">
+    <p>O mais recomendável é utilizar containers no estilo microsserviço e não apenas um container mantendo todos os serviços. <code>ENV</code>.</p></div></div>
+
+<p>Assim, neste exemplo vamos ver o uso do <code class="language-plaintext highlighter-rouge">supervisor</code> para controlar serviços e não orquestrar containers. Para isso vamos utilizar como base os exemplos apresentados no livro <a href="https://www.amazon.com.br/Docker-Cookbook-S-Goasguen/dp/149191971X">Docker Cookbook</a>.</p>
+
 <p>O texto <a href="docker-rede">Rede</a> apresenta as principais características das redes Docker.</p>
+
+<ul>
+  <li></li>
+</ul>
 
 </article>
       </section>

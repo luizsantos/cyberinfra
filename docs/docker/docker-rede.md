@@ -2,7 +2,7 @@
 layout: page
 ---
 
-# Rede
+# Rede Docker 
 
 O modelo de rede utilizado pelo Docker parece inicialmente mágica, pois
 é só ligar um container, que este vai estar conectado à rede e
@@ -19,26 +19,28 @@ mesma.</p></div></div>
 No geral, a maioria das pessoas não vão precisar alterar as
 configurações padrão das redes Docker, mas para o administrador é bom
 saber como funciona a rede Docker, pois existem casos em que será
-necessário alterar tal rede para atender os requisitos do cliente.
+necessário alterar tal rede, para atender os requisitos do cliente.
 
-Normalmente a rede Docker funciona através de uma placa rede virtual no
-modo *bridge* (Linux network *bridge*), tal placa virtual é geralmente
-identificada no *host* hospedeiro como sendo a placa de rede chamada de
-`docker0`. Tal placa de rede normalmente estará provavelmente com uma
-faixa de rede como: 172.17.0.0/16, ou alguma rede privada similar. A
-Figura 12 mostra mais ou menos como é a arquitetura de uma rede Docker.
+Geralmente a rede Docker funciona através de uma placa de rede virtual
+no modo *bridge* (Linux network *bridge*), tal placa virtual é
+normalmente identificada no *host* hospedeiro como sendo a placa de rede
+chamada de `docker0`. Tal placa de rede comumente estará provavelmente
+com uma faixa de rede como: 172.17.0.0/16, ou alguma rede privada
+similar. A Figura 16 mostra mais ou menos como é a arquitetura de uma
+rede Docker.
 
-![Figura 12: Arquitetura da rede
+![Figura 16: Arquitetura da rede
 Docker](imagens/redeDockerArquitetura.svg)
 
-Analisando a Figura 12, observe que o *host* hospedeiro possui uma placa
+Analisando a Figura 16, observe que o *host* hospedeiro possui uma placa
 de rede que lhe conecta ao mundo externo, neste caso ela é representada
 pelo `eth0` com o IP 200.0.0.1, mas poderiam haver mais placas de redes
 no hospedeiro. Interligada à essa placa de rede física, temos a *bridge*
 Docker, chamada de `docker0`. Tal *bridge* está conectada às placas de
 rede Ethernets virtuais, chamadas de `veth`, que por sua vez estão
-ligadas às placas de redes `eth0`, que estão dentro do container. No
-cenário da Figura 12, a rede Docker tem o IP de rede 172.17.0.0/16,
+ligadas às placas de redes `eth0`, que estão dentro do container.
+
+No cenário da Figura 16, a rede Docker tem o IP de rede 172.17.0.0/16,
 dentro dessa faixa, cada placa de rede do container receberá um IP, tal
 como: `docker0` - 172.17.0.1, `eth0` do container A 172.17.0.2, `eth0`
 do container B 172.17.0.3.
@@ -87,12 +89,12 @@ vetha7892f9: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ```
 
 Na saída do *host* anterior, no lugar da `eth0` temos a `wlp3s0`, que é
-a placa física que dá acesso a outras redes, tai como a Internet. A
+a placa física que dá acesso a outras redes, tais como a Internet. A
 placa de rede `docker0` com o IP 172.17.0.1, que simboliza a *bridge*
 Docker. Também temos duas placas `veth`, que são: `veth2252825` e
 `vetha7892f9`, tais placas não possuem IPs, pois os IPs são atribuídos
 às placas de rede que estão dentro do container (neste caso temos dois
-containers em execução), similar à Figura 12.
+containers em execução), similar à Figura 16.
 
 As placas de rede `veth` e sua relação com a `docker0` podem ser melhor
 vistas com o comando `brctl`, tal como:
@@ -104,12 +106,13 @@ docker0      8000.0242ad356161  no           veth2252825
                                              vetha7892f9
 ```
 
-Assim, quando um container é criando, o Docker cria uma placa `veth` e
+Assim, quando um container é criado, o Docker cria uma placa `veth` e
 relaciona essa com a `docker0`, feito isso é dado ao container um IP
 dentro da faixa de rede utilizada pela rede Docker, bem como é inserido
 no container o IP do *gateway* padrão e do servidor DNS. Ao fim, o
-container terá capacidade de acessar outras redes - é claro se o *host*
-hospedeiro tiver acesso a outras redes, tal como a Internet.
+container terá capacidade de acessar outras redes - é claro que tal
+acesso só será possível, se o *host* hospedeiro tiver acesso a outras
+redes, tal como a Internet.
 
 É importante saber, que para um container acessar outras redes, o *host*
 hospedeiro deve funcionar como um roteador, ou seja o arquivo
@@ -137,7 +140,10 @@ apresentadas nas subseções a seguir.
 Com o `inspect` do Docker é possível procurar no JSON pelas
 configurações de redes e chegar no IP, tal como:
 
-`$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' server1 172.17.0.2`
+``` console
+$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' server1
+172.17.0.2
+```
 
 <div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
  <div class="note">
@@ -208,6 +214,14 @@ $ docker exec server1 cat /etc/resolv.conf
 nameserver 192.168.1.1
 ```
 
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/important.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+    <div class="note">
+    <p>É importante perceber que para utilizar comandos como
+<code>ifconfig</code>, <code>route</code> ou <code>ip</code> é
+necessário que tal comando esteja presente dentro do container, e é bem
+comum que o container não tenha por padrão tais comandos. Então, neste
+caso pode ser necessário instalar esses comandos.</p></div></div>
+
 ### Utilizando o `nsenter`
 
 Outra ferramenta bem útil para ver IPs dos containers, bem como realizar
@@ -248,8 +262,8 @@ $ sudo nsenter -t 18522 --net ip address
 comando <code>ip</code> não está instalado no container, mas está
 instalado no <em>host</em> hospedeiro, então esse será executado do
 hospedeiro no <em>namespace</em> do container, e por isso o comando
-funcionará. Por isso, é bem interessante que o administrador pesquise e
-saiba como utilizar o <code>nsenter</code>.</p></div></div>
+funcionará. Desta forma, é bem interessante que o administrador pesquise
+e saiba como utilizar o <code>nsenter</code>.</p></div></div>
 
 ## Descobrindo portas publicadas ou abertas nos containers
 
@@ -264,6 +278,11 @@ CONTAINER ID   IMAGE           COMMAND                  CREATED        STATUS   
 dd0de51f4289   servidor/http   "/sbin/startServer.sh"   12 hours ago   Up 12 hours   0.0.0.0:82->8080/tcp, :::82->8080/tcp   server1
 ```
 
+A opção `ps` do próprio Docker apresenta as portas expostas, no exemplo
+anterior, temos a porta TCP/8080 do container sendo exposta através da
+porta TCP/82 do *host* hospedeiro, tanto via IPv4, quanto IPv6
+(`0.0.0.0:82->8080/tcp, :::82->8080/tcp`).
+
 -   Executando `iptables` no *host* hospedeiro:
 
 ``` console
@@ -275,6 +294,12 @@ RETURN     0    --  0.0.0.0/0            0.0.0.0/0
 DNAT       6    --  0.0.0.0/0            0.0.0.0/0            tcp dpt:82 to:172.17.0.2:8080
 ```
 
+Na verdade é o `iptables` que realmente relaciona a porta do container
+com o *host* hospedeiro, isso é feito através da função NAT do
+`iptables`, mais especificamente através do DNAT (Destination NAT - que
+é responsável pelo redirecionamento no `iptables`) tal como pode ser
+vista na última linha da saída anterior.
+
 -   Procurando com o comando `ps` no *host* hospedeiro:
 
 ``` console
@@ -284,12 +309,24 @@ root       18481     773  0 Sep17 ?        00:00:00 /usr/bin/docker-proxy -proto
 luiz       20905    5325  0 11:25 pts/1    00:00:00 grep docker-proxy
 ```
 
+Também é possível verificar as portas utilizando o comando `ps -ef` no
+próprio *host* hospedeiro, tal busca fica mais fácil procurando pela
+palavra `docker-proxy`. Como pode ser visto na saída anterior, é
+possível identificar a relação da porta 8080 do container com a porta 82
+do *host*.
+
 -   Inspecionando:
 
 ``` console
 $ docker inspect --format '{{ .HostConfig.PortBindings }}' server1
 map[8080/tcp:[{ 82}]]
 ```
+
+Tal relação de porta de rede container/*host*, também pode ser obtida
+via objeto JSON utilizando o `docker inspect`, isso pode ser bem útil se
+tal informação precisar ser processada por um programa, por exemplo,
+pois é mais fácil navegar via programa em objetos tipo JSON do que
+analisando saídas de comandos não tão estruturados.
 
 -   Verificando os serviços de rede disponíveis no container com o
     `netstat` ou `ss`:
@@ -303,12 +340,23 @@ tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      
 tcp6       0      0 :::22                   :::*                    LISTEN      9/sshd: /sbin/sshd
 ```
 
+Outra possibilidade de verificar as portas expostas, é utilizando o
+comando `netstat` ou `ss` no próprio container, isso pode ser feito, por
+exemplo com a opção `docker exec`. Note que para isso é necessário ter
+tais comandos (`netstat` ou `ss`) instalado no container.
+
+Desta forma há várias opções disponíveis para ver a relação entre portas
+expostas do container com o *host* hospedeira, escolher uma delas pode
+ser mais uma questão de gosto, a não ser que tal informação precise ser
+processada por um programa, ai talvez a melhor escolha seja o
+`docker inspect` que retorna um objeto JSON.
+
 ## Testando a conectividade entre containers
 
-Há várias formas para se testar a conectividade. Po exemplo, dá para
-utilizar o `exec` para executar comandos como o `ping`, mas a seguir
-vamos executar um `bash`, instalar o `ping` e realizar o teste de dentro
-do container:
+Há várias formas para testar a conectividade dos containers com as
+redes. Por exemplo, dá para utilizar o `exec` para executar comandos
+como o `ping`. A seguir vamos executar um `bash`, instalar o `ping` e
+realizar o teste de dentro do container:
 
 ``` console
 [luiz@fielDell env]$ docker exec -ti server2 bash
@@ -329,8 +377,19 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 64 bytes from 172.17.0.2: icmp_seq=5 ttl=64 time=0.056 ms
 ```
 
-Também seria possível utilizar o `telnet` para analisar várias portas,
-dentre outros softwares.
+<div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
+ <div class="note">
+    <p>Lembrando que o comando <code>ping</code> não está presente em muitos
+containers, então pode ser necessário instalá-lo. Também é possível
+utilizar o <code>--network</code> para poder “pingar” os containers via
+nome, o que seria mais fácil.</p></div></div>
+
+Outra técnica aqui seria "pingar" do *host* hospedeiro para os
+containers. Também é possível fazer uso do `nmap -sP` passando o IP da
+rede ou *hosts* para identificar os containers ativos na rede.
+
+Também seria possível utilizar o `telnet` ou melhor ainda o `nmap` para
+analisar várias portas/softwares de rede.
 
 ## Criando container sem interface de rede
 
@@ -419,7 +478,7 @@ Entretanto podem existir momentos em que é necessário uma nova rede,
 para por exemplo por motivo de segurança isolar um conjunto de
 containers de outros, etc.
 
-Para criar uma rede docker, podemos utilizar o `docker network create`
+Para criar uma rede Docker, podemos utilizar o `docker network create`
 seguido do nome da nova rede, tal como:
 
 ``` console
@@ -464,7 +523,7 @@ $ docker network inspect redeDocker
 ]
 ```
 
-Na saída anterior, observe que essa rede tem o IP 172.18.0.0/26 e o
+Na saída anterior, observe que essa rede tem o IP 172.18.0.0/16 e o
 *gateway*, que o *host* hospedeiro, tem o IP 172.18.0.1. Também é
 possível ver essa nova rede com o comando `docker network ls`, veja a
 seguir:
@@ -534,7 +593,7 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 
 <div style="display: flex; align-items: center; border: 1px solid black; padding: 10px; border-radius: 5px; background-color: #333333; color: white; gap: 15px;"><div style="flex-shrink: 0;"><img src="/cyberinfra/img/note.svg" alt="Atenção" style="width: 35px; height: 35px;"></div>
  <div class="note">
-    <p>Note que foi necessário instalar o <code>iputlis</code> para utilizar
+    <p>Note que foi necessário instalar o <code>iputils</code> para utilizar
 o comando <code>ping</code>, através do pacote <code>iputils</code>.</p></div></div>
 
 A saída anterior, mostra que não há conectividade entre o container da
@@ -613,7 +672,12 @@ padrão do Docker, pela interface `eth0`. Note que isso abre várias
 possibilidades, tal como um container que pode prover serviço para mais
 que uma rede Docker.
 
+# Conclusão
+
 # Bibliografia
 
 TURBULL, James. **The Docker Book: Containerization is the New
 Virtualization**. \[s.l.\]: James Turnbull, 2014.
+
+Goasguen, S. **Docker Cookbook: Solutions and Examples for Building
+Distributed Applications**. O'Reilly Media, 2015.
