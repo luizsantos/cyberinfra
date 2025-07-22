@@ -60,6 +60,9 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 		* [eBGP](cisco/bgp-egp1)
 		* [iBGP](cisco/bgp-igp1)
 
+* Mikrotik
+	* [Configuração de rede básica](mikrotik/confRede)
+
 * Juniper
 	* [Configuração básica dos roteadores](juniper/router)
 
