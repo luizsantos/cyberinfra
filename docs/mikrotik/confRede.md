@@ -2,22 +2,102 @@
 layout: page
 ---
 
-Este material mostrará a configuração básica de uma rede com dois roteadores Mikrotik. Sendo esses os ``router-MTk-1`` e ``router-MTk-2`` da f
+Este material mostrará a configuração básica de uma rede com dois roteadores Mikrotik. Sendo esses os ``router-MTk-1`` e ``router-MTk-2``, tais roteadores terão suas interfaces de rede configuradas, utilizarão o OSPF para compartilhamento de rotas e também será feito o uso de NAT em um dos roteadores. A Figura 1, a seguir apresenta o cenário de rede proposto para tal prática.
 
 | ![rede](imagens/rede.png) |
 |:--:|
 | Figura 1 - Cenário de rede do Exemplo de configuração com Mikrotik
 
+O cenário de Rede apresentado na Figura 1, foi implementado no **GNS3** e representa uma rede com segmentação por VLANs e roteamento inter-redes utilizando roteadores **Cisco** e **MikroTik (v17.1)**. Os **hosts finais** são computadores com **Debian Linux**, e todos os switches são **Cisco**.
+
+## Topologia Geral da Rede
+
+* As LANs  são compostas por quatro redes:
+
+  * **LAN1 (VLAN 10)**: `10.1.0.0/24`;
+  * **LAN2 (VLAN 20)**: `10.2.0.0/24`;
+  * **LAN3 (VLAN 30)**: `192.168.3.0/24`;
+  * **LAN4 (VLAN 40)**: `192.168.4.0/24`.
+
+* Os roteadores utilizam, como último octeto, o número precedido do ponto ao seu lado na Figura 1. Por exemplo: `R1` utiliza `10.1.0.101` e `10.2.0.101`, pois ao lado dele há o ``.101``.
+
+* A rede é composta por 3 roteadores:
+
+  * `R1` (Cisco);
+  * `router-MTk-1` (MikroTik);
+  * `router-MTk-2` (MikroTik).
+
+* As comunicações entre os roteadores são feitas por redes intermediárias:
+
+  * `R1` ↔ `router-MTk-1`: `172.16.0.0/24` (WAN0)
+  * `router-MTk-1` ↔ `router-MTk-2`: `172.16.1.0/24` (WAN1)
+  * `R1` ↔ `router-MTk-2`: `172.16.2.0/24` (WAN2)
+  
+* O roteador `router-MTk-2` possui acesso à **Internet** através da interface `ether3`.
+
+##  Tabela de Configuração dos Hosts
+
+Segue a tabela de configuração de rede dos hosts finais do cenário de rede da Figura 1:
+
+| Host   | Rede | IP          | Máscara       | Gateway       | VLAN |
+| ------ | ---- | ----------- | ------------- | ------------- | ---- |
+| Host-1 | LAN1 | 10.1.0.1    | 255.255.255.0 | 10.1.0.101    | 10   |
+| Host-2 | LAN2 | 10.2.0.1    | 255.255.255.0 | 10.2.0.101    | 20   |
+| Host-3 | LAN3 | 192.168.3.1 | 255.255.255.0 | 192.168.3.102 | 30   |
+| Host-4 | LAN4 | 192.168.4.1 | 255.255.255.0 | 192.168.4.102 | 40   |
+
+
+##  Tabela de Interfaces dos Roteadores
+
+A seguir são apresentadas as configurações de rede dos roteadores com compõem o cenário de rede da Figura 1:
+
+### Roteador **R1** (Cisco)
+
+| Interface       | IP Address     | Rede/Sub-rede | Descrição                          |
+| --------------- | -------------- | ------------- | ---------------------------------- |
+| f0/0 (VLAN10)   | 10.1.0.101     | 10.1.0.0/24   | Conectado ao switch LAN1 (VLAN 10) |
+| f0/0 (VLAN20)   | 10.2.0.101     | 10.2.0.0/24   | Conectado ao switch LAN2 (VLAN 20) |
+| g1/0            | 172.16.0.101   | 172.16.0.0/24 | Conectado ao router-MTk-1          |
+| g2/0            | 172.16.2.101   | 172.16.2.0/24 | Conectado ao router-MTk-2          |
+
+### Roteador **router-MTk-1** (MikroTik 17.1)
+
+| Interface         | IP Address      | Rede/Sub-rede    | Descrição                                                   |
+| ----------------- | --------------- | ---------------- | ----------------------------------------------------------- |
+| ether1 (VLAN30)   | 192.168.3.102   | 192.168.3.0/24   | Conectado ao switch LAN3 (VLAN 30)                          |
+| ether1 (VLAN40)   | 192.168.4.102   | 192.168.4.0/24   | Conectado ao switch LAN4 (VLAN 40)                          |
+| ether2            | 172.16.0.102    | 172.16.0.0/24    | Conectado ao R1                                             |
+| ether3            | 172.16.1.102    | 172.16.1.0/24    | Conectado ao router-MTk-2                                   |
+
+> configurar `ether1` com subinterfaces para tratar múltiplas VLANs (ex: VLAN 30 e VLAN 40 com trunk/tag).
+
+### Roteador **router-MTk-2** (MikroTik 17.1)
+
+| Interface | IP Address   | Rede/Sub-rede       | Descrição                         |
+| --------- | ------------ | ------------------- | --------------------------------- |
+| ether1    | 172.16.1.103 | 172.16.1.0/24       | Conectado ao router-MTk-1         |
+| ether2    | 172.16.2.103 | 172.16.2.0/24       | Conectado ao R1                   |
+| ether3    | DHCP         | Internet (dinâmico) | Conectado ao provedor de Internet |
+
+
+## Observações Adicionais
+
+* **Switches Cisco** (cisco-sw1 e cisco-sw2) são utilizados para fornecer conectividade e segmentação por VLAN entre os *hosts* e os roteadores.
+* O roteador **router-MTk-2** fornece acesso à internet via interface `ether3`, permitindo que a rede seja testada com saída externa.
+* As VLANs são configuradas nos *switches* para garantir o isolamento de camada 2 entre as sub-redes.
+* Os roteadores realizam o roteamento entre VLANs e interligam as diferentes LANs e redes WAN.
+
+
 # Configuração do ``router-MTk-1``
 
-Dado que esse roteador não possuía configuração prévia (exemplo, recém tirado da caixa - ou seja, novo) o Mikrotik inicia questionando um usuário e senha padrão, neste caso é o usuário ``admin`` com a senha em branco (sem senha), tal como:
+Dado que esse roteador não possuía configuração prévia (por exemplo, recém-saído da caixa), o MikroTik inicia questionando um usuário e senha padrão. Neste caso, o usuário é ``admin`` com a senha em branco (sem senha), conforme o exemplo:
 
 ```console
 MikroTik 7.17.1 (stable)
    MikroTik Login: admin                                                                                                                                                                         Password:
 ```
 
-Após isso ele questiona se o administrador que ver a licença, vamos dizer que não (``N``):
+Após isso, ele questiona se o administrador quer ver a licença. Vamos responder que não (``N``):
 
 
 ```console
@@ -50,25 +130,25 @@ Password changed
 [admin@MikroTik] > 
 ```
 
-Os passos apresentados anteriormente é realizado apenas na primeira configuração do MikroTik ou caso as configurações sejam reinicializadas.
+Os passos apresentados anteriormente são realizados apenas na primeira configuração do MikroTik ou caso as configurações sejam reinicializadas.
 
-> Ńeste modelo de roteador é possível reiniciar a configuração com os comandos: ``/system reset-configuration``, ou ``/system reset-configuration no-defaults=no skip-backup=yes``, sendo que o segundo apaga os arquivos de backup também (todos arquivos).
+> Neste modelo de roteador é possível reiniciar a configuração com os comandos: ``/system reset-configuration``, ou ``/system reset-configuration no-defaults=no skip-backup=yes``, sendo que o segundo apaga os arquivos de backup também (todos arquivos).
 
 
 ## Configuração das placas de rede ``ether2`` e ``ether3``
 
-A configuração das placas de rede ``ether2`` e ``ether3`` é apenas a configuração tradicional, configurando IP e máscara, sendo:
+A configuração das placas de rede ``ether2`` e ``ether3`` é a configuração tradicional, atribuindo IP e máscara, sendo:
 
 ```console
 [admin@MikroTik] > ip address add address=172.16.0.102/24 interface=ether2
 [admin@MikroTik] > ip address add address=172.16.1.102/24 interface=ether3
 ```
 
-Os comandos anteriores atribuíram os IPs 172.16.0.102 para a interface ``ether2`` e 172.16.1.0.102 para a interface de rede ``ether3``, tal como indica os IPs da Figura 1.
+Os comandos anteriores atribuíram os IPs 172.16.0.102 para a interface ``ether2`` e 172.16.1.102 para a interface de rede ``ether3``, conforme indicado na Figura 1.
 
 ## Configuração de placa de rede em VLAN
 
-A interface de rede ``ether1`` do ``router-MTk-1`` está conectada a duas VLANs, sendo uma a VLAN 30 e a outra a VLAN40, que são respectivamente as LAN3 e LAN4.
+A interface de rede ``ether1`` do ``router-MTk-1`` está conectada a duas VLANs, sendo uma a VLAN 30 e a outra a VLAN40, que são, respectivamente, as LAN3 e LAN4.
 
 Essas VLANs estão devidamente configuradas no ``cisco-sw2``, sendo que:
 
@@ -76,7 +156,7 @@ Essas VLANs estão devidamente configuradas no ``cisco-sw2``, sendo que:
 * Porta f0/2 - está na VLAN 40;
 * Porta f0/0 - é uma porta *trunk* que envia quadros de rede das VLANS 30 e 40 para o roteador ``router-MTk-1``.
 
-Então ``router-MTk-1``, dada que a configuração do *switch* já está pronta, agora basta configurar o roteador MikroTik da seguinte forma:
+Então no ``router-MTk-1``, dada que a configuração do *switch* já está pronta, agora basta configurar o roteador MikroTik da seguinte forma:
 
 1. Primeiro iniciamos criando essa relação das VLANs com a placa de rede ``ether1``:
 
@@ -94,7 +174,7 @@ Então ``router-MTk-1``, dada que a configuração do *switch* já está pronta,
 
 A configuração de rede (IP e máscara) deste roteador está pronta, é possível ver tal configuração da seguinte forma:
 
-* No caso dos IPs e máscaras isso pode ser feito com o comando ``ip address print``:
+* No caso dos IPs e máscaras, isso pode ser feito com o comando ``ip address print``:
 ```console
 [admin@MikroTik] > /ip address/ print 
 Columns: ADDRESS, NETWORK, INTERFACE
@@ -148,7 +228,7 @@ Nesta rede de exemplo (ver Figura 1), está sendo utilizado o protocolo OSPF par
 [admin@MikroTik] > routing ospf interface-template add area=backbone networks=172.16.1.0/24 
 ```
 
-No exemplo anteiro iniciá-se criando uma instância de um processo OSPF chamado ``ospf1``, também o roteador foi identificado na rede OSPF como ``102.0.0.2`` - é um endereço tal como IPv4 (mas não é um IP) utilizado para identificar unicamente o roteador OSPF na rede. O segundo comando cria uma área para a instância ``ospf1``, sendo essa a área 0 (ou 0.0.0.0), que neste caso é identificada pelo MikroTik com o nome ``backbone``. Por fim, são adicionadas às redes: 192.168.3.0/24, 192.168.4.0/24, 10.16.0.0/14 e 10.16.0.0/14, para serem publicadas pelo rotador aos outros roteadores da rede através da área 0/``backbone``.
+No exemplo anterior, iniciá-se criando uma instância de um processo OSPF chamado ``ospf1``. O roteador também foi identificado na rede OSPF como ``102.0.0.2`` - um endereço semelhante a um IPv4 (mas não é um IP) utilizado para identificar unicamente o roteador OSPF na rede. O segundo comando cria uma área para a instância ``ospf1``, sendo essa a área 0 (ou 0.0.0.0), que neste caso é identificada pelo MikroTik com o nome ``backbone``. Por fim, são adicionadas às redes: 192.168.3.0/24, 192.168.4.0/24, 172.16.0.0/24 e 172.16.1.0/24, para serem publicadas pelo rotador aos outros roteadores da rede através da área 0/``backbone``.
 
 
 Feito isso e com os outros roteadores já em funcionamento é possível verificar as rotas obtidas via comando:
@@ -169,7 +249,8 @@ DAc  192.168.3.0/24  vlan30                      0
 DAc  192.168.4.0/24  vlan40                      0
 ```
 
-Note que pela legenda do comando, que as rotas OSPF são identificadas peplo ``o`` na primeira coluna. Tal como: ``DAo  10.1.0.0/24     172.16.0.101%ether2       110``, sendo que ``DAo``, indica em ordem que é uma rota dinâmica, ativa e obtida via OSPF (ver legenda da saída anterior).
+Note que, pela legenda do comando, que as rotas OSPF são identificadas pelo ``o`` na primeira coluna. 
+Por exemplo: ``DAo  10.1.0.0/24     172.16.0.101%ether2       110``. O ``DAo``, indica em ordem, que é uma rota dinâmica, ativa e obtida via OSPF (ver legenda da saída anterior).
 
 > Neste comando já temos todos os roteadores ativos, mas pela sequência desse texto, não haveria talvez as rotas do ``router-MTk-2``, que ainda não foi configurado no papel.
 
@@ -264,19 +345,19 @@ add interface=ether1
 /routing ospf interface-template
 add area=backbone disabled=no networks=192.168.3.0/24
 add area=backbone disabled=no networks=192.168.4.0/24
-add area=backbone disabled=no networks=172.16.0.0/4
-add area=backbone disabled=no networks=172.16.1.0/4
+add area=backbone disabled=no networks=172.16.0.0/24
+add area=backbone disabled=no networks=172.16.1.0/24
 /system note
 set show-at-login=no
 ```
 
 # Configuração do ``router-MTk-2``
 
-Esse roteador é idêntico ao configurado anteriormente, com a diferença de não estar conectados a nenhuma VLAN.
+Esse roteador é idêntico ao configurado anteriormente, com a diferença de não estar conectado a nenhuma VLAN.
 
 ## Configuração das interfaces de rede
 
-A configuração das placas de rede do ``router-MTk-2`` são tais como a do roteadores anterior. Os comandos necessários são apresentados a seguir:
+A configuração das placas de rede do ``router-MTk-2`` é semelhante á do roteadores anterior. Os comandos necessários são apresentados a seguir:
 
 ```console
 ip address add address=172.16.1.103/24 interface=ether1
@@ -284,14 +365,15 @@ ip address add address=172.16.2.103/24 interface=ether2
 ip dhcp-client add interface=ether3
 ```
 
-A única diferença da configuração do ``router-MTk-2`` em relação ao ``router-MTk-1``, fora as VLANs, é que foi ativado a obtenção de configuração de rede via DHCP na interface de rede ``ether3``, isso permite a configuração automática do: IP, máscara de rede, rota padrão e DNS.
+A única diferença da configuração do ``router-MTk-2`` em relação ao ``router-MTk-1``, além das VLANs, é que foi ativada a obtenção de configuração de rede via DHCP na interface de rede ``ether3``. Isso permite a configuração automática de IP, máscara de rede, rota padrão e DNS.
 
-> Na verdade neste caso nem é necessário o comando ``ip dhcp-client add..`` isso já fica habilitado por padrão no MikroTik. Então em alguns casos o que seria necessário desativar e não ativar a obtenção de IPs via DHCP.
+> Na verdade, neste caso, o comando ``ip dhcp-client add..`` nem é necessário, pois já fica habilitado por padrão no MikroTik. Então em alguns casos, o que seria necessário é desativar e não ativar a obtenção de IPs via DHCP.
 
 
 ## Habilitando NAT (máscaramento)
 
-No cenário de rede da Figura 1, o ``router-MTk-2`` é o roteador que dá acesso à Internet, pois temos a Internet conectada à interface de rede ``ether3``. Desta forma, para que os outros hosts da rede tenham acesso a Internet, será necessário neste caso configurar um NAT, para que ao sair dessa rede que estamos configurando, que os outros hosts desta rede recebam como IP de origem o IP que está na interface de rede ``ether3``. 
+No cenário de rede da Figura 1, o ``router-MTk-2`` é o roteador que dá acesso à Internet, pois temos a Internet conectada à interface de rede ``ether3``. 
+Desta forma, para que os outros *hosts* da rede tenham acesso à Internet, será necessário, neste caso, configurar um NAT. Assim, ao sair dessa rede que estamos configurando, os outros *hosts* desta rede receberão como IP de origem, o IP que está na interface de rede ``ether3``. 
 
 > Note que isso é necessário pois o cenário de rede que estamos utilizando utiliza IPs privados e também que a estrutura de rede que está dentro da rede que simboliza a Internet não tem conhecimento das redes/rotas que estamos criando.
 
@@ -305,7 +387,7 @@ O comando anterior basicamente adiciona uma regra de NAT dizendo que tudo que sa
 
 ## Configuração do OSPF
 
-A configuração do OSPF no ``router-MTk-2`` segue a mesma lógica da configuração OSPF do ``router-MTk-1``. Todavia com a diferença de também publicar a rota padrão (0.0.0.0/0), já que este já o roteador padrão de toda a rede OSPF em questão. 
+A configuração do OSPF no ``router-MTk-2`` segue a mesma lógica da configuração OSPF do ``router-MTk-1``. Todavia, com a diferença de também publicar a rota padrão (0.0.0.0/0), já que este é o roteador padrão de toda a rede OSPF em questão. 
 
 ```console
 routing ospf instance add name=ospf1 originate-default=always router-id=103.0.0.0
@@ -314,7 +396,7 @@ routing ospf interface-template add area=backbone networks=172.16.1.0/24
 routing ospf interface-template add area=backbone networks=172.16.2.0/24
 ```
 
-Assim, os comandos anteriores fazem em ordem:
+Assim, os comandos anteriores realizam, em ordem, as seguintes ações:
 
 * Cria uma instância e essa diz que deve compartilhar a rota padrão (``originate-default=always``);
 * Cria a área ``backbone``;
@@ -383,7 +465,6 @@ add disabled=no instance=ospf1 name=backbone
 add address=172.16.2.103/24 interface=ether2 network=172.16.2.0
 add address=172.16.1.103/24 interface=ether1 network=172.16.1.0
 /ip dhcp-client
-add interface=ether1
 add interface=ether3
 /ip firewall nat
 add action=masquerade chain=srcnat out-interface=ether3
