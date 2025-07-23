@@ -83,7 +83,7 @@ A seguir são apresentadas as configurações de rede dos roteadores com compõe
 ## Observações Adicionais
 
 * **Switches Cisco** (cisco-sw1 e cisco-sw2) são utilizados para fornecer conectividade e segmentação por VLAN entre os *hosts* e os roteadores.
-* O roteador **router-MTk-2** fornece acesso à internet via interface `ether3`, permitindo que a rede seja testada com saída externa.
+* O roteador **router-MTk-2** fornece acesso à Internet via interface `ether3`, permitindo que a rede seja testada com saída externa.
 * As VLANs são configuradas nos *switches* para garantir o isolamento de camada 2 entre as sub-redes.
 * Os roteadores realizam o roteamento entre VLANs e interligam as diferentes LANs e redes WAN.
 
@@ -94,7 +94,8 @@ Dado que esse roteador não possuía configuração prévia (por exemplo, recém
 
 ```console
 MikroTik 7.17.1 (stable)
-   MikroTik Login: admin                                                                                                                                                                         Password:
+   MikroTik Login: admin
+   Password:
 ```
 
 Após isso, ele questiona se o administrador quer ver a licença. Vamos responder que não (``N``):

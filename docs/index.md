@@ -61,7 +61,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 		* [iBGP](cisco/bgp-igp1)
 
 * Mikrotik
-	* [Configuração de rede básica](mikrotik/confRede)
+	* [Configuração de rede básica, OSPF e SNAT](mikrotik/confRede)
 
 * Juniper
 	* [Configuração básica dos roteadores](juniper/router)
