@@ -424,20 +424,20 @@ Assim, com esse simples exemplo é possível ter uma ideia do potencial do Suric
 
 ## Referências
 
-SURICATA. **Open Source IDS/IPS/NSM**. [S. l.]: Open Information Security Foundation, 2025. Disponível em: https://suricata.io/. Acesso em: 16 set. 2025.
+SURICATA. **Open Source IDS/IPS/NSM**. [S. l.]: Open Information Security Foundation, 2025. Disponível em: <https://suricata.io/>. Acesso em: 16 set. 2025.
 
-EVEBOX. **The EveBox user interface for Suricata**. [S. l.]: Jason Ish, [20--]. Disponível em: https://evebox.org/. Acesso em: 16 set. 2025.
+EVEBOX. **The EveBox user interface for Suricata**. [S. l.]: Jason Ish, [20--]. Disponível em: <https://evebox.org/>. Acesso em: 16 set. 2025.
 
-NMAP. **Nmap: The Network Mapper - Free Security Scanner**. [S. l.]: Gordon Lyon, 2025. Disponível em: https://nmap.org/. Acesso em: 16 set. 2025.
+NMAP. **Nmap: The Network Mapper - Free Security Scanner**. [S. l.]: Gordon Lyon, 2025. Disponível em: <https://nmap.org/>. Acesso em: 16 set. 2025.
 
-OPEN INFORMATION SECURITY FOUNDATION (OISF). **About OISF**. [S. l.]: OISF, [20--]. Disponível em: https://oisf.net/. Acesso em: 16 set. 2025.
+OPEN INFORMATION SECURITY FOUNDATION (OISF). **About OISF**. [S. l.]: OISF, [20--]. Disponível em: <https://oisf.net/>. Acesso em: 16 set. 2025.
 
-PROOFPOINT. **ET Open Ruleset**. Santa Clara, CA: Proofpoint, Inc., 2025. Disponível em: https://www.proofpoint.com/us/threat-intelligence/et-open. Acesso em: 16 set. 2025.
+PROOFPOINT. **ET Open Ruleset**. Santa Clara, CA: Proofpoint, Inc., 2025. Disponível em: <https://www.proofpoint.com/us/threat-intelligence/et-open>. Acesso em: 16 set. 2025.
 
-SNORT. **The World's Most Widely Deployed IPS Technology**. [S. l.]: Cisco, 2025. Disponível em: https://www.snort.org/. Acesso em: 16 set. 2025.
+SNORT. **The World's Most Widely Deployed IPS Technology**. [S. l.]: Cisco, 2025. Disponível em: <https://www.snort.org/>. Acesso em: 16 set. 2025.
 
-SQLITE. **SQLite Home Page**. [S. l.]: Hipp, Wyrick & Company, Inc., 2025. Disponível em: https://www.sqlite.org/. Acesso em: 16 set. 2025.
+SQLITE. **SQLite Home Page**. [S. l.]: Hipp, Wyrick & Company, Inc., 2025. Disponível em: <https://www.sqlite.org/>. Acesso em: 16 set. 2025.
 
-UBUNTU. **The story of Ubuntu**. [S. l.]: Canonical Ltd., 2025. Disponível em: https://ubuntu.com/. Acesso em: 16 set. 2025.
+UBUNTU. **The story of Ubuntu**. [S. l.]: Canonical Ltd., 2025. Disponível em: <https://ubuntu.com/>. Acesso em: 16 set. 2025.
 
-DEBIAN. **O Sistema Operacional Universal**. [S. l.]: Software in the Public Interest, Inc., 2025. Disponível em: https://www.debian.org/. Acesso em: 16 set. 2025.
+DEBIAN. **O Sistema Operacional Universal**. [S. l.]: Software in the Public Interest, Inc., 2025. Disponível em: <https://www.debian.org/>. Acesso em: 16 set. 2025.
