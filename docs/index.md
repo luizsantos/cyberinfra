@@ -72,3 +72,6 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Ganhando Acesso com Metasploit](penTest/metaexploit)
 		* [SQL Injection](penTest/sqli)
 		* [Quebrando senhas](penTest/passwordCracking)
+* IDS/IPS
+	* NIDS
+		* [Suricara](IDS/suricata/suricata)
