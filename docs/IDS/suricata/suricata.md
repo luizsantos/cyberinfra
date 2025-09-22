@@ -420,7 +420,52 @@ Por fim, a Figura 11 mostra o ***dashboard* de "Alerts"**. **O gráfico "Alerts 
 | :--: |
 | Figura 11 - Dashboard de "Alerts" com a linha do tempo e as assinaturas mais frequentes. |
 
-Assim, com esse simples exemplo é possível ter uma ideia do potencial do Suricata somado ao Evebox para ajudar no monitoramento de cibersegurança em redes de computadores, pois esses conseguem identificar ataques e apresentá-los em uma interface web que permite uma análise detalhada e facilitade dos mesmo, o que pode ajudar muito na tarefa de projeter recursos computacionais e principalmente a intefação em trânsito ou armazenada em computadores.
+Assim, com esse simples exemplo é possível ter uma ideia do potencial do Suricata somado ao Evebox para ajudar no monitoramento de cibersegurança em redes de computadores, pois esses conseguem identificar ataques e apresentá-los em uma interface web que permite uma análise detalhada e facilidade dos mesmo, o que pode ajudar muito na tarefa de proteger recursos computacionais e principalmente a informação em trânsito ou armazenada em computadores.
+
+
+## Material de Apoio
+
+Para facilitar a aplicação prática dos conceitos e comandos demonstrados neste tutorial, foi criada uma imagem Docker. Esta imagem contém todo o ambiente com Suricata e Evebox pré-configurados e foi projetada para ser utilizada como um nó em topologias de rede no GNS3, sendo ideal para laboratórios e aulas de Cibersegurança.
+
+### Imagem Docker para Laboratórios no GNS3
+
+Com essa imagem Docker, você pode rapidamente colocar um "computador" com o IDS/IPS pronto para uso em seus cenários de teste, sem precisar repetir todo o processo de instalação e configuração.
+
+Tal imagem tem as seguintes características:
+
+* **Repositório no Docker Hub:** `luizarthur/cyberinfra`
+* **Nome e Tag da Imagem:** `luizarthur/cyberinfra:nids-suricata-evebox`
+* **Conteúdo:** Debian 11, Suricata, Evebox, SQLite e *scripts* de inicialização.
+* **Credenciais Evebox:** Usuário `admin`, Senha `123mudar`.
+
+Para utilizar basta:
+
+**1. Baixar a Imagem**
+
+Para fazer o download da imagem do Docker Hub para a sua máquina, utilize o seguinte comando em seu terminal:
+
+```console
+docker pull luizarthur/cyberinfra:nids-suricata-evebox
+```
+
+**2. Configurar no GNS3**
+
+Após o download, a imagem estará disponível localmente em seu Docker. No GNS3, vá em ``Preferences > Docker containers > New`` para criar um novo *template*, selecionando a imagem ``luizarthur/cyberinfra:nids-suricata-evebox`` na lista.
+
+**3. Iniciar os Serviços no Containers**
+
+Dentro do ambiente GNS3, ao iniciar um terminal para o contêiner, você pode usar os seguintes *scripts* de atalho para iniciar os serviços rapidamente:
+
+```console
+# Para iniciar o Suricata em modo IDS na interface eth0
+/etc/init.d/start-suricata-ids
+
+# Para iniciar o servidor web do Evebox
+/etc/init.d/start-evebox
+```
+
+Assim, você pode recriar o cenário de testes deste tutorial de forma rápida e consistente.
+
 
 ## Referências
 
