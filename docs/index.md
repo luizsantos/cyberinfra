@@ -59,6 +59,9 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* BGP
 		* [eBGP](cisco/bgp-egp1)
 		* [iBGP](cisco/bgp-igp1)
+		
+* Roteamento
+	* [RIP no CISCO, Mikrotik e Linux FRR](roteamento/rip-linux-cisco-mikrotik)
 
 * Mikrotik
 	* [Configuração de rede básica, OSPF e SNAT](mikrotik/confRede)
