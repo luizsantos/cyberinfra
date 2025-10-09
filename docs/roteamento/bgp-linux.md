@@ -3,12 +3,10 @@ layout: page
 ---
 
 # Exemplo de configuração de eBGP utilizando FRR no Linux
-=========================================================
-
 
 A Internet utiliza o protocolo **Border Gateway Protocol (BGP)** para trocar informações de roteamento entre diferentes **Sistemas Autônomos (AS)**, que são grandes blocos de redes administrados por entidades distintas (grandes empresas de telecomunicação e provedores de Internet). 
 
-Em ambientes Linux, essa funcionalidade é geralmente implementada com a ajuda de softwares de roteamento de código aberto como o [**FRRouting (FRR)**](https://frrouting.org/). O FRR é um conjunto de protocolos de roteamento que permite que servidores Linux se comportem como roteadores de alto desempenho, oferecendo suporte a BGP e outros protocolos, e possibilitando a interconexão de redes complexas de forma eficiente.
+Em ambientes Linux, essa funcionalidade é geralmente implementada com a ajuda de softwares de roteamento de código aberto como o [**FRRouting (FRR)**](https://frrouting.org/). O FRR é um conjunto de protocolos de roteamento que permite que servidores Linux se comportem como roteadores de alto desempenho, oferecendo suporte a BGP e outros protocolos, possibilitando a interconexão de redes complexas.
 
 Desta forma, este texto apresenta como configurar BGP, no caso **eBGP (Exterior Gateway Protocol)**, utilizando como exemplo a rede ilustrada na Figura 1. Tal rede é composta por quatro roteadores Linux interconectados, cada um operando em um **Sistema Autônomo (AS)** diferente. A topologia simula um ambiente de interconexão de redes, onde o BGP seria usado para a troca de informações de roteamento entre os diferentes AS.
 
@@ -87,11 +85,11 @@ A seguir, são apresentados os comandos para cada um dos hosts da topologia de e
 root@Host-1:/# ifconfig eth0 10.10.0.1/24
 root@Host-1:/# route add default gw 10.10.0.101
 ```
-O Host-1, pertencente ao AS10, é configurado com o IP `10.10.0.1/24` e sua rota padrão aponta para o `RouterLinux-1` (`10.10.0.101`), que é o seu gateway para o restante da rede.
+O Host-1, pertencente ao AS10, é configurado com o IP `10.10.0.1/24` e sua rota padrão aponta para o `RouterLinux-1` (`10.10.0.101`), que é o seu *gateway* para o restante da rede.
 
 * Host-3:
 
-Similarmente, no Host-3, a interface de rede eth0 recebe o endereço IP 10.30.0.1 com uma máscara /24. A rota padrão é adicionada para encaminhar o tráfego para o gateway 10.30.0.103, que é o RouterLinux-3, o roteador do seu AS. Veja:
+Similarmente, no Host-3, a interface de rede eth0 recebe o endereço IP 10.30.0.1 com uma máscara /24. A rota padrão é adicionada para encaminhar o tráfego para o *gateway* 10.30.0.103, que é o RouterLinux-3, o roteador do seu AS. Veja:
 
 ```console
 root@Host-3:/# ifconfig eth0 10.30.0.1/24
@@ -100,7 +98,7 @@ root@Host-3:/# route add default gw 10.30.0.103
 
 * Host-4:
 
-Por fim, no Host-4, a interface de rede eth0 é configurada com o endereço IP 10.40.0.1 e uma máscara /24. A rota padrão é estabelecida para apontar para o gateway 10.40.0.104, que é o RouterLinux-4, garantindo que o tráfego do host possa alcançar o restante da rede. Os comandos são:
+Por fim, no Host-4, a interface de rede eth0 é configurada com o endereço IP 10.40.0.1 e uma máscara /24. A rota padrão é estabelecida para apontar para o *gateway* 10.40.0.104, que é o RouterLinux-4, garantindo que o tráfego do host possa alcançar o restante da rede. Os comandos são:
 
 ```console
 root@Host-4:/# ifconfig eth0 10.40.0.1/24
@@ -114,8 +112,8 @@ Antes de configurar o BGP, é preciso preparar o sistema operacional de cada rot
 Então em resumo temos os seguintes comandos para configurar as placas de rede, configurar o FRR e iniciar o FRR:
 
 *   `ifconfig <interface> <ip>/<máscara>`: Atribui um endereço IP e máscara de sub-rede a cada interface do roteador. As interfaces `eth1` e `eth2` são as conexões WAN com os outros roteadores, enquanto a `eth0` é a conexão com a rede local (LAN).
-*   `cat /etc/frr/daemons`: Este comando exibe o conteúdo do arquivo de configuração dos daemons do FRR. Para que o BGP funcione, a linha `bgpd=yes` deve estar presente e descomentada. Isso instrui o FRR a iniciar o processo de BGP.
-*   `/etc/init.d/frr start`: Inicia o serviço do FRR, que por sua vez ativa todos os daemons configurados, incluindo o `bgpd`.
+*   `cat /etc/frr/daemons`: Este comando exibe o conteúdo do arquivo de configuração dos *daemons* do FRR. Para que o BGP funcione, a linha `bgpd=yes` deve estar presente e descomentada. Isso instrui o FRR a iniciar o processo de BGP.
+*   `/etc/init.d/frr start`: Inicia o serviço do FRR, que por sua vez ativa todos os *daemons* configurados, incluindo o `bgpd`.
 * Configuração do FRR via linha de comando.
 
 Observações importantes:
@@ -155,7 +153,7 @@ O conjunto de comandos ``ifconfig`` é usado para configurar as três interfaces
 
 Após ter configurados os IPs e máscaras na interface de rede, o próximo passo é configurar o FRR para funcionar com o BGP no host Linux, isso vai permitir a troca de rotas de forma dinâmica com outros roteadores BGP.
 
-Para isso é necessário utilizar um editor de texto e editar o arquivo **`/etc/frr/daemons`**. Neste arquivo procure pela linha `bgpd`, que provavelmente vai ter o valor ``no``, sendo necessário então mudar esse valor para ``yes``. Desta forma, tal linha vai ficar com: **`bgpd=yes`**, o que configura o daemon **BGP**, que é necessário para a comunicação entre os diferentes AS. 
+Para isso é necessário utilizar um editor de texto e editar o arquivo **`/etc/frr/daemons`**. Neste arquivo procure pela linha `bgpd`, que provavelmente vai ter o valor ``no``, sendo necessário então mudar esse valor para ``yes``. Desta forma, tal linha vai ficar com: **`bgpd=yes`**, o que configura o *daemon* **BGP**, que é necessário para a comunicação entre os diferentes AS. 
 
 Neste exemplo, todas as outras opções, como OSPF, RIP, e ISIS, estão desabilitadas, mostrando que a rede foi projetada para usar exclusivamente o BGP para o roteamento externo.
 
@@ -191,7 +189,7 @@ Só alterar o arquivo de configuração não habilita o roteamento BGP, para tal
 
 > Este cenário está sendo implementado no GNS3 com o uso de containers Docker e geralmente em container não permite a execução de serviços com o ``systemctl``, por isso optamos pelo `/etc/init.d/frr start`.
 
-Então, o comando **`/etc/init.d/frr start`** inicia o serviço de roteamento do FRR. Após a sua execução a saída deve mostrar que o **`watchfrr`**, um daemon que monitora o estado dos outros daemons do FRR, tenta se conectar e iniciar os processos **`zebra`** (o daemon de kernel de roteamento) e **`bgpd`** (o daemon BGP). 
+Então, o comando **`/etc/init.d/frr start`** inicia o serviço de roteamento do FRR. Após a sua execução a saída deve mostrar que o **`watchfrr`**, um *daemon* que monitora o estado dos outros *daemons* do FRR, tenta se conectar e iniciar os processos **`zebra`** (o *daemon* de *kernel* de roteamento) e **`bgpd`** (o daemon BGP). 
 
 ```console
 root@RouterLinux-1:/# /etc/init.d/frr start
@@ -203,7 +201,7 @@ watchfrr[29092]: Forked background command [pid 29093]: /usr/lib/frr/watchfrr.sh
 watchfrr[29092]: Terminating on signal
 Started watchfrr.
 ```
-A saída anterior mostra que o serviço é iniciado com sucesso, e os daemons necessários para o roteamento são ativados em segundo plano, preparando o roteador para a configuração de BGP.
+A saída anterior mostra que o serviço é iniciado com sucesso, e os *daemons* necessários para o roteamento são ativados em segundo plano, preparando o roteador para a configuração de BGP.
 
 > O *script* `/etc/init.d/frr`, normalmente tem como opção também o  ``stop`` e ``restart``, que são respectivamente para parar o serviço ou reiniciá-lo.
 
@@ -475,7 +473,7 @@ Assim, o comando ``show ip bgp 10.10.0.0``, no exemplo anterior mostra:
 
 Agora vamos para a configuração do **RouterLinux-2, que é o último roteador que falta configurar no cenário proposto.
 
-Iniciamos novamente com a configuração das interfaces. Os comandos **`ifconfig`** configuram as três interfaces WAN do **RouterLinux-2**. Em seguida, o arquivo `/etc/frr/daemons` é verificado com **`grep`** para confirmar que o daemon BGP está habilitado, e o serviço FRR é iniciado. A saída mostra que os daemons **`zebra`** e **`bgpd`** foram inicializados com sucesso. Tal como pode ser visto nos comandos a seguir:
+Iniciamos novamente com a configuração das interfaces. Os comandos **`ifconfig`** configuram as três interfaces WAN do **RouterLinux-2**. Em seguida, o arquivo `/etc/frr/daemons` é verificado com **`grep`** para confirmar que o *daemon* BGP está habilitado, e o serviço FRR é iniciado. A saída mostra que os daemons **`zebra`** e **`bgpd`** foram inicializados com sucesso. Tal como pode ser visto nos comandos a seguir:
 
 
 ```console
@@ -757,7 +755,7 @@ Read thread: on  Write thread: on  FD used: 26
 
 ```
 
-Por fim, executamos o comando **`show ip route`** no **RouterLinux-2**, que deve mostrar todas as redes BGP aunciadas pelos outros roteadores:
+Por fim, executamos o comando **`show ip route`** no **RouterLinux-2**, que deve mostrar todas as redes BGP anunciadas pelos outros roteadores:
 
 ```console
 RouterLinux-2# show ip route
