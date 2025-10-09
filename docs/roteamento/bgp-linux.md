@@ -70,7 +70,7 @@ As WAN (redes de longa distância) interconectam os roteadores entre os diferent
 Essa configuração permite que cada **RouterLinux** atue como um ponto de entrada/saída para seu AS, usando BGP para anunciar suas rotas internas (as redes LAN) para os outros AS e, assim, garantir a conectividade entre todos os hosts na rede.
 
 
-# Configuração dos Hosts do cenário
+## Configuração dos Hosts do cenário
 
 No cenário, há três hosts que representam clientes (computadores de usuários ou servidores, mas não roteadores). A configuração desses hosts é um passo fundamental para que eles possam se comunicar com o restante da rede; caso contrário, a rede não funcionará. Para cada host, foram definidos um endereço IP estático e uma rota padrão, configurados com os seguintes comandos:
 
@@ -153,7 +153,7 @@ O conjunto de comandos ``ifconfig`` é usado para configurar as três interfaces
 
 Após ter configurados os IPs e máscaras na interface de rede, o próximo passo é configurar o FRR para funcionar com o BGP no host Linux, isso vai permitir a troca de rotas de forma dinâmica com outros roteadores BGP.
 
-Para isso é necessário utilizar um editor de texto e editar o arquivo **`/etc/frr/daemons`**. Neste arquivo procure pela linha `bgpd`, que provavelmente vai ter o valor ``no``, sendo necessário então mudar esse valor para ``yes``. Desta forma, tal linha vai ficar com: **`bgpd=yes`**, o que configura o *daemon* **BGP**, que é necessário para a comunicação entre os diferentes AS. 
+Para isso é necessário utilizar um editor de texto e editar o arquivo **`/etc/frr/daemons`**. Neste arquivo procure pela linha `bgpd`, que provavelmente vai ter o valor ``no``, sendo necessário então mudar esse valor para ``yes``. Desta forma, tal linha vai ficar com: **`bgpd=yes`**, o que habilita o *daemon* **BGP**, que é necessário para a comunicação entre os diferentes AS. 
 
 Neste exemplo, todas as outras opções, como OSPF, RIP, e ISIS, estão desabilitadas, mostrando que a rede foi projetada para usar exclusivamente o BGP para o roteamento externo.
 
@@ -205,7 +205,7 @@ A saída anterior mostra que o serviço é iniciado com sucesso, e os *daemons* 
 
 > O *script* `/etc/init.d/frr`, normalmente tem como opção também o  ``stop`` e ``restart``, que são respectivamente para parar o serviço ou reiniciá-lo.
 
-#### Configuração do Protocolo BGP
+### Configuração do Protocolo BGP
 
 Com o BGP já configurado e ativo via **FRR**, é possível acessar a interface de linha de comando (CLI), acessada pelo comando **`vtysh`**, para configurar o BGP, tal como:
 
@@ -337,7 +337,7 @@ C>* 192.168.5.0/24 is directly connected, eth2, 00:07:23
 
 ```
 
-Assim, a saída do comando **`show ip route`** anterior, mostra a tabela de roteamento completa do **RouterLinux-3** com a configuração feita até o momento:
+A saída do comando **`show ip route`** anterior, mostra a tabela de roteamento completa do **RouterLinux-3** com a configuração feita até o momento:
 
 * A entrada **`B>`** indica uma rota aprendida via **BGP**. O roteador aprendeu a rota para a rede **`10.10.0.0/24`** via o vizinho **`192.168.4.101`** (**RouterLinux-1**). A métrica `[20/0]` é um valor interno do BGP que indica a distância administrativa e a métrica BGP.
 
@@ -461,8 +461,7 @@ Paths: (1 available, best #1, table default)
       Last update: Wed Oct  8 13:10:36 2025
 
 ```
-
-Assim, o comando ``show ip bgp 10.10.0.0``, no exemplo anterior mostra:
+O comando ``show ip bgp 10.10.0.0``, no exemplo anterior, mostra:
 
 * A rota tem um **`AS Path`** de **`30 10`**. Isso significa que a rota foi originada no **AS10**, passou pelo **AS30** e chegou ao **RouterLinux-4** (AS40). 
 * O **`next-hop`** é o IP do vizinho (`192.168.3.103`), e a origem é **`IGP`**, indicando que a rota foi injetada no BGP a partir de um protocolo de *gateway* interno ou diretamente pelo comando `network`.
@@ -471,7 +470,7 @@ Assim, o comando ``show ip bgp 10.10.0.0``, no exemplo anterior mostra:
 
 ## RouterLinux-2
 
-Agora vamos para a configuração do **RouterLinux-2, que é o último roteador que falta configurar no cenário proposto.
+Agora vamos para a configuração do **RouterLinux-2**, que é o último roteador que falta configurar no cenário proposto.
 
 Iniciamos novamente com a configuração das interfaces. Os comandos **`ifconfig`** configuram as três interfaces WAN do **RouterLinux-2**. Em seguida, o arquivo `/etc/frr/daemons` é verificado com **`grep`** para confirmar que o *daemon* BGP está habilitado, e o serviço FRR é iniciado. A saída mostra que os daemons **`zebra`** e **`bgpd`** foram inicializados com sucesso. Tal como pode ser visto nos comandos a seguir:
 
@@ -498,7 +497,7 @@ Started watchfrr.
 
 Dentro do **`vtysh`**, o **RouterLinux-2** é configurado no **AS20**. O `route-map` **`ALLOW`** é criado para permitir a troca de rotas. O roteador define seus três vizinhos BGP: **RouterLinux-1** (AS10), **RouterLinux-4** (AS40), e **RouterLinux-3** (AS30), aplicando o `route-map` para todas as sessões.
 
-Note nos comandos seguintes que esse roteado **não tem rede para anunciar**!
+Nos comandos a seguir, observe que esse roteador **não tem rede para anunciar**!
 
 ```console
 RouterLinux-2# configure terminal
@@ -538,7 +537,7 @@ Total number of neighbors 3
 
 ```
 
-Assim, a saída anterior mostra que **todos os três vizinhos** BGP estão no estado **`Established`**, indicando que as sessões estão ativas e funcionando. Cada vizinho (`192.168.1.101`, `192.168.2.104` e `192.168.5.103`) recebeu três prefixos (`PfxRcd=3`), o que significa que o **RouterLinux-2** aprendeu as rotas para todas as redes internas dos outros Sistemas Autônomos.
+A saída anterior mostra que **todos os três vizinhos** BGP estão no estado **`Established`**, indicando que as sessões estão ativas e funcionando. Cada vizinho (`192.168.1.101`, `192.168.2.104` e `192.168.5.103`) recebeu três prefixos (`PfxRcd=3`), o que significa que o **RouterLinux-2** aprendeu as rotas para todas as redes internas dos outros Sistemas Autônomos.
 
 Também é possível ver dados a respeito dos vizinhos BGP com o comando **`show ip bgp neighbors`**, que fornece informações detalhadas sobre as sessões BGP com cada vizinho.
 * Para cada vizinho, o comando exibe o **endereço IP**, o **AS remoto** e o **estado da conexão**, que é **`Established`**.
@@ -773,14 +772,14 @@ C>* 192.168.2.0/24 is directly connected, eth2, 00:03:39
 C>* 192.168.5.0/24 is directly connected, eth3, 00:03:39
 ```
 
-Assim, na saída anterior As entradas `B>` mostram as rotas aprendidas via BGP: **`10.10.0.0/24`** (AS10), **`10.30.0.0/24`** (AS30), e **`10.40.0.0/24`** (AS40). Também são apresentadas as rotas diretamente conectadas ao roteador (**`C>`**). Desta forma, a presença de todas essas rotas confirma que o BGP está funcionando corretamente, permitindo que o tráfego de qualquer host no AS20 chegue aos outros AS e vice-versa.
+Na saída anterior as entradas `B>` mostram as rotas aprendidas via BGP: **`10.10.0.0/24`** (AS10), **`10.30.0.0/24`** (AS30), e **`10.40.0.0/24`** (AS40). Também são apresentadas as rotas diretamente conectadas ao roteador (**`C>`**). Desta forma, a presença de todas essas rotas confirma que o BGP está funcionando corretamente, permitindo que o tráfego de qualquer host no AS20 chegue aos outros AS e vice-versa.
 
 
 ## Teste de conectividade
 
-Para finalizar completamente, vamos realizar os testes com os hosts clientes, já que, na verdade, todo o roteamento foi realizado apenas para tornar possível a comunicação entre eles. Para este teste, vamos executar um teste de comunicação com um `ping` entre o Host-1 (AS10) e o Host-3 (AS30). Depois, será realizado um teste com `traceroute` do Host-1 para o Host-4 (AS40), o que deve mostrar todo o caminho traçado pelo roteamento BGP entre esses hosts de ASs diferentes.
+Para finalizar, vamos realizar os testes com os hosts clientes, já que, na verdade, todo o roteamento foi realizado apenas para tornar possível a comunicação entre eles. Para este teste, vamos executar um teste de comunicação com um `ping` entre o Host-1 (AS10) e o Host-3 (AS30). Depois, será realizado um teste com `traceroute` do Host-1 para o Host-4 (AS40), o que deve mostrar todo o caminho traçado pelo roteamento BGP entre esses hosts de ASs diferentes.
 
-#### Teste de Ping do Host-1 para o Host-3
+### Teste de Ping do Host-1 para o Host-3
 
 Iniciamos o teste com um simples **`ping`** do **Host-1** para o **Host-3**. Veja o comando e a saída a seguir:
 
@@ -797,7 +796,7 @@ rtt min/avg/max/mdev = 0.300/0.383/0.496/0.082 ms
 ```
 A saída indica que o ``ping`` foi bem-sucedido, com `3 packets transmitted` e `3 received`, resultando em **`0% packet loss`**. Isso confirma que há uma rota funcional entre o **AS10** (onde está o Host-1) e o **AS30** (onde está o Host-3), e que o BGP está permitindo que as redes se comuniquem corretamente.
 
-#### Teste de Rota (Traceroute) do Host-1 para o Host-4
+### Teste de Rota (Traceroute) do Host-1 para o Host-4
 
 O segundo teste é um comando **`traceroute`** do **Host-1** para o **Host-4**. O `traceroute` mostra o caminho que os pacotes de dados percorrem para chegar ao destino, revelando os roteadores que são atravessados.
 
@@ -824,14 +823,14 @@ Desta forma, a rota observada confirma que o **RouterLinux-1** usou sua rota BGP
 
 
 ---
-### Conclusão
+## Conclusão
 
 A configuração e os testes de conectividade demonstrados na rede BGP proposta ilustra a eficácia do uso do **FRRouting (FRR)** em um ambiente **Linux** para simular uma interconexão de Sistemas Autônomos. Através de comandos simples de `ifconfig` e da CLI do `vtysh`, foi possível definir as interfaces, habilitar o protocolo **BGP** e estabelecer sessões de vizinhança entre os roteadores de borda. Os resultados dos comandos de verificação (`show ip bgp summary` e `show ip route`) e dos testes de `ping` e `traceroute` confirmam que as rotas foram trocadas com sucesso, garantindo a plena conectividade entre todos os hosts em diferentes ASs. Isso demostra que o **FRR** é solução a ser considerada para a implementação de roteamento BGP em plataformas Linux, servindo como uma alternativa poderosa e de baixo custo para roteadores dedicados.
 
 > **Nota**: A implementação deste projeto demonstrou que o objetivo indireto de encontrar uma alternativa viável e eficiente para ambientes de ensino de redes foi não apenas alcançado, mas também validado na prática. O uso de roteadores Linux com FRRouting (FRR) em containers Docker no GNS3 provou ser uma solução robusta para contornar as limitações de hardware impostas por máquinas virtuais tradicionais. Ao consumir uma fração dos recursos de CPU e memória, essa metodologia permite a construção e a exploração de topologias de rede complexas e em larga escala que, de outra forma, seriam talvez impraticáveis em ambientes de ensino. Conclui-se que essa alternativa oferece uma plataforma poderosa e acessível para o aprendizado prático de redes, tornando o processo de simulação mais eficiente e escalável para estudantes e profissionais.
 
 ---
-### Referências Bibliográficas
+## Referências Bibliográficas
 
 REKHTER, Y., et al. **BGP-4.** 2. ed. [S. l.]: Cisco Press, 2006.
 
