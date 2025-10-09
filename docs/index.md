@@ -62,6 +62,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 		
 * Roteamento
 	* [RIP no CISCO, Mikrotik e Linux FRR](roteamento/rip-linux-cisco-mikrotik)
+	* [BGP no Linux com FRR](roteamento/bgp-linux)
 
 * Mikrotik
 	* [Configuração de rede básica, OSPF e SNAT](mikrotik/confRede)
