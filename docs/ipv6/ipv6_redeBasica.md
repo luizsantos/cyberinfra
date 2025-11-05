@@ -2,7 +2,7 @@
 layout: page
 ---
 
-# Introdução ao IPv6 - Administração de Redes de Computadores
+# Introdução ao IPv6
 
 ## Introdução
 
@@ -351,7 +351,9 @@ No IPv6 o cálculo é baseado no número de bits disponíveis para os hosts, que
 
 A fórmula para o número total de endereços IPs em uma sub-rede IPv6 é:
 
-$$2^n$$
+```math
+2^n
+```
 
 Onde:
 * **$n$** = Número de bits de host.
