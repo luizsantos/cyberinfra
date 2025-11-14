@@ -4,16 +4,16 @@ layout: page
 
 # Configuração básica do IPv6 no Linux
 
-A tecnologia que serve como base para o funcionamento da Internet vem do final da década de 1970 início de 1980. Sendo que, nessa época imaginava-se que o IPv4 (Internet Protocol version 4), com seus $2^{32}$ bits para endereços daria conta de todos os *hosts* que seriam conectados à Internet.
+A tecnologia que serve como base para o funcionamento da Internet vem do final da década de 1970 início de 1980. Sendo que, nessa época imaginava-se que o IPv4 (*Internet Protocol version* 4), com seus 2^32 bits para endereços daria conta de todos os *hosts* que seriam conectados à Internet.
 
-Entretanto, com a popularização dos computadores e com o surgimento de conceitos como IoT (Internet of Things), no qual espera-se que cada pessoa/empresa conecte inúmeras "coisas" à Internet, tais como: televisão, geladeira, lâmpada, sensores, video-game, relógio, smartphone, etc. Esses 4 bilhões endereços do IPv4 basicamente já se esgotaram.
+Entretanto, com a popularização dos computadores e com o surgimento de conceitos como IoT (Internet of Things), no qual espera-se que cada pessoa/empresa conecte inúmeras "coisas" à Internet, tais como: televisão, geladeira, lâmpada, sensores, video-game, relógio, *smartphone*, etc. Esses 4 bilhões endereços do IPv4 basicamente já se esgotaram.
 
-Para resolver tal problema, surge na década de 1990 o IPv6, que dá a possibilidade de endereçar 1.500 *hosts* por metro quadrado do planeta terra, com os seus $2^{128}$ bits de endereço - que é um valor quase impronunciável e certamente resolve o problema da falta de endereços IPs válidos na Internet. No entanto, mesmo com esse contexto, o IPv6 ainda hoje não substituiu completamente o IPv4, isso por vários motivos, tais como: medo do IPv6 apresentar problemas desconhecidos.
+Para resolver tal problema, surge na década de 1990 o IPv6, que dá a possibilidade de endereçar 1.500 *hosts* por metro quadrado do planeta terra, com os seus 2^128 bits de endereço - que é um valor quase impronunciável e certamente resolve o problema da falta de endereços IPs válidos na Internet. No entanto, mesmo com esse contexto, o IPv6 ainda hoje não substituiu completamente o IPv4, isso por vários motivos, tais como: medo do IPv6 apresentar problemas desconhecidos.
 
 Todavia, a maioria dos sistemas dão suporte ao IPv6 à décadas e principalmente nesses últimos anos nota-se que o IPv6 tem ganhado mais força na Internet e já é possível utilizá-lo, acessando vários recursos da Internet. Assim, para abordar práticas no IPv6.
 
 
-# IPv6 no Linux - Configuração de Clientes, NAT e endereço *stateless* {#sec:redebasica}
+# IPv6 no Linux - Configuração de Clientes, NAT e endereço *stateless* 
 
 Parece que o IPv6 está cada vez mais próximo de tomar o seu lugar na Internet, ou seja, o IPv6 está ganhando forças para substituir o IPv4 e assim resolver o grande problema da falta de endereços IPv4 válidos na Internet. Neste contexto, fica cada vez mais importante dominar o mínimo a respeito da teoria e prática do IPv6. Desta forma, este material, explica como:
 
@@ -21,22 +21,18 @@ Parece que o IPv6 está cada vez mais próximo de tomar o seu lugar na Internet,
 2. Configurar um roteador Linux com NAT para IPv6;
 3. Instalar e configurar um servidor que fornece configuração IPv6 de forma automática e sem controle de estado aos clientes da rede (Stateless address auto-configuration - [SLAAC](https://www.networkacademy.io/ccna/ipv6/stateless-dhcpv6)).
 
-Para tanto, utilizaremos o cenário de rede apresentado a seguir (ver [@fig:rede1]), como exemplo:
+Para tanto, utilizaremos o cenário de rede apresentado a seguir (ver Figura), como exemplo:
 
-![Cenário de rede do Exemplo IPv6.](imagens/redeBasica1.png){#fig:rede1}
+![Cenário de rede do Exemplo IPv6.](imagens/redeBasica1.png)
 
-A rede da [@fig:rede1] é composta basicamente por duas redes, um roteador e *hosts* clientes, sendo esses:
+A rede da figura anterior é composta basicamente por duas redes, um roteador e *hosts* clientes, sendo esses:
 
 * **LAN1**: que simboliza uma rede local privada, tal como uma casa ou pequena empresa;
 * **WAN1**: que representa uma rede pública que interconecta a LAN à Internet.
 * **RouterLinux-1**: este é um roteador Linux utilizado para Interconectar a LAN1 à WAN1 e consequentemente à Internet. Neste será configurado o NAT, e o servidor de configuração automática de rede dos clientes IPv6.
 * **Hosts[1-3]**: Todos os *hosts* da rede são Linux (Debian 10). O Host-1 está na WAN1 e tem como roteador um computador que está dentro da nuvem (*cloud1*). Os demais *hosts*, estão na LAN1 que por sua vez está atrás do NAT que será configurado no RoteadorLinux-1.
 
-::: note
-
-Todo esse cenário de rede foi implementado no simulador de redes [GNS3](https://gns3.com/).
-
-:::
+> Todo esse cenário de rede foi implementado no simulador de redes [GNS3](https://gns3.com/).
 
 As configurações dos *hosts* e serviços do cenários IPv6 proposto são apresentadas a seguir.
 
@@ -74,9 +70,7 @@ O comando ``dhcpcd -6 -i eth0`` foi utilizado para obter apenas configurações 
 Já a saída do comando anterior, mostra que o pedido ao servidor DHCP, foi atendido com sucesso, já que por exemplo, foram fornecidos alguns endereços IPs, tais como:
 ``eth0: adding address 2804:828:f230:5b25:96ae:4ff3:e9fd:cf62/64``.
 
-::: note
-Atenção, neste exemplo estamos utilizando o comando ``dhcpcd``, mas talvez o comando mais comum no Linux atualmente é o ``dhclient``. Já no ambiente gráfico do Linux, será utilizado provavelmente o [Network Manager](https://pt.wikipedia.org/wiki/NetworkManager). Então a escolha do programa DHCP cliente, fica à sua escolha ou da distribuição Linux que você está utilizando.
-:::
+> Atenção, neste exemplo estamos utilizando o comando ``dhcpcd``, mas talvez o comando mais comum no Linux atualmente é o ``dhclient``. Já no ambiente gráfico do Linux, será utilizado provavelmente o [Network Manager](https://pt.wikipedia.org/wiki/NetworkManager). Então a escolha do programa DHCP cliente, fica à sua escolha ou da distribuição Linux que você está utilizando.
 
 Vamos verificar quais foram as configurações de rede obtidas via IPv6:
 
@@ -110,9 +104,7 @@ Bem, como é possível ver, há vários endereços IPv6 atribuídos à uma únic
 
 1. Mesmo se ele não tiver conectado à rede, ele receberá um endereço IPv6 iniciado com ``fe80``, tal endereço servirá apenas para conectar aos computadores da rede local. No exemplo foi o IP ``fe80::ac81:f6ff:fee8:46c9``. É muito importante notar que o endereço ``fe80``, foi concatenado com parte do endereço MAC do *host*, que no caso é: ``ae:81:f6:e8:46:c9`` (utilize o comando ``ip link``, para ver o endereço MAC das interfaces). Tal concatenação, do endereço IPv6 com o endereço MAC da interface de rede é chamada de [EUI-64](https://www.catchpoint.com/benefits-of-ipv6/eui-64) (*Extended Unique Indetifier*);
 
-::: important
-A técnica EUI-64 é utilizada constantemente em endereços IPv6, então é muito importante entender e observar isso.
-:::
+> A técnica EUI-64 é utilizada constantemente em endereços IPv6, então é muito importante entender e observar isso.
 
 2. Ao conectar o computador à uma rede com roteador IPv6, é bem provável que este receberá automaticamente (sem precisar executar nenhum comando) IPs iniciados com: 
    * ``fd1b`` - que é para conectar em outras redes locais - ULA, antigo IP privado. Que na saída foi o IP ``fd1b:e114:982d:0:ac81:f6ff:fee8:46c9``;
@@ -158,9 +150,7 @@ PING www.google.com.br(2800:3f0:4001:82f::2003 (2800:3f0:4001:82f::2003)) 56 dat
 
 Dada esta resposta positiva (o comando ``ping`` apresentando tempo de ida e volta dos pacotes), confirmamos que a conexão IPv6 com a Internet foi bem sucedida.
 
-::: tip
-Neste cenário com apenas interface texto seria possível testar o acesso à Internet, utilizando por exemplo um navegador texto, tal como o ``lynx``, por exemplo ``lynx www.google.com.br``.
-:::
+> Neste cenário com apenas interface texto seria possível testar o acesso à Internet, utilizando por exemplo um navegador texto, tal como o ``lynx``, por exemplo ``lynx www.google.com.br``.
 
 A seguir vamos configurar o roteador Linux, para que este dê acesso à Internet para a LAN1.
 
@@ -219,13 +209,12 @@ Nos comandos anteriores, temos:
 2. Para um *host* Linux trabalhar como roteador é necessário ativar tal função, isso é feito no arquivo ``/proc/sys/net/ipv6/conf/all/forwarding``, colocando o conteúdo desse em 1 - caso seja 0, o roteamento está desabilitado;
 3. Para a LAN1, foi dado uma faixa de IP ULA/privada, que não é roteável na Internet (no caso ``fc00:1::/64``). Assim, tal rede não poderia acessa a Internet, desta forma, para que a LAN1 possa acessar a Internet vamos utilizar um NAT, dizendo via ``iptables``, que tudo que for sair para a Internet/WAN1 (``-o eth0``), deve receber o IP válido na Internet que estiver na ``eth0``, neste caso é o IP ``2804:828:f230:5b25:96ae:4ff3:e9fd:cf62``.
 
-::: note
-Com IPv6 não seria necessário utilizar o NAT para acessar a Internet, mas de qualquer forma o NAT existe no IPv6 e vamos utilizá-lo aqui neste exemplo, já que não estamos subdividindo a rede IPv6 que obtivemos do provedor. Mesmo com o *overhead* do NAT, ele ainda é interessante no IPv6 por tornar a rede oculta, dentre outros benefícios.
-:::
+> Com IPv6 não seria necessário utilizar o NAT para acessar a Internet, mas de qualquer forma o NAT existe no IPv6 e vamos utilizá-lo aqui neste exemplo, já que não estamos subdividindo a rede IPv6 que obtivemos do provedor. Mesmo com o *overhead* do NAT, ele ainda é interessante no IPv6 por tornar a rede oculta, dentre outros benefícios.
 
 Os comandos a seguir mostram como ficaram as configurações realizadas até agora no Router-Linux:
 
 *  Verificando os IPs das interfaces de Rede:
+
 ```console
 root@RouterLinux-1:/# ip a
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -437,9 +426,8 @@ O arquivo anterior basicamente faz o seguinte:
 1. Diz que o anuncio de rota via IPv6 deve ser feito pela ``eth1``, utilizando a rede ``fc00:1::/64``. 
 2. Também configuramos para que seja passado nos anúncios, o endereço do servidor de nomes à ser utilizado pelos *hosts*, que no caso é o ``RDNSS 2606:4700:4700::1111``.
 
-::: note
-Não é intenção deste material esgotar as possibilidades de configurações do [RADVD](https://linux.die.net/man/8/radvd), para isso procure por materiais na Internet.
-:::
+> Não é intenção deste material esgotar as possibilidades de configurações do [RADVD](https://linux.die.net/man/8/radvd), para isso procure por materiais na Internet.
+
 
 Feita a configuração vamos iniciar o serviço:
 
@@ -448,9 +436,7 @@ root@RouterLinux-1:/# /etc/init.d/radvd start
 Starting radvd: radvd.
 ```
 
-::: tip
-O serviço pode ser iniciado de outras formas, como por exemplo via ``systemctl``.
-:::
+> O serviço pode ser iniciado de outras formas, como por exemplo via ``systemctl``.
 
 Agora, com o RADVD instalado, configurado e devidamente em execução, vamos tentar novamente obter um IP para o Host-3:
 
@@ -467,9 +453,8 @@ forked to background, child pid 432
 ```
 A saída do comando anterior mostra que conseguimos obter as configurações do RouterLinux-1.
 
-::: important
-Note que apesar que utilizar um comando chamado ``dhcpcd``, não significa que estamos necessariamente pegando dados de um servidor DHCP, neste caso por exemplo é do RADVD.
-:::
+> Note que apesar que utilizar um comando chamado ``dhcpcd``, não significa que estamos necessariamente pegando dados de um servidor DHCP, neste caso por exemplo é do RADVD.
+
 
 Só para conferir se tudo realmente funcionou, vamos executar os comandos que já fizemos anteriormente nos outros *hosts*:
 
@@ -506,12 +491,12 @@ Anteriormente temos as seguintes saídas em blocos:
 
 Feita tais configurações, a partir de agora é possível conectar qualquer *host* na LAN1, que todas as configurações serão realizadas automaticamente, sem a necessidade de configuração manual.
 
-## Considerações do Capítulo
+## Conclusão
 
 A configuração deste cenário de rede IPv6 básica, mostrou alguns conceitos do IPv6, mas principalmente práticas Linux no IPv6. Também demostra que já é possível utilizar em boa parte a Internet através do  IPv6, pois por exemplo, a atualização de pacotes (``apt``) e os testes de ``ping`` foram realizados com sucesso apenas com IPv6, ou seja, sem nada de IPv4. Assim, recomenda-se conhecer mais do IPv6 e treiná-lo, para que quando esse novo protocolo dominar a Internet, são sejamos pegos de surpresa.
 
 
-# Bibliografia {#sec:bib}
+# Bibliografia
 
 ARCHLINUX. **IPv6**. Disponível em: <https://wiki.archlinux.org/title/IPv6>. Acessado em: 28 jun. 2024.
 
