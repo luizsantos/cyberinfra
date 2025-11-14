@@ -35,7 +35,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Linux](confBasicaRedes/linux/linuxConfRedeHost)
 
 * [IPv6](ipv6/introIPv6):
-<!--	* [Introdução](ipv6/ipv6_redeBasica) -->
+    * [Configuração básica de rede](ipv6/ipv6_redeBasica)
+    * [Rede IPv6 acessando Internet através da IPv4](ipv6/ipv62ipv4)
     * [Rede OSPF, RIP e BGP](ipv6/ipv6_roteamento)
 
 * Servidores no OpenBSD:
