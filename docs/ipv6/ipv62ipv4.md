@@ -4,11 +4,11 @@ layout: page
 
 # Conectando uma Rede IPv6 à Internet IPv4 (NAT64/DNS64)
 
-Este documento descreve como configurar um roteador Linux para atuar como um *gateway* de tradução, permitindo que hosts em uma rede exclusivamente IPv6 acessem a Internet via IPv4.
+Este documento descreve como configurar um roteador Linux para atuar como um *gateway* de tradução, permitindo que hosts em redes exclusivamente IPv6 acessem a Internet via IPv4.
 
 ## 1. Visão Geral do Cenário
 
-Nossa rede de exemplo, baseada na imagem fornecida, é a seguinte:
+Nossa rede de exemplo, é apresentada na figura a seguir:
 
 ![Cenário de rede do Exemplo IPv6.](img/ipv62ipv4-rede.png)
 
@@ -17,45 +17,46 @@ Nossa rede de exemplo, baseada na imagem fornecida, é a seguinte:
 * **RouterLinux-1:** O nosso *gateway*, que tem duas interfaces:
     * `eth1` (LAN): Conectada à rede interna.
     * `eth0` (WAN): Conectada à Internet, com um endereço IPv4 (no exemplo, `192.168.122.0/24`, que por sua vez sairá para a Internet via `nat0`).
-* **Objetivo:** Permitir que `Host-1` (ex: `fd00:cafe::2`) acesse um site como `google.com` (que só possui um IP IPv4).
+* **Objetivo:** Permitir que `Host-1` (ex: `fd00:cafe::2`) acesse um *site*, como `google.com`.
 
 > Esse cenário foi implementado no simulador de redes [GNS3](https://gns3.com/). Todos os hosts do cenário são Dockers Linux.
 
+O `cafe` dentro do endereço IPv6 é apenas um endereço fácil de lembrar e divertido, tais como: `dead`, `beef`, `face`, `babe`, `c0de`, etc. Esses são conhecidos como **_hexspeak_**.
 
-## 2. O Desafio: Falando IPv6 com um Mundo IPv4
+## 2. Utilizando IPv6 para acessar Internet via IPv4
 
-Esse cenário ilustra uma rede que resolveu utilizar IPv6 internamente, mas não possui uma conexão IPv6 nativa com a Internet. Assim, a ideia é configurar a rede local com endereços IPv6 e, quando for necessário acessar a Internet, converter esses endereços de IPv6 para IPv4.
+Esse cenário **ilustra uma rede que resolveu utilizar IPv6 internamente, mas não possui uma conexão IPv6 nativa com a Internet**. Assim, a ideia é configurar a rede local com endereços IPv6 e, quando for necessário acessar a Internet, **converter esses endereços de IPv6 para IPv4**.
 
-É claro que essa solução não é a ideal, pois o correto seria ter a rede nativamente IPv6 fim-a-fim, ou seja, da sua rede até a Internet tudo com IPv6. Entretanto, há casos em que essa solução pode ser necessária, tal como para testes com IPv6 em aulas de Redes de Computadores ou para testes de serviços em um ambiente controlado.
+É claro que essa solução não é a ideal, pois **o correto seria ter a rede nativamente IPv6 fim-a-fim**, ou seja, da sua rede até a Internet tudo com IPv6. Entretanto, há casos em que essa solução pode ser necessária, tal como para testes com IPv6 em aulas de Redes de Computadores ou para testes de serviços em um ambiente controlado.
 
 Então, o problema para a implementação deste cenário é duplo:
 
-1.  **Tradução de Pacotes (NAT64):** Em algum momento na rede, é necessário converter os pacotes IPv6 para IPv4. Nossos hosts internos só falam IPv6, mas a Internet (majoritariamente) ainda só entende IPv4. Precisamos de um tradutor no meio do caminho, pois a Internet não sabe como rotear um pacote IPv6 para um servidor IPv4 e isso será feito via NAT64 (Network Address Translation do IPv6 para IPv4).
+1.  **Tradução de Pacotes (NAT64):** Em algum momento na rede, **é necessário converter os pacotes IPv6 para IPv4**. Nossos hosts internos só falam IPv6, mas a Internet (majoritariamente) ainda só entende IPv4. Precisamos de um tradutor no meio do caminho, pois a Internet não sabe como rotear um pacote IPv6 para um servidor IPv4 e **isso será feito via NAT64** (*Network Address Translation* do IPv6 para IPv4).
 
-2.  **Resolução de Nomes (DNS64):** Este é o desafio mais sutil e complexo. Um host IPv6-only precisa de um servidor DNS que "minta" de forma inteligente para ele. O problema se manifesta de duas formas:
-    * **Cenário A: O site só tem IPv4.** Se o `Host-1` pede o IP de `site-antigo.com` (que só tem registro `A`), o servidor DNS normal responderia apenas com um IP IPv4. O host IPv6 não entende essa resposta e a conexão falha.
-    * **Cenário B: O site tem IPv4 e IPv6 (Dual-Stack).** Se o `Host-1` pede o IP de `google.com.br` (que tem `A` e `AAAA`), o servidor DNS responde com o endereço `AAAA` *real* (ex: `2800:3f0:...`). O host recebe esse IP, tenta se conectar, mas nosso roteador usando NAT64 não tem uma rota para a Internet IPv6. Então a conexão vai falhar com `Destination unreachable: No route`.
+2.  **Resolução de Nomes (DNS64):** Este é o desafio mais sutil e complexo. **Um host IPv6-only precisa de um servidor DNS que "minta" de forma inteligente para ele**. O problema se manifesta de duas formas:
+    * **Cenário A: O _site_ só tem IPv4.** Se o `Host-1` pede o IP de `site-antigo.com` (que só tem registro `A`), o servidor DNS normal responderia apenas com um IP IPv4. **O host IPv6 não entende essa resposta e a conexão falha**.
+    * **Cenário B: O _site_ tem IPv4 e IPv6 (Dual-Stack).** Se o `Host-1` pede o IP de `google.com.br` (que tem `A` e `AAAA`), o servidor DNS responde com o endereço `AAAA` *real* (ex: `2800:3f0:...`). **O host recebe esse IP, tenta se conectar, mas nosso roteador usando NAT64 não tem uma rota para a Internet IPv6. Então a conexão vai falhar** com `Destination unreachable: No route`.
 
-Portanto, a nossa solução de DNS64 precisa ser configurada para sempre forçar o tráfego a passar pelo tradutor NAT64. Ela deve:
+Portanto, a **nossa solução de DNS64 precisa ser configurada para sempre forçar o tráfego a passar pelo tradutor NAT64**. Ela deve:
 
-1.  Quando um site só tiver IPv4, **sintetizar (criar) um endereço IPv6 "falso"** (ex: `64:ff9b::...`) embutindo o IP IPv4 que queremos acessar na Internet.
-2.  Quando um site tiver *ambos* (IPv4 e IPv6), **ignorar/suprimir o endereço IPv6 real** e, em vez disso, também sintetizar um IPv6 "falso" a partir do IPv4.
+1.  Quando um *site* só tiver IPv4, é necessário **criar um endereço IPv6 "falso"** (ex: `64:ff9b::...`) embutindo o IP IPv4 que queremos acessar dentro de um IPv6 que nossa rede e principalmente o roteador NAT64 vai entender;
+2.  Quando um *site* tiver *ambos* (IPv4 e IPv6), **ignorar/suprimir o endereço IPv6 real** e, em vez disso, também criar um IPv6 "falso" a partir do IPv4.
 
 Assim, dito o motivo de criar esse tipo de rede e os desafios, vamos à implementação.
 
 > A sugestão aqui é só utilizar esse tipo de rede para testes e não para um ambiente em produção.
 
-## 3. A Solução: DNS64 e NAT64
+## 3. Solução proposta: DNS64 e NAT64
 
-Para resolver isso, usamos o roteador Linux para realizar duas funções:
+Para resolver o problemas proposto aqui, usamos o roteador Linux para realizar duas funções:
 
-1.  **DNS64 (O "Tradutor de Catálogo"):** Nosso roteador atuará como servidor DNS. Quando um host pedir um IP IPv6 (`AAAA`) e ele não existir, o DNS64 irá "sintetizar" ou "falsificar" um endereço IPv6 especial, embutindo o endereço IPv4 real dentro dele.
-    * **Ferramenta:** `bind9`
+1.  **DNS64 (O "Tradutor de Catálogo"):** Nosso roteador atuará como servidor DNS. Quando um host pedir um IP IPv6 (`AAAA`) e ele não existir, o DNS64 irá "sintetizar" ou "falsificar" um endereço IPv6 especial, embutindo o endereço IPv4 real dentro dele. Na prática essa função será feito com a ferramenta [`bind9`](https://www.isc.org/bind/).
 
-2.  **NAT64 (O "Tradutor de Pacotes"):** Quando o roteador receber um pacote IPv6 destinado a esse endereço "falso", ele irá interceptá-lo, extrair o IP IPv4 de dentro, e criar um pacote IPv4 totalmente novo para enviar à Internet. Ele faz o NAT (Masquerade) do IPv4 e reverte o processo para a resposta.
-    * **Ferramenta:** `tayga` (um tradutor simples e eficaz que roda em *user-space*).
+2.  **NAT64 (O "Tradutor de Pacotes"):** Quando o roteador receber um pacote IPv6 destinado a esse endereço "falso", ele irá interceptá-lo, extrair o IP IPv4 de dentro, e criar um pacote IPv4 totalmente novo para enviar à Internet. Ele faz o NAT (Masquerade) do IPv4 e reverte o processo para a resposta. Em nosso cenário isso será feito com a ferramenta [`tayga`](http://www.litech.org/tayga/).
 
 ## 4. Passo a Passo: Configurando o Roteador (RouterLinux-1)
+
+Vamos iniciar a configuração prática do cenário de rede e solução/ferramentas propostas.
 
 ### Passo 4.1: Configurar as Interfaces de Rede
 
@@ -84,11 +85,11 @@ Agora vamos configurar a `eth1` (LAN) com um IP estático:
 root@RouterLinux-1:/# ip address add fd00:cafe::1/64 dev eth1
 ```
 
-Então neste cenário o RouterLinux-1 tem o IP `192.168.122.187` na `eth0` que é da WAN e o IP `fd00:cafe::1` na `eth1`, que é da LAN.
+Então, neste cenário o RouterLinux-1, tem o IP `192.168.122.187` na `eth0` que é da WAN e o IP `fd00:cafe::1` na `eth1`, que é da LAN.
 
 ### Passo 4.2: Habilitar Roteamento
 
-Precisamos dizer ao kernel do Linux para encaminhar/rotear pacotes entre suas interfaces, vamos fazer isso diretamente nos arquivos do Linux:
+Precisamos dizer ao *kernel* do Linux para encaminhar/rotear pacotes entre suas interfaces, vamos fazer isso diretamente nos arquivos do Linux:
 
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -97,7 +98,7 @@ echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
 
 As linhas anteriores habilitam roteamento respectivamente para o IPv4 e IPv6.
 
-> Uma forma mais atual seria utilizando `systemctl` - não vamos fazer o uso desse comando aqui, pois estamos utilizando containers Docker e eles têm restrições com esse comando.
+> Uma forma mais atual seria utilizando `systemctl` - não vamos fazer o uso desse comando aqui, pois estamos utilizando *containers* Docker e eles têm restrições com esse comando.
 
 ### Passo 4.3: Instalar as Ferramentas
 
@@ -109,8 +110,8 @@ Vamos instalar o:
 Para instalar esses executamos:
 
 ```bash
-sudo apt update
-sudo apt install bind9 tayga radvd
+apt update
+apt install bind9 tayga radvd
 ```
 
 Com os pacotes instalados vamos à configuração.
@@ -122,7 +123,7 @@ O `bind9` será nosso servidor DNS local. Ele ouvirá as consultas, encaminhará
 Edite o arquivo de opções do BIND9:
 
 ```bash
-sudo nano /etc/bind/named.conf.options
+vi /etc/bind/named.conf.options
 ```
 
 Substitua todo o conteúdo desse arquivo por esta configuração mínima, focada em testes:
@@ -158,9 +159,9 @@ options {
 };
 ```
 
-#### Passo 4.5: Configurar o NAT64 (Tayga)
+### Passo 4.5: Configurar o NAT64 (Tayga)
 
-O `tayga` criará uma interface de túnel virtual (nat64) que fará a tradução.
+O `tayga` criará uma interface de túnel virtual (NAT64) que fará a tradução.
 
 Edite o arquivo `/etc/tayga.conf`:
 
@@ -180,17 +181,17 @@ dynamic-pool 192.168.255.0/24
 ipv4-addr 192.168.255.1
 ```
 
-> O prefixo pode estar habilitado o `2001:db8:1:ffff::/96` e desabilitado o `64:ff9b::/96`, então é só inverter.
+> No arquivo de configuração, pode estar habilitada a rede `2001:db8:1:ffff::/96` e desabilitada a `64:ff9b::/96`. Então é só inverter.
 
 ### Passo 4.6: Ativar o Tayga e as Rotas
 
-Precisamos iniciar o `tayga` e, em seguida, configurar as rotas do kernel para que o Linux saiba para onde enviar os pacotes.
+Precisamos iniciar o `tayga` e, em seguida, configurar as rotas do *kernel* para que o Linux saiba para onde enviar os pacotes.
 
 *  Iniciar o Tayga
 ```bash
-sudo tayga -c /etc/tayga.conf
+tayga -c /etc/tayga.conf
 ```
-> Verifique se o `tayga` está em execução com o comando `ps ax`, caso contrário o próximo comando vai falar. Em caso de erro execute o comando `tayga`, com a opção `-d`, para verificar o erro.
+> Verifique se o `tayga` está em execução com o comando `ps ax`. Em caso de erro execute o comando `tayga`, com a opção `-d`, para verificar possíveis erros.
 
 Após iniciar o `tayga`, exetute:
 
@@ -218,17 +219,20 @@ ip route add 192.168.255.0/24 dev nat64
 ip route add 64:ff9b::/96 dev nat64
 ```
 
-> Neste cenário utilizamos o IP `192.168.255.0/24`para o mapeamento do `tayga`, é claro que este não pode ser uma faixa de IPs que já é utilizado na sua rede.
+> Neste cenário utilizamos o IP `192.168.255.0/24` para o mapeamento do `tayga`, é claro que este não pode ser uma faixa de IPs que já é utilizado na sua rede, caso contrário vai dar "conflito".
 
 ### Passo 4.7: Habilitar o NAT IPv4 (Masquerade)
 
-Neste ponto, o `tayga` traduz `[fd00:cafe::2]` (Cliente) para `[192.168.255.2]` (IP falso). Precisamos de uma segunda tradução para que esse IP falso saia para a Internet com o IP real da eth0.
+Neste ponto, o `tayga` traduz `[fd00:cafe::2]` (Cliente) para `[192.168.255.2]` (IP falso). Precisamos de uma segunda tradução para que esse IP falso saia para a Internet com o IP real da eth0. Isso será feito com o uso do `iptables`, tal como:
 
 ```bash
 # Adiciona uma regra de NAT (Masquerade) para todo o tráfego
 # que sair do nosso pool "falso" e for para a internet (eth0)
 iptables -t nat -A POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
 ```
+
+> Caso você esteja em outro cenário, troque a placa de rede e/ou o IP de rede, pela interface de rede que dá acesso à Internet, e o IP que você utilizou no `tayga`.
+
 
 ### Passo 4.8: Configurar o Anúncio de Rede (radvd)
 
@@ -255,6 +259,8 @@ interface eth1 {
 };
 ```
 
+Assim, com o `radvd` configurado será possível que os clientes se autoconfigurem para IP, prefixo, *gateway* padrão e DNS, exigindo o mínimo de esforço de configuração por parte dos clientes.
+
 ### Passo 4.9: Iniciar os Serviços
 
 Agora, reinicie os *daemons* para carregar as novas configurações.
@@ -263,6 +269,7 @@ Agora, reinicie os *daemons* para carregar as novas configurações.
 /etc/init.d/named start
 /etc/init.d/radvd start
 ```
+> O `tayga` também poderia ser iniciado da mesma forma, ou seja, utilizando `script`. Lembrando novamente que provavelmente a maioria dos Linux modernos vão preferir iniciar esses serviços utilizando o `systemctl`.
 
 ### 5. Configurando os Clientes (Host-1, Host-2)
 
@@ -272,13 +279,15 @@ Se o seu cliente não se configurar sozinho, verifique sua ferramenta de rede (e
 
 Ao ser ativado, o cliente irá:
 
-* Ouvir o RA do `radvd`.
+* Enviar um RS para a rede/roteadores;
 
-* Gerar automaticamente um IP (ex: `fd00:cafe::abc:123/64`).
+* Ouvir o RA do `radvd`;
 
-* Adicionar automaticamente o gateway padrão (via `fe80::...` do roteador).
+* Gerar automaticamente um IP (ex: `fd00:cafe::abc:123/64`);
 
-Configurar automaticamente o servidor DNS (`fd00:cafe::1`) a partir da opção RDNSS.
+* Adicionar automaticamente o gateway padrão (via `fe80::...` do roteador);
+
+* Configurar automaticamente o servidor DNS (`fd00:cafe::1`) a partir da opção RDNSS.
 
 Também é possível configurar manualmente, tal como:
 
@@ -292,8 +301,7 @@ O mesmo deve ser feito com os outros hosts da rede, tal como o Host-2.
 
 ### 6. Verificação Final
 
-Primeiro vamos testar o NAT64, sem o DNS64. Para isso vamos "pingar" o famoso `8.8.8.8`, só que para isso temos que convertê-lo para o IPv6 metiroso da nossa rede, então esse será o IPv6: `64:ff9b::8.8.8.8`.
-
+Com tudo configurado e em execução, **vamos testar o NAT64, sem o DNS64**. Para isso vamos "pingar" o famoso `8.8.8.8`, só que para isso temos que convertê-lo para o IPv6 metiroso da nossa rede, então esse será o IPv6: `64:ff9b::8.8.8.8`.
 
 ```bash
 root@Host-1:/# ping -6 64:ff9b::8.8.8.8
@@ -305,7 +313,7 @@ PING 64:ff9b::8.8.8.8(64:ff9b::808:808) 56 data bytes
 
 O comando e saída anterior mostra que o NAT64 está funcionando corretamente.
 
-Agora vamos testar o DNS64. Vamos fazer isso pingando o `www.google.com`:
+Por fim, **vamos testar o DNS64**. Vamos fazer isso pingando o `www.google.com`:
 
 ```bash
 root@Host-1:/# ping www.google.com   
@@ -321,14 +329,16 @@ Se tudo funcionou, você verá as respostas! O host está enviando pacotes IPv6 
 
 Neste tutorial, demonstramos um método prático e completo para conectar uma rede interna *exclusivamente IPv6* (usando endereços privados ULA, `fd00::/8`) à Internet legada, que ainda opera majoritariamente em IPv4.
 
-Utilizando um roteador Linux como gateway, combinamos um conjunto de ferramentas-chave para criar uma "ponte" transparente entre os dois protocolos:
+Utilizando um roteador Linux como *gateway*, combinamos um conjunto de ferramentas-chave para criar uma "ponte" transparente entre os dois protocolos:
 
 1.  **DNS64 (com `bind9`):** Atuou como o "tradutor de catálogo". Ao interceptar consultas DNS, ele "sintetizou" (criou) registros `AAAA` (IPv6) a partir de registros `A` (IPv4), usando o prefixo especial `64:ff9b::/96`. Crucialmente, o configuramos com `exclude { ::/0; }` para **ignorar** respostas `AAAA` reais, forçando todo o tráfego (mesmo de sites dual-stack) a passar pelo nosso tradutor.
 2.  **NAT64 (com `tayga`):** Atuou como o "tradutor de pacotes". Ele interceptou os pacotes IPv6 destinados ao prefixo especial e os traduziu, estado a estado, em pacotes IPv4.
-3.  **NAT (com `iptables`):** Realizou a tradução final (Masquerade), permitindo que os pacotes IPv4 "falsos" (vindos do pool `192.168.255.0/24`) saíssem para a Internet usando o IP público da interface `eth0`.
-4.  **SLAAC (com `radvd`):** Facilitou a ponta do cliente, anunciando automaticamente o prefixo da rede (SLAAC) e, crucialmente, o endereço do nosso servidor DNS64 (via RDNSS), tornando a configuração do cliente trivial.
+3.  **NAT (com `iptables`):** Realizou a tradução final (`Masquerade`), permitindo que os pacotes IPv4 "falsos" (vindos do *pool* `192.168.255.0/24`) saíssem para a Internet usando o IP público da interface `eth0`.
+4.  **SLAAC (com `radvd`):** Facilitou a ponta do cliente, anunciando automaticamente o prefixo da rede (SLAAC) e, crucialmente, o endereço do nosso servidor DNS64 (via `RDNSS`), tornando a configuração do cliente trivial.
 
 O NAT64, combinado com o DNS64, é uma técnica de transição essencial. Ele permite que administradores de rede e organizações comecem a implementar o IPv6 em suas redes internas — aproveitando seu vasto espaço de endereçamento e simplicidade de gerência — sem perder a conectividade vital aos serviços e conteúdos que ainda residem no mundo IPv4.
+
+> Entretanto, lembre que essa solução só é indicada para redes de testes e não para redes em produção - redes em produção devem tentar utilizar IPv6 fim-a-fim.
 
 ---
 
