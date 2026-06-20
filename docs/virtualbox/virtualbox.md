@@ -313,6 +313,53 @@ Nesse exemplo, o conteúdo do arquivo `master.ign` é lido pelo comando `cat` e 
 
 Embora o VirtualBox não possua um mecanismo nativo equivalente aos serviços de metadados encontrados em provedores de nuvem, o uso de *Guest Properties* permite associar informações de configuração à VM e integrá-las a processos automatizados de provisionamento. Essa abordagem é particularmente útil em laboratórios e ambientes de teste que utilizam Fedora CoreOS e Ignition para configuração automática no primeiro _boot_.
 
+Segue uma versão expandida e mais didática para o capítulo.
+
+## Exemplo de criação, alteração, injeção e acesso a uma VM via linha de comando
+
+Para ilustrar a utilização do VirtualBox por meio da linha de comando, será apresentado um exemplo completo de provisionamento de uma máquina virtual [Fedora CoreOS (FCOS)](https://fedoraproject.org/coreos/download/). Nesse exemplo, inicialmente será realizado o download da imagem OVA disponibilizada pelo projeto Fedora CoreOS. As imagens oficiais podem ser obtidas na página de downloads do Fedora CoreOS, selecionando a plataforma VirtualBox, ou clicando aqui [FCOS download](<https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/44.20260523.3.1/x86_64/fedora-coreos-44.20260523.3.1-vmware.x86_64.ova>).
+
+Após o download, a máquina virtual será importada para o VirtualBox, configurada para utilizar uma interface de rede Host-Only, receberá um arquivo Ignition contendo suas configurações iniciais, será iniciada em modo *headless* (sem interface gráfica) e, por fim, será acessada remotamente via SSH.
+
+> Não é intenção desse texto explicar o arquivo Ignition do Fedora CoreOS, para isso procure por Fedora CoreOS em mecanismos de busca ou IA.
+
+Para simplificar os comandos e evitar erros de digitação, serão utilizadas variáveis de ambiente para armazenar o nome da máquina virtual e o nome do arquivo Ignition.
+
+```bash
+VM="FCOS-Master"
+OVA="fedora-coreos.ova"
+IGNITION="master.ign"
+
+VBoxManage import "$OVA" --vsys 0 --vmname "$VM"
+
+VBoxManage modifyvm "$VM" --nic2 hostonly --hostonlyadapter2 vboxnet0
+
+VBoxManage guestproperty set "$VM" "/Ignition/Config" "$(cat "$IGNITION")"
+
+VBoxManage startvm "$VM" --type headless
+
+VBoxManage showvminfo "$VM"
+
+ssh core@IP_DA_VM
+```
+
+Inicialmente são definidas três variáveis de ambiente: o nome da máquina virtual (`VM`), o nome do arquivo OVA (`OVA`) e o arquivo Ignition (`IGNITION`). Em seguida, o comando `import` registra a imagem OVA no VirtualBox, criando a máquina virtual.
+
+Após a importação, são realizadas algumas personalizações. A primeira consiste na adição de uma interface de rede Host-Only, permitindo a comunicação direta entre o hospedeiro e a máquina virtual. 
+
+O próximo passo consiste em armazenar o conteúdo do arquivo Ignition na propriedade `/Ignition/Config` da máquina virtual. Esse arquivo será utilizado durante o primeiro _boot_ para automatizar configurações como criação de usuários, instalação de chaves SSH, configuração de serviços e outras customizações do Fedora CoreOS.
+
+Após a inicialização da VM em modo *headless*, o comando `showvminfo` permite listar todas as propriedades conhecidas pelo VirtualBox. 
+
+> Há uma grande chance do comando `VBoxManage showvminfo "$VM"`, não informar o IP do da VM, neste casos algumas opções são:
+> 1. Ligar a VM sem o `--type headless` na primeira vez, ver o IP (se ele aparecer na janela de console) - provavelmente neste exemplo essa á a técnica mais fácil e garantida, pois o FOCS apresenta o IP na tela de _login_;
+> 2. Executar um `nmap` na rede do VirtualBox, tal como `nmap -sP 192.168.56.0/24` e ver o IP novo que vai aparecer nesta listagem (para isso você tem que ter feito essa listagem antes de ligar a VM para saber o que tinha lá antes e ver o que apareceu de novo);
+> 3. Se não houver outra VM que execute o SSH - em nosso exemplo a VM executa o SSH, ainda com `nmap` é possível verificar qual IP tem essa porta na rede do VirtualBox, tal como `nmap -p 22 192.168.1.0/24`.
+
+Por fim, após identificar o endereço IP da VM (apresentada no comando anterior - o usuário tem que localizar um IP, tal como 192.168.56.101), o acesso remoto pode ser realizado utilizando o protocolo SSH, normalmente por meio do usuário padrão `core`, cuja autenticação deve ter sido previamente configurada no arquivo Ignition.
+
+Esse exemplo demonstra como todo o ciclo de provisionamento de uma máquina virtual Fedora CoreOS pode ser automatizado utilizando apenas comandos de linha de comando. A combinação de importação de imagens OVA, configuração de hardware e rede, injeção de arquivos Ignition e acesso remoto via SSH permite criar ambientes reproduzíveis e facilmente automatizáveis, característica particularmente útil em laboratórios de ensino, ambientes de desenvolvimento, testes de infraestrutura e cenários de computação em nuvem.
+
 
 ## Conclusão
 
@@ -321,3 +368,17 @@ Diante de tudo o que foi exposto, fica evidente que o VirtualBox oferece o melho
 Por outro lado, o domínio da interface de linha de comando por meio do `VBoxManage` revela-se um divisor de águas quando o objetivo exige eficiência e escala. Para tarefas que envolvem automação massiva, criação de laboratórios complexos e repetitivos, ou a administração de servidores remotos que operam sem interface visual, o uso de comandos deixa de ser apenas uma alternativa e passa a ser uma competência essencial. A capacidade de condensar o provisionamento de toda uma infraestrutura de rede em um script curto economiza tempo, elimina erros manuais e poupa recursos preciosos de hardware.
 
 Em última análise, as duas interfaces não se excluem, mas se complementam perfeitamente. Enquanto a interface gráfica é ideal para o design inicial, testes rápidos e interações visuais, o modo texto entrega o poder técnico necessário para automatizar e escalar projetos. Compreender quando aplicar cada uma dessas abordagens é o que transforma o VirtualBox em uma ferramenta ainda mais flexível, robusta e indispensável para qualquer profissional de tecnologia.
+
+# Referências
+
+* ORACLE. Oracle VM VirtualBox User Manual. Disponível em: <https://www.virtualbox.org/manual/>. Acesso em: 20 jun. 2026.
+
+* ORACLE. VirtualBox Documentation – VBoxManage. Disponível em: <https://www.virtualbox.org/manual/ch08.html>. Acesso em: 20 jun. 2026.
+
+* STALLINGS, William. *Operating Systems: Internals and Design Principles*. 9. ed. Boston: Pearson, 2018.
+
+* COREOS. Ignition Documentation. Disponível em: <https://coreos.github.io/ignition/>. Acesso em: 20 jun. 2026.
+
+* FEDORA PROJECT. Fedora CoreOS Documentation. Disponível em: <https://docs.fedoraproject.org/en-US/fedora-coreos/>. Acesso em: 20 jun. 2026.
+
+* FEDORA PROJECT. Fedora CoreOS Downloads. Disponível em: <https://fedoraproject.org/coreos/download/>. Acesso em: 20 jun. 2026.
