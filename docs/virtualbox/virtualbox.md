@@ -17,7 +17,7 @@ A partir dele, você pode criar uma ou mais **Máquinas Virtuais (VMs)**. Cada V
 
 A maioria dos usuários normalmente utilizam a interface gráfica do VirtualBox, pois ela transforma o processo complexo de gerenciar infraestruturas virtuais em uma experiência visual e altamente intuitiva. Tal interface gráfica pode ser vista na figura a seguir.
 
-| <img src="img/virtualBox.png" alt="image" width="40%" height="auto"> | 
+| <img src="img/VirtualBox.png" alt="image" width="40%" height="auto"> | 
 |:--:|
 | Figura 1 - Interface gráfica do VirtualBox |
 
