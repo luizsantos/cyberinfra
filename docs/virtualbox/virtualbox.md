@@ -17,11 +17,13 @@ A partir dele, você pode criar uma ou mais **Máquinas Virtuais (VMs)**. Cada V
 
 A maioria dos usuários normalmente utilizam a interface gráfica do VirtualBox, pois ela transforma o processo complexo de gerenciar infraestruturas virtuais em uma experiência visual e altamente intuitiva. Tal interface gráfica pode ser vista na figura a seguir.
 
-| <img src="img/VirtualBox.png" alt="image" width="40%" height="auto"> | 
+| <img src="img/VirtualBox.png" alt="image" width="80%" height="auto"> | 
 |:--:|
 | Figura 1 - Interface gráfica do VirtualBox |
 
-Ao abrir o VirtualBox via interface gráfica, o usuário é recebido por um painel de controle centralizado (lado esquerdo da Figura 1) que organiza todas as máquinas virtuais em uma lista lateral, exibindo o status de cada uma em tempo real ao lado de um resumo detalhado de seu hardware. Ao iniciar uma VM essa aparece normalmente em uma tela, na qual o usuário pode utilizar a VM (lado direito da Figura 1). É claro que tal interface gráfica facilita muito a interação com o ambiente de virtualização e suas VMs, todavia administradores de rede, podem as vezes precisar de uma interação texto, ou seja, sem interface gráfica e o texto a seguir apresenta como isso é feito no VirtualBox.
+Ao abrir o VirtualBox via interface gráfica, o usuário é recebido por um painel de controle centralizado (lado esquerdo da Figura 1) que organiza todas as máquinas virtuais em uma lista lateral, exibindo o status de cada uma em tempo real ao lado de um resumo detalhado de seu hardware. Ao iniciar uma VM essa aparece normalmente em uma tela, na qual o usuário pode utilizar a VM (lado direito da Figura 1). 
+
+É claro que tal interface gráfica facilita muito a interação com o ambiente de virtualização e suas VMs, todavia administradores de rede, podem as vezes precisar de uma interação texto, ou seja, sem interface gráfica e o texto a seguir apresenta como isso é feito no VirtualBox.
 
 ## Interface Texto (comandos)
 
