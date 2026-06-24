@@ -225,14 +225,14 @@ ssh-keygen -t rsa -b 4096
 Com a chave criada é preciso copiar o conteúdo da chave, tal como:
 
 ```bash
-cat ~/.ssh/id_rsa.pub 
+$ cat ~/.ssh/id_rsa.pub 
 
 ssh-rsa AAAAB3NzaC1yc3EAAAADAQABAAACAQDjWW409BW52fXAwpQknt4u4G63lAbJDAAK17ghBAC3AbGbqIIDVJPnnXQIW3tvAyDcbgPR+TBMM7B7zRqnmGo4fbcdBI0sUXDDvdWqY+hpvkVA7LWhduHv5G9hZSShbK6KI14trZebIFjQwlaq8Vz5HgVcxwskuzs+v8C+JnGG+bFh8Jmw+1StF3Y1b7gKY2MPyVfFH/i61FZCNu2PCIzTPExBUkIUc1OclOccYSKOCzUCH8U3bg7PUrLbv6Y016yLAV0TDbwkmwBEbV0rdR7i5y2xGVpPDh+8R85UwHpE26XFZ/+EUTiScTYG8Qc0UM+Fklom4nv91i2NV05oeidXF0IyyLOjVYYJDAaEXGTOcUd3rYorMw3qsoAF/tTn60dxnZXdLRWPEmsFWBdWcpDaoK5ylcmRV2kcNmqj8789zkXOCXAfzHG5j9w2uSTOpA4LQtdUFDwv7+1fahVOttk3MePMcU08SieFjCMVs6c1vatsnz0atOn0LxBmEd07IZKYi8wH24pidQBnLP3DN8geFAzwcUWIDXTwU7Q/SHW1p6GdBybPhnxJHp5BmfRLDM7iLJizmpWUOQM5Zj8rI15EMWU+4uLkQNm5ZqwFxqcO1W88al8J26FobB+vnBQ1kbQOwA+D7Q7hkoVwNaaWxF++xRfYV2b1o+fMd0mN7H3D4w== luiz@teste
 ```
 
 Assim, com o conteúdo da chave, copie esse e vamos criar um arquivo chamado, por exemplo de `config.bu` e vamos incluir a chave anterior no arquivo _butane_, junto com as seguintes opções:
 
-```bash
+```yaml
 variant: fcos
 version: 1.5.0
 passwd:
@@ -252,8 +252,13 @@ butane --pretty --strict config.bu > config.ign
 
 O comando anterior vai gerar o arquivo `config.ign`, que deve ter um conteúdo similar ao apresentado a seguir:
 
+Comando:
 ```bash
 $ cat fcos/config.ign 
+```
+
+Conteúdo:
+```json
 {
   "ignition": {
     "version": "3.4.0"
