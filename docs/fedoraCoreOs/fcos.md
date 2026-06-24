@@ -10,6 +10,7 @@ Este trabalho apresenta uma introdução prática e conceitual a respeito do eco
 
 O objetivo geral deste texto é introduzir práticas de administração de sistemas utilizando um sistema operacional que rompe com o modelo tradicional mutável, capacitando o leitor a dominar as ferramentas de vanguarda, os desafios de rede e os paradigmas declarativos que regem os ambientes de alta disponibilidade e as arquiteturas nativas da nuvem **(*Cloud Native*)**.
 
+> [!NOTE]
 > _Cloud Native_ é uma abordagem de desenvolvimento de software especificamente desenhada para criar e executar aplicações aproveitando todas as vantagens do modelo de computação em nuvem (como **flexibilidade, escalabilidade e resiliência**). Não se trata apenas de pegar um sistema tradicional antigo e hospedá-lo em uma máquina virtual na AWS ou no Google Cloud. Ser Cloud Native significa que a aplicação foi pensada, arquitetada e escrita desde o primeiro dia para viver e prosperar dentro da dinâmica da nuvem.
 
 
@@ -19,6 +20,7 @@ O [Fedora CoreOS (FCOS)](https://fedoraproject.org/coreos/) é um **sistema oper
 
 O grande diferencial do FCOS reside na sua **imutabilidade**: o diretório do sistema operacional (`/usr`) é protegido como somente leitura, o que impede modificações manuais ou degradações ao longo do tempo. Além disso, ele **não utiliza instaladores tradicionais** (`dnf`, `apt`), sendo provisionado exclusivamente via arquivos de configuração declarativos (Ignition) no seu primeiro _boot_, garantindo que cada nó do _cluster_ nasça idêntico, previsível e altamente seguro.
 
+> [!NOTE]
 > Neste contexto, um **_cluster_** é um conjunto de múltiplas máquinas virtuais que são conectadas via rede e passam a operar de forma unificada, agindo como se fossem um único e grande computador/sistema. Ele é estruturado em uma divisão de trabalho onde a máquina principal (_Master Node_) atua como o cérebro que distribui as tarefas, gerencia a segurança e monitora a saúde do sistema, enquanto as demais máquinas (_Worker Nodes_) funcionam como os motores que efetivamente executam os contêineres e respondem pelas requisições de balanceamento de carga de forma coordenada e transparente para o usuário final.
 
 
