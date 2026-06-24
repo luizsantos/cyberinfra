@@ -30,6 +30,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 		* [Rede](docker/docker-rede)
 	* VirtualBox
 		* [Comandos](virtualbox/virtualbox)
+	* [Fedora CoreOS, Podman e K3s](fedoraCoreOs/fcos)
 
 # Redes de Computadores
 * Configuração básica de rede:

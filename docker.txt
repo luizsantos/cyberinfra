@@ -1,0 +1,39 @@
+c3a01f4234a8   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     6 days ago          Exited (1) 6 days ago                  zen_pike
+e53fb1b74829   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     6 days ago          Exited (1) 6 days ago                  gifted_mestorf
+6957c9fe62cb   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     4 months ago        Exited (1) 4 months ago                focused_liskov
+f94005421ddc   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     4 months ago        Exited (1) 4 months ago                agitated_williamson
+76787a80f46d   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     6 months ago        Exited (0) 6 months ago                agitated_goldwasser
+abf4354d2822   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     7 months ago        Exited (255) 7 months ago              affectionate_borg
+ac959f1d85ca   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     7 months ago        Exited (255) 7 months ago              mystifying_euler
+2ea4f20aa62b   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     7 months ago        Exited (255) 7 months ago              unruffled_lovelace
+6e992e4f3226   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     7 months ago        Created                                laughing_ramanujan
+2075a50fb70b   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     7 months ago        Created                                fervent_wiles
+c109d0e8ca33   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     10 months ago       Exited (0) 10 months ago               practical_driscoll
+586b17dd9636   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     10 months ago       Exited (2) 10 months ago               youthful_goldberg
+6002b3fd8898   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     10 months ago       Exited (0) 10 months ago               hardcore_lewin
+42c38d4d9046   kartben/lorawan-node-simulator      "docker-entrypoint.s…"   10 months ago       Exited (9) 10 months ago               heuristic_herschel
+1a9733084d4b   kartben/lorawan-node-simulator      "docker-entrypoint.s…"   10 months ago       Exited (1) 10 months ago               brave_lichterman
+b9e72396815f   kartben/lorawan-node-simulator      "docker-entrypoint.s…"   10 months ago       Exited (1) 10 months ago               vigilant_einstein
+b39256fd64cd   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     12 months ago       Exited (255) 12 months ago             gracious_ellis
+ee696da160aa   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     16 months ago       Exited (255) 16 months ago             jovial_blackburn
+703426a751a3   archlinux                           "/usr/bin/bash"          17 months ago       Created                                determined_heyrovsky
+abdc656729b3   archlinux                           "/usr/bin/bash"          17 months ago       Created                                laughing_feynman
+f34ed395e3d5   ciscotalos/snort3:latest            "/gns3/init.sh /bin/…"   17 months ago       Exited (255) 17 months ago             elegant_driscoll
+d65ff5dfc846   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     22 months ago       Exited (0) 22 months ago               trusting_mahavira
+473700065f41   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     22 months ago       Exited (0) 22 months ago               dazzling_swanson
+a8dcacc38195   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     23 months ago       Exited (0) 22 months ago               naughty_darwin
+d90d4f7a1199   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     23 months ago       Exited (0) 22 months ago               stoic_keldysh
+9e7e0a731749   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     23 months ago       Exited (0) 22 months ago               upbeat_lamarr
+adfe20b03265   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     23 months ago       Exited (1) 22 months ago               elegant_rubin
+54c8b89150e5   luizarthur/cyberinfra:router        "/gns3/init.sh bash"     23 months ago       Exited (137) 22 months ago             zen_bartik
+980fdd8a9bcc   luizarthur/cyberinfra:router        "/gns3/init.sh bash"     23 months ago       Exited (0) 22 months ago               elastic_bell
+cb5ecf132c79   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     24 months ago       Exited (255) 23 months ago             focused_banzai
+75532bde9004   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     24 months ago       Exited (255) 23 months ago             bold_chaum
+125da0dc6ef5   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     24 months ago       Exited (255) 23 months ago             gracious_tharp
+bf6724c1bd12   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     24 months ago       Exited (255) 23 months ago             cool_jemison
+1f113c735fad   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     24 months ago       Exited (255) 23 months ago             epic_darwin
+7698c759cf1f   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     24 months ago       Exited (255) 23 months ago             relaxed_khorana
+d7f9ba81a438   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     2 years ago         Exited (0) 2 years ago                 nifty_blackburn
+94777f935b33   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     2 years ago         Exited (0) 2 years ago                 awesome_burnell
+07229deb75ff   luizarthur/cyberinfra:host          "/gns3/init.sh bash"     2 years ago         Exited (0) 2 years ago                 epic_thompson
+2ec3ab54ba15   luizarthur/cyberinfra:router        "/gns3/init.sh bash"     2 years ago         Exited (0) 2 years ago                 loving_mclean
