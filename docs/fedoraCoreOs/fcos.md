@@ -26,15 +26,13 @@ O grande diferencial do FCOS reside na sua **imutabilidade**: o diretório do si
 
 Na prática, o Fedora CoreOS é utilizado como a fundação de infraestruturas nativas da nuvem (*Cloud Native*), atuando como o sistema operacional hospedeiro (*host*) ideal para nós de clusters **Kubernetes** e ambientes de computação de borda (*Edge Computing*). Por ser a base comunitária _upstream_ do sistema comercial **[Red Hat Enterprise Linux CoreOS](https://www.redhat.com/) (RHCOS)**, o CoreOS é o motor que sustenta grandes _clusters_ do **[Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)** ao redor do mundo. 
 
-::: note
-O Red Hat OpenShift é uma plataforma corporativa de orquestração de contêineres baseada em Kubernetes que unifica o desenvolvimento, a segurança e o gerenciamento de aplicações em ambientes de nuvem híbrida.
-:::
+
+> O Red Hat OpenShift é uma plataforma corporativa de orquestração de contêineres baseada em Kubernetes que unifica o desenvolvimento, a segurança e o gerenciamento de aplicações em ambientes de nuvem híbrida.
+
 
 Empresas de escala global, instituições financeiras e provedores de telecomunicações - como a [Amadeus](https://amadeus.com/en) (que gerencia sistemas de reservas de viagens globais) e a [Audi](https://www.audi.com.br/) - utilizam essa mesma tecnologia de arquitetura imutável em suas plataformas OpenShift para rodar milhares de microsserviços críticos. Na comunidade de Open source, ele é a base do **[OKD](https://docs.okd.io/)** (a distribuição comunitária do OpenShift), sendo amplamente adotado por administradores de sistemas e engenheiros de DevOps para implantar _datacenters_ automatizados do tipo *Zero Touch*, onde servidores vulneráveis ou desatualizados são simplesmente descartados e substituídos automaticamente por novas instâncias sem qualquer intervenção humana.
 
-::: note
-_Zero Touch_ é um método de provisionamento onde dispositivos ou sistemas são configurados e implantados de forma totalmente automatizada, sem a necessidade de intervenção manual.
-:::
+> _Zero Touch_ é um método de provisionamento onde dispositivos ou sistemas são configurados e implantados de forma totalmente automatizada, sem a necessidade de intervenção manual.
 
 ## Um Pouco da História do Fedora CoreOS
 
@@ -62,9 +60,8 @@ Por outro lado, as **vantagens** dessa abordagem superam amplamente os desafios 
 
 A utilização do FCOS consolida o conceito de **"_Pets vs. Cattle_"** (Animais de Estimação vs. Gado), promovendo um total desapego operacional em relação à infraestrutura: o sistema operacional deixa de ser um "pet" que recebe manutenção manual, cuidados contínuos e correções de falhas in loco. Em vez de gastar tempo investigando o mau funcionamento de um servidor mutável, a filosofia imutável do FCOS dita que o nó defeituoso deve ser sumariamente descartado e substituído por uma nova instância idêntica, gerada automaticamente via Ignition já com as devidas correções aplicadas.
 
-::: note
-A analogia "_Pets vs. Cattle_" descreve duas filosofias distintas para o gerenciamento de servidores em TI e DevOps: enquanto os **_Pets_** são servidores únicos, cuidados manualmente, com nomes próprios e tratados como indispensáveis, o **_Cattle_** representa servidores uniformes, automatizados e facilmente substituíveis que, identificados apenas por números, são sumariamente descartados e recriados do zero caso apresentem qualquer falha.
-:::
+> A analogia "_Pets vs. Cattle_" descreve duas filosofias distintas para o gerenciamento de servidores em TI e DevOps: enquanto os **_Pets_** são servidores únicos, cuidados manualmente, com nomes próprios e tratados como indispensáveis, o **_Cattle_** representa servidores uniformes, automatizados e facilmente substituíveis que, identificados apenas por números, são sumariamente descartados e recriados do zero caso apresentem qualquer falha.
+
 
 Assim, Fedora CoreOS foi desenhado sob uma filosofia minimalista e utilitária: ser uma fundação **ultra-segura, previsível e imutável para rodar contêineres**. Diferente das distribuições Linux tradicionais, sua arquitetura **elimina tudo o que é supérfluo**, mantendo apenas o estritamente necessário para o Kernel se comunicar com o hardware e disparar os motores de contêiner.
 
@@ -92,9 +89,7 @@ Seu grande diferencial técnico em relação ao Docker é a sua arquitetura **_d
 
 No dia a dia de um administrador de sistemas, o Podman é utilizado para isolar e rodar serviços locais de forma rápida — como subir temporariamente um banco de dados para testes através do comando `podman run`, empacotar aplicações customizadas com o `podman build`, ou automatizar a inicialização de servidores web integrados diretamente ao `systemd` do sistema operacional através de arquivos de configuração declarativos, substituindo o Docker com total compatibilidade de comandos.
 
-::: note
-**Pod** podem ser vistos como grupos de contêineres compartilhando a mesma rede e recursos - esse é um conceito utilizado em Kubernetes.
-:::
+> **Pod** podem ser vistos como grupos de contêineres compartilhando a mesma rede e recursos - esse é um conceito utilizado em Kubernetes.
 
 ### Provisionamento via Ignition
 
@@ -145,9 +140,8 @@ Substitui as ferramentas tradicionais de software, sendo o principal ambiente de
 * **`podman ps -a`**: Lista todos os contêineres (ativos e inativos) criados pelo seu usuário atual.
 * **`podman logs [nome]`**: Exibe a saída de erro e _logs_ de uma aplicação específica em execução.
 
-::: note
-O `podman`  basicamente executa as mesmas funções do `docker` inclusive utilizando os mesmos comandos.
-:::
+> O `podman`  basicamente executa as mesmas funções do `docker` inclusive utilizando os mesmos comandos.
+
 
 ### Diagnóstico de Infraestrutura e Serviços (`systemd`)
 
@@ -205,9 +199,8 @@ Na página de [downloads](https://fedoraproject.org/coreos/download/?stream=stab
 
 No painel do VirtualBox, acesse o menu **Arquivo -> Importar Appliance** (ou *Import Virtual Appliance*) e selecione o arquivo `.ova` baixado. Nesta tela, o administrador pode definir o nome da VM e ajustar a alocação de memória RAM (recomenda-se o mínimo de 1024MB a 2048MB para laboratórios). 
 
-::: important
-**Não inicie a máquina virtual ainda.**
-:::
+> **Não inicie a máquina virtual ainda.**
+
 
 ### Passo 3: Injeção do Arquivo Ignition via Propriedades do Host
 
@@ -226,9 +219,8 @@ Então para nosso primeiro acesso vamos configurar apenas o arquivo Butane para 
 ```bash
 ssh-keygen -t rsa -b 4096
 ```
-::: note
-Se você já tiver a chave não precisa criar. Também é possível criar outros tipos de chaves, tal como: `ssh-keygen -t ed25519 -C "seu-email@exemplo.com"`, por exemplo as chaves do algoritmo ED25519 geram tamanho de chaves menores, o que pode ajudar, já que o sistemas que receberá o arquivo Ignition pode ter problemas com o tamanho do mesmo arquivo.
-:::
+> Se você já tiver a chave não precisa criar. Também é possível criar outros tipos de chaves, tal como: `ssh-keygen -t ed25519 -C "seu-email@exemplo.com"`, por exemplo as chaves do algoritmo ED25519 geram tamanho de chaves menores, o que pode ajudar, já que o sistemas que receberá o arquivo Ignition pode ter problemas com o tamanho do mesmo arquivo.
+
 
 Com a chave criada é preciso copiar o conteúdo da chave, tal como:
 
@@ -255,9 +247,8 @@ Com o arquivo pronto vamos gerar o arquivo Ignition, isso pode ser feito de vár
 ```bash
 butane --pretty --strict config.bu > config.ign
 ```
-::: note
-O comando `butane` pode ser instalado, por exemplo utilizando algum gerenciador de pacotes tal como: `apt install butane`.
-:::
+> O comando `butane` pode ser instalado, por exemplo utilizando algum gerenciador de pacotes tal como: `apt install butane`.
+
 
 O comando anterior vai gerar o arquivo `config.ign`, que deve ter um conteúdo similar ao apresentado a seguir:
 
@@ -329,9 +320,8 @@ $ IGN_PATH="fcos/config.ign"
 $ VBoxManage guestproperty set "$VM_NAME" /Ignition/Config "$(cat $IGN_PATH)"
 ```
 
-::: note
-Veja os passos em: <https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-virtualbox/>
-:::
+> Veja os passos em: <https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-virtualbox/>
+
 
 
 ### Passo 4: O Primeiro Boot e a Configuração Atômica
@@ -355,15 +345,13 @@ Discuss: https://discussion.fedoraproject.org/tag/coreos
 Last login: Sun Jun  7 11:24:00 2026 from 192.168.56.1
 core@localhost:~$
 ```
-::: note
-Normalmente o IP aparece no console do VirtualBox, então é só olhar o console da VM que está em execução no VirtualBox, identificar o IP e no host hospedeiro executar o SSH para o dado IP.
-:::
+> Normalmente o IP aparece no console do VirtualBox, então é só olhar o console da VM que está em execução no VirtualBox, identificar o IP e no host hospedeiro executar o SSH para o dado IP.
+
 
 É muito importante notar que **a configuração do Ignition só é aplicada no primeiro _boot_**, ou seja, se você aplicar o Ignition com uma configuração em uma VM X, e quiser alterar a configuração, não dá para reaplicar a configuração via Ignition na VM X (o comando é até executado, mas não tem efeito prático). Portanto neste caso é necessário apagar a VM X, criar uma nova VM e aplicar a nova configuração via Ignition nesta nova VM - lembre que a filosofia do FCOS é não ter apego ao sistema, se está errado apaga e inicia outro com a configuração certa.
 
-::: important
-O Ignition foi projetado para ser executado apenas uma vez, durante o primeiro _boot_ de uma máquina recém-provisionada. Se precisar alterar, há algumas opções, mas uma ideia principal é apagar a VM e criar outra!
-:::
+> O Ignition foi projetado para ser executado apenas uma vez, durante o primeiro _boot_ de uma máquina recém-provisionada. Se precisar alterar, há algumas opções, mas uma ideia principal é apagar a VM e criar outra!
+
 
 ## Um pouco mais a respeito do Ignition
 
@@ -827,9 +815,8 @@ systemctl start nginx.service
 ```
 Com o comando anterior, o Systemd executa o Podman, que cria e inicia o container correspondente.
 
-::: note
-Na primeira execução o Podman poderá baixar a imagem do Nginx, o que pode levar alguns instantes dependendo da velocidade da conexão.
-:::
+> Na primeira execução o Podman poderá baixar a imagem do Nginx, o que pode levar alguns instantes dependendo da velocidade da conexão.
+
 
 ## Verificando os containers em execução
 
@@ -1023,9 +1010,7 @@ Em seguida configuramos a propriedade especial do VirtualBox:
 VBoxManage guestproperty set "$VM_NAME"  /Ignition/Config "$(cat $IGN_PATH)"
 ```
 
-::: important
-Lembre de ligar o servidor HTTP, com o arquivo Ignition, tal como: `python3 -m http.server 8080`. Caso contrário a VM vai iniciar e ficar procurando esse arquivo e falhará.
-:::
+> Lembre de ligar o servidor HTTP, com o arquivo Ignition, tal como: `python3 -m http.server 8080`. Caso contrário a VM vai iniciar e ficar procurando esse arquivo e falhará.
 
 O Fedora CoreOS lê automaticamente essa propriedade durante o primeiro _boot_. O conteúdo armazenado nela corresponde exatamente ao arquivo Ignition de _bootstrap_ criado anteriormente.
 
@@ -1037,9 +1022,8 @@ Com tudo configurado, podemos iniciar a VM.
 VBoxManage startvm "$VM_NAME"
 ```
 
-::: note
-Na primeira execução ou para testes podemos executar o comando anterior, que mostra a tela da VM, o que é bom para depuração de erros, mas em produção talvez seja interessante utilizar o comando `VBoxManage startvm "FCOS" --type headless` (neste exemplo o nome da VM é `FCOS`), que inicia a VM em segundo plano - ou seja, sem mostrar o terminal da VM. É possível ver essas VMs sem terminal utilizando o comando `VBoxManage list runningvms`, ou gerenciar utilizando o comando `VBoxManage controlvm "FCOS" poweroff`, sendo possível trocar a opção `poweroff`, por `reset`, `pause`, `resume`, `acpipowerbutton`, para respectivamente: desligar forçado, reiniciar, pausar, voltar do pause, e enviar o sinal de desligar para o SO. Também é possível ver informações de uma VM específica com o comando: `VBoxManage showvminfo "FCOS"`.
-:::
+> Na primeira execução ou para testes podemos executar o comando anterior, que mostra a tela da VM, o que é bom para depuração de erros, mas em produção talvez seja interessante utilizar o comando `VBoxManage startvm "FCOS" --type headless` (neste exemplo o nome da VM é `FCOS`), que inicia a VM em segundo plano - ou seja, sem mostrar o terminal da VM. É possível ver essas VMs sem terminal utilizando o comando `VBoxManage list runningvms`, ou gerenciar utilizando o comando `VBoxManage controlvm "FCOS" poweroff`, sendo possível trocar a opção `poweroff`, por `reset`, `pause`, `resume`, `acpipowerbutton`, para respectivamente: desligar forçado, reiniciar, pausar, voltar do pause, e enviar o sinal de desligar para o SO. Também é possível ver informações de uma VM específica com o comando: `VBoxManage showvminfo "FCOS"`.
+
 
 Durante o primeiro _boot_ ocorrerão as seguintes etapas:
 
@@ -1053,9 +1037,8 @@ Durante o primeiro _boot_ ocorrerão as seguintes etapas:
 8. O Podman realiza o download da imagem Nginx.
 9. O container é iniciado automaticamente.
 
-::: important
-Para que o segunda passo ocorra corretamente é importante disponibilizar o arquivo `servidor01.ign`, via servidor HTTP, na porta 8080. Para isso o comando pode ser: `python3 -m http.server 8080`, esse tem que ser executado dentro do diretório onde está o arquivo.
-:::
+> Para que o segunda passo ocorra corretamente é importante disponibilizar o arquivo `servidor01.ign`, via servidor HTTP, na porta 8080. Para isso o comando pode ser: `python3 -m http.server 8080`, esse tem que ser executado dentro do diretório onde está o arquivo.
+
 
 ## Acessando o servidor
 
@@ -1314,9 +1297,7 @@ Assim, ao iniciar a VM essa executará as seguintes ações:
 
 Por fim, podemos testar se tudo está funcionando acessando o IP da VM em um navegador Web.
 
-::: note
-Observe que com esse processo seria possível criar facilmente vários servidores web, similares. E principalmente ao invés de criar a VM-WEB1 utilizando o método manual, seria melhor utilizar esse Ignition e criar todos os nós iguais, mas aqui fizemos isso por motivos didáticos, ou seja, perceber como é a criação manual e como fica mais simples e fácil replicar as configurações utilizando o Ignition.
-:::
+> Observe que com esse processo seria possível criar facilmente vários servidores web, similares. E principalmente ao invés de criar a VM-WEB1 utilizando o método manual, seria melhor utilizar esse Ignition e criar todos os nós iguais, mas aqui fizemos isso por motivos didáticos, ou seja, perceber como é a criação manual e como fica mais simples e fácil replicar as configurações utilizando o Ignition.
 
 Com os servidores **WEB1** e **WEB2** devidamente configurados e executando seus respectivos containers Nginx, o próximo passo consiste em configurar o terceiro elemento da nossa infraestrutura, que é o nó responsável pelo balanceamento de carga.
 
@@ -1330,9 +1311,8 @@ No cenário deste exemplo, os clientes acessarão apenas o endereço IP do balan
 
 Um **_proxy_ reverso (_reverse proxy_)** é um servidor intermediário que recebe requisições dos clientes e as encaminha para um ou mais servidores de _backend_. Para o cliente, o _proxy_ reverso aparenta ser o próprio servidor que fornece o serviço, ocultando a existência dos servidores reais que processam as requisições. Essa abordagem é amplamente utilizada para implementar **balanceamento de carga**, aumentar a segurança, centralizar certificados TLS/HTTPS, realizar _cache_ de conteúdo e facilitar a publicação de múltiplos serviços através de um único ponto de acesso.
 
-::: Important
-É importante não confundir um _proxy_ reverso com um **_proxy_ tradicional (_forward proxy_)**. Um _proxy_ tradicional atua em nome dos clientes, sendo utilizado para controlar, filtrar ou registrar o acesso dos usuários à Internet. Já o _proxy_ reverso atua em nome dos servidores, recebendo conexões externas e distribuindo-as para os serviços internos apropriados. Em outras palavras, no _proxy_ tradicional os clientes conhecem o _proxy_ e os servidores externos não; no _proxy_ reverso os clientes conhecem apenas o _proxy_, enquanto os servidores de _backend_ permanecem ocultos.
-:::
+> É importante não confundir um _proxy_ reverso com um **_proxy_ tradicional (_forward proxy_)**. Um _proxy_ tradicional atua em nome dos clientes, sendo utilizado para controlar, filtrar ou registrar o acesso dos usuários à Internet. Já o _proxy_ reverso atua em nome dos servidores, recebendo conexões externas e distribuindo-as para os serviços internos apropriados. Em outras palavras, no _proxy_ tradicional os clientes conhecem o _proxy_ e os servidores externos não; no _proxy_ reverso os clientes conhecem apenas o _proxy_, enquanto os servidores de _backend_ permanecem ocultos.
+
 
 No Nginx, a configuração de um proxy reverso normalmente envolve a diretiva `proxy_pass`, responsável por encaminhar as requisições para o servidor de destino. Em cenários com múltiplos servidores, utiliza-se a diretiva `upstream`, que define um grupo de servidores _backend_ para balanceamento de carga. Também são comuns configurações relacionadas à preservação de informações da conexão original, como os cabeçalhos `Host`, `X-Real-IP` e `X-Forwarded-For`, permitindo que os servidores de _backend_ identifiquem corretamente o cliente que realizou a requisição. Dessa forma, o Nginx pode atuar simultaneamente como servidor web, balanceador de carga e _proxy_ reverso, tornando-se uma das soluções mais utilizadas em infraestruturas modernas.
 
@@ -1418,9 +1398,8 @@ Ao executar esse comando no nó externo, o Nginx alternará as respostas entre o
 
 Desta forma, observa-se que as respostas são alternadas entre os servidores WEB1 e WEB2, demonstrando que o nó balanceador está distribuindo as requisições entre os servidores de _backend_ conforme esperado. Esse comportamento confirma que o _proxy_ reverso e o mecanismo de balanceamento de carga foram configurados corretamente, permitindo que múltiplos servidores atendam às requisições dos clientes de forma transparente e compartilhada.
 
-::: note
-Outro teste interessante é simular uma falha de infraestrutura, ou seja, podemos indisponibilizar um dos servidores WEB1 (parando o servidor, desligando a VM, etc). A ideia é que o nó balanceador vai perceber automaticamente um dos _backends_ parou de responder e passará a direcionar 100% do tráfego para o outro, demonstrando na prática o conceito de tolerância a falhas.
-:::
+> Outro teste interessante é simular uma falha de infraestrutura, ou seja, podemos indisponibilizar um dos servidores WEB1 (parando o servidor, desligando a VM, etc). A ideia é que o nó balanceador vai perceber automaticamente um dos _backends_ parou de responder e passará a direcionar 100% do tráfego para o outro, demonstrando na prática o conceito de tolerância a falhas.
+
 
 # Introdução Orquestração de Contêineres com Kubernetes
 
@@ -1585,9 +1564,7 @@ Bem, infelizmente tal configuração das VMs (duas placas de rede sendo a NAT a 
 
 É obrigatório instruir explicitamente o binário do K3s, tanto no Master quanto nos Agentes, sobre qual interface e IP devem ser utilizados para a malha de rede interna (*overlay network*) e para a exposição de serviços. Ou seja, os nós que compõe o cluster de nosso exemplo deve utilizar explicitamente a placa _host-only_, que normalmente utiliza o IP de rede 192.168.56.0/24.
 
-::: note
-Remover a placa NAT ou inverter para a placa _host-only_ ser a primeira já pode contornar ou evitar os problemas descritos a seguir. Todavia como esse é um material de ensino, é interessante ver problemas que poderia ocorrer também em um ambientes real e quais seriam suas possíveis soluções.
-:::
+> Remover a placa NAT ou inverter para a placa _host-only_ ser a primeira já pode contornar ou evitar os problemas descritos a seguir. Todavia como esse é um material de ensino, é interessante ver problemas que poderia ocorrer também em um ambientes real e quais seriam suas possíveis soluções.
 
 Outro possível problema, mas que ai já não tem relação com o VirtualBox, e assim poderia acontecer no ambiente real com mais facilidade é que o Kubernetes utiliza o nome de host (*hostname*) do sistema operacional como a chave primária de identificação do nó no _cluster_. Assim, se as imagens padrão do FCOS forem inicializadas com um nome, padrão, tal como normalmente ocorre do nome ser `localhost.localdomain`, isso vai dar problema - os nós do cluster não vão aparecer nas listagem do cluster, por exemplo.
 
@@ -1607,9 +1584,9 @@ sudo hostnamectl set-hostname k3s-node1
 sudo hostnamectl set-hostname k3s-node2
 ```
 -->
-::: note
-Seria mais interessante já ter essas configurações no Ignition, mas a solução anterior também funcionará em pequena escala.
-:::
+
+> Seria mais interessante já ter essas configurações no Ignition, mas a solução anterior também funcionará em pequena escala.
+
 
 
 ### Instalação e Configuração do K3s
@@ -1638,9 +1615,8 @@ sudo nano /etc/systemd/system/k3s.service
 ExecStart=/usr/local/bin/k3s server --node-ip=192.168.56.110 --flannel-iface=enp0s8 --disable traefik
 ```
 
-::: note
-O `--node-ip=192.168.56.110 --flannel-iface=enp0s8` é o que diz para o K3s qual interface ele deve utilizar e resolve o nosso problema na VM do Virtualbox, ou seja, se não fosse esse prolema não precisamos indicar o IP do host e não iriamos precisar dessa opção neste comando.
-:::
+> O `--node-ip=192.168.56.110 --flannel-iface=enp0s8` é o que diz para o K3s qual interface ele deve utilizar e resolve o nosso problema na VM do Virtualbox, ou seja, se não fosse esse prolema não precisamos indicar o IP do host e não iriamos precisar dessa opção neste comando.
+
 
 3. Recarregue o _daemon_ do sistema e reinicie o serviço:
 ```bash
@@ -1679,9 +1655,8 @@ sudo nano /etc/systemd/system/k3s-agent.service
 # Configuração para o Agente 1 (No Agente 2, utilize o IP 192.168.56.112)
 ExecStart=/usr/local/bin/k3s agent --node-ip=192.168.56.111 --flannel-iface=enp0s8
 ```
-::: Important
-Altere o para 192.168.56.112, no agente 2.
-:::
+> Altere o para 192.168.56.112, no agente 2.
+
 
 3. Aplique as alterações no sistema:
 ```bash
