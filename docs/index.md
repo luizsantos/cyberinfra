@@ -69,7 +69,8 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [BGP no Linux com FRR](roteamento/bgp-linux)
 
 * Mikrotik
-	* [Configuração de rede básica, OSPF e SNAT](mikrotik/confRede)
+	* [Configuração de rede simples e com VLAN](mikrotik/confRede-simples)
+	* [Configuração de rede utilizando OSPF e SNAT](mikrotik/confRede)
 
 * Juniper
 	* [Configuração básica dos roteadores](juniper/router)
