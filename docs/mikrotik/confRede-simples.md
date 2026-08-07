@@ -4,24 +4,24 @@ layout: page
 
 # Introdução a Roteadores MikroTik
 
-No âmbito da infraestrutura de redes de computadores, a seleção de equipamentos desempenha um papel determinante na estabilidade e na segurança do tráfego de dados. Dentre os componentes essenciais de uma arquitetura de comunicação, sobressaem-se os roteadores, dispositivos cuja principal função é o roteamento de pacotes entre diferentes redes. Em ambientes corporativos, a confiabilidade desses dispositivos é um requisito fundamental para evitar interrupções de serviço. O mercado global conta com diversos fabricantes consolidados nesse segmento — como Cisco Systems, Huawei, Juniper Networks, TP-Link, etc - cada qual com soluções voltadas a diferentes portes de rede e necessidades. Nesse cenário, os equipamentos desenvolvidos pela MikroTik vêm conquistando espaço expressivo em redes de pequeno, médio e grande porte, bem como em provedores de serviços de internet (ISPs).
+No âmbito da infraestrutura de redes de computadores, a seleção de equipamentos desempenha um papel determinante na estabilidade e na segurança do tráfego de dados. Dentre os componentes essenciais de uma arquitetura de comunicação, sobressaem-se os roteadores, dispositivos cuja principal função é o roteamento de pacotes entre diferentes redes. Em ambientes corporativos, a confiabilidade desses dispositivos é um requisito fundamental para evitar interrupções de serviço. O mercado global conta com diversos fabricantes consolidados nesse segmento — como Cisco Systems, Huawei, Juniper Networks, TP-Link, etc - cada qual com soluções voltadas a diferentes portes de rede e necessidades. Nesse cenário, os equipamentos desenvolvidos pela MikroTik vêm conquistando espaço expressivo em redes de pequeno, médio e grande porte, bem como em provedores de serviços de Internet (ISPs).
 
-Fundada em 1996 na Letônia, a MikroTik iniciou suas atividades com o desenvolvimento de sistemas de software para conectividade sem fio e roteamento, expandindo posteriormente sua atuação para a fabricação de hardware próprio. Uma das principais vantagens da marca reside na relação custo-benefício de seus produtos, somada à ausência de custos de licenciamento por recursos de software avançados - modelo frequentemente adotado por concorrentes como Cisco e Juniper. Por outro lado, como limitações em comparação às marcas tradicionais de grande porte, destacam-se o suporte técnico direto menos abrangente, a dependência acentuada de suporte comunitário e uma curva de aprendizado inicial mais íngreme na configuração via linha de comando para administradores não familiarizados com a plataforma.
+Fundada em 1996 na Letônia, a MikroTik iniciou suas atividades com o desenvolvimento de sistemas de software para conectividade sem fio e roteamento, expandindo posteriormente sua atuação para a fabricação de hardware próprio. Uma das principais vantagens da marca reside na relação custo-benefício de seus produtos, somada à ausência de custos de licenciamento por recursos de software avançados - modelo frequentemente adotado por concorrentes como Cisco e Juniper. Por outro lado, como limitações em comparação às marcas tradicionais de grande porte, destacam-se o suporte técnico menos abrangente, a dependência acentuada de suporte comunitário e uma curva de aprendizado inicial, que pode ser mais íngreme na configuração via linha de comando para administradores não familiarizados com a plataforma.
 
-A arquitetura das soluções da fabricante divide-se entre a linha de hardware, denominada RouterBOARD, e o sistema operacional, o RouterOS. **O RouterOS é um sistema proprietário baseado em _kernel_ Linux** que provê um conjunto amplo de recursos de rede, incluindo protocolos de roteamento dinâmico (como OSPF e BGP), gerenciamento de _firewall_, suporte a redes virtuais privadas (VPNs), controle de banda (QoS) e serviços de infraestrutura como DHCP e DNS. A integração entre o hardware dedicado e o RouterOS permite a implantação de roteadores com alto grau de flexibilidade operacional, podendo o software também ser executado em arquiteturas x86 como máquina virtual (Cloud Hosted Router — CHR).
+A arquitetura das soluções da fabricante divide-se entre a linha de hardware, denominada RouterBOARD, e o sistema operacional, o RouterOS. **O RouterOS é um sistema proprietário baseado em _kernel_ Linux** que provê um conjunto amplo de recursos de rede, incluindo protocolos de roteamento dinâmico (como OSPF e BGP), gerenciamento de _firewall_, suporte a redes virtuais privadas (VPNs), controle de banda (QoS) e serviços de infraestrutura como DHCP e DNS. A integração entre o hardware dedicado e o RouterOS permite a implantação de roteadores com alto grau de flexibilidade operacional, podendo o software também ser executado em arquiteturas x86 como máquina virtual (_Cloud Hosted Router_ — CHR).
 
-Diante do aumento da visibilidade e da adoção dos roteadores MikroTik no mercado — impulsionados, principalmente pela sua competitividade financeira e robustez de recursos, torna-se estratégico que o administrador de redes expanda suas competências para além dos fabricantes historicamente consolidados, como a Cisco. O domínio da configuração em plataformas emergentes e de ampla difusão permite ao profissional compreender com maior clareza as variações de sintaxe, arquitetura e implementação existentes entre os diferentes fornecedores. Sobretudo, essa abordagem comparativa evidencia que, independentemente da interface ou do sistema operacional empregado, os fundamentos operacionais permanecem inalterados, visto que todos os equipamentos devem atender rigorosamente às especificações dos protocolos da pilha TCP/IP, aos padrões de roteamento e aos serviços essenciais que regem as redes de computadores.
+Diante do aumento da visibilidade e da adoção dos roteadores MikroTik no mercado — impulsionados, principalmente pela sua competitividade financeira e robustez de recursos, torna-se estratégico que o administrador de redes expanda suas competências para além dos fabricantes historicamente consolidados. O domínio da configuração em plataformas emergentes e de ampla difusão permite ao profissional compreender com maior clareza as variações de sintaxe, arquitetura e implementação existentes entre os diferentes fornecedores. Sobretudo, essa abordagem comparativa evidencia que, independentemente da interface ou do sistema operacional empregado, os fundamentos operacionais permanecem inalterados, visto que todos os equipamentos devem atender rigorosamente às especificações dos protocolos da pilha TCP/IP, aos padrões de roteamento e aos serviços essenciais que regem as redes de computadores.
 
 ## Configuração de uma rede básica
 
 A fim de ilustrar a aplicação prática dos conceitos discutidos anteriormente, este seção apresenta a configuração básica de um roteador MikroTik executando o sistema operacional RouterOS na versão 7.22.1. A abordagem será desenvolvida em um cenário de rede bem simples, concentrando-se fundamentalmente no uso da interface de linha de comando (CLI) nativa do equipamento, sem o recurso a ferramentas gráficas de gerenciamento. O objetivo central é instruir o leitor quanto à sintaxe e à execução dos comandos essenciais para a atribuição de endereços IP e máscaras de rede, o estabelecimento da rota padrão e de rotas estáticas, o processo de exportação e importação de arquivos de configuração, bem como a verificação do estado operacional das interfaces de rede e dos serviços de infraestrutura ativados.
 
-A topologia de rede proposta é apresentada na Figura 1, sendo esta é composta por duas redes distintas interconectadas por um roteador central, identificado como **MikroTik-1**:
+A topologia de rede proposta é apresentada na Figura 1, sendo esta composta por duas redes distintas interconectadas por um roteador central, identificado como **MikroTik-1**:
 
-1. **Rede Local (LAN1 - `10.1.0.0/24`):** Onde estão conectados dois dispositivos finais, **Host-1** e **Host-2**, que se interligam por meio de um concentrador (**Hub1**). A interface do roteador MikroTik associada a este segmento é a **`ether2`**. O roteador utiliza o último endereço host disponível na subnet para suas interfaces (`.254`), atuando como o *gateway* padrão dos hosts desta LAN.
-2. **Rede Externa / WAN (`192.168.122.0/24`):** Está é a rede de saída para a Internet, interligado via concentrador (**Hub2**) a partir da interface **`ether1`** do roteador MikroTik. Nesta mesma rede encontra-se o **Host-3**, além da nuvem **NAT1**, que abriga o *gateway* de saída para a Internet no endereço `.1`. Este *gateway* oculto na nuvem também desempenha os papéis de servidor DHCP e DNS para a interface WAN do MikroTik.
+1. **Rede Local (LAN1 - `10.1.0.0/24`):** Onde estão conectados dois dispositivos finais, **Host-1** e **Host-2**, que se interligam por meio de um concentrador (**Hub1**). A interface do roteador MikroTik associada a este segmento é a **`ether2`**. O roteador utiliza o último endereço host disponível na subnet para suas interfaces (`10.1.0.254`), atuando como o *gateway* padrão dos hosts desta LAN.
+2. **Rede Externa / WAN (`192.168.122.0/24`):** Está é a rede de saída para a Internet, interligado via concentrador (**Hub2**) a partir da interface **`ether1`** do roteador MikroTik. Nesta mesma rede encontra-se o **Host-3**, além da nuvem **NAT1**, que abriga o *gateway* de saída para a Internet no endereço `192.168.122.1`. Este *gateway* oculto na nuvem também desempenha os papéis de servidor DHCP e DNS para a interface WAN do MikroTik.
 
-> O cenário de rede descrito foi implementado no simulador GNS3. Nesse ambiente, o elemento NAT1, representado graficamente sob a forma de nuvem, simboliza a interconexão com a rede externa e a Internet. Tecnicamente, essa nuvem mapeia a comunicação para o sistema hospedeiro (host físico ou hipervisor) através da interface virtual no endereço 192.168.122.1. Essa estrutura permite o roteamento e a tradução do tráfego vindo da topologia simulada para a interface de rede real do computador, provendo conectividade externa aos dispositivos do laboratório.
+> O cenário de rede descrito foi implementado no simulador GNS3. Nesse ambiente, o elemento NAT1, representado graficamente sob a forma de nuvem, simboliza a interconexão com a rede externa e a Internet. Tecnicamente, essa nuvem mapeia a comunicação para o sistema hospedeiro (host físico ou hipervisor) através da interface virtual no endereço 192.168.122.1. Essa estrutura permite o roteamento e a tradução do tráfego (NAT) vindo da topologia simulada e virtualizada para a interface de rede real do computador, provendo conectividade externa aos dispositivos do laboratório.
 
 | ![rede](imagens/rede-simples.png) |
 |:--:|
@@ -29,7 +29,7 @@ A topologia de rede proposta é apresentada na Figura 1, sendo esta é composta 
 
 O objetivo principal deste texto é realizar a configuração do roteador **MikroTik-1** via linha de comando para que este estabeleça o roteamento e a tradução de endereços (NAT), provendo acesso à Internet para os dispositivos da **LAN1**. Ressalta-se que o escopo deste documento restringe-se exclusivamente às definições necessárias no roteador MikroTik, não sendo objeto deste texto a apresentação da configuração individual dos demais *hosts* da rede.
 
-A tabela a seguir descreve de forma textual e acessível todos os componentes da topologia, detalhando seus papéis, sub-redes, interfaces ativas no roteador e endereços IP completos atribuídos a cada dispositivo.
+A tabela a seguir descreve de forma textual todos os componentes da topologia, detalhando seus papéis, sub-redes, interfaces ativas no roteador e endereços IP completos atribuídos a cada dispositivo.
 
 | Dispositivo / Elemento | Sub-rede de Origem | Interface no MikroTik | Endereço IP Completo | Máscara de Rede / CIDR | Função / Observação |
 | --- | --- | --- | --- | --- | --- |
@@ -40,8 +40,11 @@ A tabela a seguir descreve de forma textual e acessível todos os componentes da
 | **NAT1 (Nuvem)** | `192.168.122.0/24` | — | `192.168.122.1` | `255.255.255.0` (`/24`) | *Gateway* Padrão, Servidor DHCP e DNS da WAN. |
 | **Host-3** | `192.168.122.0/24` | — | `192.168.122.3` | `255.255.255.0` (`/24`) | Dispositivo pertencente ao segmento WAN. |
 
+> Na verdade a interface `ether1` pode receber um IP dinâmico via DHCP, ou seja, pode ser um IP diferente do apresentada no Tabela 2.
+
 Dessa forma, os **Host-1** e **Host-2** atuam como estações de trabalho da rede local (**LAN1**), permanecendo isolados e sem conectividade externa até a conclusão da configuração do roteador MikroTik. O **Host-3**, por sua vez, representa um nó externo ao segmento da LAN1, para o qual o roteador deverá prover acessibilidade após ser configurado; este host pode ser utilizado para testes de conectividade ou para tarefas de monitoramento de tráfego (como a captura de pacotes via `tcpdump`). Por fim, o **NAT1** viabilizará o acesso de todo o cenário de rede à Internet e a outras redes externas, uma vez estabelecidos o roteamento e a tradução de endereços adequados.
 
+> Note que o Host-3 e o roteador MikroTik, tem como _gateway_ e DNS o host 192.168.122.1. É importante notar que o Host-3 não conseguirá acessar os hosts 1 e 2, principalmente por seu gateway ser o 192.168.122.1 - que não tem rotas para a LAN1 -, mas depois de configurado os hosts 1 e 2 conseguem acessar o Host-3.
 
 ## Primeiros Passos e Primeiro Acesso ao MikroTik
 
@@ -74,7 +77,7 @@ Do you want to see the software license? [Y/n]: n
 
 ### Definição Obrigatória da Senha de Administrador
 
-Por questões de segurança, o RouterOS exige a alteração da senha do usuário `admin` logo após o aceite dos termos. O sistema solicita a digitação da nova senha e a sua confirmação. Durante a digitação, os caracteres não são exibidos na tela por medidas de proteção. Uma vez efetuada a confirmação, a mensagem `Password changed` ratifica a alteração, e o *prompt* de comando do sistema é devidamente liberado.
+Por questões de segurança, o RouterOS exige a alteração da senha do usuário `admin` logo após o aceite dos termos. O sistema solicita a digitação da nova senha e a sua confirmação. Durante a digitação, os caracteres não são exibidos na tela por medidas de segurança. Uma vez efetuada a confirmação, a mensagem `Password changed` ratifica a alteração, e o *prompt* de comando do sistema é devidamente liberado.
 
 ```bash
 Press F1 for help
@@ -533,3 +536,332 @@ Para verificar a solução e validar o funcionamento integral da rede, o adminis
 3. **Teste de Roteamento Inter-LAN e Acesso Externo:** Executar testes a partir de qualquer host das VLANs em direção ao **Host-1** (`ping 10.1.0.1`), ao **Host-3** (`ping 192.168.122.3`) e a um destino na Internet (`ping 8.8.8.8`). O sucesso nesses testes valida que as regras de roteamento e a regra de NAT (*masquerade*) previamente aplicada na `ether1` estão cobrindo adequadamente as novas sub-redes `10.2.0.0/24` e `10.3.0.0/24`.
 
 Em síntese, a implementação de subinterfaces virtuais de VLAN diretamente atreladas a uma porta tronco do RouterOS consolida uma solução elegante, eficiente e amplamente adotada para o roteamento inter-VLANs. Essa abordagem permite isolar domínios de *broadcast* em nível de camada de enlace nos switches e, simultaneamente, centralizar as políticas de roteamento e segurança no MikroTik. Vale ressaltar que o RouterOS também oferece alternativas mais avançadas para a manipulação de VLANs, como o uso de *Bridges* com a funcionalidade de *VLAN Filtering* ativada — método que viabiliza a comutação de camada 2 diretamente entre as portas do próprio dispositivo. Contudo, essa arquitetura baseada em *bridge* foge ao escopo do presente estudo, visto que o objetivo central desta abordagem consistiu em explorar estritamente a função primária de roteamento de camada 3 entre sub-redes distintas.
+
+# Configuração do Servidor DHCP no MikroTik
+
+O serviço **DHCP** (*Dynamic Host Configuration Protocol*) é um protocolo de camada de aplicação responsável por automatizar a atribuição de parâmetros de rede aos dispositivos clientes. Em vez de exigir que o administrador configure manualmente o endereço IP, a máscara de sub-rede, o *gateway* padrão e os servidores DNS em cada estação de trabalho, o servidor DHCP entrega todas essas informações de forma dinâmica e temporária no momento em que o dispositivo se conecta à rede.
+
+Em roteadores corporativos como os equipamentos MikroTik, a implementação do servidor DHCP é uma das tarefas mais fundamentais. Ela reduz drasticamente a complexidade operacional, evita conflitos de endereçamento IP na rede local e garante que novos dispositivos recebam instantaneamente as definições corretas para navegar na Internet e acessar os recursos internos.
+
+Para ilustrar a criação e a ativação desse serviço via linha de comando no RouterOS, utilizaremos a **LAN1** da nossa rede de exemplo (associada à interface **`ether2`**, na sub-rede `10.1.0.0/24`). Tal configuração é apresentada a seguir.
+
+## 1. Definição do Bloco de Endereços (*IP Pool*)
+
+O primeiro passo para a implementação do serviço consiste na criação de um *pool* de endereços IP. Esse bloco delimita a faixa de IP contínua que o servidor DHCP terá à disposição para distribuir dinamicamente às estações de trabalho da LAN1.
+
+Para criar o bloco de endereços, utiliza-se o comando `/ip pool add`, tal como:
+
+```bash
+[admin@MikroTik] > ip pool add name=dhcp_lan1 ranges=10.1.0.10-10.1.0.100
+```
+
+O comando anterior tem as seguintes opções, em detalhe:
+
+* **`/ip pool add`**: Caminho no menu do RouterOS destinado ao gerenciamento de intervalos de endereços IP reserváveis para serviços como DHCP, VPNs e Hotspot.
+* **`name=dhcp_lan1`**: Define o nome de identificação do bloco de endereços dentro do sistema operacional.
+* **`ranges=10.1.0.10-10.1.0.100`**: Especifica o intervalo inicial e final de endereços IPv4 que serão concedidos dinamicamente. Neste caso, reserva 91 endereços para os clientes, mantendo os demais IPs da sub-rede `10.1.0.0/24` (como o `.254` do *gateway*) fora da distribuição automática.
+
+
+## 2. Configuração dos Parâmetros da Rede (*DHCP Network*)
+
+Após definir o intervalo de IPs a ser distribuído, é necessário indicar ao sistema quais informações complementares de rede devem ser enviadas aos clientes juntamente com o IP individual. Essas informações incluem o endereço da sub-rede, o *gateway* padrão e o servidor de nomes (DNS).
+
+Para declarar as propriedades da rede, executa-se o comando `/ip dhcp-server network add`, veja o comando completo a seguir:
+
+```bash
+[admin@MikroTik] > ip dhcp-server network add address=10.1.0.0/24 gateway=10.1.0.254 dns-server=10.1.0.254
+```
+Então, as opções do comando anterior, do exemplo, fazem o seguinte:
+
+* **`/ip dhcp-server network add`**: Acessa a tabela de definições de escopo do servidor DHCP para vincular parâmetros de rede a um bloco de sub-rede específico.
+* **`address=10.1.0.0/24`**: Define a sub-rede de alcance desta regra. Sempre que um cliente solicitar um IP pertencente a esta faixa, receberá os parâmetros associados a esta entrada.
+* **`gateway=10.1.0.254`**: Informa aos clientes qual é o endereço IP do roteador que atuará como a saída padrão (*default gateway*) da rede.
+* **`dns-server=10.1.0.254`**: Especifica o endereço do servidor DNS que resolverá os nomes para os clientes da LAN1 (neste caso, apontando para o próprio IP da interface `ether2` do MikroTik).
+
+## 3. Ativação do Servidor DHCP
+
+Com o bloco de IPs e as opções de rede definidos, a etapa seguinte é criar a instância do servidor DHCP propriamente dita, vinculando-a à interface física onde as requisições dos clientes serão recepcionadas.
+
+Para criar e habilitar o servidor DHCP na interface `ether2`, executa-se o comando `/ip dhcp-server add`:
+
+```bash
+[admin@MikroTik] > ip dhcp-server add name=dhcp_lan1_server interface=ether2 address-pool=dhcp_lan1 lease-time=1d disabled=no
+```
+Então o comando anterior, que efetivamente habilita o servidor DHCP, tem em detalhes as seguintes opções/parâmetros:
+
+* **`/ip dhcp-server add`**: Adiciona uma nova instância de serviço DHCP vinculada a uma interface de rede específica.
+* **`name=dhcp_lan1_server`**: Nome do processo do servidor DHCP registrado no sistema.
+* **`interface=ether2`**: Interface de rede onde o servidor ficará escutando as requisições de transmissão (*broadcast*) DHCP enviadas pelos clientes da LAN1.
+* **`address-pool=dhcp_lan1`**: Associa a instância do serviço ao bloco de endereços previamente criado no Passo 1.
+* **`lease-time=1d`**: Define o tempo de concessão (*lease*) do endereço IP. Neste exemplo, o cliente manterá a posse do IP por até 1 dia (`1d`) antes de requerer a renovação da licença junto ao servidor.
+* **`disabled=no`**: Instrução que força a habilitação e o início imediato do serviço no sistema operacional.
+
+
+## Verificação do DHCP em Execução
+
+Por fim, após concluir os comandos de criação, o administrador deve consultar a tabela de servidores DHCP do RouterOS para verificar se a instância está ativa e associada aos recursos corretos.
+
+A verificação do estado da instância é feita com o comando `/ip dhcp-server print`:
+
+```bash
+[admin@MikroTik] > ip dhcp-server print
+Columns: NAME, INTERFACE, ADDRESS-POOL, LEASE-TIME
+# NAME              INTERFACE  ADDRESS-POOL  LEASE-TIME
+0 dhcp_lan1_server  ether2     dhcp_lan1     1d        
+```
+
+Desta forma, a saída anterior, exibe a listagem do servidor cadastrado na posição de índice `0`:
+
+* O processo **`dhcp_lan1_server`** encontra-se atrelado à interface física **`ether2`**.
+* O campo **`ADDRESS-POOL`** confirma a utilização do bloco de endereços **`dhcp_lan1`**.
+* O campo **`LEASE-TIME`** confirma a concessão válida pelo período de **`1d`** (24 horas).
+* A ausência da sinalização **`X`** (*Disabled*) indica que o servidor DHCP está totalmente ativo e pronto para responder às solicitações dos clientes na **LAN1**.
+
+
+Em suma, a sequência de comandos apresentada demonstra a construção de um serviço DHCP essencial, configurado de forma funcional para prover o endereçamento dinâmico e as opções de rede para uma sub-rede privada, como a **LAN1**.
+
+Para validar o serviço recém-criado, daremos início aos testes práticos de atribuição. O primeiro passo consiste em consultar o estado da tabela de concessões do RouterOS para verificar se já existe algum dispositivo na rede que tenha obtido parâmetros de rede por meio do nosso servidor DHCP.
+
+```bash
+[admin@MikroTik] > ip dhcp-server lease print
+```
+O resultado do comando anterior provavelmente será "nada", já que não temos nenhum cliente utilizando o servidor DHCP até o momento. Assim, para forçar uma requisição de rede via DHCP, utilizaremos o **Host-2** (uma estação de trabalho com sistema operacional Linux pertencente à **LAN1** - ver Figura 1 ou Figura 2). Desta forma, a partir do terminal do cliente, executa-se o utilitário `dhcpcd` na interface de rede `eth0` para solicitar um novo endereço ao servidor, tal como:
+
+```bash
+root@Host-2:/# dhcpcd eth0
+DUID 00:04:4c:4c:45:44:00:36:32:10:80:34:b3:c0:4f:35:34:32
+eth0: IAID 8c:e3:24:00
+eth0: soliciting an IPv6 router
+eth0: soliciting a DHCP lease
+eth0: offered 10.1.0.100 from 10.1.0.254
+eth0: probing address 10.1.0.100/24
+eth0: leased 10.1.0.100 for 86400 seconds
+eth0: adding route to 10.1.0.0/24
+eth0: adding default route via 10.1.0.254
+forked to background, child pid 504
+```
+
+Analisando a saída do comando no Host-2, observa-se o fluxo completo do protocolo: o cliente solicita a concessão (`soliciting a DHCP lease`), recebe a oferta do IP **`10.1.0.100`** vinda do servidor **`10.1.0.254`** (`offered 10.1.0.100 from 10.1.0.254`) e confirma o contrato pelo período de 86.400 segundos (equivalente a 1 dia). Em seguida, o próprio cliente aplica automaticamente a rota para a rede local (`10.1.0.0/24`) e a rota padrão (*default gateway*) apontando para o IP do MikroTik (`10.1.0.254`), finalizando o processo em segundo plano.
+
+Após a conclusão da solicitação no cliente, podemos executar novamente o comando de verificação no MikroTik, para confirmar o registro do aluguel de IP, ativo na tabela do roteador, tal como:
+
+```bash
+[admin@MikroTik] > ip dhcp-server lease print
+Flags: D - DYNAMIC
+Columns: ADDRESS, MAC-ADDRESS, HOST-NAME, SERVER, STATUS, LAST-SEEN
+#   ADDRESS      MAC-ADDRESS        HOST-NAME  SERVER            STATUS  LAST-SEEN
+0 D 10.1.0.100  02:42:8C:E3:24:00  Host-2     dhcp_lan1_server  bound   35s
+```
+
+A saída do comando confirma o sucesso da operação: a entrada de índice `0` exibe o IP `10.1.0.100` associado ao endereço físico (`MAC-ADDRESS`) e ao nome de host `Host-2`. O estado **`bound`** na coluna *STATUS* indica que a concessão está estabelecida e ativa no servidor `dhcp_lan1_server`, enquanto a flag **`D`** (*Dynamic*) ratifica que a atribuição de IP foi realizada dinamicamente.
+
+A automação desse processo evidencia a enorme praticidade na utilização de servidores DHCP no dia a dia da administração de redes. Em vez de exigir a intervenção manual em cada estação de trabalho — procedimento sujeito a erros e de difícil escala —, a centralização do serviço em um roteador robusto como o MikroTik assegura a distribuição rápida, precisa e padronizada de todas as configurações de rede, garantindo maior controle, agilidade e produtividade no gerenciamento da infraestrutura.
+
+> **Nota:** Além do método passo a passo detalhado via linha de comando, o RouterOS disponibiliza o assistente interativo `/ip dhcp-server setup`, que guia o administrador simplificadamente através do processo de criação do *pool*, da rede e da instância do servidor em uma única sequência de perguntas.
+
+Aqui está a seção redigida mantendo o mesmo padrão formal, técnico, didático e impessoal adotado ao longo do seu documento.
+
+## Atribuição de Endereços IP Estáticos via DHCP (*Static Leases*)
+
+Por padrão, o comportamento convencional de um servidor DHCP é distribuir endereços IP de forma puramente dinâmica a partir de um bloco de endereços (*pool*). Nesse modelo, os endereços atribuídos às estações de trabalho possuem um tempo de vida delimitado (*lease time*) e podem se alterar periodicamente.
+
+Embora a dinamicidade e aleatoriedade seja ideal para computadores pessoais, notebooks e dispositivos móveis, existem elementos na infraestrutura cujo endereço IP deve permanecer estritamente inalterado e conhecido. É o caso de servidores de arquivos, impressoras de rede, roteadores e equipamentos de gerenciamento. Se o endereço IP de uma impressora ou servidor mudasse dinamicamente, os usuários e serviços da rede perderiam o acesso ao recurso.
+
+Para conciliar a facilidade do gerenciamento centralizado via DHCP com a necessidade de ter endereços IP imutáveis, o administrador de redes pode utilizar o recurso de **reserva de IP estático via DHCP** (*Static Lease*). Esse mecanismo funciona associando de forma permanente o endereço físico de camada de enlace (**MAC Address**) da placa de rede do dispositivo a um endereço IP específico cadastrado no servidor. Dessa forma, toda vez que aquele equipamento solicitar um IP via DHCP, o servidor reconhecerá o seu endereço MAC e entregará sempre o mesmo IP reservado, mantendo a centralização da configuração sem a necessidade de configurar manualmente os parâmetros de rede na interface do cliente.
+
+No MikroTik RouterOS, a transformação de uma concessão dinâmica em estática (ou a criação manual de uma reserva) é realizada no submenu `/ip dhcp-server lease`.
+
+Para ilustrar o procedimento, utilizaremos como exemplo novamente o **Host-2**, atribuindo de forma fixa o IP `10.1.0.100` ao seu endereço físico de rede (`02:42:8C:E3:24:00`). Para isso executamos o comando a seguir:
+
+```bash
+[admin@MikroTik] > ip dhcp-server lease add address=10.1.0.100 mac-address=02:42:8C:E3:24:00 server=dhcp_lan1_server comment="IP Fixo do Host-2"
+```
+
+* **`/ip dhcp-server lease add`**: Acessa a tabela de concessões do servidor DHCP e insere uma nova regra manual de mapeamento.
+* **`address=10.1.0.100`**: Define o endereço IP específico que será reservado e entregue exclusivamente ao dispositivo.
+* **`mac-address=02:42:8C:E3:24:00`**: Especifica o endereço físico (MAC) de camada de enlace da placa de rede do cliente. É essa informação que garante a unicidade da associação.
+* **`server=dhcp_lan1_server`**: Associa a reserva à instância do servidor DHCP que atende à interface onde o dispositivo está conectado (`ether2`).
+* **`comment="IP Fixo do Host-2"`**: Campo de texto livre destinado à identificação e documentação do dispositivo na tabela do sistema.
+
+> **Nota:** Caso o dispositivo já tenha obtido um IP dinâmico anteriormente e conste na tabela de concessões do MikroTik, o administrador pode simplificar esse procedimento executando o comando `/ip dhcp-server lease make-static números_do_índice`, o que converterá a entrada dinâmica existente em estática automaticamente.
+
+Feito o comando anterior, podemos executar o comando `dhcpcd` no Host-2:
+
+```bash
+root@Host-2:/# dhcpcd eth0 -k
+sending signal ALRM to pid 504
+waiting for pid 504 to exit
+
+root@Host-2:/# dhcpcd eth0   
+DUID 00:04:4c:4c:45:44:00:36:32:10:80:34:b3:c0:4f:35:34:32
+eth0: IAID 8c:e3:24:00
+eth0: soliciting a DHCP lease
+eth0: offered 10.1.0.100 from 10.1.0.254
+eth0: probing address 10.1.0.100/24
+eth0: soliciting an IPv6 router
+eth0: leased 10.1.0.100 for 86400 seconds
+eth0: adding route to 10.1.0.0/24
+eth0: adding default route via 10.1.0.254
+forked to background, child pid 618
+```
+> Note que anteriormente foi primeiro executado o comando `dhcpcd eth0 -k`, para desligar o cliente DHCP, executado no exemplo anterior, e depois o comando foi executado novamente, para garantir que o cliente DHCP pegue as novas configurações de rede.
+
+Para confirmar o cadastro do IP fixo e verificar o seu status na tabela do RouterOS, executa-se o comando `/ip dhcp-server lease print`:
+
+```bash
+[admin@MikroTik] > ip dhcp-server lease print
+Columns: ADDRESS, MAC-ADDRESS, HOST-NAME, SERVER, STATUS, LAST-SEEN
+# ADDRESS     MAC-ADDRESS        HOST-NAME  SERVER            STATUS  LAST-SEEN
+;;; IP Fixo do Host-2
+0 10.1.0.100  02:42:8C:E3:24:00  Host-2     dhcp_lan1_server  bound   59s
+```
+
+Diferente da listagem anterior, a entrada de índice `0` **não exibe mais a flag `D**` (*Dynamic*). A ausência dessa flag ratifica que a concessão foi convertida com sucesso em uma reserva **estática e permanente**. A partir deste momento, mesmo que o *lease time* expire ou o Host-2 seja reiniciado, o servidor DHCP do MikroTik garantirá a entrega exclusiva do IP `10.1.0.100` a essa estação.
+
+Saber discernir quando aplicar a alocação dinâmica ou a atribuição estática de endereços IP é uma competência fundamental para o planejamento e a manutenção de qualquer infraestrutura de rede. Enquanto a distribuição dinâmica provê escalabilidade, otimização do espaço de endereçamento e menor esforço de manutenção para estações de trabalho convencionais, a reserva estática via DHCP assegura a previsibilidade, a auditabilidade e a alta disponibilidade necessárias aos servidores e serviços essenciais da organização, mantendo o controle centralizado de toda a topologia em um único ponto no roteador.
+
+## DHCP Relay
+
+O DHCP Relay (ou retransmissor DHCP) é um agente ou funcionalidade de camada de rede responsável por interceptar as mensagens de solicitação DHCP enviadas em _broadcast_ pelos clientes locais e reencaminhá-las via _unicast_ para um servidor DHCP centralizado localizado em outra sub-rede. A sua utilização é indicada em arquiteturas de redes corporativas segmentadas em múltiplas VLANs ou sub-redes físicas, nas quais não é viável ou desejável implantar uma instância de servidor DHCP dedicada para cada segmento. Ao adotar o DHCP Relay nos roteadores das pontas, a organização centraliza toda a administração de escopos, reservas de IP e políticas de rede em um único servidor principal, reduzindo a complexidade de gerenciamento e garantindo maior consistência na alocação de endereços da infraestrutura.
+
+Desta forma, no MikroTik RouterOS, a função de **DHCP Relay** (retransmissor DHCP), para configurar a retransmissão na interface local (por exemplo, `ether2`), apontando para um servidor DHCP remoto (como o IP `192.168.100.10`), utiliza-se o comando:
+
+```bash
+[admin@MikroTik] > ip dhcp-relay add name=relay_lan1 interface=ether2 dhcp-server=192.168.100.10 local-address=10.1.0.254 disabled=no
+```
+Em detalhes tal comando faz o seguinte:
+
+* **`name=relay_lan1`**: Identificação do serviço de retransmissão no sistema.
+* **`interface=ether2`**: Interface local onde os clientes enviarão as solicitações DHCP.
+* **`dhcp-server=192.168.100.10`**: Endereço IP do servidor DHCP central/remoto que processará e responderá às concessões.
+* **`local-address=10.1.0.254`**: Endereço IP da interface do próprio MikroTik nessa rede local. Esse IP é incluído no pacote retransmitido (campo *giaddr*) para que o servidor DHCP remoto saiba exatamente qual bloco/pool de IPs deve entregar para essa sub-rede.
+
+> Important: Para a implementação prática do DHCP Relay em um ambiente de testes como o nosso, é indispensável desativar previamente o servidor DHCP local configurado na interface (por exemplo, executando /ip dhcp-server set [find interface=ether2] disabled=yes). Como o objetivo deste capítulo é consolidar a operação do MikroTik atuando diretamente como o servidor de endereçamento da rede local, não executaremos os testes práticos do modo Relay neste cenário.
+
+Quando um *host* na **LAN1** inicia sua interface de rede e dispara uma mensagem de solicitação DHCP via *broadcast* (`DHCPDISCOVER`), o pacote é recebido pela interface local do MikroTik (ex.: `ether2`). Como a função de **DHCP Relay** está ativa nessa interface, o roteador captura essa requisição, insere o seu próprio IP local de *gateway* (`local-address`) no cabeçalho do pacote para indicar a qual sub-rede o cliente pertence e reencaminha a mensagem via *unicast* diretamente ao servidor DHCP centralizado no endereço `192.168.100.10`. Ao receber o pacote, o servidor central processa o escopo correspondente àquela sub-rede, seleciona um endereço IP disponível com suas opções de rede e responde via *unicast* ao MikroTik (`DHCPOFFER`). Por fim, o MikroTik recebe a resposta do servidor e a retransmite diretamente ao *host* solicitante na LAN1, finalizando com sucesso o processo de negociação do endereço.
+
+Entre as principais **vantagens** desse método, destacam-se a centralização completa da gestão de escopos e reservas em um único servidor principal, o que facilita auditorias, backups e a aplicação de políticas padronizadas em grandes infraestruturas corporativas com múltiplas VLANs. Em contrapartida, as principais **desvantagens** envolvem a criação de um ponto único de falha (*single point of failure*) — caso o servidor DHCP centralizado ou o link de comunicação com ele fique indisponível, nenhuma sub-rede remota conseguirá obter novos endereços IP —, além de um ligeiro aumento na latência no processo de concessão, decorrente do tráfego adicional roteado até o servidor central.
+
+Concluindo, a correta implementação e o gerenciamento de um servidor DHCP representam um pilar essencial para a eficiência operacional e a escalabilidade de qualquer infraestrutura de rede. A combinação entre a alocação dinâmica de IP para os clientes convencionais e a reserva estática (*static lease*) para os dispositivos críticos de infraestrutura garante um ambiente organizado, auditável e livre de conflitos de endereçamento. Ao centralizar esse serviço em um roteador robusto como o MikroTik, o administrador assegura a entrega precisa e automatizada das configurações de rede aos *hosts*, simplificando o suporte técnico e otimizando o tempo de implantação de novos dispositivos na organização.
+
+## Configuração do Serviço de DNS Cache no MikroTik
+
+O **DNS** (*Domain Name System*) é um serviço fundamental da infraestrutura de redes, responsável por traduzir nomes de domínio legíveis por humanos (como `exemplo.com.br`) em endereços IP numéricos compreendidos pelos roteadores e computadores. Em uma rede corporativa ou de laboratório, disponibilizar um servidor DNS local — ou um roteador atuando como *DNS Cache* — traz vantagens significativas de desempenho e eficiência. Ao responder diretamente às consultas dos computadores locais, o roteador armazena as respostas em sua memória RAM (*cache*), reduzindo a latência nas requisições subsequentes para os mesmos domínios e diminuindo o consumo de banda no enlace de Internet.
+
+Por padrão, o RouterOS possui a funcionalidade de DNS ativada internamente, porém configurada estritamente para atender às demandas do próprio sistema operacional do equipamento. Para que o MikroTik passe a responder às consultas de nomes vindas dos clientes das redes locais (como as estações da **LAN1** e das **VLANs**), é necessário alterar seus parâmetros globais e habilitar explicitamente a recepção de requisições remotas.
+
+Para este exemplo, antes de realizar as alterações para ativar o DNS, podemos utilizar o comando `/ip dns print` para verificar a configuração corrente do serviço no roteador, tal como:
+
+```bash
+[admin@MikroTik] > ip dns print
+  servers:              
+  dynamic-servers: 192.168.122.1
+  use-doh-server:              
+  verify-doh-cert: no           
+  doh-max-server-connections: 5            
+  doh-max-concurrent-queries: 50           
+  doh-timeout: 5s           
+  allow-remote-requests: no           
+  max-udp-packet-size: 4096         
+  query-server-timeout: 2s           
+  query-total-timeout: 10s          
+  max-concurrent-queries: 100          
+  max-concurrent-tcp-sessions: 20           
+  cache-size: 2048KiB      
+  cache-max-ttl: 1w           
+  address-list-extra-time: 0s           
+  vrf: main         
+  mdns-repeat-ifaces:              
+  cache-used: 36KiB        
+```
+
+Observa-se na saída anterior que o parâmetro **`allow-remote-requests`** encontra-se definido como **`no`**, o que impede os clientes da rede local de utilizarem o IP do MikroTik como seu servidor DNS. O campo **`dynamic-servers`** exibe o IP `192.168.122.1`, obtido automaticamente via cliente DHCP na interface WAN (`ether1`).
+
+Agora para efetivamente transformar o MikroTik em um servidor *DNS Cache* funcional para os hosts da rede interna, executa-se o comando `/ip dns set`, definindo explicitamente os servidores de consulta primários e autorizando o atendimento aos clientes.
+
+```bash
+[admin@MikroTik] > ip dns set servers=8.8.8.8,1.1.1.1 allow-remote-requests=yes
+```
+O comando anterior tem a seguinte restrutura e funções:
+
+* **`/ip dns set`**: Acessa o submenu de parâmetros globais do serviço de resolução de nomes do RouterOS para modificar suas variáveis de funcionamento.
+* **`servers=8.8.8.8,1.1.1.1`**: Define a lista de servidores DNS públicos e recursivos de destino (neste exemplo, os serviços de DNS do Google e da Cloudflare). Caso o MikroTik receba uma consulta de um host local cuja resposta ainda não esteja armazenada em seu *cache*, ele repassará a requisição para esses endereços IP externos.
+* **`allow-remote-requests=yes`**: Habilita o roteador a escutar e responder às solicitações de resolução de nomes enviadas por outros dispositivos da rede (abertura do serviço de escuta na porta 53 UDP/TCP).
+
+> **Nota de Segurança:** Ao ativar a opção de resposta a requisições remotas (`allow-remote-requests=yes`), o serviço de DNS do MikroTik passa a escutar consultas na porta 53 (UDP/TCP) em todas as suas interfaces. Se a interface WAN estiver exposta diretamente à Internet sem a devida proteção de firewall, o equipamento poderá ser explorado em ataques externos de amplificação de DNS (*DNS Amplification Attacks*). Portanto, em ambientes de produção, é imprescindível criar regras no `/ip firewall filter` (na *chain* `input`) bloqueando o acesso externo à porta 53 vindo da interface WAN.
+
+Após a aplicação da instrução, podemos executar novamente o comando `/ip dns print` para verificar se as alterações foram feitas no sistema, e a saída deve ser algo como:
+
+```bash
+[admin@MikroTik] > ip dns print                                                 
+  servers: 8.8.8.8      
+                  1.1.1.1      
+  dynamic-servers: 192.168.122.1
+  use-doh-server:              
+  verify-doh-cert: no           
+  doh-max-server-connections: 5            
+  doh-max-concurrent-queries: 50           
+  doh-timeout: 5s           
+  allow-remote-requests: yes          
+  max-udp-packet-size: 4096         
+  query-server-timeout: 2s           
+  query-total-timeout: 10s          
+  max-concurrent-queries: 100          
+  max-concurrent-tcp-sessions: 20           
+  cache-size: 2048KiB      
+  cache-max-ttl: 1w           
+  address-list-extra-time: 0s           
+  vrf: main         
+  mdns-repeat-ifaces:              
+  cache-used: 38KiB        
+```
+
+Analisando a saída do exemplo é possível ver os campos que confirmam o sucesso da operação, sendo esses:
+
+* O campo **`servers`** agora lista os IPs **`8.8.8.8`** e **`1.1.1.1`** como resolvedores primários de saída.
+* O parâmetro **`allow-remote-requests`** exibe o valor **`yes`**, confirmando que a porta do serviço está ativa para atender às requisições da rede local.
+* O parâmetro **`cache-size`** indica a alocação de **`2048KiB`** (2 MB) de memória RAM dedicada ao armazenamento temporário de nomes resolvidos, otimizando o tempo de resposta para as próximas consultas efetuadas pelos clientes da infraestrutura.
+
+Com o serviço de DNS ativado e configurado no MikroTik, um procedimento essencial de validação consiste em realizar consultas de nomes a partir dos clientes da rede local apontando diretamente para o IP do roteador. No **Host-2**, por exemplo, pode-se redefinir temporariamente o resolvedor do sistema operacional com o comando `echo "nameserver 10.1.0.254" > /etc/resolv.conf` e, em seguida, disparar um teste de resolução com o utilitário `nslookup [www.google.com](https://www.google.com).br`. Como demonstrado no exemplo a seguir
+
+```bash
+# nslookup www.google.com.br
+Server:		10.1.0.254
+Address:	10.1.0.254#53
+
+Non-authoritative answer:
+Name:	www.google.com.br
+Address: 142.250.78.131
+Name:	www.google.com.br
+Address: 2800:3f0:4001:801::2003
+```
+O resultado apresentado na saída anterior exibe o servidor `10.1.0.254` respondendo na porta 53 e retornando com sucesso os endereços IPv4 (`142.250.78.131`) e IPv6 (`2800:3f0:4001:801::2003`) do domínio solicitado, confirmando o funcionamento correto do *DNS Cache* e da conectividade de saída do roteador.
+
+Em suma, a ativação do serviço de *DNS Cache* no roteador centralizado constitui uma prática fundamental para otimizar o desempenho, reduzir a latência de navegação e garantir a eficiência na resolução de nomes para todos os dispositivos da infraestrutura. Além da função de cache e do encaminhamento de consultas externas, o MikroTik RouterOS também oferece o recurso de DNS estático (`/ip dns static`), que permite mapear nomes de domínio personalizados para endereços IP locais — funcionalidade extremamente útil para o acesso a servidores, impressoras e serviços internos da organização. Contudo, a criação e o gerenciamento de registros de nomes estáticos locais fogem ao escopo deste texto, no qual focamos estritamente na habilitação do serviço de resolução recursiva e no provimento de *cache* para a rede.
+
+## Considerações Finais
+
+A trajetória percorrida neste texto consolidou a construção de uma infraestrutura de rede completa e funcional a partir do zero. Ao longo das seções, exploramos desde a atribuição de endereços IP e a habilitação do **NAT** (*Masquerade*) para conectividade com a Internet, até a segmentação avançada da Camada 2 via **VLANs (802.1Q)** para o roteamento inter-VLANs. Adicionalmente, implementamos serviços essenciais de suporte à aplicação, como a automatização da distribuição de parâmetros de rede via **DHCP** (com concessões dinâmicas e reservas estáticas) e a otimização da resolução de nomes por meio de um servidor **DNS Cache**.
+
+A fusão desses elementos representa o alicerce fundamental para a operação de qualquer rede de computadores moderna, servindo como uma ponte indispensável para a implementação de cenários mais avançados — como a aplicação de políticas estritas de *Firewall/MANGLE*, o estabelecimento de túneis VPN e o gerenciamento de qualidade de serviço (*QoS*). Compreender a mecânica por trás desses protocolos e saber como instanciá-los em diferentes ecossistemas (como soluções baseadas em Linux, o padrão de mercado Cisco IOS ou a crescente arquitetura do RouterOS da MikroTik) é uma competência crucial para o administrador de redes. Esse domínio técnico garante a versatilidade necessária para projetar, gerenciar e manter infraestruturas seguras, eficientes e escaláveis em qualquer ambiente corporativo.
+
+Aqui está a seção de referências bibliográficas formatada de acordo com as normas da **ABNT (NBR 6023)**, contemplando tanto a literatura clássica de redes de computadores quanto a documentação oficial da MikroTik e materiais de apoio recomendados.
+
+
+## Referências
+
+COMER, Douglas E. **Redes de computadores e internet**. 6. ed. Porto Alegre: Bookman, 2016.
+
+KUROSE, James F.; ROSS, Keith W. **Redes de computadores e a internet: uma abordagem top-down**. 7. ed. São Paulo: Pearson Education do Brasil, 2021.
+
+MIKROTIK. **MikroTik Documentation**. 2026. Disponível em: [https://help.mikrotik.com/docs/](https://help.mikrotik.com/docs/). Acesso em: 07 ago. 2026.
+
+MIKROTIK. **RouterOS Manual: IP/DHCP Server**. 2026. Disponível em: [https://help.mikrotik.com/docs/display/ROS/DHCP](https://help.mikrotik.com/docs/display/ROS/DHCP). Acesso em: 07 ago. 2026.
+
+MIKROTIK. **RouterOS Manual: IP/DNS**. 2026. Disponível em: [https://help.mikrotik.com/docs/display/ROS/DNS](https://help.mikrotik.com/docs/display/ROS/DNS). Acesso em: 07 ago. 2026.
+
+MIKROTIK. **RouterOS Manual: IP/Firewall/NAT**. 2026. Disponível em: [https://help.mikrotik.com/docs/display/ROS/NAT](https://help.mikrotik.com/docs/display/ROS/NAT). Acesso em: 07 ago. 2026.
+
+MIKROTIK. **RouterOS Manual: VLAN (VLANs in RouterOS)**. 2026. Disponível em: [https://help.mikrotik.com/docs/display/ROS/VLAN](https://help.mikrotik.com/docs/display/ROS/VLAN). Acesso em: 07 ago. 2026.
+
+TANENBAUM, Andrew S.; WETHERALL, David. **Redes de computadores**. 5. ed. São Paulo: Pearson Clinical, 2011.
