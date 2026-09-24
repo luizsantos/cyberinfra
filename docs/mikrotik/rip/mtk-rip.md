@@ -64,9 +64,15 @@ Com esse cenário montado, o objetivo nos passos seguintes será:
 3. Redistribuir a rota padrão no **Router-MTk-1** para que os outros dois roteadores e hosts aprendam o caminho para a Internet via RIP.
 4. Testar a tolerância a falhas derrubando um dos links (por exemplo, a WAN1) para observar o RIP recalculando a rota através da WAN3 e WAN2.
 
+Todos os passos demonstrados neste exemplo: configuração das interfaces de rede, configuração do RIP e testes - estão registrados no vídeo a seguir, bem como neste texto.
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 1rem;">
+  <iframe src="https://www.youtube.com/embed/1VYEhZJ1ElI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Demonstração Prática no YouTube"></iframe>
+</div>
+
 ## Configuração dos Hosts das Redes Locais
 
-Para executar corretamente o exemplo é necessário além de configurar os roteadore (que é o foco deste texto), configurar os hosts clientes para poder validar o roteamento e a comunicação na rede proposta. Assim, cada rede local conta com um _host_ de teste (`Host-1`, `Host-2` e `Host-3`). A atribuição de rede nos _hosts_ é simples e direta, composta por dois comandos básicos do Linux:
+Para executar corretamente o exemplo é necessário além de configurar os roteadores (que é o foco deste texto), configurar os _hosts_ clientes para poder validar o roteamento e a comunicação na rede proposta. Assim, cada rede local conta com um _host_ de teste (`Host-1`, `Host-2` e `Host-3`). A atribuição de rede nos _hosts_ é simples e direta, composta por dois comandos básicos do Linux:
 
 * **`ifconfig eth0 <IP>/24`:** Define o endereço IP e a máscara de sub-rede na interface de rede principal (`eth0`) do dispositivo local.
 * **`route add default gw <IP-Router>`:** Adiciona uma rota padrão de saída apontando para o endereço IP do seu respectivo roteador MikroTik (gateway da LAN).
