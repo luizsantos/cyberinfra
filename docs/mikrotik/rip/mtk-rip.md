@@ -64,6 +64,37 @@ Com esse cenário montado, o objetivo nos passos seguintes será:
 3. Redistribuir a rota padrão no **Router-MTk-1** para que os outros dois roteadores e hosts aprendam o caminho para a Internet via RIP.
 4. Testar a tolerância a falhas derrubando um dos links (por exemplo, a WAN1) para observar o RIP recalculando a rota através da WAN3 e WAN2.
 
+## Configuração dos Hosts das Redes Locais
+
+Para executar corretamente o exemplo é necessário além de configurar os roteadore (que é o foco deste texto), configurar os hosts clientes para poder validar o roteamento e a comunicação na rede proposta. Assim, cada rede local conta com um _host_ de teste (`Host-1`, `Host-2` e `Host-3`). A atribuição de rede nos _hosts_ é simples e direta, composta por dois comandos básicos do Linux:
+
+* **`ifconfig eth0 <IP>/24`:** Define o endereço IP e a máscara de sub-rede na interface de rede principal (`eth0`) do dispositivo local.
+* **`route add default gw <IP-Router>`:** Adiciona uma rota padrão de saída apontando para o endereço IP do seu respectivo roteador MikroTik (gateway da LAN).
+
+Desta forma seguem as configurações/comandos que devem ser executados em cada um desses _hosts_ clientes:
+
+* Host 1 (LAN1)
+
+```bash
+root@Host-1:/# ifconfig eth0 172.16.1.1/24
+root@Host-1:/# route add default gw 172.16.1.101
+```
+
+* Host 2 (LAN2)
+
+```bash
+root@Host-2:/# ifconfig eth0 172.16.2.1/24
+root@Host-2:/# route add default gw 172.16.2.102
+```
+
+* Host 3 (LAN3)
+
+```bash
+root@Host-3:/# ifconfig eth0 172.16.3.1/24
+root@Host-3:/# route add default gw 172.16.3.103
+```
+Com as configurações básicas de IP e _gateway_ devidamente aplicadas em todos os _hosts_ clientes, garantimos que os dispositivos finais estejam prontos para se comunicar com as suas respectivas redes locais. A partir deste ponto, avançamos para a implementação e o ajuste do protocolo RIP nos roteadores MikroTik, onde o roteamento dinâmico e a redundância da infraestrutura serão de fato estabelecidos.
+
 ## Configuração do Roteador Mtk3
 
 Para iniciar a preparação do terceiro nó da nossa topologia, o **Router-MTk-3** (ou simplesmente **mtk3**), o primeiro passo de boas práticas em administração de redes é definir a identificação do dispositivo para facilitar o gerenciamento via CLI e evitar comandos acidentais no equipamento errado. Em seguida, realizamos a atribuição dos endereços IP nas três interfaces ativas do roteador: a `ether1` para a rede local LAN3 (`172.16.3.0/24`), a `ether2` para o enlace WAN2 com o roteador `mtk2` (`192.168.2.0/24`) e a `ether3` para o enlace WAN3 diretamente com o roteador `mtk1` (`192.168.3.0/24`).
