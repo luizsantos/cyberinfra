@@ -70,9 +70,9 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 * Mikrotik
 	* [Configuração de rede simples e com VLAN](mikrotik/confRede-simples)
-	* [Configuração de rotas estáticas redundantes](mikrotik/rotaEstaticaRedundante/rotaEstatica)
-	* [Configuração de rotas dinâmicas utilizando RIP](mikrotik/rip/mtk-rip)
-	* [Configuração de rede utilizando OSPF e SNAT](mikrotik/confRede)
+	* [Rotas estáticas redundantes](mikrotik/rotaEstaticaRedundante/rotaEstatica)
+	* [RIP](mikrotik/rip/mtk-rip)
+	* [OSPF e SNAT](mikrotik/confRede)
 
 * Juniper
 	* [Configuração básica dos roteadores](juniper/router)
