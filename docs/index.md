@@ -72,6 +72,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Configuração de rede simples e com VLAN](mikrotik/confRede-simples)
 	* [Rotas estáticas redundantes](mikrotik/rotaEstaticaRedundante/rotaEstatica)
 	* [RIP](mikrotik/rip/mtk-rip)
+	* [OSPF - básico](mikrotik/ospf/mtk-ospf)
 	* [OSPF e SNAT](mikrotik/confRede)
 
 * Juniper

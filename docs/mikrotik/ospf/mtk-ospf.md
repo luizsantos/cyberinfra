@@ -49,7 +49,7 @@ O MikroTik RouterOS v7 consolida o OSPF como uma ferramenta madura, robusta e pr
 
 Para exemplificar e testar a configuração do protocolo **OSPF** em roteadores MikroTik, utilizaremos a topologia triangular ilustrada na Figura 1, que é composta por três roteadores (Router-MTk-1, Router-MTk-2 e Router-MTk-3), suas respectivas redes locais (LANs), enlaces de ponto a ponto (WANs) e uma saída para a Internet.
 
-| ![rede](img/mtk-cenario1-rip.png) |
+| ![rede](../rip/img/mtk-cenario1-rip.png) |
 |:--:|
 | Figura 1 - Cenário de rede do exemplo
 
@@ -442,7 +442,12 @@ traceroute to 172.16.1.1 (172.16.1.1), 30 hops max, 60 byte packets
 
 #### B. Simulação de Falha e Re-roteamento Dinâmico (Failover)
 
-No momento em que o enlace WAN1 (`192.168.1.0/24`) é desativado, o OSPF detecta a perda de adjacência, recalcula a árvore de caminhos mais curtos através do algoritmo de Dijkstra e passa a redirecionar o tráfego alternativamente pelo roteador **`mtk3`** (`192.168.2.103`):
+No momento em que o enlace WAN1 (`192.168.1.0/24`) é desativado (ver Figura 2), o OSPF detecta a perda de adjacência, recalcula a árvore de caminhos mais curtos através do algoritmo de Dijkstra e passa a redirecionar o tráfego alternativamente pelo roteador **`mtk3`** (`192.168.2.103`):
+
+| ![rede](../rip/img/mtk-cenario1-rip-disable.png) |
+|:--:|
+| Figura 2 - Cenário de rede do exemplo com o link WAN1 desativado
+
 
 ```bash
 root@Host-2:/# traceroute -n 172.16.1.1
