@@ -73,6 +73,7 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 	* [Rotas estáticas redundantes](mikrotik/rotaEstaticaRedundante/rotaEstatica)
 	* [RIP](mikrotik/rip/mtk-rip)
 	* [OSPF - básico](mikrotik/ospf/mtk-ospf)
+	* [OSPF - Áreas e Custos](mikrotik/ospf/mtk-ospf-area)
 	* [OSPF e SNAT](mikrotik/confRede)
 
 * Juniper
