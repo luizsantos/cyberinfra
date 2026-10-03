@@ -44,107 +44,17 @@ A distribuição dos roteadores e a associação de cada uma de suas interfaces 
 A tabela a seguir apresenta o mapeamento completo dos hosts, suas respectivas placas de rede com seus endereços IP e a área OSPF à qual cada interface pertence:
 
 | Nome do Host | Placa de Rede | Endereço IP | Área OSPF |
-| --- | --- | --- | --- |
-| **PC1** | `e0` | `172.16.1.1/24` | N/A (Host)
-
- |
-| **Router-MTk-1** | `ether1`<br>
-
-<br>`ether2`<br>
-
-<br>`ether3` | `172.16.1.101/24`<br>
-
-<br>`10.2.0.101/24`<br>
-
-<br>`10.1.0.101/24` | Area 1 - Matriz<br>
-
-<br>Area 1 - Matriz<br>
-
-<br>Area 1 - Matriz
-
- |
-| **PC2** | `e0` | `172.16.2.1/24` | N/A (Host)
-
- |
-| **Router-MTk-2** | `ether1`<br>
-
-<br>`ether2`<br>
-
-<br>`ether3` | `172.16.2.102/24`<br>
-
-<br>`10.3.0.102/24`<br>
-
-<br>`10.1.0.102/24` | Area 1 - Matriz<br>
-
-<br>Area 1 - Matriz<br>
-
-<br>Area 1 - Matriz
-
- |
-| **Router-MTk-3 (ABR)** | `ether1`<br>
-
-<br>`ether2`<br>
-
-<br>`ether3` | `10.2.0.103/24`<br>
-
-<br>`10.3.0.103/24`<br>
-
-<br>`10.4.0.103/24` | Area 1 - Matriz<br>
-
-<br>Area 1 - Matriz<br>
-
-<br>**Area 0 - Backbone**<br> |
-| **Router-MTk-4 (ABR)** | `ether1`<br>
-
-<br>`ether2`<br>
-
-<br>`ether3` | `10.4.0.104/24`<br>
-
-<br>`10.5.0.104/24`<br>
-
-<br>`10.7.0.104/24` | **Area 0 - Backbone**<br>
-
-<br>Area 2 - Filial<br>
-
-<br>Area 2 - Filial
-
- |
-| **Router-MTk-5** | `ether1`<br>
-
-<br>`ether2`<br>
-
-<br>`ether3` | `172.16.3.105/24`<br>
-
-<br>`10.5.0.105/24`<br>
-
-<br>`10.6.0.105/24` | Area 2 - Filial<br>
-
-<br>Area 2 - Filial<br>
-
-<br>Area 2 - Filial
-
- |
-| **Router-MTk-6** | `ether1`<br>
-
-<br>`ether2`<br>
-
-<br>`ether3` | `172.16.4.106/24`<br>
-
-<br>`10.6.0.106/24`<br>
-
-<br>`10.7.0.106/24` | Area 2 - Filial<br>
-
-<br>Area 2 - Filial<br>
-
-<br>Area 2 - Filial
-
- |
-| **PC3** | `e0` | `172.16.3.1/24` | N/A (Host)
-
- |
-| **PC4** | `e0` | `172.16.4.1/24` | N/A (Host)
-
- |
+|---|---|---|---|
+| **Router-MTk-1** | `ether1`<br>`ether2`<br>`ether3` | `172.16.1.101/24`<br>`10.2.0.101/24`<br>`10.1.0.101/24` | Área 1 - Matriz<br>Área 1 - Matriz<br>Área 1 - Matriz |
+| **Router-MTk-2** | `ether1`<br>`ether2`<br>`ether3` | `172.16.2.102/24`<br>`10.3.0.102/24`<br>`10.1.0.102/24` | Área 1 - Matriz<br>Área 1 - Matriz<br>Área 1 - Matriz |
+| **Router-MTk-3 (ABR)** | `ether1`<br>`ether2`<br>`ether3` | `10.2.0.103/24`<br>`10.3.0.103/24`<br>`10.4.0.103/24` | Área 1 - Matriz<br>Área 1 - Matriz<br>**Área 0 - Backbone** |
+| **Router-MTk-4 (ABR)** | `ether1`<br>`ether2`<br>`ether3` | `10.4.0.104/24`<br>`10.5.0.104/24`<br>`10.7.0.104/24` | **Área 0 - Backbone**<br>Área 2 - Filial<br>Área 2 - Filial |
+| **Router-MTk-5** | `ether1`<br>`ether2`<br>`ether3` | `172.16.3.105/24`<br>`10.5.0.105/24`<br>`10.6.0.105/24` | Área 2 - Filial<br>Área 2 - Filial<br>Área 2 - Filial |
+| **Router-MTk-6** | `ether1`<br>`ether2`<br>`ether3` | `172.16.4.106/24`<br>`10.6.0.106/24`<br>`10.7.0.106/24` | Área 2 - Filial<br>Área 2 - Filial<br>Área 2 - Filial |
+| **PC1** | `e0` | `172.16.1.1/24` | N/A (Host) |
+| **PC2** | `e0` | `172.16.2.1/24` | N/A (Host) |
+| **PC3** | `e0` | `172.16.3.1/24` | N/A (Host) |
+| **PC4** | `e0` | `172.16.4.1/24` | N/A (Host) |
 
  Todos os passos demonstrados neste exemplo: configuração das interfaces de rede, configuração do OSPF e testes - estão registrados no vídeo a seguir, bem como neste texto.
 
