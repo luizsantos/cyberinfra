@@ -715,6 +715,41 @@ Caso o enlace primário na interface `ether2` venha a sofrer uma falha física o
 
 É fundamental destacar que todo esse recálculo de métricas e alteração de menor caminho ocorreu estritamente dentro da **Área 1 (Matriz)**. Por definição do protocolo, os detalhes das métricas internas e alterações topológicas de uma área não são propagados via *flooding* de LSAs para as outras áreas da rede (`Area 0` e `Area 2`). Essa é exatamente uma das maiores vantagens da divisão hierárquica por áreas: conter as oscilações e recálculos do SPF localmente, fazendo com que para o restante da corporação sejam anunciados apenas os prefixos das redes acessíveis, poupando processamento e banda nos enlaces remotos.
 
+#### Métodos Alternativos para Alteração do Custo OSPF no MikroTik
+
+Além da criação de *templates* de interface específicos com custo estático - que é a abordagem padrão no RouterOS v7, o MikroTik oferece outras formas de manipular a métrica do OSPF conforme a necessidade da infraestrutura, sendo essas:
+
+1. **Alteração do Custo na Interface Física/Lógica (Propriedade `interface`)**
+
+No RouterOS, é possível definir um custo padrão diretamente na interface de rede sem precisar especificar isso dentro de um *template* OSPF. Quando o *template* do OSPF é criado sem o parâmetro `cost` definido, ele herda automaticamente o valor configurado na interface do sistema. O comando para isso seria algo como:
+
+```routeros
+[admin@mtk1] > /interface/set ether3 cost=99
+```
+
+Assim, este comando altera o custo nativo da interface no sistema operacional. Caso o *template* OSPF utilize a configuração padrão de métrica, ele passará a adotar o valor $99$ definido na própria interface física.
+
+2. **Redefinição da Largura de Banda de Referência (`auto-cost-reference-bandwidth`)**
+
+Por padrão, o OSPF calcula o custo das interfaces dividindo a largura de banda de referência (*reference bandwidth*) pela velocidade real do enlace. O valor padrão histórico do OSPF é $100\text{ Mbps}$ ($\text{Custo} = \frac{100\text{ Mbps}}{\text{Velocidade da Interface}}$). Em redes modernas com enlaces de $1\text{ Gbps}$ ou $10\text{ Gbps}$, todas as interfaces acima de $100\text{ Mbps}$ recebem custo $1$, perdendo a diferenciação de velocidade. Desta forma para alterar esse valor o comando seria:
+
+```routeros
+[admin@mtk1] > /routing/ospf/instance/set [find name=default] auto-cost-reference-bandwidth=100G
+```
+
+Portanto, ao alterar a referência na instância OSPF para $100\text{ Gbps}$, o RouterOS passa a recalcular dinamicamente o custo de todas as interfaces com base em suas velocidades reais de conexão, garantindo que portas de $10\text{ Gbps}$ tenham custos proporcionalmente menores que portas de $1\text{ Gbps}$ ou $100\text{ Mbps}$.
+
+3. **Manipulação Dinâmica por Routing Filters (Filtros de Roteamento)**
+
+Em cenários avançados, você pode alterar a métrica das rotas aprendidas via OSPF utilizando as regras da tabela de filtros de roteamento (*routing filters*), modificando o peso das rotas durante o anúncio ou recepção, tal como:
+
+```routeros
+[admin@mtk1] > /routing/filter/rule/add chain=ospf-in rule="if (dst == 172.16.2.0/24) { set distance 110; accept; }"
+```
+
+Embora essa abordagem não altere o custo do link diretamente no algoritmo SPF interno, ela permite manipular a preferência da rota na tabela de roteamento principal (*RIB*), influenciando a decisão final de encaminhamento para destinos específicos.
+
+A escolha do método ideal depende do porte da rede e do nível de controle desejado. A manipulação via ***interface-template*** (utilizada em nosso exemplo) oferece controle granular e explícito por interface e área, sendo ideal para engenharia de tráfego pontual, embora possa gerar poluição de configurações na medida em que a rede cresce. O ajuste direto na **interface física** é simples e centralizado, mas afeta todas as instâncias do protocolo globalmente. Por sua vez, a alteração da **largura de banda de referência** (`auto-cost-reference-bandwidth`) é a melhor prática para redes corporativas de grande porte com links de alta velocidade, pois automatiza o cálculo de métrica de forma padronizada em toda a topologia, reduzindo intervenções manuais; contudo, exige que esse ajuste seja replicado em **todos** os roteadores da rede OSPF para evitar assimetria de roteamento. Por fim, os **filtros de roteamento** trazem flexibilidade para exceções e desvios de tráfego refinados, mas adicionam complexidade no diagnóstico e *troubleshooting* de problemas de rede.
 
 <!--
 [admin@mtk1] > /routing/ospf/interface-template/print 
