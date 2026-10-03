@@ -574,7 +574,7 @@ DAc  172.16.4.0/24  ether1             main           0
 
 Executando o comando `print` em `/routing/ospf/neighbor/`, observamos que o `mtk6` estabeleceu com êxito duas adjacências ativas em estado **`state="Full"`**: uma na porta `ether2` com o `mtk5` (`5.5.5.5`) e outra na porta `ether3` com o ABR `mtk4` (`4.4.4.4`).
 
-Ao analisar a tabela de roteamento fornecida por `/ip/route/print`, confirmamos que a infraestrutura multi-área está $100\%$ funcional. O `mtk6` aprendeu com precisão as rotas para todas as redes da empresa:
+Ao analisar a tabela de roteamento fornecida por `/ip/route/print`, confirmamos que a infraestrutura multi-área está 100% funcional. O `mtk6` aprendeu com precisão as rotas para todas as redes da empresa:
 
 * **LANs da Matriz (`172.16.1.0/24` e `172.16.2.0/24`):** Alcançáveis via OSPF (`DAo`) atravessando o ABR pela interface `ether3` (`10.7.0.104`).
 
@@ -647,7 +647,7 @@ PC1> ping 172.16.4.1
 84 bytes from 172.16.4.1 icmp_seq=5 ttl=60 time=2.573 ms
 ```
 
-Analisando as respostas obtidas nos três testes, confirmamos o sucesso integral da comunicação na rede corporativa. O envio de pacotes do PC1 para o PC2 apresenta um valor de TTL (*Time to Live*) igual a **62**, indicando que o tráfego cruzou exatamente dois saltos de roteadores dentro da mesma área (`mtk1` e `mtk2`). Já ao alcançar os computadores da Filial (PC3 na LAN3 e PC4 na LAN4), observamos um TTL de **60**, o que reflete a passagem por quatro saltos de roteadores no caminho (`mtk1` na Área 1, os dois ABRs `mtk3` e `mtk4` transitando pela Área 0 e o roteador de destino final `mtk5` ou `mtk6` na Área 2). A taxa de $0\%$ de perda de pacotes e a estabilidade do tempo de resposta comprovam que o roteamento inter-área via Backbone OSPF está plenamente funcional e roteando o tráfego de ponta a ponta com máxima eficiência.
+Analisando as respostas obtidas nos três testes, confirmamos o sucesso integral da comunicação na rede corporativa. O envio de pacotes do PC1 para o PC2 apresenta um valor de TTL (*Time to Live*) igual a **62**, indicando que o tráfego cruzou exatamente dois saltos de roteadores dentro da mesma área (`mtk1` e `mtk2`). Já ao alcançar os computadores da Filial (PC3 na LAN3 e PC4 na LAN4), observamos um TTL de **60**, o que reflete a passagem por quatro saltos de roteadores no caminho (`mtk1` na Área 1, os dois ABRs `mtk3` e `mtk4` transitando pela Área 0 e o roteador de destino final `mtk5` ou `mtk6` na Área 2). A taxa de 0% de perda de pacotes e a estabilidade do tempo de resposta comprovam que o roteamento inter-área via Backbone OSPF está plenamente funcional e roteando o tráfego de ponta a ponta com máxima eficiência.
 
 
 ## Alterando e testando o estado do link em roteador da área Matriz
@@ -696,7 +696,7 @@ Flags: X - DISABLED, I - INACTIVE
      dead-interval=40s priority=128 cost=99 
 ```
 
-Ao redefinir as regras com comandos individuais de *template*, o `mtk1` passa a considerar que o caminho direto via `ether3` possui métrica total de custo $99$, enquanto a rota saindo pela `ether2` possui custo $1$. Ao recalcular o algoritmo SPF, o OSPF identifica que alcançar a rede do PC2 através da `ether2` (passando pelo roteador `mtk3` e depois por `mtk2`) possui um custo somado inferior ($1 + 1 = 2$) em relação ao link direto ($99$).
+Ao redefinir as regras com comandos individuais de *template*, o `mtk1` passa a considerar que o caminho direto via `ether3` possui métrica total de custo 99, enquanto a rota saindo pela `ether2` possui custo 1. Ao recalcular o algoritmo SPF, o OSPF identifica que alcançar a rede do PC2 através da `ether2` (passando pelo roteador `mtk3` e depois por `mtk2`) possui um custo somado inferior (1 + 1 = 2) em relação ao link direto (99).
 
 Executando novamente o teste de rastreamento a partir do PC1, confirmamos a mudança imediata no comportamento do roteamento:
 
@@ -711,7 +711,7 @@ trace to 172.16.2.1, 8 hops max, press Ctrl+C to stop
 
 Como demonstrado no resultado do `trace`, executado anteriormente, o fluxo de dados agora sai do `mtk1` (`172.16.1.101`), passa primeiro pelo ABR `mtk3` (`10.2.0.103`) e só então chega ao `mtk2` (`10.1.0.102`) antes de entregar o pacote ao PC2. Isso comprova que o OSPF priorizou um caminho com maior número de saltos físicos porque o custo era menor.
 
-Caso o enlace primário na interface `ether2` venha a sofrer uma falha física ou seja desativado, o OSPF identificará a perda do caminho de menor custo e assumirá automaticamente a rota reserva através da interface `ether3` (com custo $99$), garantindo a redundância e a disponibilidade do serviço. Assim que a conectividade na `ether2` for restabelecida, o protocolo detectará o retorno do link de menor custo e fará a transição automática do tráfego de volta para a rota principal.
+Caso o enlace primário na interface `ether2` venha a sofrer uma falha física ou seja desativado, o OSPF identificará a perda do caminho de menor custo e assumirá automaticamente a rota reserva através da interface `ether3` (com custo 99), garantindo a redundância e a disponibilidade do serviço. Assim que a conectividade na `ether2` for restabelecida, o protocolo detectará o retorno do link de menor custo e fará a transição automática do tráfego de volta para a rota principal.
 
 É fundamental destacar que todo esse recálculo de métricas e alteração de menor caminho ocorreu estritamente dentro da **Área 1 (Matriz)**. Por definição do protocolo, os detalhes das métricas internas e alterações topológicas de uma área não são propagados via *flooding* de LSAs para as outras áreas da rede (`Area 0` e `Area 2`). Essa é exatamente uma das maiores vantagens da divisão hierárquica por áreas: conter as oscilações e recálculos do SPF localmente, fazendo com que para o restante da corporação sejam anunciados apenas os prefixos das redes acessíveis, poupando processamento e banda nos enlaces remotos.
 
@@ -727,17 +727,17 @@ No RouterOS, é possível definir um custo padrão diretamente na interface de r
 [admin@mtk1] > /interface/set ether3 cost=99
 ```
 
-Assim, este comando altera o custo nativo da interface no sistema operacional. Caso o *template* OSPF utilize a configuração padrão de métrica, ele passará a adotar o valor $99$ definido na própria interface física.
+Assim, este comando altera o custo nativo da interface no sistema operacional. Caso o *template* OSPF utilize a configuração padrão de métrica, ele passará a adotar o valor 99 definido na própria interface física.
 
 2. **Redefinição da Largura de Banda de Referência (`auto-cost-reference-bandwidth`)**
 
-Por padrão, o OSPF calcula o custo das interfaces dividindo a largura de banda de referência (*reference bandwidth*) pela velocidade real do enlace. O valor padrão histórico do OSPF é $100\text{ Mbps}$ ($\text{Custo} = \frac{100\text{ Mbps}}{\text{Velocidade da Interface}}$). Em redes modernas com enlaces de $1\text{ Gbps}$ ou $10\text{ Gbps}$, todas as interfaces acima de $100\text{ Mbps}$ recebem custo $1$, perdendo a diferenciação de velocidade. Desta forma para alterar esse valor o comando seria:
+Por padrão, o OSPF calcula o custo das interfaces dividindo a largura de banda de referência (*reference bandwidth*) pela velocidade real do enlace. O valor padrão histórico do OSPF é 100 Mbps (Custo = 100 Mbps\Velocidade da Interface). Em redes modernas com enlaces de 1Gbps ou 10 Gbps, todas as interfaces acima de 100 Mbps recebem custo 1, perdendo a diferenciação de velocidade. Desta forma para alterar esse valor o comando seria:
 
 ```routeros
 [admin@mtk1] > /routing/ospf/instance/set [find name=default] auto-cost-reference-bandwidth=100G
 ```
 
-Portanto, ao alterar a referência na instância OSPF para $100\text{ Gbps}$, o RouterOS passa a recalcular dinamicamente o custo de todas as interfaces com base em suas velocidades reais de conexão, garantindo que portas de $10\text{ Gbps}$ tenham custos proporcionalmente menores que portas de $1\text{ Gbps}$ ou $100\text{ Mbps}$.
+Portanto, ao alterar a referência na instância OSPF para 100 Gbps, o RouterOS passa a recalcular dinamicamente o custo de todas as interfaces com base em suas velocidades reais de conexão, garantindo que portas de 10 Gbps tenham custos proporcionalmente menores que portas de 1Gbps ou 100 Mbps.
 
 3. **Manipulação Dinâmica por Routing Filters (Filtros de Roteamento)**
 
@@ -778,10 +778,10 @@ Flags: X - DISABLED, I - INACTIVE
 [admin@mtk1] > 
 -->
 
-
+<!--
 ## pc1
 
-<!--
+
 PC1> ping 172.16.2.1
 
 84 bytes from 172.16.2.1 icmp_seq=1 ttl=62 time=1.202 ms
@@ -979,7 +979,7 @@ A implementação do protocolo OSPF nesta topologia demonstrou a eficiência e a
 
 O uso da plataforma MikroTik RouterOS v7 provou ser uma solução flexível para a criação de redes OSPF. Por meio de comandos diretos para definição de instâncias, áreas e modelos de interface (*interface templates*), o sistema permitiu estabelecer adjacências estáveis e manipular parâmetros de forma rápida e eficaz. A visibilidade proporcionada pelas ferramentas do RouterOS (como o monitoramento de vizinhos com `/routing/ospf/neighbor/print` e a inspeção da tabela de rotas com `/ip/route/print`) facilitou a validação de cada etapa do processo.
 
-Os testes práticos demonstram o sucesso da configuração ao demonstrar que a execução dos *pings* a partir do **PC1** demostra a conectividade com os demais hosts (**PC2**, **PC3** e **PC4**), confirmando a correta troca de LSAs entre as áreas; além disso, a alteração da métrica na interface `ether3` do `mtk1` (de custo 1 para 99) evidenciou a eficácia do algoritmo SPF ao redirecionar dinamicamente o tráfego do PC1 para o PC2 por um caminho com mais saltos (`mtk1` $\rightarrow$ `mtk3` $\rightarrow$ `mtk2`), porém com menor custo total, enquanto manteve as áreas remotas (`Area 0` e `Area 2`) isoladas desses recálculos locais, preservando a estabilidade da topologia e a eficiência da rede.
+Os testes práticos demonstram o sucesso da configuração ao demonstrar que a execução dos *pings* a partir do **PC1** demostra a conectividade com os demais hosts (**PC2**, **PC3** e **PC4**), confirmando a correta troca de LSAs entre as áreas; além disso, a alteração da métrica na interface `ether3` do `mtk1` (de custo 1 para 99) evidenciou a eficácia do algoritmo SPF ao redirecionar dinamicamente o tráfego do PC1 para o PC2 por um caminho com mais saltos (`mtk1` -> `mtk3` -> `mtk2`), porém com menor custo total, enquanto manteve as áreas remotas (`Area 0` e `Area 2`) isoladas desses recálculos locais, preservando a estabilidade da topologia e a eficiência da rede.
 
 ## Referências Bibliográficas
 
