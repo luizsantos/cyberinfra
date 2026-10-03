@@ -149,7 +149,7 @@ A tabela a seguir apresenta o mapeamento completo dos hosts, suas respectivas pl
  Todos os passos demonstrados neste exemplo: configuração das interfaces de rede, configuração do OSPF e testes - estão registrados no vídeo a seguir, bem como neste texto.
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 1rem;">
-  <iframe src="https://www.youtube.com/embed/1VYEhZJ1ElI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Demonstração Prática no YouTube"></iframe>
+  <iframe src="https://www.youtube.com/embed/e08CEkcHmtQ" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Demonstração Prática no YouTube"></iframe>
 </div>
  
  **Observação:** Vale destacar que toda a topologia deste laboratório foi simulada no software **GNS3**, e que os computadores representados no cenário são **VPCS** (Virtual PC Simulator). A título de exemplo, a configuração de IP, máscara de rede e gateway do PC1 foi realizada utilizando a seguinte sintaxe:
