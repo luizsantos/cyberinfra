@@ -63,7 +63,8 @@ A tabela a seguir apresenta o mapeamento completo dos hosts, suas respectivas pl
 </div>
  
  **Observação:** Vale destacar que toda a topologia deste laboratório foi simulada no software **GNS3**, e que os computadores representados no cenário são **VPCS** (Virtual PC Simulator). A título de exemplo, a configuração de IP, máscara de rede e gateway do PC1 foi realizada utilizando a seguinte sintaxe:
-```text
+
+ ```text
 set pcname PC1
 ip 172.16.1.1 255.255.255.0 172.16.1.101
 ```
