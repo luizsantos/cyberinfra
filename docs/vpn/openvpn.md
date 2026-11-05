@@ -29,6 +29,8 @@ Para demonstrar a implementação do OpenVPN, utilizaremos a topologia de rede a
 
 ![Rede de Exemplo](img/vpn.png)
 
+> O arquivo com o cenário de rede proposto implementado no GNS3 está disponível em: [vpn.gns3project](vpn.gns3project) - todos ips, roteamento e NAT está configurados.
+
 Basicamente a rede de exemplo tem a seguinte configuração:
 
 * **GW-VPN1 (`router-1`):** Gateway da LAN 1:
