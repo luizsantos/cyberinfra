@@ -78,6 +78,9 @@ A ideia é apresentar mais a prática, mas tentando casar com um pouco de teoria
 
 * Juniper
 	* [Configuração básica dos roteadores](juniper/router)
+	
+* DNS
+	* [BIND](DNS/dns-bind9)
 
 # Cibersegurança
 * [PenTesting](penTest/pentest)
